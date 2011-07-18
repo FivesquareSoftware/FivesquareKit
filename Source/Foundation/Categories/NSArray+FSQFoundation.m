@@ -1,0 +1,113 @@
+//
+//  NSArray+FSQFoundation.m
+//  FivesquareKit
+//
+//  Created by John Clayton on 7/18/2008.
+//  Copyright 2008 Fivesquare Software, LLC. All rights reserved.
+//
+
+#import "NSArray+FSQFoundation.h"
+
+
+
+
+@implementation NSArray (FSQFoundation)
+
+// Returns an autoreleased array with elements from the receiver that contain the description
+- (NSArray *) filteredArrayOnItemDescriptionContains:(NSString *)aDescription; {
+    NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
+	[filteredArray addObjectsFromArray:self];
+    [filteredArray filterOnItemDescriptionContains:aDescription];
+    return filteredArray;
+}
+
+// Returns an autoreleased array with elements from the receiver that start with the description
+- (NSArray *) filteredArrayOnItemDescriptionStartsWith:(NSString *)aDescription {
+    NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
+	[filteredArray addObjectsFromArray:self];
+    [filteredArray filterOnItemDescriptionStartsWith:aDescription];
+    return filteredArray;
+}
+
+- (NSArray *) filteredArrayOnAttribute:(NSString *)attributeNamed contains:(NSString *)aValue {
+    NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
+	[filteredArray addObjectsFromArray:self];
+    [filteredArray filterOnAttribute:attributeNamed contains:aValue];
+    return filteredArray;
+}
+
+- (NSArray *) filteredArrayOnAttribute:(NSString *)attributeNamed startsWith:(NSString *)aValue {
+    NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
+	[filteredArray addObjectsFromArray:self];
+    [filteredArray filterOnAttribute:attributeNamed startsWith:aValue];
+    return filteredArray;
+}
+
+- (NSArray *) filteredArrayOnAttribute:(NSString *)attributeNamed isEqual:(id)aValue {
+    NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
+	[filteredArray addObjectsFromArray:self];
+    [filteredArray filterOnAttribute:attributeNamed isEqual:aValue];
+    return filteredArray;
+}
+
+- (NSArray *) sortedArrayUsingKey:(NSString *)sortKey ascending:(BOOL)ascending {
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
+    NSArray *sortedArray = [self sortedArrayUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+    return sortedArray;
+}
+
+
+- (NSString *) toHtmlWithKeyPath:(NSString *)keypath {
+    NSMutableString *listString = [NSMutableString stringWithString:@"<ul>"];
+    for (id item in self) {
+        [listString appendString:[NSString stringWithFormat:@"<li>%@</li>",[item valueForKeyPath:keypath]]];
+    }
+    [listString appendString:@"</ul>"];
+    return listString;    
+}
+
+@end
+
+
+@implementation NSMutableArray (FSQFoundation)
+
+// Filters the receiver in place on elements that contain the description
+- (void) filterOnItemDescriptionContains:(NSString *)aDescription {
+    [self filterOnAttribute:@"description" startsWith:aDescription];
+}
+
+// Filters the receiver in place on elements that start with the description
+- (void) filterOnItemDescriptionStartsWith:(NSString *)aDescription {
+    [self filterOnAttribute:@"description" contains:aDescription];
+}
+
+- (void) filterOnAttribute:(NSString *)attributeNamed contains:(NSString *)aValue {
+	@autoreleasepool {
+		NSPredicate *predicateTemplate = [NSPredicate predicateWithFormat:@"SELF.%@ CONTAINS[cd] %@", attributeNamed, aValue];
+		[self filterUsingPredicate:predicateTemplate];
+	}
+}
+
+- (void) filterOnAttribute:(NSString *)attributeNamed startsWith:(NSString *)aValue {
+	@autoreleasepool {
+		NSPredicate *predicateTemplate = [NSPredicate predicateWithFormat:@"SELF.%@ BEGINSWITH[cd] %@", attributeNamed, aValue];
+		[self filterUsingPredicate:predicateTemplate];
+	}
+}
+
+- (void) filterOnAttribute:(NSString *)attributeNamed isEqual:(id)aValue {
+	@autoreleasepool {
+		NSPredicate *predicateTemplate = [NSPredicate predicateWithFormat:@"SELF.%@ = %@", attributeNamed, aValue];
+		[self filterUsingPredicate:predicateTemplate];
+	}
+}
+
+- (void)sortUsingKey:(NSString *)sortKey ascending:(BOOL)ascending {
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
+    [self sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+}
+
+@end
+
+
+
