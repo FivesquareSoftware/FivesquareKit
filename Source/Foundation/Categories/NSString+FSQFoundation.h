@@ -11,6 +11,8 @@
 
 @interface NSString (FSQFoundation)
 
+- (NSString *) MD5Hash;
+
 - (BOOL) contains:(NSString *)aString options:(NSStringCompareOptions)mask;
 - (BOOL) startsWith:(NSString *)aString options:(NSStringCompareOptions)mask;
 

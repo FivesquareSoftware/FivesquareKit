@@ -8,8 +8,25 @@
 
 #import "NSString+FSQFoundation.h"
 
+#import <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonCryptor.h>
+
 
 @implementation NSString (FSQFoundation)
+
+- (NSString *) MD5Hash {
+	const char *cStr = [self UTF8String];
+	unsigned char result[CC_MD5_DIGEST_LENGTH];
+	
+	CC_MD5( cStr, strlen(cStr), result );
+	
+	NSMutableString *hash = [[NSMutableString alloc] initWithCapacity:33];
+	for (int i = 0; i < 16; i++) {
+		[hash appendFormat: @"%02x", result[i]];
+	}
+	
+	return hash;
+}
 
 - (BOOL) contains:(NSString *)aString options:(NSStringCompareOptions)mask {
     return [self rangeOfString:aString options:mask].location != NSNotFound;
