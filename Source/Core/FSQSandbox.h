@@ -17,8 +17,14 @@
 + (NSString *) applicationSupportDirectory;
 + (NSString *) cachesDirectory;
 
-+ (NSString *) documentsDirectory:(BOOL)shouldCreate;
-+ (NSString *) applicationSupportDirectory:(BOOL)shouldCreate;
-+ (NSString *) cachesDirectory:(BOOL)shouldCreate;
++ (BOOL) createDocumentsDirectory;
++ (BOOL) createApplicationSupportDirectory;
++ (BOOL) createCachesDirectory;
+
+/** Return the string representing any directory in the user search domain given its constant, e.g.,  NSCachesDirectory. */
++ (NSString *) directoryInUserSearchPath:(NSUInteger)directory;
+
+/** Create any direcotry in the user domain given the directory constant, e.g.,  NSCachesDirectory.  */
++ (BOOL) createDirectoryInUserSearchPath:(NSUInteger)directory error:(NSError **)error;
 
 @end

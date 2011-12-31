@@ -13,61 +13,57 @@
 @implementation FSQSandbox
 
 + (NSString *) documentsDirectory {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDir = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-	return documentsDir;
+	return [self directoryInUserSearchPath:NSDocumentDirectory];
 }
 
 + (NSString *) applicationSupportDirectory {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-	NSString *supportDir = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-	return supportDir;
+	return [self directoryInUserSearchPath:NSApplicationSupportDirectory];
 }
 
 + (NSString *)cachesDirectory {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-	NSString *cachesDir = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-	return cachesDir;
+	return [self directoryInUserSearchPath:NSCachesDirectory];
 }
 
-
-+ (NSString *) documentsDirectory:(BOOL)shouldCreate {
-	NSString *documentsDir = [self documentsDirectory];
-	if(shouldCreate) {
-		NSFileManager *fm = [NSFileManager defaultManager];
-		if( ! [fm fileExistsAtPath:documentsDir isDirectory:NULL] ) {
-			NSError *error = nil;
-			BOOL created = [fm createDirectoryAtPath:documentsDir withIntermediateDirectories:YES attributes:NULL error:&error];
-			FSQAssert(created, @"Could not create documents directory! %@ (%@)",[error localizedDescription],[error userInfo]);
-		}
-	}
-	return documentsDir;
++ (BOOL) createDocumentsDirectory {
+	NSError *error = nil;
+	BOOL created = [self createDirectoryInUserSearchPath:NSDocumentDirectory error:&error];
+	FSQAssert(created, @"Could not create documents directory! %@ (%@)",[error localizedDescription],[error userInfo]);
+	return created;
 }
 
-+ (NSString *) applicationSupportDirectory:(BOOL)shouldCreate {
-	NSString *supportDir = [self applicationSupportDirectory];
-	if(shouldCreate) {
-		NSFileManager *fm = [NSFileManager defaultManager];
-		if( ! [fm fileExistsAtPath:supportDir isDirectory:NULL] ) {
-			NSError *error = nil;
-			BOOL created = [fm createDirectoryAtPath:supportDir withIntermediateDirectories:YES attributes:NULL error:&error];
-			FSQAssert(created, @"Could not create application support directory! %@ (%@)",[error localizedDescription],[error userInfo]);
-		}
-	}
-	return supportDir;
++ (BOOL) createApplicationSupportDirectory {
+	NSError *error = nil;
+	BOOL created = [self createDirectoryInUserSearchPath:NSApplicationSupportDirectory error:&error];
+	FSQAssert(created, @"Could not create application support directory! %@ (%@)",[error localizedDescription],[error userInfo]);
+	return created;
 }
 
-+ (NSString *) cachesDirectory:(BOOL)shouldCreate {
-	NSString *cachesDir = [self cachesDirectory];
-	if(shouldCreate) {
-		NSFileManager *fm = [NSFileManager defaultManager];
-		if( ! [fm fileExistsAtPath:cachesDir isDirectory:NULL] ) {
-			NSError *error = nil;
-			BOOL created = [fm createDirectoryAtPath:cachesDir withIntermediateDirectories:YES attributes:NULL error:&error];
-			FSQAssert(created, @"Could not create caches directory! %@ (%@)",[error localizedDescription],[error userInfo]);
++ (BOOL) createCachesDirectory {
+	NSError *error = nil;
+	BOOL created = [self createDirectoryInUserSearchPath:NSCachesDirectory error:&error];
+	FSQAssert(created, @"Could not create caches directory! %@ (%@)",[error localizedDescription],[error userInfo]);
+	return created;
+}
+
++ (NSString *) directoryInUserSearchPath:(NSUInteger)directory {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(directory, NSUserDomainMask, YES);
+	NSString *directory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+	return directory;
+}
+
++ (BOOL) createDirectoryInUserSearchPath:(NSUInteger)directory error:(NSError **)error {
+	NSString *directory = [self directoryInUserSearchPath:directory];
+	
+	NSFileManager *fm = [NSFileManager new];
+	if(NO == [fm fileExistsAtPath:directory isDirectory:NULL]) {
+		NSError *localError = nil;
+		BOOL created = [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:NULL error:&localError];
+		FSQAssert(created, @"Could not create caches directory! %@ (%@)",[localError localizedDescription],[localError userInfo]);
+		if (NO == created && error) {
+			error = &localError;
 		}
 	}
-	return cachesDir;
+	return created;
 }
 
 @end
