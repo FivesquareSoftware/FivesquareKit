@@ -45,22 +45,23 @@
 	return created;
 }
 
-+ (NSString *) directoryInUserSearchPath:(NSUInteger)directory {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(directory, NSUserDomainMask, YES);
-	NSString *directory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
++ (NSString *) directoryInUserSearchPath:(NSUInteger)directoryIdentifier {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(directoryIdentifier, NSUserDomainMask, YES);
+	NSString *directory = [paths lastObject];
 	return directory;
 }
 
-+ (BOOL) createDirectoryInUserSearchPath:(NSUInteger)directory error:(NSError **)error {
-	NSString *directory = [self directoryInUserSearchPath:directory];
++ (BOOL) createDirectoryInUserSearchPath:(NSUInteger)directoryIdentifier error:(NSError **)error {
+	NSString *directory = [self directoryInUserSearchPath:directoryIdentifier];
 	
 	NSFileManager *fm = [NSFileManager new];
+	BOOL created = YES;
 	if(NO == [fm fileExistsAtPath:directory isDirectory:NULL]) {
-		NSError *localError = nil;
-		BOOL created = [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:NULL error:&localError];
+		__autoreleasing NSError *localError = nil;
+		created = [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:NULL error:&localError];
 		FSQAssert(created, @"Could not create caches directory! %@ (%@)",[localError localizedDescription],[localError userInfo]);
 		if (NO == created && error) {
-			error = &localError;
+			*error = localError;
 		}
 	}
 	return created;

@@ -62,14 +62,14 @@
 
 #pragma mark - Object
 
-- (id) initWithName:(NSString *)aName {
-	if (aName == nil) {
+- (id) initWithName:(NSString *)name {
+	if (name == nil) {
 		self = nil;
 		return self;
 	}
 	self = [super init];
 	if (self != nil) {
-		name_ = [aName copy];
+		name_ = [name copy];
 		copyDefaultDatabaseFromBundle_ = YES;
 	}
 	return self;
@@ -211,7 +211,7 @@
 
 
 - (NSManagedObjectContext *) mainContext {
-	@synchronized(@"FSQCoreDataManager.mainContext") {
+	@synchronized(self) {
 		if (mainContext_ == nil) {
 			NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 			if (coordinator != nil) {
@@ -307,10 +307,10 @@
 }
 
 + (NSString *) databaseDirectory {
-	NSString *supportDir = [FSQSandbox applicationSupportDirectory:YES];
+	NSString *supportDir = [FSQSandbox applicationSupportDirectory];
 	NSString *databaseDir = [supportDir stringByAppendingPathComponent:@"CoreData"];
 	
-	NSFileManager *fm = [NSFileManager defaultManager];
+	NSFileManager *fm = [NSFileManager new];
 	if( ! [fm fileExistsAtPath:databaseDir isDirectory:NULL] ) {
 		NSError *error = nil;
 		BOOL created = [fm createDirectoryAtPath:databaseDir withIntermediateDirectories:YES attributes:NULL error:&error];

@@ -19,6 +19,7 @@ NSString *kFSQLocationManagerKeyErrorMessage = @"kFSQLocationManagerKeyErrorMess
 
 
 @interface FSQLocationManager()
+- (void) locationSearchTimeLimitReached:(NSTimer *)timer;
 - (void) postAbortNotificationWithErrorMessage:(NSString *)errorMessage errorCode:(NSInteger)errorCode;
 @end
 
@@ -85,10 +86,7 @@ NSString *kFSQLocationManagerKeyErrorMessage = @"kFSQLocationManagerKeyErrorMess
     self.locationManager.desiredAccuracy = accuracy;
 //	self.locationManager.distanceFilter = meters;
     [self.locationManager startUpdatingLocation];
-    self.locationServicesAbortTimer = [NSTimer scheduledTimerWithTimeInterval:seconds target:self
-																	 selector:@selector(locationSearchTimeLimitReached) 
-																	 userInfo:nil 
-																	  repeats:NO];
+    self.locationServicesAbortTimer = [NSTimer scheduledTimerWithTimeInterval:seconds target:self selector:@selector(locationSearchTimeLimitReached:) userInfo:nil repeats:NO];
 }
 
 
@@ -166,7 +164,7 @@ NSString *kFSQLocationManagerKeyErrorMessage = @"kFSQLocationManagerKeyErrorMess
 	
 }
 
-- (void) locationSearchTimeLimitReached {
+- (void) locationSearchTimeLimitReached:(NSTimer *)timer {
 	[self postAbortNotificationWithErrorMessage:@"Location search time limit reached"
 									  errorCode:kFSQLocationManagerErrorCodeTimeout];
 }

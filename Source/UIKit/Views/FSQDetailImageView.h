@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
+@protocol FSQImagePicker <NSObject>
+- (void) beginImagePicking:(id)sender;
+@end
+
+
 @interface FSQDetailImageView : UIView {
 }
 

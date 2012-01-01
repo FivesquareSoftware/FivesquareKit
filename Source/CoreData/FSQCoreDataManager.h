@@ -39,7 +39,7 @@
  *
  *  @param aName cannot be nil.
  */
-- (id) initWithName:(NSString *)aName;
+- (id) initWithName:(NSString *)name;
 
 /** If a persitent store exists on disk and the current model version is not compatible with that store, will attempt to migrate the store either by running a mapping migration if one is found or attempting a lightweight migration. 
  * 

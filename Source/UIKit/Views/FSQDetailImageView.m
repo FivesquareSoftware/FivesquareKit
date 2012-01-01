@@ -12,6 +12,7 @@
 #import "FSQModalImageView.h"
 
 
+
 @interface FSQDetailImageView()
 - (UIImage *) renderedImageinRect:(CGRect)rect;
 - (void) zoomImage;

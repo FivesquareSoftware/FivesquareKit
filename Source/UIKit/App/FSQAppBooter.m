@@ -11,47 +11,110 @@
 #import "FSQAsserter.h"
 #import "NSOperationQueue+FSQFoundation.h"
 
-@implementation FSQAppBooter {
-	BOOL booted;
-	NSOperationQueue *bootQ;	
+
+@interface FSQAppBooter()
+@property (nonatomic) BOOL booted;
+@property (strong) NSOperationQueue *bootQ;
+@property (strong) NSMutableArray *errorsInternal;
+@property (copy) void (^completionBlock)(void);
+
+- (void) bootInBackground;
+
+@end
+
+
+@implementation FSQAppBooter
+
+// ========================================================================== //
+
+#pragma mark - Properties
+
+
+// Public
+
+@dynamic errors;
+- (NSArray *) errors {
+	return [self.errorsInternal copy];
 }
 
-@synthesize delegate;
+@dynamic failed;
+- (BOOL) failed {
+	return [self.errorsInternal count] > 0;
+}
 
-- (id)initWithBootOperations:(NSArray *)bootOperations {
+// Private
+
+@synthesize booted=booted_;
+@synthesize bootQ=bootQ_;
+@synthesize errorsInternal=errorsInternal_;
+@synthesize completionBlock=completionBlock_;
+
+
+// ========================================================================== //
+
+#pragma mark - Object
+
+
+
+- (id)init {
     self = [super init];
     if (self) {
-        bootQ = [[NSOperationQueue alloc] init];
-		[bootQ setSuspended:YES];
+        self.bootQ = [NSOperationQueue new];
+		[bootQ_ setSuspended:YES];
+		self.errorsInternal = [NSMutableArray new];
     }
     return self;
 }
 
+
+
+// ========================================================================== //
+
+#pragma mark - Public
+
+
+
+
 - (void) addOperation:(NSOperation *)operation {
-	FSQAssert(booted == NO, @"Booter already booted");
-	[bootQ addOperationRecursively:operation];
+	FSQAssert(self.booted == NO, @"Booter already booted");
+	[self.bootQ addOperationRecursively:operation];
 }
 
-- (void) addBootOperations:(NSArray *)operations {	
-	FSQAssert(booted == NO, @"Booter already booted");
-	for (NSOperation *op in operations) {
-		[bootQ addOperationRecursively:op];
-	}
+- (void) addBlock:(void (^)(void))block {
+	NSBlockOperation *blockOp = [NSBlockOperation blockOperationWithBlock:block];
+	[self.bootQ addOperation:blockOp];
 }
 
-- (void) boot {
-	FSQAssert(booted == NO, @"Booter already booted");
-	booted = YES;
+- (void) bootWithCompletionBlock:(void (^)(void))block {
+	FSQAssert(booted_ == NO, @"Already booted!");
+	if (booted_) return;
+
+	booted_ = YES;
+	self.completionBlock = block;
 	[self performSelectorInBackground:@selector(bootInBackground) withObject:nil];
 }
 
+- (void) addError:(NSError *)error {
+	[self.errorsInternal addObject:error];
+}
+
+
+// ========================================================================== //
+
+#pragma mark - Helpers
+
+
+
 - (void) bootInBackground {
 	@autoreleasepool {
-		[bootQ setSuspended:NO];	
-		[bootQ waitUntilAllOperationsAreFinished];
+		[self.bootQ setSuspended:NO];	
+		[self.bootQ waitUntilAllOperationsAreFinished];
+		if (completionBlock_) {
+			dispatch_async(dispatch_get_main_queue(), completionBlock_);
+		}
 	}
-	[(NSObject *)self.delegate performSelectorOnMainThread:@selector(booterFinishedBooting:) withObject:self waitUntilDone:NO];
 }
+
 
 
 

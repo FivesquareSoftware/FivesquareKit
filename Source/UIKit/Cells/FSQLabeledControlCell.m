@@ -11,6 +11,7 @@
 
 @implementation FSQLabeledControlCell
 
-@synthesize control, controlLabel;
+@synthesize control;
+@synthesize controlLabel;
 
 @end

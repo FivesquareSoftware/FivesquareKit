@@ -16,7 +16,10 @@
 	
 	SEL viewSelector = @selector(view);
 	if([self respondsToSelector:viewSelector]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		buttonView = [self performSelector:viewSelector];
+#pragma clang diagnostic pop
 	}
 	
 	return buttonView;

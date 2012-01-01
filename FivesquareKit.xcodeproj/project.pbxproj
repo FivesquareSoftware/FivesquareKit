@@ -3,22 +3,8 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
-
-/* Begin PBXAggregateTarget section */
-		A4DF6A3F12F4E0B700BA19E5 /* build-universal */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = A4DF6A5012F4E0F000BA19E5 /* Build configuration list for PBXAggregateTarget "build-universal" */;
-			buildPhases = (
-				A4DF6A3E12F4E0B700BA19E5 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "build-universal";
-			productName = "build-universal";
-		};
-/* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		A416720213D3974B00CC9B6B /* NSOperationQueue+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A464DA2A13D38978006B6C59 /* NSOperationQueue+FSQFoundation.h */; };
@@ -1046,10 +1032,11 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Fivesquare Software, LLC";
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "FivesquareKit" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1074,7 +1061,6 @@
 				A42294D012F46F0F007BC9C4 /* FSQCoreLocation */,
 				A429677C12F4D5D200AEAA83 /* FSQCoreGraphics */,
 				A429653512F482BF00AEAA83 /* FivesquareKit */,
-				A4DF6A3F12F4E0B700BA19E5 /* build-universal */,
 			);
 		};
 /* End PBXProject section */
@@ -1090,22 +1076,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		A4DF6A3E12F4E0B700BA19E5 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/Tools/build-universal.sh";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A42294CD12F46F0F007BC9C4 /* Sources */ = {
@@ -1300,7 +1270,6 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_MISSING_PARENTHESES = NO;
@@ -1311,7 +1280,6 @@
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1323,7 +1291,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_MISSING_PARENTHESES = NO;
@@ -1334,7 +1301,6 @@
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = iphoneos;
 			};
@@ -1349,7 +1315,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
 			};
@@ -1363,7 +1328,6 @@
 				DSTROOT = /tmp/FSQCoreLocation.dst;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
@@ -1377,7 +1341,6 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PREBINDING = NO;
 				PRODUCT_NAME = FivesquareKit;
 				PUBLIC_HEADERS_FOLDER_PATH = ../Headers;
 				SDKROOT = iphoneos;
@@ -1390,8 +1353,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PREBINDING = NO;
 				PRODUCT_NAME = FivesquareKit;
 				PUBLIC_HEADERS_FOLDER_PATH = ../Headers;
 				SDKROOT = iphoneos;
@@ -1408,7 +1369,6 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PREBINDING = NO;
 				PRODUCT_NAME = FSQCoreGraphics;
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
@@ -1422,8 +1382,6 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PREBINDING = NO;
 				PRODUCT_NAME = FSQCoreGraphics;
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
@@ -1442,7 +1400,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1458,7 +1415,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1476,7 +1432,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
@@ -1492,7 +1447,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
@@ -1509,7 +1463,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1524,7 +1477,6 @@
 				DSTROOT = /tmp/FSQUIKit.dst;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1542,7 +1494,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1558,7 +1509,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1576,7 +1526,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1592,7 +1541,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1609,7 +1557,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1624,7 +1571,6 @@
 				DSTROOT = /tmp/FSQSecurity.dst;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
@@ -1671,27 +1617,6 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		A4DF6A4012F4E0B700BA19E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "build-universal";
-			};
-			name = Debug;
-		};
-		A4DF6A4112F4E0B700BA19E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = "build-universal";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -1793,15 +1718,6 @@
 			buildConfigurations = (
 				A4713EB413509E3A00FA1402 /* Debug */,
 				A4713EB513509E3A00FA1402 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A4DF6A5012F4E0F000BA19E5 /* Build configuration list for PBXAggregateTarget "build-universal" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A4DF6A4012F4E0B700BA19E5 /* Debug */,
-				A4DF6A4112F4E0B700BA19E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

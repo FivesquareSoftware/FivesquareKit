@@ -8,22 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol FSQAppBooterDelegate;
-
-@interface FSQAppBooter : NSObject {
-
-}
-
-@property (nonatomic, weak) id<FSQAppBooterDelegate> delegate;
 
 
-- (void) addOperation:(NSOperation *)operation;
-- (void) addBootOperations:(NSArray *)operations;
-- (void) boot;
+@interface FSQAppBooter : NSObject
 
-@end
+@property (nonatomic, readonly) NSArray *errors;
+@property (nonatomic) BOOL failed; ///< YES if the count of errors is greater than 0
 
 
-@protocol FSQAppBooterDelegate <NSObject>
-- (void) booterFinishedBooting:(FSQAppBooter *)booter;
+- (void) addOperation:(NSOperation *)operation; ///< Adds an operation and its dependents to the boot queue
+- (void) addBlock:(void (^)(void))block; ///< Adds a block to the boot queue
+
+/** Starts booting and returns immediately. The completion block will run on the main thread when booting is complete. */
+- (void) bootWithCompletionBlock:(void (^)(void))block;
+
+- (void) addError:(NSError *)error;
+
 @end

@@ -12,6 +12,7 @@
 @interface FSQKeyboardHandler ()
 @property (nonatomic,assign) BOOL keyboardUp;
 - (void) registerForKeyboardNotifications;
+- (void) animationsStopped:(NSString *)animationID finished:(BOOL)finished context:(void *)context;
 @end
 
 @implementation FSQKeyboardHandler
