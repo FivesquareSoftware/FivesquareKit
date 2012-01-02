@@ -6,21 +6,38 @@
 //  Copyright 2009 Fivesquare Software, LLC. All rights reserved.
 //
 
+
+// App
+
 #import "FSQAppBooter.h"
+
+// Helpers
+
 #import "FSQKeyboardHandler.h"
 
+// Cells
 
 #import "FSQLabeledControlCell.h"
 #import "FSQTextFieldCell.h"
 #import "FSQTextViewCell.h"
 
+// Controllers
 
 #import "FSQFetchedResultsTableViewController.h"
 #import "FSQFetchedResultsViewController.h"
 
+// Views
+
 #import "FSQAlertView.h"
 #import "FSQModalImageView.h"
 #import "FSQDetailImageView.h"
+
+
+// Transformers
+
+#import "FSQUIImageToDataTransformer.h"
+
+// Extensions
 
 #import "NSFetchedResultsController+FSQUIKit.h"
 #import "NSObject+FSQUIKit.h"

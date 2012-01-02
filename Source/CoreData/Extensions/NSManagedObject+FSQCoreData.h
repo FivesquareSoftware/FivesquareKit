@@ -14,98 +14,143 @@
 
 
 + (NSString *) entityName;
-+ (NSEntityDescription *) entityInContext:(NSManagedObjectContext *)aContext;
++ (NSEntityDescription *) entityInContext:(NSManagedObjectContext *)context;
+
+/** @name Counters. 
+ *  @{
+ */
+
++ (NSUInteger) countInContext:(NSManagedObjectContext *)aContext;
+
++ (NSUInteger) countWithPredicate:(NSPredicate *)aPredicate
+						inContext:(NSManagedObjectContext *)aContext;
+
++ (NSUInteger) countWithPredicate:(NSPredicate *)aPredicate
+				   requestOptions:(NSDictionary *)someOptions
+						inContext:(NSManagedObjectContext *)aContext;
+
+/** @} */
 
 
-
-/** @ Fetch request template methods. */
+/** @name Fetch request template finders. 
+ *  @{
+ */
 
 + (id) firstWithFetchRequest:(NSString *)requestName 
-				   inContext:(NSManagedObjectContext *)aContext;
+				   inContext:(NSManagedObjectContext *)context;
 
 + (id) firstWithFetchRequestTemplate:(NSString *)templateName 
 			   substitutionVariables:(NSDictionary *)variables
-						   inContext:(NSManagedObjectContext *)aContext;
+						   inContext:(NSManagedObjectContext *)context;
 
 + (id) firstWithFetchRequestTemplate:(NSString *)templateName 
 			   substitutionVariables:(NSDictionary *)variables
 					 sortDescriptors:(NSArray *)sortDescriptors
-						   inContext:(NSManagedObjectContext *)aContext;
+						   inContext:(NSManagedObjectContext *)context;
 
 + (id) allWithFetchRequest:(NSString *)requestName
-				 inContext:(NSManagedObjectContext *)aContext;
+				 inContext:(NSManagedObjectContext *)context;
 
 + (id) allWithFetchRequestTemplate:(NSString *)templateName
 			 substitutionVariables:(NSDictionary *)variables
-						 inContext:(NSManagedObjectContext *)aContext;
+						 inContext:(NSManagedObjectContext *)context;
 
 + (id) allWithFetchRequestTemplate:(NSString *)templateName
 			 substitutionVariables:(NSDictionary *)variables
 				   sortDescriptors:(NSArray *)sortDescriptors
-						 inContext:(NSManagedObjectContext *)aContext;
+						 inContext:(NSManagedObjectContext *)context;
 
+/** @} */
 
-/** @ Predicate methods. */
+/** @name Predicate finders. 
+ *  @{
+ */
 
-+ (id) firstInContext:(NSManagedObjectContext *)aContext;
++ (id) firstInContext:(NSManagedObjectContext *)context;
 
-+ (id) firstWithPredicate:(NSPredicate *)aPredicate
-				inContext:(NSManagedObjectContext *)aContext;
++ (id) firstWithPredicate:(NSPredicate *)predicate
+				inContext:(NSManagedObjectContext *)context;
 
-+ (id) firstWithPredicate:(NSPredicate *)aPredicate
++ (id) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
-				inContext:(NSManagedObjectContext *)aContext;
+				inContext:(NSManagedObjectContext *)context;
 
-+ (id) firstWithPredicate:(NSPredicate *)aPredicate
++ (id) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
-		   requestOptions:(NSDictionary *)someOptions
-				inContext:(NSManagedObjectContext *)aContext;
+		   requestOptions:(NSDictionary *)options
+				inContext:(NSManagedObjectContext *)context;
 
 
-+ (id) allInContext:(NSManagedObjectContext *)aContext;
++ (id) allInContext:(NSManagedObjectContext *)context;
 
-+ (id) allWithPredicate:(NSPredicate *)aPredicate 
-			  inContext:(NSManagedObjectContext *)aContext;
++ (id) allWithPredicate:(NSPredicate *)predicate 
+			  inContext:(NSManagedObjectContext *)context;
 
-+ (id) allWithPredicate:(NSPredicate *)aPredicate 
++ (id) allWithPredicate:(NSPredicate *)predicate 
 		sortDescriptors:(NSArray *)sortDescriptors
-			  inContext:(NSManagedObjectContext *)aContext;
+			  inContext:(NSManagedObjectContext *)context;
 
-+ (id) allWithPredicate:(NSPredicate *)aPredicate 
++ (id) allWithPredicate:(NSPredicate *)predicate 
 		sortDescriptors:(NSArray *)sortDescriptors
-				requestOptions:(NSDictionary *)someOptions
-			  inContext:(NSManagedObjectContext *)aContext;
+				requestOptions:(NSDictionary *)options
+			  inContext:(NSManagedObjectContext *)context;
+
+/** @} */
 
 
-/** @ Factory Methods. */
+/** @name Factory Methods. 
+ *  @{
+ */
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)aPredicate 
-					   inContext:(NSManagedObjectContext *)aContext;
++ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
+					   inContext:(NSManagedObjectContext *)context;
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)aPredicate 
++ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
 				  attributes:(NSDictionary *)someAttributes
-					   inContext:(NSManagedObjectContext *)aContext;
+					   inContext:(NSManagedObjectContext *)context;
 
-+ (id) createInContext:(NSManagedObjectContext *)aContext;
++ (id) createInContext:(NSManagedObjectContext *)context;
 
 + (id) createWithAttributes:(NSDictionary *)someAttributes
-				  inContext:(NSManagedObjectContext *)aContext;
+				  inContext:(NSManagedObjectContext *)context;
+
+/** @} */
+
+/** @name Delete methods 
+ *  @{
+ */
+
++ (BOOL) deleteAllInContext:(NSManagedObjectContext *)context;
+
++ (BOOL) deleteAllWithPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
+
+/** @} */
 
 
-/** Update methods */
+/** @name Update methods 
+ *  @{
+ */
 
 - (void) updateWithAttributes:(NSDictionary *)attributes;
 
-/** Primitive methods for building fetch requests. */
+/** @} */
 
-+ (NSFetchRequest *) fetchRequestInContext:(NSManagedObjectContext *)aContext;
+
+/** @name Primitive methods for building fetch requests. 
+ *  @{
+ */
+
++ (NSFetchRequest *) fetchRequestInContext:(NSManagedObjectContext *)context;
 
 + (NSFetchRequest *) fetchRequestNamed:(NSString *)requestName 
-							 inContext:(NSManagedObjectContext *)aContext;
+							 inContext:(NSManagedObjectContext *)context;
 
 + (NSFetchRequest *) fetchRequestNamed:(NSString *)requestName 
 				 substitutionVariables:(NSDictionary *)variables 
 							   options:(NSDictionary *)requestOptions
-							 inContext:(NSManagedObjectContext *)aContext;
+							 inContext:(NSManagedObjectContext *)context;
+
+/** @} */
+
 
 @end

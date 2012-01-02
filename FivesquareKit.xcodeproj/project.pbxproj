@@ -65,8 +65,8 @@
 		A429627312F47C3800AEAA83 /* FSQKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441D12748374005D9BF4 /* FSQKeychain.m */; };
 		A429627412F47C3800AEAA83 /* FSQKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F441C12748374005D9BF4 /* FSQKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A429627612F47C6C00AEAA83 /* FSQCoreLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43F812748374005D9BF4 /* FSQCoreLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A429627712F47C6D00AEAA83 /* FSQLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43F912748374005D9BF4 /* FSQLocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A429627812F47C6D00AEAA83 /* FSQLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43FA12748374005D9BF4 /* FSQLocationManager.m */; };
+		A429627712F47C6D00AEAA83 /* FSQLocationResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43F912748374005D9BF4 /* FSQLocationResolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A429627812F47C6D00AEAA83 /* FSQLocationResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43FA12748374005D9BF4 /* FSQLocationResolver.m */; };
 		A429627912F47C6E00AEAA83 /* CLLocation+FSQCoreLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43F612748374005D9BF4 /* CLLocation+FSQCoreLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A429627A12F47C6F00AEAA83 /* CLLocation+FSQCoreLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43F712748374005D9BF4 /* CLLocation+FSQCoreLocation.m */; };
 		A429628F12F47D3700AEAA83 /* FSQSandbox.h in Headers */ = {isa = PBXBuildFile; fileRef = A429628D12F47D3700AEAA83 /* FSQSandbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -87,6 +87,10 @@
 		A429678712F4D62500AEAA83 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A429678612F4D62500AEAA83 /* CoreGraphics.framework */; };
 		A429678912F4D62500AEAA83 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A429678812F4D62500AEAA83 /* QuartzCore.framework */; };
 		A429679112F4D68B00AEAA83 /* libFSQCoreGraphics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A429677D12F4D5D200AEAA83 /* libFSQCoreGraphics.a */; };
+		A435127914AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = A435127714AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h */; };
+		A435127A14AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A435127814AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m */; };
+		A43512D714B0F8E200BE02A8 /* FSQManagedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */; };
+		A43512D814B0F8E200BE02A8 /* FSQManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A43512D614B0F8E200BE02A8 /* FSQManagedObject.m */; };
 		A4455FE212F4673900F27E4F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		A4455FEE12F4676000F27E4F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		A4455FFA12F4676900F27E4F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
@@ -234,6 +238,10 @@
 		A429677D12F4D5D200AEAA83 /* libFSQCoreGraphics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFSQCoreGraphics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A429678612F4D62500AEAA83 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A429678812F4D62500AEAA83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A435127714AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIImageToDataTransformer.h; sourceTree = "<group>"; };
+		A435127814AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIImageToDataTransformer.m; sourceTree = "<group>"; };
+		A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQManagedObject.h; sourceTree = "<group>"; };
+		A43512D614B0F8E200BE02A8 /* FSQManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQManagedObject.m; sourceTree = "<group>"; };
 		A4455FE112F4673800F27E4F /* libFSQFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFSQFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4455FED12F4676000F27E4F /* libFSQCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFSQCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4455FF912F4676900F27E4F /* libFSQUIKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFSQUIKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -252,8 +260,8 @@
 		A45F43F612748374005D9BF4 /* CLLocation+FSQCoreLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+FSQCoreLocation.h"; sourceTree = "<group>"; };
 		A45F43F712748374005D9BF4 /* CLLocation+FSQCoreLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+FSQCoreLocation.m"; sourceTree = "<group>"; };
 		A45F43F812748374005D9BF4 /* FSQCoreLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCoreLocation.h; sourceTree = "<group>"; };
-		A45F43F912748374005D9BF4 /* FSQLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQLocationManager.h; sourceTree = "<group>"; };
-		A45F43FA12748374005D9BF4 /* FSQLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQLocationManager.m; sourceTree = "<group>"; };
+		A45F43F912748374005D9BF4 /* FSQLocationResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQLocationResolver.h; sourceTree = "<group>"; };
+		A45F43FA12748374005D9BF4 /* FSQLocationResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQLocationResolver.m; sourceTree = "<group>"; };
 		A45F43FB12748374005D9BF4 /* FivesquareKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FivesquareKit.h; sourceTree = "<group>"; };
 		A45F43FE12748374005D9BF4 /* NSArray+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+FSQFoundation.h"; sourceTree = "<group>"; };
 		A45F43FF12748374005D9BF4 /* NSArray+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+FSQFoundation.m"; sourceTree = "<group>"; };
@@ -490,12 +498,23 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		A435127614AFE7FA00BE02A8 /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				A435127714AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h */,
+				A435127814AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m */,
+			);
+			path = Transformers;
+			sourceTree = "<group>";
+		};
 		A45F43E812748374005D9BF4 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
 				A45F43EE12748374005D9BF4 /* FSQCoreData.h */,
 				A45565091302225500932B98 /* FSQCoreDataManager.h */,
 				A455650A1302225500932B98 /* FSQCoreDataManager.m */,
+				A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */,
+				A43512D614B0F8E200BE02A8 /* FSQManagedObject.m */,
 				A45F43E912748374005D9BF4 /* Extensions */,
 			);
 			path = CoreData;
@@ -525,8 +544,8 @@
 			isa = PBXGroup;
 			children = (
 				A45F43F812748374005D9BF4 /* FSQCoreLocation.h */,
-				A45F43F912748374005D9BF4 /* FSQLocationManager.h */,
-				A45F43FA12748374005D9BF4 /* FSQLocationManager.m */,
+				A45F43F912748374005D9BF4 /* FSQLocationResolver.h */,
+				A45F43FA12748374005D9BF4 /* FSQLocationResolver.m */,
 				A45F43F512748374005D9BF4 /* Extensions */,
 			);
 			path = CoreLocation;
@@ -602,8 +621,9 @@
 				A464DA3013D38A8C006B6C59 /* App */,
 				A464DA3513D38B12006B6C59 /* Helpers */,
 				A45F441F12748374005D9BF4 /* Cells */,
-				A45F443E12748375005D9BF4 /* View Controllers */,
+				A45F443E12748375005D9BF4 /* Controllers */,
 				A45F444F12748375005D9BF4 /* Views */,
+				A435127614AFE7FA00BE02A8 /* Transformers */,
 				A45F442612748374005D9BF4 /* Extensions */,
 			);
 			path = UIKit;
@@ -644,7 +664,7 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
-		A45F443E12748375005D9BF4 /* View Controllers */ = {
+		A45F443E12748375005D9BF4 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				A45F444212748375005D9BF4 /* FSQFetchedResultsTableViewController.h */,
@@ -652,7 +672,7 @@
 				A4E3C659130A2D6B00BF4C6E /* FSQFetchedResultsViewController.h */,
 				A4E3C65A130A2D6B00BF4C6E /* FSQFetchedResultsViewController.m */,
 			);
-			path = "View Controllers";
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		A45F444F12748375005D9BF4 /* Views */ = {
@@ -736,7 +756,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A429627612F47C6C00AEAA83 /* FSQCoreLocation.h in Headers */,
-				A429627712F47C6D00AEAA83 /* FSQLocationManager.h in Headers */,
+				A429627712F47C6D00AEAA83 /* FSQLocationResolver.h in Headers */,
 				A429627912F47C6E00AEAA83 /* CLLocation+FSQCoreLocation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -809,6 +829,7 @@
 				A464DA3313D38A8C006B6C59 /* FSQAppBooter.h in Headers */,
 				A464DA3813D38B13006B6C59 /* FSQKeyboardHandler.h in Headers */,
 				A464DA4313D390C1006B6C59 /* FSQModalImageView.h in Headers */,
+				A435127914AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,6 +841,7 @@
 				A429622D12F478C600AEAA83 /* NSManagedObject+FSQCoreData.h in Headers */,
 				A429622E12F478C600AEAA83 /* NSManagedObjectContext+FSQCoreData.h in Headers */,
 				A455650B1302225500932B98 /* FSQCoreDataManager.h in Headers */,
+				A43512D714B0F8E200BE02A8 /* FSQManagedObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1082,7 +1104,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A429627812F47C6D00AEAA83 /* FSQLocationManager.m in Sources */,
+				A429627812F47C6D00AEAA83 /* FSQLocationResolver.m in Sources */,
 				A429627A12F47C6F00AEAA83 /* CLLocation+FSQCoreLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1151,6 +1173,7 @@
 				A464DA3413D38A8C006B6C59 /* FSQAppBooter.m in Sources */,
 				A464DA3913D38B13006B6C59 /* FSQKeyboardHandler.m in Sources */,
 				A464DA4413D390C1006B6C59 /* FSQModalImageView.m in Sources */,
+				A435127A14AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1161,6 +1184,7 @@
 				A42294C912F46E45007BC9C4 /* NSManagedObject+FSQCoreData.m in Sources */,
 				A42294CA12F46E4C007BC9C4 /* NSManagedObjectContext+FSQCoreData.m in Sources */,
 				A455650C1302225500932B98 /* FSQCoreDataManager.m in Sources */,
+				A43512D814B0F8E200BE02A8 /* FSQManagedObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

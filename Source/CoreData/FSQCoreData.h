@@ -8,6 +8,7 @@
  */
 
 #import "FSQCoreDataManager.h"
+#import "FSQManagedObject.h"
 
 #import "NSManagedObjectContext+FSQCoreData.h"
 #import "NSManagedObject+FSQCoreData.h"

@@ -18,8 +18,7 @@
 
 // ========================================================================== //
 
-#pragma mark -
-#pragma mark Properties
+#pragma mark - Properties
 
 
 @synthesize managedObjectContext;
@@ -36,8 +35,7 @@
 
 // ========================================================================== //
 
-#pragma mark -
-#pragma mark Object
+#pragma mark - Object
 
 
 - (void) dealloc {
@@ -48,8 +46,7 @@
 
 // ========================================================================== //
 
-#pragma mark -
-#pragma mark View Controller
+#pragma mark - View Controller
 
 - (void) viewWillAppear:(BOOL)animated {
 	[self.fetchedResultsController fetch];

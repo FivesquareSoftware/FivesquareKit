@@ -6,6 +6,6 @@
 //  Copyright 2009 Fivesquare Software, LLC. All rights reserved.
 //
 
-#import "FSQLocationManager.h"
+#import "FSQLocationResolver.h"
 
 #import "CLLocation+FSQCoreLocation.h"

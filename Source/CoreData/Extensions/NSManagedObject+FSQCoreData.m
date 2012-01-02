@@ -24,8 +24,50 @@
 	return [self className];
 }
 
-+ (NSEntityDescription *) entityInContext:(NSManagedObjectContext *)aContext {
-	return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:aContext];
++ (NSEntityDescription *) entityInContext:(NSManagedObjectContext *)context {
+	return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
+}
+
+
+// ========================================================================== //
+
+#pragma mark - Counters
+
+
++ (NSUInteger) countInContext:(NSManagedObjectContext *)context {
+	return [self countWithPredicate:nil requestOptions:nil inContext:context];
+}
+
++ (NSUInteger) countWithPredicate:(NSPredicate *)predicate
+						inContext:(NSManagedObjectContext *)context {
+	return [self countWithPredicate:predicate requestOptions:nil inContext:context];
+}
+
++ (NSUInteger) countWithPredicate:(NSPredicate *)predicate
+				   requestOptions:(NSDictionary *)options
+						inContext:(NSManagedObjectContext *)context {
+	
+	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
+	if(predicate) {
+		[requestOptions setObject:predicate forKey:@"predicate"];
+	}
+	[requestOptions addEntriesFromDictionary:options];
+	
+	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
+	
+	__block NSError *error = nil;
+	__block NSUInteger count = 0;
+	
+	[context performBlockAndWait:^{
+		__autoreleasing NSError *localError = nil;
+		count = [context countForFetchRequest:fetchRequest error:&localError];
+		if (localError) {
+			error = localError;
+		}
+	}];
+	
+	FSQAssert(error == nil, @"Error counting for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
+	return count;
 }
 
 
@@ -38,32 +80,32 @@
 #pragma mark -- First
 
 + (id) firstWithFetchRequest:(NSString *)requestName 
-				   inContext:(NSManagedObjectContext *)aContext {
-	return [self firstWithFetchRequestTemplate:requestName substitutionVariables:nil sortDescriptors:nil inContext:aContext];
+				   inContext:(NSManagedObjectContext *)context {
+	return [self firstWithFetchRequestTemplate:requestName substitutionVariables:nil sortDescriptors:nil inContext:context];
 }
 
 + (id) firstWithFetchRequestTemplate:(NSString *)templateName 
-			   substitutionVariables:(NSDictionary *)variables
-						   inContext:(NSManagedObjectContext *)aContext {
-	return [self firstWithFetchRequestTemplate:templateName substitutionVariables:variables sortDescriptors:nil inContext:aContext];
+			   substitutionVariables:(NSDictionary *)variables 
+						   inContext:(NSManagedObjectContext *)context {
+	return [self firstWithFetchRequestTemplate:templateName substitutionVariables:variables sortDescriptors:nil inContext:context];
 }
 
 + (id) firstWithFetchRequestTemplate:(NSString *)templateName 
-			   substitutionVariables:(NSDictionary *)variables
-					 sortDescriptors:(NSArray *)sortDescriptors
-						   inContext:(NSManagedObjectContext *)aContext {
+			   substitutionVariables:(NSDictionary *)variables 
+					 sortDescriptors:(NSArray *)sortDescriptors 
+						   inContext:(NSManagedObjectContext *)context {
 	
 	NSDictionary *requestOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"fetchBatchSize"];
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:requestOptions inContext:aContext];
+	NSFetchRequest *fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:requestOptions inContext:context];
 										
 	id found = nil;
 	
-	NSError __block *error = nil;
-	NSArray __block *results = nil;
+	__block NSError *error = nil;
+	__block NSArray *results = nil;
 	
-	[aContext performBlockAndWait:^{
-		NSError __autoreleasing *localError = nil;
-		results = [aContext executeFetchRequest:fetchRequest error:&localError];
+	[context performBlockAndWait:^{
+		__autoreleasing NSError *localError = nil;
+		results = [context executeFetchRequest:fetchRequest error:&localError];
 		if (localError) {
 			error = localError;
 		}
@@ -80,31 +122,31 @@
 #pragma mark -- All
 
 
-+ (id) allWithFetchRequest:(NSString *)requestName
-				 inContext:(NSManagedObjectContext *)aContext {
-	return [self allWithFetchRequestTemplate:requestName substitutionVariables:nil sortDescriptors:nil inContext:aContext];
++ (id) allWithFetchRequest:(NSString *)requestName 
+				 inContext:(NSManagedObjectContext *)context {
+	return [self allWithFetchRequestTemplate:requestName substitutionVariables:nil sortDescriptors:nil inContext:context];
 }
 
-+ (id) allWithFetchRequestTemplate:(NSString *)templateName
-			 substitutionVariables:(NSDictionary *)variables
-						 inContext:(NSManagedObjectContext *)aContext {
-	return [self allWithFetchRequestTemplate:templateName substitutionVariables:variables sortDescriptors:nil inContext:aContext];
++ (id) allWithFetchRequestTemplate:(NSString *)templateName 
+			 substitutionVariables:(NSDictionary *)variables 
+						 inContext:(NSManagedObjectContext *)context {
+	return [self allWithFetchRequestTemplate:templateName substitutionVariables:variables sortDescriptors:nil inContext:context];
 }
 
-+ (id) allWithFetchRequestTemplate:(NSString *)templateName
-			 substitutionVariables:(NSDictionary *)variables
-				   sortDescriptors:(NSArray *)sortDescriptors
-						 inContext:(NSManagedObjectContext *)aContext {
++ (id) allWithFetchRequestTemplate:(NSString *)templateName 
+			 substitutionVariables:(NSDictionary *)variables 
+				   sortDescriptors:(NSArray *)sortDescriptors 
+						 inContext:(NSManagedObjectContext *)context {
 	
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:nil inContext:aContext];
+	NSFetchRequest *fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:nil inContext:context];
 
 	
-	NSError __block *error = nil;
-	NSArray __block *results = nil;
+	__block NSError *error = nil;
+	__block NSArray *results = nil;
 	
-	[aContext performBlockAndWait:^{
-		NSError __autoreleasing *localError = nil;
-		results = [aContext executeFetchRequest:fetchRequest error:&localError];
+	[context performBlockAndWait:^{
+		__autoreleasing NSError *localError = nil;
+		results = [context executeFetchRequest:fetchRequest error:&localError];
 		if (localError) {
 			error = localError;
 		}
@@ -124,47 +166,47 @@
 #pragma mark -- First
 
 
-+ (id) firstInContext:(NSManagedObjectContext *)aContext {
-	return [self firstWithPredicate:nil inContext:aContext];	
++ (id) firstInContext:(NSManagedObjectContext *)context {
+	return [self firstWithPredicate:nil inContext:context];	
 }
 
-+ (id) firstWithPredicate:(NSPredicate *)aPredicate
-				inContext:(NSManagedObjectContext *)aContext {
-	return [self firstWithPredicate:aPredicate sortDescriptors:nil inContext:aContext];
++ (id) firstWithPredicate:(NSPredicate *)predicate
+				inContext:(NSManagedObjectContext *)context {
+	return [self firstWithPredicate:predicate sortDescriptors:nil inContext:context];
 }
 
-+ (id) firstWithPredicate:(NSPredicate *)aPredicate
++ (id) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
-				inContext:(NSManagedObjectContext *)aContext {
-	return [self firstWithPredicate:aPredicate sortDescriptors:sortDescriptors requestOptions:nil inContext:aContext];
+				inContext:(NSManagedObjectContext *)context {
+	return [self firstWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
 }	
 
-+ (id) firstWithPredicate:(NSPredicate *)aPredicate
++ (id) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
-		   requestOptions:(NSDictionary *)someOptions
-				inContext:(NSManagedObjectContext *)aContext {
+		   requestOptions:(NSDictionary *)options
+				inContext:(NSManagedObjectContext *)context {
 	
 	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
-	if(aPredicate) {
-		[requestOptions setObject:aPredicate forKey:@"predicate"];
+	if(predicate) {
+		[requestOptions setObject:predicate forKey:@"predicate"];
 	}
 	if(sortDescriptors) {
 		[requestOptions setObject:sortDescriptors forKey:@"sortDescriptors"];
 	}
 	[requestOptions setObject:[NSNumber numberWithInt:1] forKey:@"fetchBatchSize"];
-	[requestOptions addEntriesFromDictionary:someOptions];
+	[requestOptions addEntriesFromDictionary:options];
 
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:aContext];
+	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
 
 	
 	id found = nil;
 	
-	NSError __block *error = nil;
-	NSArray __block *results = nil;
+	__block NSError *error = nil;
+	__block NSArray *results = nil;
 	
-	[aContext performBlockAndWait:^{
-		NSError __autoreleasing *localError = nil;
-		results = [aContext executeFetchRequest:fetchRequest error:&localError];
+	[context performBlockAndWait:^{
+		__autoreleasing NSError *localError = nil;
+		results = [context executeFetchRequest:fetchRequest error:&localError];
 		if (localError) {
 			error = localError;
 		}
@@ -180,44 +222,44 @@
 
 #pragma mark -- All
 
-+ (id) allInContext:(NSManagedObjectContext *)aContext {
-	return [self allWithPredicate:nil inContext:aContext];
++ (id) allInContext:(NSManagedObjectContext *)context {
+	return [self allWithPredicate:nil inContext:context];
 }
 
-+ (id) allWithPredicate:(NSPredicate *)aPredicate 
-			  inContext:(NSManagedObjectContext *)aContext {
-	return [self allWithPredicate:aPredicate sortDescriptors:nil inContext:aContext];
++ (id) allWithPredicate:(NSPredicate *)predicate 
+			  inContext:(NSManagedObjectContext *)context {
+	return [self allWithPredicate:predicate sortDescriptors:nil inContext:context];
 }
 
-+ (id) allWithPredicate:(NSPredicate *)aPredicate 
++ (id) allWithPredicate:(NSPredicate *)predicate 
 		sortDescriptors:(NSArray *)sortDescriptors
-			  inContext:(NSManagedObjectContext *)aContext {
-	return [self allWithPredicate:aPredicate sortDescriptors:sortDescriptors requestOptions:nil inContext:aContext];
+			  inContext:(NSManagedObjectContext *)context {
+	return [self allWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
 }
 
-+ (id) allWithPredicate:(NSPredicate *)aPredicate 
++ (id) allWithPredicate:(NSPredicate *)predicate 
 		sortDescriptors:(NSArray *)sortDescriptors
-		 requestOptions:(NSDictionary *)someOptions
-						inContext:(NSManagedObjectContext *)aContext {
+		 requestOptions:(NSDictionary *)options
+						inContext:(NSManagedObjectContext *)context {
 	
 	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
-	if(aPredicate) {
-		[requestOptions setObject:aPredicate forKey:@"predicate"];
+	if(predicate) {
+		[requestOptions setObject:predicate forKey:@"predicate"];
 	}
 	if(sortDescriptors) {
 		[requestOptions setObject:sortDescriptors forKey:@"sortDescriptors"];
 	}
-	[requestOptions addEntriesFromDictionary:someOptions];
+	[requestOptions addEntriesFromDictionary:options];
 	
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:aContext];
+	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
 	
 	
-	NSError __block *error = nil;
-	NSArray __block *results = nil;
+	__block NSError *error = nil;
+	__block NSArray *results = nil;
 	
-	[aContext performBlockAndWait:^{
-		NSError __autoreleasing *localError = nil;
-		results = [aContext executeFetchRequest:fetchRequest error:&localError];
+	[context performBlockAndWait:^{
+		__autoreleasing NSError *localError = nil;
+		results = [context executeFetchRequest:fetchRequest error:&localError];
 		if (localError) {
 			error = localError;
 		}
@@ -233,17 +275,17 @@
 
 
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)aPredicate 
-					   inContext:(NSManagedObjectContext *)aContext {
-	return [self findOrCreateWithPredicate:aPredicate attributes:nil inContext:aContext];
++ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
+					   inContext:(NSManagedObjectContext *)context {
+	return [self findOrCreateWithPredicate:predicate attributes:nil inContext:context];
 }
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)aPredicate 
++ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
 					  attributes:(NSDictionary *)someAttributes
-					   inContext:(NSManagedObjectContext *)aContext {
-	id found = [self firstWithPredicate:aPredicate inContext:aContext];
+					   inContext:(NSManagedObjectContext *)context {
+	id found = [self firstWithPredicate:predicate inContext:context];
 	if(found == nil) {
-		found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:aContext];
+		found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 		for (NSString *key in someAttributes) {
 			[found setValue:[someAttributes objectForKey:key] forKey:key];
 		}
@@ -251,18 +293,61 @@
 	return found;
 }
 
-+ (id) createInContext:(NSManagedObjectContext *)aContext {
-	return [self createWithAttributes:nil inContext:aContext];
++ (id) createInContext:(NSManagedObjectContext *)context {
+	return [self createWithAttributes:nil inContext:context];
 }
 
 + (id) createWithAttributes:(NSDictionary *)someAttributes
-				  inContext:(NSManagedObjectContext *)aContext {
-	id created = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:aContext];
+				  inContext:(NSManagedObjectContext *)context {
+	id created = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 	for (NSString *key in someAttributes) {
 		[created setValue:[someAttributes objectForKey:key] forKey:key];
 	}
 	return created;
 }
+
+
+
+// ========================================================================== //
+
+#pragma mark - Delete Methods
+
+
++ (BOOL) deleteAllInContext:(NSManagedObjectContext *)context {
+	return [self deleteAllWithPredicate:nil inContext:context];
+}
+
++ (BOOL) deleteAllWithPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context {
+	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
+	[requestOptions setObject:[NSNumber numberWithBool:NO] forKey:@"includesPropertyValues"];
+	if(predicate) {
+		[requestOptions setObject:predicate forKey:@"predicate"];
+	}
+
+	NSFetchRequest *fetchRequest= [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
+	
+	__block NSError *error = nil;
+	__block NSArray *results = nil;
+	[context performBlockAndWait:^{
+		__autoreleasing NSError *localError = nil;
+		results = [context executeFetchRequest:fetchRequest error:&localError];
+		if (localError) {
+			error = localError;
+		}
+	}];
+	FSQAssert(error == nil, @"Error fetching for deletion %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
+	if (error) {
+		return NO;
+	}
+	[context performBlockAndWait:^{
+		for (NSManagedObject *found in results) {
+			[context deleteObject:found];
+		}
+	}];
+	return YES;
+}
+
+
 
 
 // ========================================================================== //
@@ -285,23 +370,23 @@
 #pragma mark - Fetch Request Builders
 
 
-+ (NSFetchRequest *) fetchRequestInContext:(NSManagedObjectContext *)aContext {
-	return [self fetchRequestNamed:nil substitutionVariables:nil options:nil inContext:aContext];
++ (NSFetchRequest *) fetchRequestInContext:(NSManagedObjectContext *)context {
+	return [self fetchRequestNamed:nil substitutionVariables:nil options:nil inContext:context];
 }
 
 
 + (NSFetchRequest *) fetchRequestNamed:(NSString *)requestName 
-							 inContext:(NSManagedObjectContext *)aContext {
-	return [self fetchRequestNamed:requestName substitutionVariables:nil options:nil inContext:aContext];
+							 inContext:(NSManagedObjectContext *)context {
+	return [self fetchRequestNamed:requestName substitutionVariables:nil options:nil inContext:context];
 }
 
 
 + (NSFetchRequest *) fetchRequestNamed:(NSString *)requestName 
 				 substitutionVariables:(NSDictionary *)variables 
 							   options:(NSDictionary *)requestOptions
-							 inContext:(NSManagedObjectContext *)aContext {
+							 inContext:(NSManagedObjectContext *)context {
 	NSFetchRequest *fetchRequest = nil; 
-	NSEntityDescription *entity = [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:aContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 	NSManagedObjectModel *managedObjectModel = [entity managedObjectModel];
 	if(requestName) {
 		if(variables) {

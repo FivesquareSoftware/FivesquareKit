@@ -33,5 +33,26 @@
     return child;
 }
 
+- (BOOL) saveWithParent:(NSError **)error {
+	__block NSError *saveError = nil;
+	__block BOOL success = NO;
+	
+	[self performBlockAndWait:^{
+		__autoreleasing NSError *localError = nil;
+		if ( (success = [self save:&localError]) ) {
+			if (self.parentContext) {
+				[self.parentContext performBlock:^{[self.parentContext save:NULL];}];
+			}
+		}
+		if (localError) {
+			saveError = localError;
+		}
+	}];
+	if (error) {
+		*error = saveError;
+	}
+	return success;
+}
+
 
 @end
