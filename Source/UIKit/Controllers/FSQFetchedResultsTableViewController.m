@@ -18,68 +18,48 @@
 
 // ========================================================================== //
 
-#pragma mark -
-#pragma mark Properties
+#pragma mark - Properties
 
-@synthesize tableView=tableViewOutlet;
-
-@synthesize managedObjectContext;
-
-@dynamic fetchedResultsController;
+@synthesize tableView=tableView_;
 
 
-@synthesize editable;
+@synthesize editable=editable_;
+@synthesize reordering=reordering_;
+@synthesize mutatingSectionIndex=mutatingSectionIndex_;
+@synthesize fetchedResultsTableRowOffset=fetchedResultsTableRowOffset_;
+@synthesize fetchedResultsTableSection=fetchedResultsTableSection_;
+@synthesize showsPlaceholderRow=showsPlaceholderRow_;
+@synthesize animateTableUpdates=animateTableUpdates_;
+@synthesize tableRowAnimationType=tableRowAnimationType_;
 
-@synthesize reordering;
-@synthesize mutatingSectionIndex;
-
-@synthesize fetchedResultsTableRowOffset;
-@synthesize fetchedResultsTableSection;
-
-@synthesize showsPlaceholderRow;
-
-@synthesize animateTableUpdates;
-@synthesize tableRowAnimationType;
-
-
-- (NSFetchedResultsController *) fetchedResultsController {
-	FSQAssert(NO, @"Implement fetchedResultsController in %@",[self className]);
-	return nil;
-}
 
 
 
 // ========================================================================== //
 
-#pragma mark -
-#pragma mark Object
+#pragma mark - Object
 
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self != nil) {
-		animateTableUpdates = YES;
-		tableRowAnimationType = UITableViewRowAnimationNone;
+		animateTableUpdates_ = YES;
+		tableRowAnimationType_ = UITableViewRowAnimationNone;
 	}
 	return self;
 }
 
 
 - (void) dealloc {
-	fetchedResultsController.delegate = nil;
+	fetchedResultsController_.delegate = nil;
 	
 }
 
 
 // ========================================================================== //
 
-#pragma mark -
-#pragma mark View Controller
+#pragma mark - View Controller
 
-- (void) viewWillAppear:(BOOL)animated {
-	[self.fetchedResultsController fetch];
-	[super viewWillAppear:animated];
-}
 
 - (void) setEditing:(BOOL)editing animated:(BOOL)animated {
     if( ! editing) {
@@ -97,18 +77,17 @@
 
 // ========================================================================== //
 
-#pragma mark -
-#pragma mark Table View Methods
+#pragma mark - Table View Methods
 
 
 - (NSIndexPath *) fetchedResultsIndexPathForTableIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row - fetchedResultsTableRowOffset inSection:indexPath.section - fetchedResultsTableSection];
+	return [NSIndexPath indexPathForRow:indexPath.row - fetchedResultsTableRowOffset_ inSection:indexPath.section - fetchedResultsTableSection_];
 }
 
 - (NSIndexPath *) tableIndexPathForFetchedResultsIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row + fetchedResultsTableRowOffset inSection:indexPath.section + fetchedResultsTableSection];
+	return [NSIndexPath indexPathForRow:indexPath.row + fetchedResultsTableRowOffset_ inSection:indexPath.section + fetchedResultsTableSection_];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -116,14 +95,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - fetchedResultsTableSection];
+    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - fetchedResultsTableSection_];
 	if(count < 1 && self.showsPlaceholderRow)
 		count = 1;
 	return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	FSQAssert(NO, @"Implement tableView:cellForRowAtIndexPath: in %@", [self className]);
+	[FSQAsserter subclass:self responsibility:_cmd];
 	return nil;
 }
 
@@ -132,13 +111,13 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section == fetchedResultsTableSection)
-		return editable;
+	if(indexPath.section == fetchedResultsTableSection_)
+		return editable_;
 	return NO;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section != fetchedResultsTableSection) return;
+	if(indexPath.section != fetchedResultsTableSection_) return;
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
 		NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:[self fetchedResultsIndexPathForTableIndexPath:indexPath]];
 		[[object managedObjectContext] deleteObject:object];
@@ -151,7 +130,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return [self.fetchedResultsController nameOfSectionAtIndex:section - fetchedResultsTableSection];
+	return [self.fetchedResultsController nameOfSectionAtIndex:section - fetchedResultsTableSection_];
 }
 
 - (CGFloat)tableView:(UITableView *)inTableView heightForHeaderInSection:(NSInteger)section {
@@ -177,8 +156,7 @@
 
 // ========================================================================== //
 
-#pragma mark -
-#pragma mark NSFetchedResultsController Delegate
+#pragma mark -  NSFetchedResultsController Delegate
 
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
@@ -206,11 +184,11 @@
 	
     switch(type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + fetchedResultsTableSection]
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + fetchedResultsTableSection_]
 						  withRowAnimation:UITableViewRowAnimationFade];
             break;			
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + fetchedResultsTableSection]
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + fetchedResultsTableSection_]
 						  withRowAnimation:UITableViewRowAnimationFade];
             break;
     }

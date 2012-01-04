@@ -21,13 +21,16 @@
 #pragma mark - Properties
 
 
-@synthesize managedObjectContext;
+@synthesize managedObjectContext=managedObjectContext_;
+@synthesize fetchedResultsController=fetchedResultsController_;
 
-@dynamic fetchedResultsController;
-
+- (NSManagedObjectContext *) managedObjectContext {
+	[FSQAsserter subclass:self responsibility:_cmd];
+	return nil;
+}
 
 - (NSFetchedResultsController *) fetchedResultsController {
-	FSQAssert(NO, @"Implement fetchedResultsController in %@",[self className]);
+	[FSQAsserter subclass:self responsibility:_cmd];
 	return nil;
 }
 
@@ -39,7 +42,7 @@
 
 
 - (void) dealloc {
-	fetchedResultsController.delegate = nil;
+	fetchedResultsController_.delegate = nil;
 	
 }
 

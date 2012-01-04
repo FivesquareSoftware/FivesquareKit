@@ -10,12 +10,18 @@
 
 #import <CoreData/CoreData.h>
 
-@interface FSQFetchedResultsViewController : UIViewController {
-	NSManagedObjectContext *managedObjectContext;
-	NSFetchedResultsController *fetchedResultsController;
+@interface FSQFetchedResultsViewController : UIViewController <NSFetchedResultsControllerDelegate> {
+@protected
+	NSManagedObjectContext *managedObjectContext_;
+	NSFetchedResultsController *fetchedResultsController_;	
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain, readonly) NSFetchedResultsController *fetchedResultsController;
+/** @name Subclass properties
+ *  @{
+ */
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong, readonly) NSFetchedResultsController *fetchedResultsController;
+
+/** @} */
 
 @end
