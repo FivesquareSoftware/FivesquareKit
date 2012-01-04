@@ -15,10 +15,8 @@
 
 }
 
-+ (void) assertionFailedInMethod:(SEL)selector
-						  object:(id)object
-							file:(char *) fileName
-					  lineNumber:(int) lineNumber
-						 message:(NSString *)aFormat,...;
++ (void) subclass:(id)subclass responsibility:(SEL)sel;
++ (void) subclass:(id)subclass warn:(SEL)sel;
++ (void) assertionFailedInMethod:(SEL)selector object:(id)object file:(char *) fileName lineNumber:(int) lineNumber message:(NSString *)aFormat,...;
 	
 @end

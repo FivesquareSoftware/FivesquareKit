@@ -12,6 +12,14 @@
 
 @implementation FSQAsserter
 
++ (void) subclass:(id)subclass responsibility:(SEL)sel {
+	FSQAssert(NO, @"Implement %@ in your subclass (%@)",NSStringFromSelector(sel),subclass);
+}
+
++ (void) subclass:(id)subclass warn:(SEL)sel {
+	FSQAssert(@"Implement %@ in your subclass (%@)",NSStringFromSelector(sel),subclass);
+}
+
 
 + (void) assertionFailedInMethod:(SEL)selector
 						  object:(id)object
