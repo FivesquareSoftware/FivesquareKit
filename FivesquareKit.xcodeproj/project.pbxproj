@@ -87,6 +87,10 @@
 		A429678712F4D62500AEAA83 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A429678612F4D62500AEAA83 /* CoreGraphics.framework */; };
 		A429678912F4D62500AEAA83 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A429678812F4D62500AEAA83 /* QuartzCore.framework */; };
 		A429679112F4D68B00AEAA83 /* libFSQCoreGraphics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A429677D12F4D5D200AEAA83 /* libFSQCoreGraphics.a */; };
+		A43199C914DF09CA0057063F /* FSQOpenStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = A43199C414DF09C00057063F /* FSQOpenStruct.h */; };
+		A43199CA14DF09CA0057063F /* FSQOpenStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = A43199C514DF09C00057063F /* FSQOpenStruct.m */; };
+		A4319A5714DF0F370057063F /* NSDictionary+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4319A5514DF0F370057063F /* NSDictionary+FSQFoundation.h */; };
+		A4319A5814DF0F370057063F /* NSDictionary+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4319A5614DF0F370057063F /* NSDictionary+FSQFoundation.m */; };
 		A435127914AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = A435127714AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h */; };
 		A435127A14AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A435127814AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m */; };
 		A43512D714B0F8E200BE02A8 /* FSQManagedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */; };
@@ -238,6 +242,10 @@
 		A429677D12F4D5D200AEAA83 /* libFSQCoreGraphics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFSQCoreGraphics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A429678612F4D62500AEAA83 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A429678812F4D62500AEAA83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A43199C414DF09C00057063F /* FSQOpenStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQOpenStruct.h; sourceTree = "<group>"; };
+		A43199C514DF09C00057063F /* FSQOpenStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQOpenStruct.m; sourceTree = "<group>"; };
+		A4319A5514DF0F370057063F /* NSDictionary+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+FSQFoundation.h"; sourceTree = "<group>"; };
+		A4319A5614DF0F370057063F /* NSDictionary+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+FSQFoundation.m"; sourceTree = "<group>"; };
 		A435127714AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIImageToDataTransformer.h; sourceTree = "<group>"; };
 		A435127814AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIImageToDataTransformer.m; sourceTree = "<group>"; };
 		A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQManagedObject.h; sourceTree = "<group>"; };
@@ -570,6 +578,8 @@
 				A45F441012748374005D9BF4 /* FSQTrampoline.m */,
 				A487175F12F5C76D000D9411 /* FSQUserDefaults.h */,
 				A487176012F5C76D000D9411 /* FSQUserDefaults.m */,
+				A43199C414DF09C00057063F /* FSQOpenStruct.h */,
+				A43199C514DF09C00057063F /* FSQOpenStruct.m */,
 				A45F43FD12748374005D9BF4 /* Categories */,
 			);
 			path = Foundation;
@@ -592,6 +602,8 @@
 				A42962A312F47E2E00AEAA83 /* NSBundle+FSQFoundation.m */,
 				A464DA2A13D38978006B6C59 /* NSOperationQueue+FSQFoundation.h */,
 				A464DA2B13D38979006B6C59 /* NSOperationQueue+FSQFoundation.m */,
+				A4319A5514DF0F370057063F /* NSDictionary+FSQFoundation.h */,
+				A4319A5614DF0F370057063F /* NSDictionary+FSQFoundation.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -667,10 +679,10 @@
 		A45F443E12748375005D9BF4 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A45F444212748375005D9BF4 /* FSQFetchedResultsTableViewController.h */,
-				A45F444312748375005D9BF4 /* FSQFetchedResultsTableViewController.m */,
 				A4E3C659130A2D6B00BF4C6E /* FSQFetchedResultsViewController.h */,
 				A4E3C65A130A2D6B00BF4C6E /* FSQFetchedResultsViewController.m */,
+				A45F444212748375005D9BF4 /* FSQFetchedResultsTableViewController.h */,
+				A45F444312748375005D9BF4 /* FSQFetchedResultsTableViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -792,6 +804,8 @@
 				A42962A412F47E2E00AEAA83 /* NSBundle+FSQFoundation.h in Headers */,
 				A487176212F5C7A3000D9411 /* FSQUserDefaults.h in Headers */,
 				A416720213D3974B00CC9B6B /* NSOperationQueue+FSQFoundation.h in Headers */,
+				A43199C914DF09CA0057063F /* FSQOpenStruct.h in Headers */,
+				A4319A5714DF0F370057063F /* NSDictionary+FSQFoundation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1139,6 +1153,8 @@
 				A42962A512F47E2E00AEAA83 /* NSBundle+FSQFoundation.m in Sources */,
 				A487176112F5C7A2000D9411 /* FSQUserDefaults.m in Sources */,
 				A416720313D3974B00CC9B6B /* NSOperationQueue+FSQFoundation.m in Sources */,
+				A43199CA14DF09CA0057063F /* FSQOpenStruct.m in Sources */,
+				A4319A5814DF0F370057063F /* NSDictionary+FSQFoundation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
