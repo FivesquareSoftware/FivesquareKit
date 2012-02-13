@@ -9,6 +9,7 @@
 #import "FSQKeyValueMapper.h"
 #import "FSQTrampoline.h"
 #import "FSQUserDefaults.h"
+#import "FSQOpenStruct.h"
 
 #import "NSArray+FSQFoundation.h"
 #import "NSData+FSQFoundation.h"
@@ -16,3 +17,4 @@
 #import "NSObject+FSQFoundation.h"
 #import "NSString+FSQFoundation.h"
 #import "NSBundle+FSQFoundation.h"
+#import "NSDictionary+FSQFoundation.h"
