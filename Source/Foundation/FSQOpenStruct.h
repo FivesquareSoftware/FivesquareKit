@@ -10,4 +10,8 @@
 
 @interface FSQOpenStruct : NSObject
 
+@property (strong, readonly) NSMutableDictionary *attributes;
+
+
+
 @end
