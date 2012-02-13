@@ -43,13 +43,16 @@
 
 - (void) dealloc {
 	fetchedResultsController_.delegate = nil;
-	
 }
 
 
 // ========================================================================== //
 
 #pragma mark - View Controller
+
+- (void) viewDidUnload {
+	fetchedResultsController_ = nil;
+}
 
 - (void) viewWillAppear:(BOOL)animated {
 	[self.fetchedResultsController fetch];

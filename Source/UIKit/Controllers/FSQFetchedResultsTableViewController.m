@@ -107,7 +107,7 @@
 }
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-	FSQAssert(NO,@"Implement configureCell:atIndexPath: in %@", [self className]);
+	[FSQAsserter subclass:self warn:_cmd];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,7 +124,7 @@
 		
 		NSError *error = nil;
 		if( ! [[object managedObjectContext] save:&error]) {
-			NSAssert2(NO,@"Error deleting object %@ (%@)",[error localizedDescription],[error userInfo]);
+			FSQAssert(NO,@"Error deleting object %@ (%@)",[error localizedDescription],[error userInfo]);
 		}
 	}
 }
