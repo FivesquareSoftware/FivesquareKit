@@ -61,6 +61,14 @@
 #pragma mark - View Controller
 
 
+- (void) viewDidLoad {
+	[super viewDidLoad];
+	if (self.tableView == nil) {
+		FSQAssert([self.view isKindOfClass:[UITableView class]],@"View is not a table view");
+		self.tableView = (UITableView *)self.view;
+	}
+}
+
 - (void) setEditing:(BOOL)editing animated:(BOOL)animated {
     if( ! editing) {
 		self.reordering = NO; // just in case something went wrong
