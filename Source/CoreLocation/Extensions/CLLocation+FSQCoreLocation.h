@@ -11,7 +11,7 @@
 @interface CLLocation (FSQCoreLocation)
 
 - (NSString *) coordinateDescription;
-- (NSString *) toQueryString;
+- (NSString *) toQueryFormat;
 
 
 @end

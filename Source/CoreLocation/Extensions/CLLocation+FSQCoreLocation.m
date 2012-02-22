@@ -12,11 +12,11 @@
 @implementation CLLocation (FSQCoreLocation)
 
 - (NSString *) coordinateDescription {
-    return [NSString stringWithFormat:@"%f, %f",self.coordinate.latitude, self.coordinate.longitude];
+    return [NSString stringWithFormat:@"%f,%f",self.coordinate.latitude, self.coordinate.longitude];
 }
 
-- (NSString *) toQueryString {
-    return [NSString stringWithFormat:@"%f,+%f",self.coordinate.latitude, self.coordinate.longitude];
+- (NSString *) toQueryFormat {
+    return [NSString stringWithFormat:@"%f,%f",self.coordinate.latitude, self.coordinate.longitude];
 }
 
 @end

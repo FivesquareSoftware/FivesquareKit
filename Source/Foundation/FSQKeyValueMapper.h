@@ -15,9 +15,10 @@
 
 @property (nonatomic, retain) NSArray *bindings;
 
-+ (FSQKeyValueMapper *) mapperForClass:(Class)aClass;
++ (id) mapperForClass:(Class)aClass;
++ (id) withBindingsNamed:(NSString *)name;
 - (id) initWithBindings:(NSArray *)someBindings;
 
-- (void) mapSource:(id)source toTarget:(id)target;
+- (BOOL) mapSource:(id)source toTarget:(id)target error:(NSError **)error;
 
 @end

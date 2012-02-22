@@ -20,8 +20,8 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 @dynamic popoverController;
 
 - (UIViewController *) topmostController {
-	if(self.modalViewController) {
-		return self.modalViewController.topmostController;
+	if(self.presentedViewController) {
+		return self.presentedViewController.topmostController;
 	}
 	return self;
 }
