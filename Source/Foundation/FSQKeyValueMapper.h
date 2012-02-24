@@ -9,9 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface FSQKeyValueMapper : NSObject {
-	NSArray *bindings;
-}
+@interface FSQKeyValueMapper : NSObject
 
 @property (nonatomic, retain) NSArray *bindings;
 

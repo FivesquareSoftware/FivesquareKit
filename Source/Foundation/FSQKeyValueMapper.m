@@ -10,12 +10,6 @@
 
 #import "NSObject+FSQFoundation.h"
 
-static NSString *kFSQKeyValueMapperErrorDomain = @"kFSQKeyValueMapperErrorDomain";
-static NSString *kFSQKeyValueMapperErrorInfoKeyFailingSourceKeyPath = @"Failing Source KeyPath";
-static NSString *kFSQKeyValueMapperErrorInfoKeyFailingDestinationKeyPath = @"Failing Destination KeyPath";
-
-#define kFSQKeyValueMapperErrorCodeMappingFailed -1
-
 
 @implementation FSQKeyValueMapper
 
@@ -48,20 +42,7 @@ static NSString *kFSQKeyValueMapperErrorInfoKeyFailingDestinationKeyPath = @"Fai
 	for (NSDictionary *binding in self.bindings) {
 		NSString *sourceKeyPath = [binding objectForKey:@"sourceKeyPath"];
 		NSString *destinationKeyPath = [binding objectForKey:@"destinationKeyPath"];
-		@try {
-			[target setValue:[source valueForKeyPath:sourceKeyPath] forKeyPath:destinationKeyPath];
-		}
-		@catch (NSException *exception) {
-			NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-								  sourceKeyPath, kFSQKeyValueMapperErrorInfoKeyFailingSourceKeyPath
-								  , destinationKeyPath, kFSQKeyValueMapperErrorInfoKeyFailingDestinationKeyPath
-								  , NSLocalizedDescriptionKey, @"Failed to map a keypath"
-								  , NSUnderlyingErrorKey, exception
-								  , nil];
-			NSError *bindingError = [NSError errorWithDomain:kFSQKeyValueMapperErrorDomain code:kFSQKeyValueMapperErrorCodeMappingFailed userInfo:info];
-			if (error) {
-				*error = bindingError;
-			}
+		if (NO == [target setValue:[source valueForKeyPath:sourceKeyPath] forKeyPath:destinationKeyPath error:error]) {
 			return NO;
 		}
 	}

@@ -12,6 +12,4 @@
 
 @property (strong, readonly) NSMutableDictionary *attributes;
 
-
-
 @end

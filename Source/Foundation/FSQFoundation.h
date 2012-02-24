@@ -6,7 +6,9 @@
 //  Copyright 2011 Fivesquare Software, LLC. All rights reserved.
 //
 
+
 #import "FSQKeyValueMapper.h"
+#import "FSQPropertyMapper.h"
 #import "FSQTrampoline.h"
 #import "FSQUserDefaults.h"
 #import "FSQOpenStruct.h"
@@ -18,3 +20,4 @@
 #import "NSString+FSQFoundation.h"
 #import "NSBundle+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
+

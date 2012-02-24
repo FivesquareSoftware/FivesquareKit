@@ -8,6 +8,8 @@
 
 #import "NSObject+FSQFoundation.h"
 
+#import "FSQFoundationConstants.h"
+#import "FSQPropertyMapper.h"
 
 @implementation NSObject (FSQFoundation)
 
@@ -21,5 +23,28 @@
 }
 #endif
 
+- (BOOL) setValue:(id)value forKeyPath:(NSString *)keyPath error:(NSError **)error {
+	@try {
+		[self setValue:value forKeyPath:keyPath];
+	}
+	@catch (NSException *exception) {
+		NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
+							  keyPath, kFSQMapperErrorInfoKeyFailingDestinationKeyPath
+							  , NSLocalizedDescriptionKey, @"Failed to map a keypath"
+							  , NSUnderlyingErrorKey, exception
+							  , nil];
+		NSError *mappingError = [NSError errorWithDomain:kFSQFoundationErrorDomain code:kFSQMapperErrorCodeMappingFailed userInfo:info];
+		if (error) {
+			*error = mappingError;
+		}
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL) mapFromObject:(NSObject *)source error:(NSError **)error {
+	FSQPropertyMapper *mapper = [FSQPropertyMapper withTargetObject:self];
+	return [mapper mapFromObject:source error:error];
+}
 
 @end

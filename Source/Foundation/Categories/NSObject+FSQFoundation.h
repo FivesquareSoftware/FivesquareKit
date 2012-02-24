@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface NSObject (FSQFoundation)
 
 #if (TARGET_OS_IPHONE)
 + (NSString *)className;
 - (NSString *)className;
 #endif
+
+- (BOOL) setValue:(id)value forKeyPath:(NSString *)keyPath error:(NSError **)error;
+- (BOOL) mapFromObject:(NSObject *)source error:(NSError **)error;
 
 @end
