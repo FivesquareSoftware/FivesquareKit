@@ -11,6 +11,7 @@
 #import <objc/runtime.h>
 #import "NSObject+FSQFoundation.h"
 #import "FSQAsserter.h"
+#import "FSQLogging.h"
 
 @implementation NSManagedObject (FSQCoreData)
 
@@ -355,14 +356,64 @@
 #pragma mark - Update Methods
 
 
-- (void) updateWithAttributes:(NSDictionary *)attributes {
+- (BOOL) updateWithAttributes:(NSDictionary *)attributes {
 	for (NSString *key in attributes) {
 		id value = [attributes valueForKey:key];
 		if(class_getProperty([self class], [key UTF8String])) {
-			[self setValue:value forKey:key];
+			NSError  *error = nil;
+			if ([self setValue:value forKeyPath:key error:&error]) {
+				FLog(@"Error mapping attributes %@ to object %@",attributes,self);
+				return NO;
+			}
 		}
 	}
+	return YES;
 } 
+
+- (BOOL) updateWithObject:(NSObject *)source merge:(BOOL)merge {
+	NSDictionary *attributes = [[self entity] propertiesByName];
+	for (NSString *key in attributes) {
+		id propertyDescription = [attributes objectForKey:key];
+		if ([propertyDescription isKindOfClass:[NSAttributeDescription class]]) {
+			id value = [source valueForKey:key];
+			if (value) {
+				[self setValue:value forKey:key];
+			}
+		} 
+		else if ([propertyDescription isKindOfClass:[NSRelationshipDescription class]]) {
+			NSEntityDescription *destinationEntity = [propertyDescription destinationEntity];
+			if ([propertyDescription isToMany]) {
+				id<NSObject, NSFastEnumeration> collection = [source valueForKey:key];
+				if (NO == [collection conformsToProtocol:@protocol(NSFastEnumeration)]) {
+					continue; // we can't map to-many unless there is a collection
+				}
+				NSMutableSet *newObjects = [NSMutableSet set];
+				for (id value in collection) {
+					NSManagedObject *newObject = [NSEntityDescription insertNewObjectForEntityForName:[destinationEntity name] inManagedObjectContext:self.managedObjectContext];
+					[newObject updateWithObject:value merge:merge];
+					[newObjects addObject:newObject];
+				}
+				if (merge) {
+					// call add object on the relationship
+					NSMutableSet *mutableDestinationSet = [self mutableSetValueForKey:key];
+					[mutableDestinationSet addObjectsFromArray:[newObjects allObjects]];
+				} 
+				else {
+					[self setValue:newObjects forKey:key];
+				}
+			} 
+			else {
+				id value = [source valueForKey:key];
+				if (value) {
+					NSManagedObject *newObject = [NSEntityDescription insertNewObjectForEntityForName:[destinationEntity name] inManagedObjectContext:self.managedObjectContext];
+					[newObject updateWithObject:value merge:merge];
+					[self setValue:newObject forKey:key];
+				}
+			}
+		}
+	}
+	return YES;
+}
 
 
 // ========================================================================== //

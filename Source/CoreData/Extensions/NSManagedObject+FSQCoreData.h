@@ -131,7 +131,12 @@
  *  @{
  */
 
-- (void) updateWithAttributes:(NSDictionary *)attributes;
+- (BOOL) updateWithAttributes:(NSDictionary *)attributes;
+
+/** Will map object's values onto the receiver, recursing relationships and creating instances of those objects as necessary.
+ * @param merge - if YES, will merge toMany properties rather than setting them
+ */
+- (BOOL) updateWithObject:(NSObject *)source merge:(BOOL)merge;
 
 /** @} */
 
