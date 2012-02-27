@@ -6,12 +6,12 @@
 //  Copyright 2010 Fivesquare Software, LLC. All rights reserved.
 //
 
-#import "FSQKeyValueMapper.h"
+#import "FSQBindingsMapper.h"
 
 #import "NSObject+FSQFoundation.h"
 
 
-@implementation FSQKeyValueMapper
+@implementation FSQBindingsMapper
 
 @synthesize bindings=bindings_;
 
@@ -21,11 +21,18 @@
 }
 
 + (id) withBindingsNamed:(NSString *)name {
-	FSQKeyValueMapper *mapper = nil;
+	FSQBindingsMapper *mapper = nil;
 	NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"bindings"];
+	if(NO == [[NSFileManager defaultManager] fileExistsAtPath:path]) {
+		path = [[NSBundle mainBundle] pathForResource:name ofType:@"plist"];
+	}
 	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		NSArray *classBindings = [NSArray arrayWithContentsOfFile:path];
-		mapper = [[FSQKeyValueMapper alloc] initWithBindings:classBindings];
+		if (nil == classBindings) {
+			NSDictionary *bindingsDict = [NSDictionary dictionaryWithContentsOfFile:path];
+			classBindings = [bindingsDict objectForKey:[[bindingsDict allKeys] lastObject]];
+		}
+		mapper = [[FSQBindingsMapper alloc] initWithBindings:classBindings];
 	} 
 	return mapper;
 }

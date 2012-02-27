@@ -26,6 +26,8 @@
 /** Right now does nothing. */
 @property (nonatomic, assign) UITableViewRowAnimation tableRowAnimationType;
 
+/** @see UITablewViewController.clearsSelectionOnViewWillAppear */
+@property(nonatomic) BOOL clearsSelectionOnViewWillAppear;
 
 - (NSIndexPath *) fetchedResultsIndexPathForTableIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *) tableIndexPathForFetchedResultsIndexPath:(NSIndexPath *)indexPath;	

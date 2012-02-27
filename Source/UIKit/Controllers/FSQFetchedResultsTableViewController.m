@@ -12,6 +12,13 @@
 #import "FSQAsserter.h"
 #import "NSObject+FSQFoundation.h"
 #import "NSFetchedResultsController+FSQUIKit.h"
+#import "UITableView+FSQUIKit.h"
+
+
+@interface FSQFetchedResultsTableViewController ()
+- (void) initialize;
+@end
+
 
 @implementation FSQFetchedResultsTableViewController
 
@@ -31,7 +38,7 @@
 @synthesize showsPlaceholderRow=showsPlaceholderRow_;
 @synthesize animateTableUpdates=animateTableUpdates_;
 @synthesize tableRowAnimationType=tableRowAnimationType_;
-
+@synthesize clearsSelectionOnViewWillAppear=clearsSelectionOnViewWillAppear_;
 
 
 
@@ -39,16 +46,28 @@
 
 #pragma mark - Object
 
+- (void) initialize {
+	animateTableUpdates_ = YES;
+	tableRowAnimationType_ = UITableViewRowAnimationNone;
+	clearsSelectionOnViewWillAppear_ = YES;
+}
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self != nil) {
-		animateTableUpdates_ = YES;
-		tableRowAnimationType_ = UITableViewRowAnimationNone;
+		[self initialize];
 	}
 	return self;
 }
 
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+		[self initialize];
+    }
+    return self;
+}
 
 - (void) dealloc {
 	fetchedResultsController_.delegate = nil;
@@ -67,6 +86,14 @@
 		FSQAssert([self.view isKindOfClass:[UITableView class]],@"View is not a table view");
 		self.tableView = (UITableView *)self.view;
 	}
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if (self.clearsSelectionOnViewWillAppear) {
+		[self.tableView clearSelectionAnimated:animated];
+	}
+	[self.tableView reloadData];
 }
 
 - (void) setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -168,10 +195,6 @@
 
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-#ifndef __IPHONE_3_1
-	FSQAssert(NO, @"This class in not compatible with the SDK versions < 3.1");
-#endif
-	
 	if(self.reordering) return;
 	if( ! self.animateTableUpdates ) return;
 	
@@ -179,10 +202,7 @@
     [self.tableView beginUpdates];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller 
-  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-		   atIndex:(NSUInteger)sectionIndex 
-	 forChangeType:(NSFetchedResultsChangeType)type {
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
 	
 	if(self.reordering) return;
 	if( ! self.animateTableUpdates ) return;
@@ -202,11 +222,7 @@
     }
 }
 
-- (void)controller:(NSFetchedResultsController *)controller 
-   didChangeObject:(id)anObject
-	   atIndexPath:(NSIndexPath *)indexPath 
-	 forChangeType:(NSFetchedResultsChangeType)type
-	  newIndexPath:(NSIndexPath *)newIndexPath {
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
 	
 	if(self.reordering) return;	
 	if( ! self.animateTableUpdates ) return;

@@ -7,7 +7,7 @@
 //
 
 
-#import "FSQKeyValueMapper.h"
+#import "FSQBindingsMapper.h"
 #import "FSQPropertyMapper.h"
 #import "FSQTrampoline.h"
 #import "FSQUserDefaults.h"

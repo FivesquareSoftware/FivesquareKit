@@ -14,8 +14,12 @@
 - (void) awakeFromInsert {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
+	NSDate *at = [NSDate date];
 	if ([self respondsToSelector:@selector(setCreatedAt:)]) {
-		[self setPrimitiveValue:[NSDate date] forKey:@"createdAt"];
+		[self setPrimitiveValue:at forKey:@"createdAt"];
+	}
+	if ([self respondsToSelector:@selector(setUpdatedAt:)]) {
+		[self setPrimitiveValue:at forKey:@"updatedAt"];
 	}
 #pragma clang diagnostic pop
 }

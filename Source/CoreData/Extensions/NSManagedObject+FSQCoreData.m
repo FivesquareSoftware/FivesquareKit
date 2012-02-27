@@ -284,9 +284,12 @@
 + (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
 					  attributes:(NSDictionary *)someAttributes
 					   inContext:(NSManagedObjectContext *)context {
-	id found = [self firstWithPredicate:predicate inContext:context];
+	__block id found = [self firstWithPredicate:predicate inContext:context];
 	if(found == nil) {
-		found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
+		[context performBlockAndWait:^{
+			found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
+		}];
+
 		for (NSString *key in someAttributes) {
 			[found setValue:[someAttributes objectForKey:key] forKey:key];
 		}
@@ -300,7 +303,12 @@
 
 + (id) createWithAttributes:(NSDictionary *)someAttributes
 				  inContext:(NSManagedObjectContext *)context {
-	id created = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
+	
+	__block id created = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
+	[context performBlockAndWait:^{
+		created = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
+	}];
+
 	for (NSString *key in someAttributes) {
 		[created setValue:[someAttributes objectForKey:key] forKey:key];
 	}
