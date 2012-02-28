@@ -22,9 +22,12 @@
 
 + (id) withBindingsNamed:(NSString *)name {
 	FSQBindingsMapper *mapper = nil;
-	NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"bindings"];
+	NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@.bindings",name] ofType:@"plist"];
 	if(NO == [[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		path = [[NSBundle mainBundle] pathForResource:name ofType:@"plist"];
+	}
+	if(NO == [[NSFileManager defaultManager] fileExistsAtPath:path]) {
+		path = [[NSBundle mainBundle] pathForResource:name ofType:@"bindings"];
 	}
 	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		NSArray *classBindings = [NSArray arrayWithContentsOfFile:path];
