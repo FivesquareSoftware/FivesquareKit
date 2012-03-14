@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define FSQAssert(condition, format, args...) if( ! (condition) ) [FSQAsserter assertionFailedInMethod:_cmd object:self file:__FILE__ lineNumber:__LINE__ message: format, ## args]
+#define FSQAssert(condition,format,args...) if( ! (condition) ) [FSQAsserter assertionFailedInMethod:_cmd object:self file:__FILE__ lineNumber:__LINE__ message: format, ## args]
 
 /** Replaces NSAssert and when assertions are turned off still logs an error message to console. */
 @interface FSQAsserter : NSObject {

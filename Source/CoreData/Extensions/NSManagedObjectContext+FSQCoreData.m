@@ -19,8 +19,11 @@
 }
 
 - (BOOL) saveWithErrorMessage:(NSString *)errorMessage {
-	NSError *error = nil;
-	BOOL success = [self save:&error];
+	__block NSError *error = nil;
+	__block BOOL success = NO;
+	[self performBlockAndWait:^{
+		success = [self save:&error];
+	}];
 	if (!success) {
 		FLog(@"%@: %@ (%@)", errorMessage, [error localizedDescription], [error userInfo]);
 	}	
