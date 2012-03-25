@@ -117,6 +117,8 @@
 		A4713EB913509EED00FA1402 /* RatingIndicatorOn.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446212748375005D9BF4 /* RatingIndicatorOn.png */; };
 		A487176112F5C7A2000D9411 /* FSQUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = A487176012F5C76D000D9411 /* FSQUserDefaults.m */; };
 		A487176212F5C7A3000D9411 /* FSQUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = A487175F12F5C76D000D9411 /* FSQUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4AFECAA151EAB5800645412 /* UIColor+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */; };
+		A4AFECAB151EAB5800645412 /* UIColor+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */; };
 		A4C094441303AC4800CE8BB3 /* FSQAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094421303AC4800CE8BB3 /* FSQAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4C094451303AC4800CE8BB3 /* FSQAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C094431303AC4800CE8BB3 /* FSQAlertView.m */; };
 		A4C094551303AD4700CE8BB3 /* UIViewController+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -345,6 +347,8 @@
 		A4713EAE13509E3A00FA1402 /* FSQUIKit-Resources-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FSQUIKit-Resources-Info.plist"; sourceTree = "<group>"; };
 		A487175F12F5C76D000D9411 /* FSQUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUserDefaults.h; sourceTree = "<group>"; };
 		A487176012F5C76D000D9411 /* FSQUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUserDefaults.m; sourceTree = "<group>"; };
+		A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FSQUIKit.h"; sourceTree = "<group>"; };
+		A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4C094421303AC4800CE8BB3 /* FSQAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAlertView.h; sourceTree = "<group>"; };
 		A4C094431303AC4800CE8BB3 /* FSQAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAlertView.m; sourceTree = "<group>"; };
 		A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FSQUIKit.h"; sourceTree = "<group>"; };
@@ -694,6 +698,8 @@
 				A4C094541303AD4700CE8BB3 /* UIViewController+FSQUIKit.m */,
 				A4C0945B1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.h */,
 				A4C0945C1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.m */,
+				A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */,
+				A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */,
 			);
 			name = Extensions;
 			path = Categories;
@@ -872,6 +878,7 @@
 				A464DA4313D390C1006B6C59 /* FSQModalImageView.h in Headers */,
 				A435127914AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h in Headers */,
 				A4EBEAE714FACBC3001CE780 /* FSQFetchedResultsMapViewController.h in Headers */,
+				A4AFECAA151EAB5800645412 /* UIColor+FSQUIKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,6 +1229,7 @@
 				A464DA4413D390C1006B6C59 /* FSQModalImageView.m in Sources */,
 				A435127A14AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m in Sources */,
 				A4EBEAE814FACBC3001CE780 /* FSQFetchedResultsMapViewController.m in Sources */,
+				A4AFECAB151EAB5800645412 /* UIColor+FSQUIKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
