@@ -119,6 +119,8 @@
 		A487176212F5C7A3000D9411 /* FSQUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = A487175F12F5C76D000D9411 /* FSQUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4AFECAA151EAB5800645412 /* UIColor+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */; };
 		A4AFECAB151EAB5800645412 /* UIColor+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */; };
+		A4AFECE415213F9700645412 /* FSQUIColorToDataTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */; };
+		A4AFECE515213F9700645412 /* FSQUIColorToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFECE315213F9700645412 /* FSQUIColorToDataTransformer.m */; };
 		A4C094441303AC4800CE8BB3 /* FSQAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094421303AC4800CE8BB3 /* FSQAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4C094451303AC4800CE8BB3 /* FSQAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C094431303AC4800CE8BB3 /* FSQAlertView.m */; };
 		A4C094551303AD4700CE8BB3 /* UIViewController+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -349,6 +351,8 @@
 		A487176012F5C76D000D9411 /* FSQUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUserDefaults.m; sourceTree = "<group>"; };
 		A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FSQUIKit.m"; sourceTree = "<group>"; };
+		A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIColorToDataTransformer.h; sourceTree = "<group>"; };
+		A4AFECE315213F9700645412 /* FSQUIColorToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIColorToDataTransformer.m; sourceTree = "<group>"; };
 		A4C094421303AC4800CE8BB3 /* FSQAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAlertView.h; sourceTree = "<group>"; };
 		A4C094431303AC4800CE8BB3 /* FSQAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAlertView.m; sourceTree = "<group>"; };
 		A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FSQUIKit.h"; sourceTree = "<group>"; };
@@ -534,6 +538,8 @@
 			children = (
 				A435127714AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h */,
 				A435127814AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m */,
+				A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */,
+				A4AFECE315213F9700645412 /* FSQUIColorToDataTransformer.m */,
 			);
 			path = Transformers;
 			sourceTree = "<group>";
@@ -879,6 +885,7 @@
 				A435127914AFE82B00BE02A8 /* FSQUIImageToDataTransformer.h in Headers */,
 				A4EBEAE714FACBC3001CE780 /* FSQFetchedResultsMapViewController.h in Headers */,
 				A4AFECAA151EAB5800645412 /* UIColor+FSQUIKit.h in Headers */,
+				A4AFECE415213F9700645412 /* FSQUIColorToDataTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1104,6 +1111,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = FSQ;
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Fivesquare Software, LLC";
 			};
@@ -1230,6 +1238,7 @@
 				A435127A14AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m in Sources */,
 				A4EBEAE814FACBC3001CE780 /* FSQFetchedResultsMapViewController.m in Sources */,
 				A4AFECAB151EAB5800645412 /* UIColor+FSQUIKit.m in Sources */,
+				A4AFECE515213F9700645412 /* FSQUIColorToDataTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
