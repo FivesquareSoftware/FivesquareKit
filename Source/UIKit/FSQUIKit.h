@@ -36,6 +36,7 @@
 // Transformers
 
 #import "FSQUIImageToDataTransformer.h"
+#import "FSQUIColorToDataTransformer.h"
 
 // Extensions
 
@@ -46,5 +47,6 @@
 #import "UITableView+FSQUIKit.h"
 #import "UIViewController+FSQUIKit.h"
 #import "UIPopoverController+FSQUIKit.h"
+#import "UIColor+FSQUIKit.h"
 
 
