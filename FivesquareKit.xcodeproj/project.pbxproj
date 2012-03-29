@@ -107,6 +107,7 @@
 		A445601E12F467E600F27E4F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		A455650B1302225500932B98 /* FSQCoreDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A45565091302225500932B98 /* FSQCoreDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A455650C1302225500932B98 /* FSQCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A455650A1302225500932B98 /* FSQCoreDataManager.m */; };
+		A456511B1523C7B3001302A7 /* FSQLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3B28613D354A700BFC134 /* FSQLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A464DA3313D38A8C006B6C59 /* FSQAppBooter.h in Headers */ = {isa = PBXBuildFile; fileRef = A464DA3113D38A8C006B6C59 /* FSQAppBooter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A464DA3413D38A8C006B6C59 /* FSQAppBooter.m in Sources */ = {isa = PBXBuildFile; fileRef = A464DA3213D38A8C006B6C59 /* FSQAppBooter.m */; };
 		A464DA3813D38B13006B6C59 /* FSQKeyboardHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = A464DA3613D38B12006B6C59 /* FSQKeyboardHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -117,7 +118,7 @@
 		A4713EB913509EED00FA1402 /* RatingIndicatorOn.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446212748375005D9BF4 /* RatingIndicatorOn.png */; };
 		A487176112F5C7A2000D9411 /* FSQUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = A487176012F5C76D000D9411 /* FSQUserDefaults.m */; };
 		A487176212F5C7A3000D9411 /* FSQUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = A487175F12F5C76D000D9411 /* FSQUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A4AFECAA151EAB5800645412 /* UIColor+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */; };
+		A4AFECAA151EAB5800645412 /* UIColor+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4AFECAB151EAB5800645412 /* UIColor+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */; };
 		A4C094441303AC4800CE8BB3 /* FSQAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094421303AC4800CE8BB3 /* FSQAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4C094451303AC4800CE8BB3 /* FSQAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C094431303AC4800CE8BB3 /* FSQAlertView.m */; };
@@ -127,7 +128,7 @@
 		A4C0945E1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C0945C1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.m */; };
 		A4E3C65B130A2D6B00BF4C6E /* FSQFetchedResultsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E3C659130A2D6B00BF4C6E /* FSQFetchedResultsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4E3C65C130A2D6B00BF4C6E /* FSQFetchedResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E3C65A130A2D6B00BF4C6E /* FSQFetchedResultsViewController.m */; };
-		A4EBEAE714FACBC3001CE780 /* FSQFetchedResultsMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EBEAE514FACBC3001CE780 /* FSQFetchedResultsMapViewController.h */; };
+		A4EBEAE714FACBC3001CE780 /* FSQFetchedResultsMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EBEAE514FACBC3001CE780 /* FSQFetchedResultsMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4EBEAE814FACBC3001CE780 /* FSQFetchedResultsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EBEAE614FACBC3001CE780 /* FSQFetchedResultsMapViewController.m */; };
 		A4F3B28713D354A700BFC134 /* FSQLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3B28613D354A700BFC134 /* FSQLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -849,6 +850,7 @@
 				A42961C512F4738200AEAA83 /* FSQCore.h in Headers */,
 				A429621712F477CF00AEAA83 /* FSQAsserter.h in Headers */,
 				A429628F12F47D3700AEAA83 /* FSQSandbox.h in Headers */,
+				A456511B1523C7B3001302A7 /* FSQLogging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1388,6 +1390,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -1401,7 +1404,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Debug;
 		};
@@ -1414,8 +1417,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Release;
 		};
@@ -1427,7 +1429,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = FivesquareKit;
-				PUBLIC_HEADERS_FOLDER_PATH = ../Headers;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1439,9 +1441,8 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				PRODUCT_NAME = FivesquareKit;
-				PUBLIC_HEADERS_FOLDER_PATH = ../Headers;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1455,7 +1456,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = FSQCoreGraphics;
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/$(PRODUCT_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1468,9 +1469,8 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				PRODUCT_NAME = FSQCoreGraphics;
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/$(PRODUCT_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1486,7 +1486,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Debug;
 		};
@@ -1500,8 +1500,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Release;
 		};
@@ -1516,7 +1515,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Debug;
 		};
@@ -1530,8 +1529,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Release;
 		};
@@ -1545,7 +1543,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Debug;
 		};
@@ -1558,8 +1556,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Release;
 		};
@@ -1574,7 +1571,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Debug;
 		};
@@ -1588,8 +1585,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Release;
 		};
@@ -1604,7 +1600,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Debug;
 		};
@@ -1618,8 +1614,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Release;
 		};
@@ -1633,7 +1628,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Debug;
 		};
@@ -1646,8 +1641,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "../Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/FivesquareKit;
 			};
 			name = Release;
 		};
@@ -1688,7 +1682,6 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
