@@ -120,7 +120,7 @@
 		A487176212F5C7A3000D9411 /* FSQUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = A487175F12F5C76D000D9411 /* FSQUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4AFECAA151EAB5800645412 /* UIColor+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4AFECAB151EAB5800645412 /* UIColor+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */; };
-		A4AFECE415213F9700645412 /* FSQUIColorToDataTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */; };
+		A4AFECE415213F9700645412 /* FSQUIColorToDataTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4AFECE515213F9700645412 /* FSQUIColorToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFECE315213F9700645412 /* FSQUIColorToDataTransformer.m */; };
 		A4C094441303AC4800CE8BB3 /* FSQAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094421303AC4800CE8BB3 /* FSQAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4C094451303AC4800CE8BB3 /* FSQAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C094431303AC4800CE8BB3 /* FSQAlertView.m */; };

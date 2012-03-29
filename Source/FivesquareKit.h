@@ -11,8 +11,11 @@
 #import "FSQCore.h"
 #import "FSQFoundation.h"
 #import "FSQCoreData.h"
-#import "FSQUIKit.h"
 #import "FSQCoreLocation.h"
+
+#if TARGET_OS_IPHONE
+#import "FSQUIKit.h"
+#endif
 
 
 
