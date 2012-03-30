@@ -23,6 +23,10 @@
 	return (NSMutableDictionary *)[self deepCopy];
 }
 
+- (id) objectMatchingPredicate:(NSPredicate *)predicate {
+	return [[[self allValues] filteredArrayUsingPredicate:predicate] lastObject];
+}
+
 @end
 
 

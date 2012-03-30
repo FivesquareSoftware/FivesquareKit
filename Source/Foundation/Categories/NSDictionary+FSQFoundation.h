@@ -13,4 +13,6 @@
 - (NSDictionary *) deepCopy;
 - (NSMutableDictionary *) mutableDeepCopy;
 
+- (id) objectMatchingPredicate:(NSPredicate *)predicate;
+
 @end

@@ -23,6 +23,8 @@
 
 - (NSString *) toHtmlWithKeyPath:(NSString *)keypath;
 
+- (id) objectMatchingPredicate:(NSPredicate *)predicate;
+
 @end
 
 @interface NSMutableArray (FSQFoundation)

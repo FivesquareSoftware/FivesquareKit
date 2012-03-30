@@ -6,6 +6,7 @@
 //  Copyright 2011 Fivesquare Software, LLC. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 
 #import "FSQBindingsMapper.h"
 #import "FSQPropertyMapper.h"

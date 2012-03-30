@@ -9,7 +9,6 @@
 
 #include <Foundation/Foundation.h>
 #include <QuartzCore/QuartzCore.h>
-#include <CoreGraphics/CoreGraphics.h>
 
 CGImageRef CreateButtonImage(CGRect rect);
 CGImageRef CreateResizedImageInCALayer(

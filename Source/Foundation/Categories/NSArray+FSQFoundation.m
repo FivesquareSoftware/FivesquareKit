@@ -66,6 +66,10 @@
     return listString;    
 }
 
+- (id) objectMatchingPredicate:(NSPredicate *)predicate {
+	return [[self filteredArrayUsingPredicate:predicate] lastObject];
+}
+
 @end
 
 

@@ -6,8 +6,9 @@
 //  Copyright 2011 Fivesquare Software, LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 #import "FSQAsserter.h"
 #import "FSQLogging.h"
 #import "FSQSandbox.h"
+#import "FSQRuntime.h"
