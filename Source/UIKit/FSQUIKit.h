@@ -26,12 +26,17 @@
 
 #import "FSQFetchedResultsTableViewController.h"
 #import "FSQFetchedResultsViewController.h"
+#import "FSQMenuViewController.h"
 
 // Views
 
 #import "FSQAlertView.h"
 #import "FSQModalImageView.h"
 #import "FSQDetailImageView.h"
+#import "FSQStretchableButton.h"
+#import "FSQTransparentSearchBar.h"
+#import "FSQMenuControl.h"
+#import "FSQMenuItemView.h"
 
 
 // Transformers
