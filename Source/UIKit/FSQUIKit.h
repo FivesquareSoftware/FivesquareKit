@@ -27,6 +27,7 @@
 #import "FSQFetchedResultsTableViewController.h"
 #import "FSQFetchedResultsViewController.h"
 #import "FSQMenuViewController.h"
+#import "FSQMenuViewController+Protected.h"
 
 // Views
 
@@ -36,6 +37,7 @@
 #import "FSQStretchableButton.h"
 #import "FSQTransparentSearchBar.h"
 #import "FSQMenuControl.h"
+#import "FSQMenuControl+Protected.h"
 #import "FSQMenuItemView.h"
 
 
@@ -54,5 +56,6 @@
 #import "UIViewController+FSQUIKit.h"
 #import "UIPopoverController+FSQUIKit.h"
 #import "UIColor+FSQUIKit.h"
+#import "UIView+FSQUIKit.h"
 
 

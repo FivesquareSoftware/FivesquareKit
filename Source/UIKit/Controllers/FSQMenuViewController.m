@@ -7,13 +7,11 @@
 //
 
 #import "FSQMenuViewController.h"
+#import "FSQMenuViewController+Protected.h"
 
 #import "FSQMenuItem.h"
+#import "FSQAsserter.h"
 
-@interface FSQMenuViewController ()
-- (void) initialize;
-@property (nonatomic, strong) NSMutableArray *menuItemsInternal;
-@end
 
 @implementation FSQMenuViewController
 
@@ -21,20 +19,51 @@
 
 #pragma mark - Properties
 
-@synthesize menuItemsInternal=menuItemsInternal_;
 @synthesize selectionHandler=selectionHandler_;
 @synthesize displayNameKeyPath=displayNameKeyPath_;
+@synthesize itemTableCellClass=itemTableCellClass_;
 
-@dynamic menuItems;
-- (NSArray *) menuItems {
-	return [self.menuItemsInternal copy];
+@dynamic items;
+- (NSArray *) items {
+	return [self.itemsInternal copy];
 }
 
-- (NSMutableArray *) menuItemsInternal {
-	if (menuItemsInternal_ == nil) {
-		menuItemsInternal_ = [NSMutableArray new];
+- (void) setDisplayNameKeyPath:(NSString *)displayNameKeyPath {
+	if (displayNameKeyPath_ != displayNameKeyPath) {
+		displayNameKeyPath_ = displayNameKeyPath;
+		[self.itemsInternal makeObjectsPerformSelector:@selector(setDisplayNameKeyPath:) withObject:displayNameKeyPath_];
 	}
-	return menuItemsInternal_;
+}
+
+@dynamic selectedIndex;
+- (NSUInteger) selectedIndex {
+	return [self.tableView indexPathForSelectedRow].row;
+}
+
+- (void) setSelectedIndex:(NSUInteger)selectedIndex {
+	[self setSelectedIndex:selectedIndex animated:NO];
+}
+
+@dynamic selectedItem;
+- (FSQMenuItem *) selectedItem {
+	return [self.itemsInternal objectAtIndex:self.selectedIndex];
+}
+
+- (void) setSelectedItem:(FSQMenuItem *)selectedItem {
+	[self setSelectedItem:selectedItem animated:NO];
+}
+
+
+
+// Protected
+
+@synthesize itemsInternal=itemsInternal_;
+
+- (NSMutableArray *) itemsInternal {
+	if (itemsInternal_ == nil) {
+		itemsInternal_ = [NSMutableArray new];
+	}
+	return itemsInternal_;
 }
 
 
@@ -45,6 +74,8 @@
 
 - (void) initialize {
 	// Common initialization
+	self.clearsSelectionOnViewWillAppear = NO;
+	self.itemTableCellClass = [UITableViewCell class];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -61,6 +92,14 @@
 		[self initialize];
 	}
 	return self;
+}
+
+- (id)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:style];
+    if (self) {
+        [self initialize];
+    }
+    return self;
 }
 
 
@@ -109,6 +148,47 @@
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+// ========================================================================== //
+
+#pragma mark - Table View
+
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.itemsInternal.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFSQmenuViewControllerCell];
+	if (cell == nil) {
+		cell = [[self.itemTableCellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kFSQmenuViewControllerCell];
+	}
+
+    FSQMenuItem *itemAtIndex = [self itemAtIndex:indexPath.row];
+	cell.textLabel.text = itemAtIndex.displayName;
+	
+	[self configureCell:cell atIndexPath:indexPath];
+    return cell;
+}
+
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+	FSQSubclassWarn();
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (self.selectionHandler) {
+		FSQMenuItem *selectedItem = [self.itemsInternal objectAtIndex:indexPath.row];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.selectionHandler(selectedItem);
+		});
+	}
+}
+
 
 // ========================================================================== //
 
@@ -116,10 +196,12 @@
 
 - (void) addRepresentedObject:(id)representedObject {
 	FSQMenuItem *menuItem = [FSQMenuItem withRepresentedObject:representedObject];
+	menuItem.menu = self;
 	if (self.displayNameKeyPath) {
 		menuItem.displayNameKeyPath = self.displayNameKeyPath;
 	}
-	[self.menuItemsInternal addObject:menuItem];
+	[self.itemsInternal addObject:menuItem];
+	[self.tableView reloadData];
 }
 
 - (void) addRepresentedObjects:(NSArray *)representedObjects {
@@ -128,6 +210,26 @@
 	}
 }
 
+- (void) setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated {		
+	[self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0] animated:animated scrollPosition:UITableViewScrollPositionNone];
+}
+
+- (FSQMenuItem *) itemAtIndex:(NSUInteger)index {
+	if (index >= self.itemsInternal.count) {
+		return nil;
+	}
+	return [self.itemsInternal objectAtIndex:index];
+}
+
+
+- (void) setSelectedItem:(FSQMenuItem *)selectedItem animated:(BOOL)animated {
+	[self.itemsInternal enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if (obj == selectedItem) {
+			[self setSelectedIndex:idx animated:animated];
+			*stop = YES;
+		}
+	}];
+}
 
 // ========================================================================== //
 

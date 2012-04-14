@@ -15,12 +15,6 @@
 #define kFSQMenuControlMenuItemHeight 44.f
 
 
-@interface FSQMenuControl ()
-
-- (void) setItemsSelectionStyle:(FSQMenuSelectionStyle)selectionStyle;
-@end
-
-
 @implementation FSQMenuControl 
 
 // ========================================================================== //
@@ -72,6 +66,10 @@
 		return nil;
 	}
 	return [self.itemsInternal objectAtIndex:self.selectedIndex];
+}
+
+- (void) setSelectedItem:(FSQMenuItem *)selectedItem {
+	[self setSelectedItem:selectedItem animated:NO];
 }
 
 @dynamic scrollEnabled;
@@ -194,7 +192,7 @@
 
 - (void) setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated {
 	if (selectedIndex_ != selectedIndex) {
-		FSQMenuItemView *currentView = selectedIndex == UINT_MAX ? [self.itemViews objectAtIndex:selectedIndex_] : nil;
+		FSQMenuItemView *currentView = selectedIndex_ < self.itemViews.count ? [self.itemViews objectAtIndex:selectedIndex_] : nil;
 		FSQMenuItemView *newView = [self.itemViews objectAtIndex:selectedIndex];
 
 		selectedIndex_ = selectedIndex;	
@@ -208,10 +206,20 @@
 }
 
 - (FSQMenuItem *) itemAtIndex:(NSUInteger)index {
-	if (index >= self.items.count) {
+	if (index >= self.itemsInternal.count) {
 		return nil;
 	}
-	return [self.items objectAtIndex:index];
+	return [self.itemsInternal objectAtIndex:index];
+}
+
+
+- (void) setSelectedItem:(FSQMenuItem *)selectedItem animated:(BOOL)animated {
+	[self.itemsInternal enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if (obj == selectedItem) {
+			[self setSelectedIndex:idx animated:animated];
+			*stop = YES;
+		}
+	}];
 }
 
 

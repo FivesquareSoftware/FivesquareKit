@@ -12,6 +12,7 @@
 #ifndef NS_BLOCK_ASSERTIONS
 	#define FLog(frmt, ...) NSLog(@" - %@:%d %s - %@", FSQ_FILE(__FILE__), __LINE__,  __PRETTY_FUNCTION__, [NSString stringWithFormat:frmt, ##__VA_ARGS__]);
 	#define FLogError(error, frmt, ...) NSLog(@" - %@:%d %s - %@ %@ (%@)", FSQ_FILE(__FILE__), __LINE__,  __PRETTY_FUNCTION__, [NSString stringWithFormat:frmt, ##__VA_ARGS__], [error localizedDescription], [error userInfo]);
+	#define FLogMethod() FLog(@"--> %@",NSStringFromSelector(_cmd))
 #else
 	#define FLog(frmt, ...)
 	#define FLogError(error, frmt, ...)

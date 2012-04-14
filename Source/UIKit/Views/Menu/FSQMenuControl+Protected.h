@@ -13,4 +13,5 @@
 @property (nonatomic, weak) UIImageView *backgroundImageView;
 @property (nonatomic, weak) UIScrollView *contentView;
 @property (nonatomic, readonly) NSArray *itemViews;
+- (void) setItemsSelectionStyle:(FSQMenuSelectionStyle)selectionStyle;
 @end

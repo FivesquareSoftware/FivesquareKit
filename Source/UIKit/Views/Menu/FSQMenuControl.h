@@ -34,8 +34,8 @@ typedef NSUInteger FSQMenuDirection;
 @property (nonatomic) FSQMenuDirection direction UI_APPEARANCE_SELECTOR;
 @property (nonatomic) BOOL scrollEnabled;
 
-@property (nonatomic, readonly) FSQMenuItem *selectedItem;
-@property (nonatomic) NSUInteger selectedIndex; // calls #setSelectedIndex:animated: with animated = NO
+@property (nonatomic) FSQMenuItem *selectedItem; // calls #setSelectedItem:animated: with animated:NO
+@property (nonatomic) NSUInteger selectedIndex; // calls #setSelectedIndex:animated: with animated:NO
 
 - (void) initialize; // Can be overridden by subclasses to perform common initialization
 
@@ -43,6 +43,7 @@ typedef NSUInteger FSQMenuDirection;
 - (void) addRepresentedObjects:(NSArray *)representedObjects;
 - (void) setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated;
 - (FSQMenuItem *) itemAtIndex:(NSUInteger)index;
+- (void) setSelectedItem:(FSQMenuItem *)selectedItem animated:(BOOL)animated;
 
 //TODO: add removeRepresentedObject
 

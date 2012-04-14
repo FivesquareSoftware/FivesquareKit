@@ -10,10 +10,11 @@
 
 #define FSQAssert(condition,format,args...) if( ! (condition) ) [FSQAsserter assertionFailedInMethod:_cmd object:self file:__FILE__ lineNumber:__LINE__ message: format, ## args]
 
-/** Replaces NSAssert and when assertions are turned off still logs an error message to console. */
-@interface FSQAsserter : NSObject {
+#define FSQSubclassResponsibility() [FSQAsserter subclass:self responsibility:_cmd];
+#define FSQSubclassWarn() [FSQAsserter subclass:self warn:_cmd];
 
-}
+/** Replaces NSAssert and when assertions are turned off still logs an error message to console. */
+@interface FSQAsserter : NSObject
 
 + (void) subclass:(id)subclass responsibility:(SEL)sel;
 + (void) subclass:(id)subclass warn:(SEL)sel;

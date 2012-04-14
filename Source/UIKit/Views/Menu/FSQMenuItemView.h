@@ -17,6 +17,9 @@
 @property (nonatomic, getter = isSelected) BOOL selected;
 
 @property (nonatomic) UITextAlignment textAlignment UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIFont *font UI_APPEARANCE_SELECTOR;
+
+
 @property (nonatomic) UIEdgeInsets edgeInsets UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic) FSQMenuSelectionStyle selectionStyle; // A convenience shortcut for setting #selectedBackgroundView to some preset defaults

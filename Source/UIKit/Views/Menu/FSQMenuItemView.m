@@ -59,6 +59,16 @@
 	return self.textLabel.textAlignment;
 }
 
+@dynamic font;
+- (void) setFont:(UIFont *)font {
+	self.textLabel.font = font;
+	[(FSQMenuControl *)self.menuItem.menu setNeedsLayout];
+}
+
+- (UIFont *) font {
+	return self.textLabel.font;
+}
+
 - (void) setSelectionStyle:(FSQMenuSelectionStyle)selectionStyle {
 	if (selectionStyle_ != selectionStyle) {
 		selectionStyle_ = selectionStyle;
