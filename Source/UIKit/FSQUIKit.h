@@ -39,6 +39,8 @@
 #import "FSQMenuControl.h"
 #import "FSQMenuControl+Protected.h"
 #import "FSQMenuItemView.h"
+#import "FSQThumbstripView.h"
+#import "FSQThumbstripCell.h"
 
 
 // Transformers
