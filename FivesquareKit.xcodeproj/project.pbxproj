@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A408F4EA1534D549009B589D /* FSQMenuControl+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A408F4E81534D549009B589D /* FSQMenuControl+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A40FA7721542115E0013D6EF /* FSQThumbstripBaseDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */; };
+		A40FA7731542115E0013D6EF /* FSQThumbstripBaseDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A40FA7711542115E0013D6EF /* FSQThumbstripBaseDataSource.m */; };
+		A40FA7761542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */; };
 		A41E2C40152F84F7005554B9 /* FSQTransparentSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A41E2C41152F84F7005554B9 /* FSQTransparentSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */; };
 		A429654A12F482D400AEAA83 /* FivesquareKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43FB12748374005D9BF4 /* FivesquareKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -20,7 +23,7 @@
 		A42A2E7E1525250C0032AB39 /* FSQFoundationConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A492314F5717E00A722E9 /* FSQFoundationConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E7F1525250C0032AB39 /* FSQBindingsMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F440D12748374005D9BF4 /* FSQBindingsMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E801525250C0032AB39 /* FSQPropertyMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A48D014F559B000A722E9 /* FSQPropertyMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A42A2E811525250C0032AB39 /* FSQTrampoline.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F440F12748374005D9BF4 /* FSQTrampoline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A42A2E811525250C0032AB39 /* FSQProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F440F12748374005D9BF4 /* FSQProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E821525250C0032AB39 /* FSQUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = A487175F12F5C76D000D9411 /* FSQUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E831525250C0032AB39 /* FSQOpenStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = A43199C414DF09C00057063F /* FSQOpenStruct.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E841525250C0032AB39 /* NSArray+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43FE12748374005D9BF4 /* NSArray+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -32,7 +35,7 @@
 		A42A2E8A1525250C0032AB39 /* NSOperationQueue+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A464DA2A13D38978006B6C59 /* NSOperationQueue+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E8B1525250C0032AB39 /* NSDictionary+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4319A5514DF0F370057063F /* NSDictionary+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E8C1525250C0032AB39 /* FSQCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43EE12748374005D9BF4 /* FSQCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A42A2E8D1525250C0032AB39 /* FSQCoreDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A45565091302225500932B98 /* FSQCoreDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A42A2E8D1525250C0032AB39 /* FSQCoreDataStack.h in Headers */ = {isa = PBXBuildFile; fileRef = A45565091302225500932B98 /* FSQCoreDataStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E8E1525250C0032AB39 /* FSQManagedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E8F1525250C0032AB39 /* NSManagedObject+FSQCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43EA12748374005D9BF4 /* NSManagedObject+FSQCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E901525250C0032AB39 /* NSManagedObjectContext+FSQCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43EC12748374005D9BF4 /* NSManagedObjectContext+FSQCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -69,7 +72,7 @@
 		A42A2EB11525252D0032AB39 /* FSQFoundationConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A43A492414F5717E00A722E9 /* FSQFoundationConstants.m */; };
 		A42A2EB21525252D0032AB39 /* FSQBindingsMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F440E12748374005D9BF4 /* FSQBindingsMapper.m */; };
 		A42A2EB31525252D0032AB39 /* FSQPropertyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A43A48D114F559B000A722E9 /* FSQPropertyMapper.m */; };
-		A42A2EB41525252D0032AB39 /* FSQTrampoline.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441012748374005D9BF4 /* FSQTrampoline.m */; };
+		A42A2EB41525252D0032AB39 /* FSQProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441012748374005D9BF4 /* FSQProxy.m */; };
 		A42A2EB51525252D0032AB39 /* FSQUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = A487176012F5C76D000D9411 /* FSQUserDefaults.m */; };
 		A42A2EB61525252D0032AB39 /* FSQOpenStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = A43199C514DF09C00057063F /* FSQOpenStruct.m */; };
 		A42A2EB71525252D0032AB39 /* NSArray+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43FF12748374005D9BF4 /* NSArray+FSQFoundation.m */; };
@@ -80,7 +83,7 @@
 		A42A2EBC1525252D0032AB39 /* NSBundle+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A42962A312F47E2E00AEAA83 /* NSBundle+FSQFoundation.m */; };
 		A42A2EBD1525252D0032AB39 /* NSOperationQueue+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A464DA2B13D38979006B6C59 /* NSOperationQueue+FSQFoundation.m */; };
 		A42A2EBE1525252D0032AB39 /* NSDictionary+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4319A5614DF0F370057063F /* NSDictionary+FSQFoundation.m */; };
-		A42A2EBF1525252D0032AB39 /* FSQCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A455650A1302225500932B98 /* FSQCoreDataManager.m */; };
+		A42A2EBF1525252D0032AB39 /* FSQCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = A455650A1302225500932B98 /* FSQCoreDataStack.m */; };
 		A42A2EC01525252D0032AB39 /* FSQManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A43512D614B0F8E200BE02A8 /* FSQManagedObject.m */; };
 		A42A2EC11525252D0032AB39 /* NSManagedObject+FSQCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43EB12748374005D9BF4 /* NSManagedObject+FSQCoreData.m */; };
 		A42A2EC21525252D0032AB39 /* NSManagedObjectContext+FSQCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43ED12748374005D9BF4 /* NSManagedObjectContext+FSQCoreData.m */; };
@@ -120,13 +123,14 @@
 		A47E2EE6152B662800F7EDB1 /* FSQStretchableButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A47E2EE7152B662800F7EDB1 /* FSQStretchableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */; };
 		A48F65BC15377BF50027CCFF /* FSQMenuViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A48F65BA15377BF50027CCFF /* FSQMenuViewController+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4C599691547409200350569 /* FSQThumbstripCell+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C599681547409200350569 /* FSQThumbstripCell+Protected.h */; };
 		A4D02E951525291D00C16B67 /* FivesquareKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A429665812F4D3F600AEAA83 /* FivesquareKit.m */; };
 		A4D02E961525291D00C16B67 /* FSQAsserter.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F446512748375005D9BF4 /* FSQAsserter.m */; };
 		A4D02E971525291D00C16B67 /* FSQSandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = A429628E12F47D3700AEAA83 /* FSQSandbox.m */; };
 		A4D02E991525291D00C16B67 /* FSQFoundationConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A43A492414F5717E00A722E9 /* FSQFoundationConstants.m */; };
 		A4D02E9A1525291D00C16B67 /* FSQBindingsMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F440E12748374005D9BF4 /* FSQBindingsMapper.m */; };
 		A4D02E9B1525291D00C16B67 /* FSQPropertyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A43A48D114F559B000A722E9 /* FSQPropertyMapper.m */; };
-		A4D02E9C1525291D00C16B67 /* FSQTrampoline.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441012748374005D9BF4 /* FSQTrampoline.m */; };
+		A4D02E9C1525291D00C16B67 /* FSQProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441012748374005D9BF4 /* FSQProxy.m */; };
 		A4D02E9D1525291D00C16B67 /* FSQUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = A487176012F5C76D000D9411 /* FSQUserDefaults.m */; };
 		A4D02E9E1525291D00C16B67 /* FSQOpenStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = A43199C514DF09C00057063F /* FSQOpenStruct.m */; };
 		A4D02E9F1525291D00C16B67 /* NSArray+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43FF12748374005D9BF4 /* NSArray+FSQFoundation.m */; };
@@ -137,7 +141,7 @@
 		A4D02EA41525291D00C16B67 /* NSBundle+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A42962A312F47E2E00AEAA83 /* NSBundle+FSQFoundation.m */; };
 		A4D02EA51525291D00C16B67 /* NSOperationQueue+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A464DA2B13D38979006B6C59 /* NSOperationQueue+FSQFoundation.m */; };
 		A4D02EA61525291D00C16B67 /* NSDictionary+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4319A5614DF0F370057063F /* NSDictionary+FSQFoundation.m */; };
-		A4D02EA71525291D00C16B67 /* FSQCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A455650A1302225500932B98 /* FSQCoreDataManager.m */; };
+		A4D02EA71525291D00C16B67 /* FSQCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = A455650A1302225500932B98 /* FSQCoreDataStack.m */; };
 		A4D02EA81525291D00C16B67 /* FSQManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A43512D614B0F8E200BE02A8 /* FSQManagedObject.m */; };
 		A4D02EA91525291D00C16B67 /* NSManagedObject+FSQCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43EB12748374005D9BF4 /* NSManagedObject+FSQCoreData.m */; };
 		A4D02EAA1525291D00C16B67 /* NSManagedObjectContext+FSQCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43ED12748374005D9BF4 /* NSManagedObjectContext+FSQCoreData.m */; };
@@ -153,7 +157,7 @@
 		A4D02EB51525295600C16B67 /* FSQFoundationConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A492314F5717E00A722E9 /* FSQFoundationConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EB61525295600C16B67 /* FSQBindingsMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F440D12748374005D9BF4 /* FSQBindingsMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EB71525295600C16B67 /* FSQPropertyMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A48D014F559B000A722E9 /* FSQPropertyMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A4D02EB81525295600C16B67 /* FSQTrampoline.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F440F12748374005D9BF4 /* FSQTrampoline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4D02EB81525295600C16B67 /* FSQProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F440F12748374005D9BF4 /* FSQProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EB91525295600C16B67 /* FSQUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = A487175F12F5C76D000D9411 /* FSQUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EBA1525295600C16B67 /* FSQOpenStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = A43199C414DF09C00057063F /* FSQOpenStruct.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EBB1525295600C16B67 /* NSArray+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43FE12748374005D9BF4 /* NSArray+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -165,7 +169,7 @@
 		A4D02EC11525295600C16B67 /* NSOperationQueue+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A464DA2A13D38978006B6C59 /* NSOperationQueue+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EC21525295600C16B67 /* NSDictionary+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4319A5514DF0F370057063F /* NSDictionary+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EC31525295600C16B67 /* FSQCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43EE12748374005D9BF4 /* FSQCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A4D02EC41525295600C16B67 /* FSQCoreDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A45565091302225500932B98 /* FSQCoreDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4D02EC41525295600C16B67 /* FSQCoreDataStack.h in Headers */ = {isa = PBXBuildFile; fileRef = A45565091302225500932B98 /* FSQCoreDataStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EC51525295600C16B67 /* FSQManagedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EC61525295600C16B67 /* NSManagedObject+FSQCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43EA12748374005D9BF4 /* NSManagedObject+FSQCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EC71525295600C16B67 /* NSManagedObjectContext+FSQCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43EC12748374005D9BF4 /* NSManagedObjectContext+FSQCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -215,6 +219,9 @@
 
 /* Begin PBXFileReference section */
 		A408F4E81534D549009B589D /* FSQMenuControl+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQMenuControl+Protected.h"; sourceTree = "<group>"; };
+		A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQThumbstripBaseDataSource.h; sourceTree = "<group>"; };
+		A40FA7711542115E0013D6EF /* FSQThumbstripBaseDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQThumbstripBaseDataSource.m; sourceTree = "<group>"; };
+		A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQThumbstripBaseDataSource+Protected.h"; sourceTree = "<group>"; };
 		A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQTransparentSearchBar.h; sourceTree = "<group>"; };
 		A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQTransparentSearchBar.m; sourceTree = "<group>"; };
 		A42961C412F4738200AEAA83 /* FSQCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCore.h; sourceTree = "<group>"; };
@@ -247,8 +254,8 @@
 		A43A492414F5717E00A722E9 /* FSQFoundationConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQFoundationConstants.m; sourceTree = "<group>"; };
 		A43CC1B91538AC960013700F /* UIView+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FSQUIKit.h"; sourceTree = "<group>"; };
 		A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FSQUIKit.m"; sourceTree = "<group>"; };
-		A45565091302225500932B98 /* FSQCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCoreDataManager.h; sourceTree = "<group>"; };
-		A455650A1302225500932B98 /* FSQCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FSQCoreDataManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		A45565091302225500932B98 /* FSQCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCoreDataStack.h; sourceTree = "<group>"; };
+		A455650A1302225500932B98 /* FSQCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FSQCoreDataStack.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A45F43EA12748374005D9BF4 /* NSManagedObject+FSQCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+FSQCoreData.h"; sourceTree = "<group>"; };
 		A45F43EB12748374005D9BF4 /* NSManagedObject+FSQCoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+FSQCoreData.m"; sourceTree = "<group>"; };
 		A45F43EC12748374005D9BF4 /* NSManagedObjectContext+FSQCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+FSQCoreData.h"; sourceTree = "<group>"; };
@@ -274,8 +281,8 @@
 		A45F440B12748374005D9BF4 /* NSString+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FSQFoundation.m"; sourceTree = "<group>"; };
 		A45F440D12748374005D9BF4 /* FSQBindingsMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQBindingsMapper.h; sourceTree = "<group>"; };
 		A45F440E12748374005D9BF4 /* FSQBindingsMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQBindingsMapper.m; sourceTree = "<group>"; };
-		A45F440F12748374005D9BF4 /* FSQTrampoline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQTrampoline.h; sourceTree = "<group>"; };
-		A45F441012748374005D9BF4 /* FSQTrampoline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQTrampoline.m; sourceTree = "<group>"; };
+		A45F440F12748374005D9BF4 /* FSQProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQProxy.h; sourceTree = "<group>"; };
+		A45F441012748374005D9BF4 /* FSQProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQProxy.m; sourceTree = "<group>"; };
 		A45F441C12748374005D9BF4 /* FSQKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQKeychain.h; sourceTree = "<group>"; };
 		A45F441D12748374005D9BF4 /* FSQKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FSQKeychain.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A45F442012748374005D9BF4 /* FSQLabeledControlCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQLabeledControlCell.h; sourceTree = "<group>"; };
@@ -330,6 +337,7 @@
 		A4C094541303AD4700CE8BB3 /* UIViewController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4C0945B1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4C0945C1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPopoverController+FSQUIKit.m"; sourceTree = "<group>"; };
+		A4C599681547409200350569 /* FSQThumbstripCell+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQThumbstripCell+Protected.h"; sourceTree = "<group>"; };
 		A4D02E94152528C600C16B67 /* FivesquareKitFramework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FivesquareKitFramework-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A4D02ECC1525299800C16B67 /* FSQSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQSecurity.h; sourceTree = "<group>"; };
 		A4D02ED0152529E700C16B67 /* FSQCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCoreGraphics.h; sourceTree = "<group>"; };
@@ -471,8 +479,8 @@
 			isa = PBXGroup;
 			children = (
 				A45F43EE12748374005D9BF4 /* FSQCoreData.h */,
-				A45565091302225500932B98 /* FSQCoreDataManager.h */,
-				A455650A1302225500932B98 /* FSQCoreDataManager.m */,
+				A45565091302225500932B98 /* FSQCoreDataStack.h */,
+				A455650A1302225500932B98 /* FSQCoreDataStack.m */,
 				A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */,
 				A43512D614B0F8E200BE02A8 /* FSQManagedObject.m */,
 				A45F43E912748374005D9BF4 /* Extensions */,
@@ -531,8 +539,8 @@
 				A45F440E12748374005D9BF4 /* FSQBindingsMapper.m */,
 				A43A48D014F559B000A722E9 /* FSQPropertyMapper.h */,
 				A43A48D114F559B000A722E9 /* FSQPropertyMapper.m */,
-				A45F440F12748374005D9BF4 /* FSQTrampoline.h */,
-				A45F441012748374005D9BF4 /* FSQTrampoline.m */,
+				A45F440F12748374005D9BF4 /* FSQProxy.h */,
+				A45F441012748374005D9BF4 /* FSQProxy.m */,
 				A487175F12F5C76D000D9411 /* FSQUserDefaults.h */,
 				A487176012F5C76D000D9411 /* FSQUserDefaults.m */,
 				A43199C414DF09C00057063F /* FSQOpenStruct.h */,
@@ -811,7 +819,11 @@
 				A4F69F621540CAE6006DAF85 /* FSQThumbstripView.h */,
 				A4F69F631540CAE6006DAF85 /* FSQThumbstripView.m */,
 				A4F69F661540CB43006DAF85 /* FSQThumbstripCell.h */,
+				A4C599681547409200350569 /* FSQThumbstripCell+Protected.h */,
 				A4F69F671540CB43006DAF85 /* FSQThumbstripCell.m */,
+				A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */,
+				A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */,
+				A40FA7711542115E0013D6EF /* FSQThumbstripBaseDataSource.m */,
 			);
 			path = Thumbstrip;
 			sourceTree = "<group>";
@@ -832,7 +844,7 @@
 				A42A2E7E1525250C0032AB39 /* FSQFoundationConstants.h in Headers */,
 				A42A2E7F1525250C0032AB39 /* FSQBindingsMapper.h in Headers */,
 				A42A2E801525250C0032AB39 /* FSQPropertyMapper.h in Headers */,
-				A42A2E811525250C0032AB39 /* FSQTrampoline.h in Headers */,
+				A42A2E811525250C0032AB39 /* FSQProxy.h in Headers */,
 				A42A2E821525250C0032AB39 /* FSQUserDefaults.h in Headers */,
 				A42A2E831525250C0032AB39 /* FSQOpenStruct.h in Headers */,
 				A42A2E841525250C0032AB39 /* NSArray+FSQFoundation.h in Headers */,
@@ -844,7 +856,7 @@
 				A42A2E8A1525250C0032AB39 /* NSOperationQueue+FSQFoundation.h in Headers */,
 				A42A2E8B1525250C0032AB39 /* NSDictionary+FSQFoundation.h in Headers */,
 				A42A2E8C1525250C0032AB39 /* FSQCoreData.h in Headers */,
-				A42A2E8D1525250C0032AB39 /* FSQCoreDataManager.h in Headers */,
+				A42A2E8D1525250C0032AB39 /* FSQCoreDataStack.h in Headers */,
 				A42A2E8E1525250C0032AB39 /* FSQManagedObject.h in Headers */,
 				A42A2E8F1525250C0032AB39 /* NSManagedObject+FSQCoreData.h in Headers */,
 				A42A2E901525250C0032AB39 /* NSManagedObjectContext+FSQCoreData.h in Headers */,
@@ -890,6 +902,9 @@
 				A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */,
 				A4F69F641540CAE6006DAF85 /* FSQThumbstripView.h in Headers */,
 				A4F69F681540CB43006DAF85 /* FSQThumbstripCell.h in Headers */,
+				A40FA7721542115E0013D6EF /* FSQThumbstripBaseDataSource.h in Headers */,
+				A40FA7761542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h in Headers */,
+				A4C599691547409200350569 /* FSQThumbstripCell+Protected.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -906,7 +921,7 @@
 				A4D02EB51525295600C16B67 /* FSQFoundationConstants.h in Headers */,
 				A4D02EB61525295600C16B67 /* FSQBindingsMapper.h in Headers */,
 				A4D02EB71525295600C16B67 /* FSQPropertyMapper.h in Headers */,
-				A4D02EB81525295600C16B67 /* FSQTrampoline.h in Headers */,
+				A4D02EB81525295600C16B67 /* FSQProxy.h in Headers */,
 				A4D02EB91525295600C16B67 /* FSQUserDefaults.h in Headers */,
 				A4D02EBA1525295600C16B67 /* FSQOpenStruct.h in Headers */,
 				A4D02EBB1525295600C16B67 /* NSArray+FSQFoundation.h in Headers */,
@@ -918,7 +933,7 @@
 				A4D02EC11525295600C16B67 /* NSOperationQueue+FSQFoundation.h in Headers */,
 				A4D02EC21525295600C16B67 /* NSDictionary+FSQFoundation.h in Headers */,
 				A4D02EC31525295600C16B67 /* FSQCoreData.h in Headers */,
-				A4D02EC41525295600C16B67 /* FSQCoreDataManager.h in Headers */,
+				A4D02EC41525295600C16B67 /* FSQCoreDataStack.h in Headers */,
 				A4D02EC51525295600C16B67 /* FSQManagedObject.h in Headers */,
 				A4D02EC61525295600C16B67 /* NSManagedObject+FSQCoreData.h in Headers */,
 				A4D02EC71525295600C16B67 /* NSManagedObjectContext+FSQCoreData.h in Headers */,
@@ -1053,7 +1068,7 @@
 				A42A2EB11525252D0032AB39 /* FSQFoundationConstants.m in Sources */,
 				A42A2EB21525252D0032AB39 /* FSQBindingsMapper.m in Sources */,
 				A42A2EB31525252D0032AB39 /* FSQPropertyMapper.m in Sources */,
-				A42A2EB41525252D0032AB39 /* FSQTrampoline.m in Sources */,
+				A42A2EB41525252D0032AB39 /* FSQProxy.m in Sources */,
 				A42A2EB51525252D0032AB39 /* FSQUserDefaults.m in Sources */,
 				A42A2EB61525252D0032AB39 /* FSQOpenStruct.m in Sources */,
 				A42A2EB71525252D0032AB39 /* NSArray+FSQFoundation.m in Sources */,
@@ -1064,7 +1079,7 @@
 				A42A2EBC1525252D0032AB39 /* NSBundle+FSQFoundation.m in Sources */,
 				A42A2EBD1525252D0032AB39 /* NSOperationQueue+FSQFoundation.m in Sources */,
 				A42A2EBE1525252D0032AB39 /* NSDictionary+FSQFoundation.m in Sources */,
-				A42A2EBF1525252D0032AB39 /* FSQCoreDataManager.m in Sources */,
+				A42A2EBF1525252D0032AB39 /* FSQCoreDataStack.m in Sources */,
 				A42A2EC01525252D0032AB39 /* FSQManagedObject.m in Sources */,
 				A42A2EC11525252D0032AB39 /* NSManagedObject+FSQCoreData.m in Sources */,
 				A42A2EC21525252D0032AB39 /* NSManagedObjectContext+FSQCoreData.m in Sources */,
@@ -1104,6 +1119,7 @@
 				A43CC1BC1538AC960013700F /* UIView+FSQUIKit.m in Sources */,
 				A4F69F651540CAE6006DAF85 /* FSQThumbstripView.m in Sources */,
 				A4F69F691540CB43006DAF85 /* FSQThumbstripCell.m in Sources */,
+				A40FA7731542115E0013D6EF /* FSQThumbstripBaseDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1117,7 +1133,7 @@
 				A4D02E991525291D00C16B67 /* FSQFoundationConstants.m in Sources */,
 				A4D02E9A1525291D00C16B67 /* FSQBindingsMapper.m in Sources */,
 				A4D02E9B1525291D00C16B67 /* FSQPropertyMapper.m in Sources */,
-				A4D02E9C1525291D00C16B67 /* FSQTrampoline.m in Sources */,
+				A4D02E9C1525291D00C16B67 /* FSQProxy.m in Sources */,
 				A4D02E9D1525291D00C16B67 /* FSQUserDefaults.m in Sources */,
 				A4D02E9E1525291D00C16B67 /* FSQOpenStruct.m in Sources */,
 				A4D02E9F1525291D00C16B67 /* NSArray+FSQFoundation.m in Sources */,
@@ -1128,7 +1144,7 @@
 				A4D02EA41525291D00C16B67 /* NSBundle+FSQFoundation.m in Sources */,
 				A4D02EA51525291D00C16B67 /* NSOperationQueue+FSQFoundation.m in Sources */,
 				A4D02EA61525291D00C16B67 /* NSDictionary+FSQFoundation.m in Sources */,
-				A4D02EA71525291D00C16B67 /* FSQCoreDataManager.m in Sources */,
+				A4D02EA71525291D00C16B67 /* FSQCoreDataStack.m in Sources */,
 				A4D02EA81525291D00C16B67 /* FSQManagedObject.m in Sources */,
 				A4D02EA91525291D00C16B67 /* NSManagedObject+FSQCoreData.m in Sources */,
 				A4D02EAA1525291D00C16B67 /* NSManagedObjectContext+FSQCoreData.m in Sources */,
@@ -1215,6 +1231,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1227,6 +1244,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				PRODUCT_NAME = FivesquareKit;
@@ -1240,6 +1258,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1258,6 +1277,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FivesquareKitFramework-Info.plist";
@@ -1274,6 +1294,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1287,6 +1308,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FivesquareKitFramework-Info.plist";

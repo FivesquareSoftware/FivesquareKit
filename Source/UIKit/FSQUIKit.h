@@ -41,6 +41,8 @@
 #import "FSQMenuItemView.h"
 #import "FSQThumbstripView.h"
 #import "FSQThumbstripCell.h"
+#import "FSQThumbstripBaseDataSource.h"
+#import "FSQThumbstripBaseDataSource+Protected.h"
 
 
 // Transformers

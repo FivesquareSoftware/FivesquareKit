@@ -8,13 +8,19 @@
 
 #import "FSQThumbstripCell.h"
 
+@interface FSQThumbstripCell ()
+@property (nonatomic, strong, readwrite) NSString *reuseIdentifier;
+@end
+
+
 @implementation FSQThumbstripCell
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+@synthesize reuseIdentifier=reuseIdentifier_;
+
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithFrame:CGRectZero];
     if (self) {
-        // Initialization code
+        reuseIdentifier_ = reuseIdentifier;
     }
     return self;
 }

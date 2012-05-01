@@ -1,20 +1,20 @@
 //
-//  FSQTrampoline.m
+//  FSQProxy.m
 //  FivesquareKit
 //
 //  Created by John Clayton on 5/30/2010.
 //  Copyright 2010 Fivesquare Software, LLC. All rights reserved.
 //
 
-#import "FSQTrampoline.h"
+#import "FSQProxy.h"
 
 
-@implementation FSQTrampoline
+@implementation FSQProxy
 
 @synthesize target=target_;
 
 + (id) withTarget:(id)aTarget {
-	return [[FSQTrampoline alloc] initWithTarget:aTarget];
+	return [[FSQProxy alloc] initWithTarget:aTarget];
 }
 
 - (id) initWithTarget:(id)aTarget {

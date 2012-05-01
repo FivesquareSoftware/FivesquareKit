@@ -10,7 +10,7 @@
 
 #import "FSQBindingsMapper.h"
 #import "FSQPropertyMapper.h"
-#import "FSQTrampoline.h"
+#import "FSQProxy.h"
 #import "FSQUserDefaults.h"
 #import "FSQOpenStruct.h"
 

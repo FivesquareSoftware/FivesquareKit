@@ -1,21 +1,22 @@
 //
-//  FSQCoreDataManager.m
+//  FSQCoreDataStack.m
 //  FivesquareKit
 //
 //  Created by John Clayton on 2/8/2011.
 //  Copyright 2011 Fivesquare Software, LLC. All rights reserved.
 //
 
-#import "FSQCoreDataManager.h"
+#import "FSQCoreDataStack.h"
 
 #import "FSQSandbox.h"
 #import "FSQLogging.h"
 #import "FSQAsserter.h"
 #import "NSObject+FSQFoundation.h"
 
-@interface FSQCoreDataManager()
+@interface FSQCoreDataStack()
 
-@property (nonatomic, copy, readwrite) NSString *name;
+@property (nonatomic, copy, readwrite) NSString *modelName;
+@property (nonatomic, copy, readwrite) NSString *storeName;
 @property (nonatomic, retain, readwrite) NSURL *modelURL;
 
 + (NSURL *) storeURLForStoreName:(NSString *)aStoreName;
@@ -28,14 +29,15 @@
 
 
 
-@implementation FSQCoreDataManager
+@implementation FSQCoreDataStack
 
 
 // ========================================================================== //
 
 #pragma mark - Properties
 
-@synthesize name=name_;
+@synthesize modelName=modelName_;
+@synthesize storeName=storeName_;
 
 @synthesize configurationName=configurationName_;
 @synthesize storeOptions=storeOptions_;
@@ -49,8 +51,8 @@
 
 
 - (NSURL *) modelURL {
-	if(modelURL_ == nil && self.name) {
-		modelURL_ = [[self class] modelURLForName:self.name];
+	if(modelURL_ == nil && self.modelName) {
+		modelURL_ = [[self class] modelURLForName:self.modelName];
 	}
 	return modelURL_;
 }
@@ -62,15 +64,17 @@
 
 #pragma mark - Object
 
-- (id) initWithName:(NSString *)name {
-	if (name == nil) {
+- (id) initWithModelName:(NSString *)modelName persistentStore:(NSString *)storeName {
+	if (storeName == nil) {
 		self = nil;
 		return self;
+		FSQAssert(storeName != nil,@"storeName cannot be nil");
 	}
 	self = [super init];
 	if (self != nil) {
-		name_ = [name copy];
-		copyDefaultDatabaseFromBundle_ = YES;
+		modelName_ = [modelName copy];
+		storeName_ = storeName;
+		copyDefaultDatabaseFromBundle_ = NO;
 	}
 	return self;
 }
@@ -183,7 +187,7 @@
 }
 
 - (NSDictionary *) storeMetadata {
-	NSURL *storeURL = [[self class] storeURLForStoreName:self.name];
+	NSURL *storeURL = [[self class] storeURLForStoreName:self.modelName];
 	
 	if(storeURL == nil) 
 		return nil;
@@ -202,6 +206,8 @@
 	
 	return storeMetadata;
 }
+
+
 
 
 
@@ -265,7 +271,7 @@
 	
 	NSPersistentStoreCoordinator *aPersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
 	
-	NSURL *storeURL = [[self class] storeURLForStoreName:self.name];
+	NSURL *storeURL = [[self class] storeURLForStoreName:self.storeName];
 	
 	NSPersistentStore *persistentStore = [aPersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType 
 																				   configuration:configurationName_
@@ -332,8 +338,8 @@
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	
 	
-	NSString *storePath = [[self class] storePathForStoreName:self.name];
-	NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:self.name ofType:@"sqlite"];
+	NSString *storePath = [[self class] storePathForStoreName:self.modelName];
+	NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:self.modelName ofType:@"sqlite"];
 	
 	@synchronized(self) {
 		if (defaultStorePath && ![fileManager fileExistsAtPath:storePath]) {

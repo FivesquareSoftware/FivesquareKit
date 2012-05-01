@@ -19,8 +19,7 @@
 // Display customization
 
 - (void) thumbstripView:(FSQThumbstripView *)thumbstripView willDisplayCell:(FSQThumbstripCell *)cell forItemAtIndex:(NSInteger)index;
-- (CGFloat) thumbstripView:(FSQThumbstripView *)thumbstripView widthForCellAtIndex:(NSInteger)index;
-- (NSString *) captionForthumbstripView:(FSQThumbstripView *)thumbstripView;
+- (CGSize) thumbstripView:(FSQThumbstripView *)thumbstripView sizeForCellAtIndex:(NSInteger)index;
 
 // Selection
 
@@ -35,16 +34,24 @@
 @property (nonatomic, weak) id<FSQThumbstripDataSource> dataSource; 
 @property (nonatomic, weak) id<FSQThumbstripDelegate> delegate; 
 
+@property (nonatomic, strong) Class cellClass;
+
 // Appearance
 
-@property (nonatomic) CGFloat cellWidth; ///< Default is 170
+@property (nonatomic) CGSize cellSize; ///< Default is 200x200
 @property (nonatomic, weak) UIView *backgroundView UI_APPEARANCE_SELECTOR;
 
 
+// Info
+
+- (FSQThumbstripCell *) cellAtIndex:(NSInteger)index;
+- (NSInteger) indexForCellAtPoint:(CGPoint)point;
+- (NSIndexSet *) indexesForCellsInRect:(CGRect)rect;
+
 // selection
 
-@property (nonatomic, readonly) NSArray *visibleCells;
-@property (nonatomic, readonly) NSRange visibleRange;
+@property (nonatomic, strong, readonly) NSSet *visibleCells;
+@property (nonatomic, readonly) NSRange visibleRange; ///< Returns the range of indices that are visible, with the location being the index of the first visible cell, and the length being the number of cells that are visible.
 
 - (void) selectCellAtIndex:(NSInteger)index animated:(BOOL)animated;
 - (void) deselectCellAtIndex:(NSInteger)index animated:(BOOL)animated;
@@ -52,6 +59,7 @@
 // Data
 
 - (void) reloadData;
+- (id) dequeueReusableCellWithIdentifier:(NSString *)identifier;
 
 @end
 

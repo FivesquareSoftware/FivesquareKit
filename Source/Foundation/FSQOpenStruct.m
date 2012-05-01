@@ -70,6 +70,18 @@
 	}
 }
 
+// ========================================================================== //
+
+#pragma mark - Proxy
+
+//- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+//	return [attributes_ methodSignatureForSelector:aSelector];
+//}
+//
+//- (void)forwardInvocation:(NSInvocation *)invocation {
+//	[invocation invokeWithTarget:attributes_];
+//}
+
 
 
 

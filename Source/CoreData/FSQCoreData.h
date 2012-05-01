@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#import "FSQCoreDataManager.h"
+#import "FSQCoreDataStack.h"
 #import "FSQManagedObject.h"
 
 #import "NSManagedObjectContext+FSQCoreData.h"
