@@ -8,10 +8,28 @@
 
 #import <UIKit/UIKit.h>
 
-@class FSQImageCache;
+#import "FSQImageCache.h"
 
 @interface UIImageView (FSQUIKit)
 
-- (void) setImageWithContentsOfURL:(id)URL cache:(FSQImageCache *)cache;
+@property (nonatomic, weak) FSQImageCache *cache;
+
+/** Sets the receiver's image from the URL using #cache.
+ *  @throws an exception if #cache is not set
+ *  @see setImageWithContentsOfURL:cache:completionBlock: 
+ */
+- (void) setImageWithContentsOfURL:(id)URL;
+
+/** Sets the receiver's image from the URL using #cache.
+ *  @throws an exception if #cache is not set
+ *  @see setImageWithContentsOfURL:cache:completionBlock: 
+ */
+- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)())block;
+
+/** Sets the receiver's image from a URL, first checking in the specified cache before fetching it from the internet. 
+ *  @param completionBlock runs if the image is loaded successfully
+ *  @param URL may be an NSURL or an NSString representing an URL
+ */
+- (void) setImageWithContentsOfURL:(id)URL cache:(FSQImageCache *)cache completionBlock:(void(^)())block;
 
 @end

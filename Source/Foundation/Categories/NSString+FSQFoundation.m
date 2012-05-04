@@ -14,6 +14,10 @@
 
 @implementation NSString (FSQFoundation)
 
+- (BOOL) isEmpty:(NSString *)string {
+	return string == nil || [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0;
+}
+
 - (NSString *) MD5Hash {
 	const char *cStr = [self UTF8String];
 	unsigned char result[CC_MD5_DIGEST_LENGTH];

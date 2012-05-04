@@ -83,12 +83,11 @@
 		NSError *error = nil;
 #if TARGET_OS_IPHONE
 		cachePath_ = [[FSQSandbox cachesDirectory] stringByAppendingPathComponent:diskPath_];
-		created = [FSQSandbox createDirectoryInUserSearchPath:NSCachesDirectory error:&error];
 #else
 		cachePath_ = [diskPath_ copy];
+#endif
 		NSFileManager *fm = [NSFileManager new];
 		created = [fm createDirectoryAtPath:cachePath_ withIntermediateDirectories:YES attributes:NULL error:&error];
-#endif
 		if (NO == created) {
 			FLogError(error, @"Could not create image cache");
 		};
@@ -176,6 +175,11 @@
 	if ([key isKindOfClass:[NSString class]]) {
 		key = [NSURL URLWithString:key];
 	}
+	
+	if (key == nil) {
+		return;
+	}
+	
 	// don't block the main thread with disk scans etc..
 	// all cache access is piped through our serial queue so there are no concurrency issues
 	dispatch_async(cacheQueue_, ^{
@@ -204,7 +208,7 @@
 				downloadHandler_(key,^(id downloadedImage, NSError *downloadError){
 					if (downloadedImage && downloadError == nil) {
 						[self storeImage:downloadedImage forKey:key];
-						[self dispatchCompletionHandlersForKey:key withImage:image error:nil];
+						[self dispatchCompletionHandlersForKey:key withImage:downloadedImage error:nil];
 					} else {
 						[self dispatchCompletionHandlersForKey:key withImage:nil error:downloadError];
 					}
