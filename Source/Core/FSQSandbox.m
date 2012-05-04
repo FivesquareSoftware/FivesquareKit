@@ -60,7 +60,7 @@
 		__autoreleasing NSError *localError = nil;
 		created = [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:NULL error:&localError];
 		FSQAssert(created, @"Could not create caches directory! %@ (%@)",[localError localizedDescription],[localError userInfo]);
-		if (NO == created && error) {
+		if (error) {
 			*error = localError;
 		}
 	}

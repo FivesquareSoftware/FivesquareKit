@@ -13,4 +13,6 @@
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 
+- (void) prepareForReuse; ///< Subclasses can override to reset default state 
+
 @end

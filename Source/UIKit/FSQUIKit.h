@@ -61,5 +61,6 @@
 #import "UIPopoverController+FSQUIKit.h"
 #import "UIColor+FSQUIKit.h"
 #import "UIView+FSQUIKit.h"
+#import "UIImageView+FSQUIKit.h"
 
 

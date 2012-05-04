@@ -8,6 +8,8 @@
 
 #import "FSQThumbstripCell.h"
 
+#import "FSQAsserter.h"
+
 @interface FSQThumbstripCell ()
 @property (nonatomic, strong, readwrite) NSString *reuseIdentifier;
 @end
@@ -33,5 +35,9 @@
     // Drawing code
 }
 */
+
+- (void) prepareForReuse {
+	FSQSubclassWarn();
+}
 
 @end

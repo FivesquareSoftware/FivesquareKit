@@ -13,6 +13,7 @@
 #import "FSQProxy.h"
 #import "FSQUserDefaults.h"
 #import "FSQOpenStruct.h"
+#import "FSQImageCache.h"
 
 #import "NSArray+FSQFoundation.h"
 #import "NSData+FSQFoundation.h"
