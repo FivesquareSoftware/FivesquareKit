@@ -26,12 +26,12 @@
 }
 
 - (NSInteger) numberOfSections {
-	return [self.sections count];
+	return (NSInteger)[self.sections count];
 }
 
 - (id) sectionAtIndex:(NSInteger)section {
 	if(section < [self numberOfSections])
-		return [self.sections objectAtIndex:section];
+		return [self.sections objectAtIndex:(NSUInteger)section];
 	return nil;
 }
 
@@ -44,7 +44,7 @@
 }
 
 - (NSInteger) numberOfObjectsInSection:(NSInteger)section {
-	return [(id<NSFetchedResultsSectionInfo>)[self sectionAtIndex:section] numberOfObjects];
+	return (NSInteger)[(id<NSFetchedResultsSectionInfo>)[self sectionAtIndex:section] numberOfObjects];
 }
 
 - (NSArray *) objectsInSection:(NSInteger)section {

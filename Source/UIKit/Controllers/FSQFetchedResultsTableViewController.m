@@ -117,12 +117,12 @@
 
 - (NSIndexPath *) fetchedResultsIndexPathForTableIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row - fetchedResultsTableRowOffset_ inSection:indexPath.section - fetchedResultsTableSection_];
+	return [NSIndexPath indexPathForRow:indexPath.row - (NSInteger)fetchedResultsTableRowOffset_ inSection:indexPath.section - (NSInteger)fetchedResultsTableSection_];
 }
 
 - (NSIndexPath *) tableIndexPathForFetchedResultsIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row + fetchedResultsTableRowOffset_ inSection:indexPath.section + fetchedResultsTableSection_];
+	return [NSIndexPath indexPathForRow:indexPath.row + (NSInteger)fetchedResultsTableRowOffset_ inSection:indexPath.section + (NSInteger)fetchedResultsTableSection_];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -130,7 +130,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - fetchedResultsTableSection_];
+    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - (NSInteger)fetchedResultsTableSection_];
 	if(count < 1 && self.showsPlaceholderRow)
 		count = 1;
 	return count;
@@ -165,7 +165,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return [self.fetchedResultsController nameOfSectionAtIndex:section - fetchedResultsTableSection_];
+	return [self.fetchedResultsController nameOfSectionAtIndex:section - (NSInteger)fetchedResultsTableSection_];
 }
 
 - (CGFloat)tableView:(UITableView *)inTableView heightForHeaderInSection:(NSInteger)section {

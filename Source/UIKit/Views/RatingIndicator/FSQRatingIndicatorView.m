@@ -138,7 +138,7 @@
 	CGFloat segment = self.segments * (location.x / self.frame.size.width);
 	
     int newValue = rintf(segment);
-    [self setValue:newValue];
+    [self setValue:	newValue];
 }
 
 

@@ -283,8 +283,8 @@
 	}];
 	if (hitIndex != UINT_MAX) {
 		[self setSelectedIndex:hitIndex animated:YES];
-		[self sendActionsForControlEvents:UIControlEventValueChanged];
 	}	
+	[self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 // ========================================================================== //

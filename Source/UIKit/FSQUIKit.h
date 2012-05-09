@@ -26,6 +26,7 @@
 
 #import "FSQFetchedResultsTableViewController.h"
 #import "FSQFetchedResultsViewController.h"
+#import "FSQMenuPopover.h"
 #import "FSQMenuViewController.h"
 #import "FSQMenuViewController+Protected.h"
 
