@@ -91,6 +91,13 @@
 	return nil;
 }
 
+- (void) setCellSize:(CGSize)cellSize {
+	if (CGSizeEqualToSize(cellSize_, cellSize_)) {
+		cellSize_ = cellSize;
+		[self setNeedsDisplay];
+	}
+}
+
 
 // Private
 
@@ -329,11 +336,14 @@
 }
 
 - (void) loadCellAtIndex:(NSInteger)index {
+//	FLog(@"loadCellAtIndex: %d",index);
 	// Is it already loaded
 	id cell = [self activeCellForIndex:index];
+//	FLog(@"existing cell: %@",cell);
 	if (nil == cell) {
 		cell = [dataSource_ thumbstripView:self cellForIndex:index];
 		FSQAssert(cell != nil, @"thumbstripView:cellForIndex: cannot return nil");
+//		FLog(@"new cell: %@",cell);
 	}
 	
 	CGRect cellFrame = CGRectZero;
@@ -345,7 +355,6 @@
 		[self addSubview:cell];
 		[activeCells_ addObject:cell];
 	}
-//	FLog(@"new cell: %@",cell);
 } 
 
 - (void) loadVisibleCells {
@@ -354,8 +363,9 @@
 	NSMutableSet *invisibleCells = [NSMutableSet new];
 	CGRect visibleRect = [self visibleRect];
 	for (id cell in activeCells_) {
-		CGPoint cellCenter = [cell center];
-		if (NO == CGRectContainsPoint(visibleRect, cellCenter)) {
+		CGRect cellRect = [cell frame];
+		BOOL visible = CGRectIntersectsRect(visibleRect, cellRect);
+		if (NO == visible) {
 			[invisibleCells addObject:cell];
 		}
 	}

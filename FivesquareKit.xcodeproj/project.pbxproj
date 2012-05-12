@@ -129,6 +129,8 @@
 		A47E2EE7152B662800F7EDB1 /* FSQStretchableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */; };
 		A4976AE71550A6DE003DB2FB /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3AF441550936D00E2BB87 /* FSQImageCache.h */; };
 		A4976AE81550A6DE003DB2FB /* FSQImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F3AF451550936D00E2BB87 /* FSQImageCache.m */; };
+		A4BEA9B2155C389200509D20 /* UIDevice+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BEA9B0155C389200509D20 /* UIDevice+FSQUIKit.h */; };
+		A4BEA9B3155C389200509D20 /* UIDevice+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BEA9B1155C389200509D20 /* UIDevice+FSQUIKit.m */; };
 		A4C599691547409200350569 /* FSQThumbstripCell+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C599681547409200350569 /* FSQThumbstripCell+Protected.h */; };
 		A4D02E951525291D00C16B67 /* FivesquareKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A429665812F4D3F600AEAA83 /* FivesquareKit.m */; };
 		A4D02E961525291D00C16B67 /* FSQAsserter.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F446512748375005D9BF4 /* FSQAsserter.m */; };
@@ -343,6 +345,8 @@
 		A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIColorToDataTransformer.h; sourceTree = "<group>"; };
 		A4AFECE315213F9700645412 /* FSQUIColorToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIColorToDataTransformer.m; sourceTree = "<group>"; };
+		A4BEA9B0155C389200509D20 /* UIDevice+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+FSQUIKit.h"; sourceTree = "<group>"; };
+		A4BEA9B1155C389200509D20 /* UIDevice+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4C094421303AC4800CE8BB3 /* FSQAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAlertView.h; sourceTree = "<group>"; };
 		A4C094431303AC4800CE8BB3 /* FSQAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAlertView.m; sourceTree = "<group>"; };
 		A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FSQUIKit.h"; sourceTree = "<group>"; };
@@ -663,6 +667,8 @@
 				A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */,
 				A4FFAEBC1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h */,
 				A4FFAEBD1551EC9C0093FEA1 /* UIImageView+FSQUIKit.m */,
+				A4BEA9B0155C389200509D20 /* UIDevice+FSQUIKit.h */,
+				A4BEA9B1155C389200509D20 /* UIDevice+FSQUIKit.m */,
 			);
 			name = Extensions;
 			path = Categories;
@@ -936,6 +942,7 @@
 				A44624371558659200E25FFD /* FSQMenuPopover.h in Headers */,
 				A44624391558659200E25FFD /* FSQMenuViewController+Protected.h in Headers */,
 				A446243A1558659200E25FFD /* FSQMenuViewController.h in Headers */,
+				A4BEA9B2155C389200509D20 /* UIDevice+FSQUIKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1155,6 +1162,7 @@
 				A4FFAEBF1551EC9C0093FEA1 /* UIImageView+FSQUIKit.m in Sources */,
 				A44624381558659200E25FFD /* FSQMenuPopover.m in Sources */,
 				A446243B1558659200E25FFD /* FSQMenuViewController.m in Sources */,
+				A4BEA9B3155C389200509D20 /* UIDevice+FSQUIKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

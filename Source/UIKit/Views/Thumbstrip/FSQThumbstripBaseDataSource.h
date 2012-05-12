@@ -11,7 +11,7 @@
 
 #import "FSQThumbstripView.h"
 
-@interface FSQThumbstripBaseDataSource : NSObject <FSQThumbstripDataSource>
+@interface FSQThumbstripBaseDataSource : NSObject <FSQThumbstripDataSource, NSFetchedResultsControllerDelegate>
 
 - (id)initWithFetchRequest:(NSFetchRequest *)fetchRequest;
 - (id) objectAtIndex:(NSInteger)index;

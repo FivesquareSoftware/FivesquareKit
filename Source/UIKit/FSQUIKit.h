@@ -63,5 +63,6 @@
 #import "UIColor+FSQUIKit.h"
 #import "UIView+FSQUIKit.h"
 #import "UIImageView+FSQUIKit.h"
+#import "UIDevice+FSQUIKit.h"
 
 
