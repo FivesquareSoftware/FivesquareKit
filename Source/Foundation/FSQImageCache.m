@@ -103,6 +103,9 @@
 
 - (void)dealloc {
     dispatch_release(cacheQueue_);
+#if TARGET_OS_IPHONE
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+#endif
 }
 
 - (id)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)diskPath {
@@ -170,13 +173,21 @@
 #pragma mark - Public
 
 
-- (void) fetchImageForURL:(id)key completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
+- (void) fetchImageForURL:(id)URL completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
 //	FLog(@"fetchImageForURL: %@",key);
-	if ([key isKindOfClass:[NSString class]]) {
-		key = [NSURL URLWithString:key];
+	
+	id key = nil;
+	if ([URL isKindOfClass:[NSString class]]) {
+		NSString *trimmedString = [URL stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if ([trimmedString length] > 0) {
+			key = [NSURL URLWithString:URL];
+		}
+	} else if ([URL isKindOfClass:[NSURL class]]) {
+		key = URL;
 	}
 	
 	if (key == nil) {
+		FLog(@"'%@' is not a valid URL-like object",[URL description]);
 		return;
 	}
 	
