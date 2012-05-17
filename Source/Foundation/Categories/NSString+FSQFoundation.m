@@ -14,8 +14,8 @@
 
 @implementation NSString (FSQFoundation)
 
-- (BOOL) isEmpty:(NSString *)string {
-	return string == nil || [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0;
++ (BOOL) isEmpty:(NSString *)string {
+	return string == nil || [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length < 1;
 }
 
 - (NSString *) MD5Hash {

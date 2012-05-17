@@ -113,7 +113,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 				break;
 			}
 			NSUInteger count = [destinationClass countInContext:self];
-			NSUInteger mappedCount = 1;
+			NSUInteger mappedCount = 0;
 			if (count < 1) {
 				for (id data in objects) {
 					loaded = YES;

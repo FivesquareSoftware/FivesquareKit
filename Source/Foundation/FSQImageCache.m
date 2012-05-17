@@ -16,6 +16,8 @@
 #import "FSQAsserter.h"
 #import "FSQLogging.h"
 #import "NSString+FSQFoundation.h"
+#import "FSQFoundationConstants.h"
+
 
 
 // A wraper for cache entries that lets us do LRU
@@ -47,6 +49,7 @@
 @property (nonatomic, strong) NSString *cachePath;
 
 - (void) storeImage:(id)image forKey:(id)key;
+- (CGFloat) scaleForKey:(id)URL descaledKey:(id *)descaledKeyPtr;
 - (NSString *) cachePathForKey:(id)key;
 - (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(id)key;
 - (void) dispatchCompletionHandlersForKey:(id)key withImage:(id)image error:(NSError *)error;
@@ -63,6 +66,7 @@
 @synthesize memoryCapacity=memoryCapacity_;
 @synthesize diskCapacity=diskCapacity_;
 @synthesize diskPath=diskPath_;
+@synthesize automaticallyDetectsScale=automaticallyDetectsScale_;
 @synthesize currentMemoryUsage=currentMemoryUsage_;
 @synthesize currentDiskUsage=currentDiskUsage_;
 @synthesize downloadHandler=downloadHandler_;
@@ -110,14 +114,17 @@
 
 - (id)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)diskPath {
 	self = [super init];
-	if (diskPath == nil || diskPath.length < 1) {
+	diskPath = [diskPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([NSString isEmpty:diskPath]) {
 		FSQAssert(NO, @"diskPath cannot be nil or empty");
 		self = nil;
 	}
 	if (self) {
 		memoryCapacity_ = memoryCapacity;
 		diskCapacity_ = diskCapacity;
-		diskPath_ = [diskPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		diskPath_ = diskPath;
+		automaticallyDetectsScale_ = YES;
+		
 		cache_ = [NSMutableDictionary new];
 		cacheQueue_ = dispatch_queue_create([[NSString stringWithFormat:@"FSQImageCache.%p",self] UTF8String], DISPATCH_QUEUE_SERIAL);
 		completionHandlersByKey_ = [NSMutableDictionary new];
@@ -173,9 +180,9 @@
 #pragma mark - Public
 
 
+
 - (void) fetchImageForURL:(id)URL completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
-//	FLog(@"fetchImageForURL: %@",key);
-	
+
 	id key = nil;
 	if ([URL isKindOfClass:[NSString class]]) {
 		NSString *trimmedString = [URL stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -186,10 +193,23 @@
 		key = URL;
 	}
 	
-	if (key == nil) {
+	if (key == nil || [NSString isEmpty:[key description]]) {
 		FLog(@"'%@' is not a valid URL-like object",[URL description]);
 		return;
 	}
+
+	
+	id descaledKey = nil;
+	CGFloat scale = 1;
+	if (automaticallyDetectsScale_) {
+		scale = [self scaleForKey:key descaledKey:&descaledKey];
+	} 
+	else {
+		descaledKey = key;
+	}
+	
+	//	FLog(@"fetchImageForURL: %@",key);
+	
 	
 	// don't block the main thread with disk scans etc..
 	// all cache access is piped through our serial queue so there are no concurrency issues
@@ -197,7 +217,7 @@
 		
 		// register our handler for the key
 		[self addHandler:completionHandler forKey:key];
-
+		
 		// check the memory cache for the image
 		id image = [[cache_ objectForKey:key] image];
 		if (image) {
@@ -205,9 +225,10 @@
 		} 
 		// check the disk cache for the image
 		else { 
-			NSString *imagePath = [self cachePathForKey:key];
 #if TARGET_OS_IPHONE
+			NSString *imagePath = [self cachePathForKey:descaledKey]; // use the unscaled path because imageWithContentsOfFile: gets the right version for us
 			image = [UIImage imageWithContentsOfFile:imagePath];
+			FLog(@"scale for image loaded from disk: %f key: %@",[(UIImage *)image scale],descaledKey);
 #else
 			//TODO: load image from disk for mac os
 #endif
@@ -218,6 +239,14 @@
 			else if ([self beginDownload:key]) {
 				downloadHandler_(key,^(id downloadedImage, NSError *downloadError){
 					if (downloadedImage && downloadError == nil) {
+#if TARGET_OS_IPHONE
+						if (scale > 1) {
+							CGImageRef cgImage = [(UIImage *)downloadedImage CGImage];
+							downloadedImage = [UIImage imageWithCGImage:cgImage scale:scale orientation:UIImageOrientationUp];
+						}
+#else
+						//TODO: will Mac OS support @2x?
+#endif
 						[self storeImage:downloadedImage forKey:key];
 						[self dispatchCompletionHandlersForKey:key withImage:downloadedImage error:nil];
 					} else {
@@ -232,6 +261,7 @@
 
 - (void) removeImageForURL:(NSString *)imageURLString {
 	FLog(@"removeImageForURL: %@",imageURLString);
+#warning removeImageForURL: not removing scales
 	dispatch_async(cacheQueue_, ^{
 		[cache_ removeObjectForKey:imageURLString];
 		NSFileManager *fm = [NSFileManager new];
@@ -252,7 +282,7 @@
 
 
 - (void) storeImage:(id)image forKey:(id)key {
-//	FLog(@"storeImage:forURL: %@",key);
+	FLog(@"storeImage:forURL: %@",key);
 	
 	// all cache access is piped through our serial queue so there are no concurrency issues
 	dispatch_async(cacheQueue_, ^{
@@ -317,12 +347,69 @@
 		}
 		
 		// store in disk cache
-		[imageData writeToFile:[self cachePathForKey:key] atomically:YES];
+		NSError *writeError = nil;
+		if (NO == [imageData writeToFile:[self cachePathForKey:key] options:NSDataWritingAtomic error:&writeError]) {
+			FLogError(writeError, @"Could not write image to disk");
+		}
 	});
 }
 
-- (NSString *) cachePathForKey:(id)key {
-	return [self.cachePath stringByAppendingPathComponent:[[key description] MD5Hash]];
+- (CGFloat) scaleForKey:(id)URL descaledKey:(id *)descaledKeyPtr {
+	FLog(@"scaleForKey: '%@'",URL);
+	CGFloat scale = 1;
+	NSString *key = [URL description];
+	NSRegularExpression *scaleExpression = [NSRegularExpression regularExpressionWithPattern:kFSQImageCacheURLWithOptionalScaleExpression options:0 error:NULL];
+	NSRange keyRange = NSMakeRange(0, key.length);
+	NSTextCheckingResult *match = [scaleExpression firstMatchInString:key options:0 range:keyRange];
+	FSQAssert(match, @"Couldn't parse URL: %@",URL);
+	if (match) {
+		NSRange scaleRange = [match rangeAtIndex:kFSQImageCacheURLComponentScale];
+		if (scaleRange.location != NSNotFound) {
+			NSString *scaleString = [key substringWithRange:scaleRange];
+			scale = [scaleString floatValue];
+		}
+		if (descaledKeyPtr) {
+			NSString *template;
+			if ([match rangeAtIndex:kFSQImageCacheURLComponentExtension].location != NSNotFound) {
+				template = [NSString stringWithFormat:@"$%d$%d",kFSQImageCacheURLComponentBase,kFSQImageCacheURLComponentExtension];
+			} else {
+				template = [NSString stringWithFormat:@"$%d",kFSQImageCacheURLComponentBase];
+			}
+			*descaledKeyPtr = [scaleExpression stringByReplacingMatchesInString:key options:0 range:keyRange withTemplate:template];
+		}
+	}
+	return scale;
+}
+
+- (NSString *) cachePathForKey:(id)URL {
+	FLog(@"cachePathForKey:%@",URL);
+	NSString *extension = @"";
+	NSString *scale = @"";
+	NSString *basename;
+
+	NSString *key = [URL description];
+	NSRegularExpression *URLExpression = [NSRegularExpression regularExpressionWithPattern:kFSQImageCacheURLWithOptionalScaleExpression options:0 error:NULL];
+	NSRange keyRange = NSMakeRange(0, key.length);
+	NSTextCheckingResult *match = [URLExpression firstMatchInString:key options:0 range:keyRange];
+	if (match) {
+		basename = [key substringWithRange:[match rangeAtIndex:kFSQImageCacheURLComponentBase]];
+		NSRange scaleRange = [match rangeAtIndex:kFSQImageCacheURLComponentScaleFactor];
+		if (scaleRange.location != NSNotFound) {
+			scale = [key substringWithRange:scaleRange];
+		}
+		NSRange extensionRange = [match rangeAtIndex:kFSQImageCacheURLComponentExtension];
+		if (extensionRange.location != NSNotFound ) {
+			extension = [key substringWithRange:extensionRange];
+		}
+	} else {
+		basename = key;
+	}
+	
+	NSString *cachePath = [self.cachePath stringByAppendingPathComponent:[[basename description] MD5Hash]];
+	cachePath = [cachePath stringByAppendingString:scale];
+	cachePath = [cachePath stringByAppendingString:extension];
+	FLog(@"cachePath: %@",cachePath);
+	return cachePath;
 }
 
 - (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(id)key {

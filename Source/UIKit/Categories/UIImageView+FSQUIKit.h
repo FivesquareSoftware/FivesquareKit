@@ -14,6 +14,13 @@
 
 @property (nonatomic, weak) FSQImageCache *cache;
 
+/** Whether scale signifiers (e.g. '@2x') are appended to filenames in URLS. The default is YES.
+ *  @examples
+ *    - foo.png will become foo@2x.png if the device scale is 2.
+ *    - foo.png will remain unchanged if the device scale is 1.
+ */
+@property (nonatomic) BOOL automaticallyRequestsScaledImage; 
+
 /** Sets the receiver's image from the URL using #cache.
  *  @throws an exception if #cache is not set
  *  @see setImageWithContentsOfURL:cache:completionBlock: 
