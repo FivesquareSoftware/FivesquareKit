@@ -13,15 +13,5 @@ extern NSString *kFSQFoundationErrorDomain;
 extern NSString *kFSQMapperErrorInfoKeyFailingSourceKeyPath;
 extern NSString *kFSQMapperErrorInfoKeyFailingDestinationKeyPath;
 
-extern NSString *kFSQImageCacheURLWithOptionalScaleExpression;
-
-enum {
-	kFSQImageCacheURLComponentBase = 1
-	, kFSQImageCacheURLComponentFilename = 2
-	, kFSQImageCacheURLComponentScaleFactor = 3
-	, kFSQImageCacheURLComponentScale = 4
-	, kFSQImageCacheURLComponentExtension = 5
-};
-
 
 #define kFSQMapperErrorCodeMappingFailed -1

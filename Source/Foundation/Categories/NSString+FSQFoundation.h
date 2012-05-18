@@ -20,4 +20,6 @@
 
 - (BOOL) isValidEmailAddress;
 
+- (NSString *) stringByDeletingScaleModifier;
+
 @end

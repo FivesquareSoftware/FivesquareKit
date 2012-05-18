@@ -13,5 +13,4 @@ NSString *kFSQFoundationErrorDomain = @"FSQFoundationErrorDomain";
 NSString *kFSQMapperErrorInfoKeyFailingSourceKeyPath = @"Failing Source KeyPath";
 NSString *kFSQMapperErrorInfoKeyFailingDestinationKeyPath = @"Failing Destination KeyPath";
 
-NSString *kFSQImageCacheURLWithOptionalScaleExpression = @"^(.+/(\\w+))(@([0-9.]+)x)?(\\.([^.]+))$";
 

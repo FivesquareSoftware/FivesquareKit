@@ -14,6 +14,7 @@
 #import "FSQAsserter.h"
 #import "FSQFoundationConstants.h"
 #import "NSString+FSQFoundation.h"
+#import "NSURL+FSQFoundation.h"
 
 static const NSString *kUIImageView_FSQUIKit_Cache = @"UIImageView_FSQUIKit_Cache";
 static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = @"UIImageView_FSQUIKit_Cache";
@@ -57,7 +58,7 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:block];
 }
 
-- (void) setImageWithContentsOfURL:(id)URL cache:(FSQImageCache *)cache completionBlock:(void(^)())block {
+- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)cache completionBlock:(void(^)())block {
 	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
 		if (error) {
 			FLogError(error, @"Could not load image");
@@ -69,27 +70,43 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 		}
 	};
 	
-	id URLWithScale = URL;
-	CGFloat scale = [[UIScreen mainScreen] scale];
-	if (self.automaticallyRequestsScaledImage && scale != 1.f) {
-		NSString *key = [URL description];
-		NSError *regexError = nil;
-		NSRegularExpression *URLExpression = [NSRegularExpression regularExpressionWithPattern:kFSQImageCacheURLWithOptionalScaleExpression options:0 error:&regexError];
-		NSRange keyRange = NSMakeRange(0, key.length);
-		NSTextCheckingResult *match = [URLExpression firstMatchInString:key options:0 range:keyRange];		
-		NSRange scaleRange = [match rangeAtIndex:kFSQImageCacheURLComponentScaleFactor];
-		if (match && scaleRange.location == NSNotFound) {	// if there is no scale in the URL already		
-			NSString *template;
-			if ([match rangeAtIndex:kFSQImageCacheURLComponentExtension].location != NSNotFound) {
-				template = [NSString stringWithFormat:@"$%d@%.0fx$%d",kFSQImageCacheURLComponentBase,scale,kFSQImageCacheURLComponentExtension];
-			} else {
-				template = [NSString stringWithFormat:@"$%d@%.0fx",kFSQImageCacheURLComponentBase,scale];
-			}
-			// insert scale into the URL
-			URLWithScale = [URLExpression stringByReplacingMatchesInString:key options:0 range:keyRange withTemplate:template];
-		}
-	}		
+	NSURL *URL;
+	// Get the arg into an NSURL and do a little validation
 	
+	if ([URLOrString isKindOfClass:[NSString class]]) {
+		NSString *trimmedString = [URLOrString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if (NO == [NSString isEmpty:trimmedString]) {
+			URL = [NSURL URLWithString:trimmedString];
+		}
+	} else {
+		URL = URLOrString;
+	}
+	
+	if (URL == nil || [NSString isEmpty:[URL description]]) {
+		FLog(@"Not loading image from empty URL");
+		return;
+	}
+	
+	FSQAssert([URL isKindOfClass:[NSURL class]],@"URL must be either an NSString or an NSURL: %@",URL);
+	if (NO == [URL isKindOfClass:[NSURL class]]) {
+		return;
+	}
+
+	NSURL *URLWithScale = URL;
+	
+	// Check if we need to add scale
+	
+	CGFloat scale = [[UIScreen mainScreen] scale];
+	if (self.automaticallyRequestsScaledImage && scale > 1.f) {
+		
+		// Is scale set already?
+		
+		if ([NSString isEmpty:[URL scaleModifier]]) { 
+			URLWithScale = [URL URLBySettingScale:scale];
+		} 
+	}
+
+
 	[cache fetchImageForURL:URLWithScale completionHandler:completionHandler];
 }
 

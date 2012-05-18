@@ -22,4 +22,5 @@
 #import "NSString+FSQFoundation.h"
 #import "NSBundle+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
+#import "NSURL+FSQFoundation.h"
 

@@ -7,9 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <CoreGraphics/CoreGraphics.h>
-#endif
 
 typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 
@@ -46,13 +43,13 @@ typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 /** Searches for an image in the in-memory cache, and if not found in the disk cache. Finally, will use #downloadHandler to fetch the image from the internet. In all cases, completionHandler is invoked with the found image or an error on the main thread's queue (so it's safe to interact with your UI). 
  *  @param URL can be either an NSURL or an NSString representing a URL
  */
-- (void) fetchImageForURL:(id)URL completionHandler:(FSQImageCacheCompletionHandler)completionHandler;
+- (void) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler;
 
 
-/** Removes the image from the memory and disk caches for all scales.
- *  @param key can be either an NSURL or an NSString representing a URL
+/** Removes the image from the memory and disk caches.
+ *  @param URLOrString can be either an NSURL or an NSString representing a URL
  */
-- (void) removeImageForURL:(id)key;
+- (void) removeImageForURL:(id)URLOrString;
 
 
 @end
