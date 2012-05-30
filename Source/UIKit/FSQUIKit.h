@@ -37,6 +37,7 @@
 #import "FSQDetailImageView.h"
 #import "FSQStretchableButton.h"
 #import "FSQTransparentSearchBar.h"
+#import "FSQProgressBar.h"
 #import "FSQMenuControl.h"
 #import "FSQMenuControl+Protected.h"
 #import "FSQMenuItemView.h"

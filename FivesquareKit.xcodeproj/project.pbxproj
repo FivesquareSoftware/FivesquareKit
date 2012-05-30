@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A40017371565C581004765ED /* NSURL+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A40017351565C581004765ED /* NSURL+FSQFoundation.h */; };
-		A40017381565C581004765ED /* NSURL+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A40017351565C581004765ED /* NSURL+FSQFoundation.h */; };
+		A40017371565C581004765ED /* NSURL+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A40017351565C581004765ED /* NSURL+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A40017381565C581004765ED /* NSURL+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A40017351565C581004765ED /* NSURL+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40017391565C581004765ED /* NSURL+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A40017361565C581004765ED /* NSURL+FSQFoundation.m */; };
 		A400173A1565C581004765ED /* NSURL+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A40017361565C581004765ED /* NSURL+FSQFoundation.m */; };
 		A408F4EA1534D549009B589D /* FSQMenuControl+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A408F4E81534D549009B589D /* FSQMenuControl+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A40FA7721542115E0013D6EF /* FSQThumbstripBaseDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */; };
+		A40FA7721542115E0013D6EF /* FSQThumbstripBaseDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40FA7731542115E0013D6EF /* FSQThumbstripBaseDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A40FA7711542115E0013D6EF /* FSQThumbstripBaseDataSource.m */; };
-		A40FA7761542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */; };
+		A40FA7761542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A41E2C40152F84F7005554B9 /* FSQTransparentSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A41E2C41152F84F7005554B9 /* FSQTransparentSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */; };
 		A429654A12F482D400AEAA83 /* FivesquareKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43FB12748374005D9BF4 /* FivesquareKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -118,12 +118,12 @@
 		A42A2EDB1525252D0032AB39 /* CLLocation+FSQCoreLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43F712748374005D9BF4 /* CLLocation+FSQCoreLocation.m */; };
 		A42A2EDC1525252D0032AB39 /* FSQCoreGraphicsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43F312748374005D9BF4 /* FSQCoreGraphicsUtils.m */; };
 		A42A2F211525285D0032AB39 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A42A2F1F1525285D0032AB39 /* InfoPlist.strings */; };
-		A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A43CC1B91538AC960013700F /* UIView+FSQUIKit.h */; };
+		A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A43CC1B91538AC960013700F /* UIView+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43CC1BC1538AC960013700F /* UIView+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */; };
-		A44624371558659200E25FFD /* FSQMenuPopover.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624321558659200E25FFD /* FSQMenuPopover.h */; };
+		A44624371558659200E25FFD /* FSQMenuPopover.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624321558659200E25FFD /* FSQMenuPopover.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A44624381558659200E25FFD /* FSQMenuPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = A44624331558659200E25FFD /* FSQMenuPopover.m */; };
-		A44624391558659200E25FFD /* FSQMenuViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624341558659200E25FFD /* FSQMenuViewController+Protected.h */; };
-		A446243A1558659200E25FFD /* FSQMenuViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624351558659200E25FFD /* FSQMenuViewController.h */; };
+		A44624391558659200E25FFD /* FSQMenuViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624341558659200E25FFD /* FSQMenuViewController+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A446243A1558659200E25FFD /* FSQMenuViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624351558659200E25FFD /* FSQMenuViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A446243B1558659200E25FFD /* FSQMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44624361558659200E25FFD /* FSQMenuViewController.m */; };
 		A454C13115252F8A001E8B9F /* FSQKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F441C12748374005D9BF4 /* FSQKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A454C13215252F90001E8B9F /* FSQKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441D12748374005D9BF4 /* FSQKeychain.m */; };
@@ -131,11 +131,12 @@
 		A4713EB913509EED00FA1402 /* RatingIndicatorOn.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446212748375005D9BF4 /* RatingIndicatorOn.png */; };
 		A47E2EE6152B662800F7EDB1 /* FSQStretchableButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A47E2EE7152B662800F7EDB1 /* FSQStretchableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */; };
-		A4976AE71550A6DE003DB2FB /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3AF441550936D00E2BB87 /* FSQImageCache.h */; };
+		A4976AE71550A6DE003DB2FB /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3AF441550936D00E2BB87 /* FSQImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4976AE81550A6DE003DB2FB /* FSQImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F3AF451550936D00E2BB87 /* FSQImageCache.m */; };
-		A4BEA9B2155C389200509D20 /* UIDevice+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BEA9B0155C389200509D20 /* UIDevice+FSQUIKit.h */; };
+		A4BBEFB9156C4834003BBDE1 /* FSQProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BBEFB7156C4834003BBDE1 /* FSQProgressBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4BBEFBA156C4834003BBDE1 /* FSQProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBEFB8156C4834003BBDE1 /* FSQProgressBar.m */; };
+		A4BEA9B2155C389200509D20 /* UIDevice+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BEA9B0155C389200509D20 /* UIDevice+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4BEA9B3155C389200509D20 /* UIDevice+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BEA9B1155C389200509D20 /* UIDevice+FSQUIKit.m */; };
-		A4C599691547409200350569 /* FSQThumbstripCell+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C599681547409200350569 /* FSQThumbstripCell+Protected.h */; };
 		A4D02E951525291D00C16B67 /* FivesquareKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A429665812F4D3F600AEAA83 /* FivesquareKit.m */; };
 		A4D02E961525291D00C16B67 /* FSQAsserter.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F446512748375005D9BF4 /* FSQAsserter.m */; };
 		A4D02E971525291D00C16B67 /* FSQSandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = A429628E12F47D3700AEAA83 /* FSQSandbox.m */; };
@@ -211,13 +212,13 @@
 		A4EA537615336789006BF354 /* FSQMenuControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EA537415336789006BF354 /* FSQMenuControl.m */; };
 		A4EA53791533679F006BF354 /* FSQMenuItemView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EA53771533679F006BF354 /* FSQMenuItemView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4EA537A1533679F006BF354 /* FSQMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EA53781533679F006BF354 /* FSQMenuItemView.m */; };
-		A4F3AF461550936D00E2BB87 /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3AF441550936D00E2BB87 /* FSQImageCache.h */; };
+		A4F3AF461550936D00E2BB87 /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3AF441550936D00E2BB87 /* FSQImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4F3AF471550936D00E2BB87 /* FSQImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F3AF451550936D00E2BB87 /* FSQImageCache.m */; };
 		A4F69F641540CAE6006DAF85 /* FSQThumbstripView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F69F621540CAE6006DAF85 /* FSQThumbstripView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4F69F651540CAE6006DAF85 /* FSQThumbstripView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F69F631540CAE6006DAF85 /* FSQThumbstripView.m */; };
 		A4F69F681540CB43006DAF85 /* FSQThumbstripCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F69F661540CB43006DAF85 /* FSQThumbstripCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4F69F691540CB43006DAF85 /* FSQThumbstripCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F69F671540CB43006DAF85 /* FSQThumbstripCell.m */; };
-		A4FFAEBE1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4FFAEBC1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h */; };
+		A4FFAEBE1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4FFAEBC1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4FFAEBF1551EC9C0093FEA1 /* UIImageView+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FFAEBD1551EC9C0093FEA1 /* UIImageView+FSQUIKit.m */; };
 /* End PBXBuildFile section */
 
@@ -351,6 +352,8 @@
 		A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIColorToDataTransformer.h; sourceTree = "<group>"; };
 		A4AFECE315213F9700645412 /* FSQUIColorToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIColorToDataTransformer.m; sourceTree = "<group>"; };
+		A4BBEFB7156C4834003BBDE1 /* FSQProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQProgressBar.h; sourceTree = "<group>"; };
+		A4BBEFB8156C4834003BBDE1 /* FSQProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQProgressBar.m; sourceTree = "<group>"; };
 		A4BEA9B0155C389200509D20 /* UIDevice+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4BEA9B1155C389200509D20 /* UIDevice+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4C094421303AC4800CE8BB3 /* FSQAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAlertView.h; sourceTree = "<group>"; };
@@ -359,7 +362,6 @@
 		A4C094541303AD4700CE8BB3 /* UIViewController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4C0945B1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4C0945C1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPopoverController+FSQUIKit.m"; sourceTree = "<group>"; };
-		A4C599681547409200350569 /* FSQThumbstripCell+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQThumbstripCell+Protected.h"; sourceTree = "<group>"; };
 		A4D02E94152528C600C16B67 /* FivesquareKitFramework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FivesquareKitFramework-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A4D02ECC1525299800C16B67 /* FSQSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQSecurity.h; sourceTree = "<group>"; };
 		A4D02ED0152529E700C16B67 /* FSQCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCoreGraphics.h; sourceTree = "<group>"; };
@@ -631,7 +633,7 @@
 				A464DA3513D38B12006B6C59 /* Helpers */,
 				A45F441F12748374005D9BF4 /* Cells */,
 				A45F443E12748375005D9BF4 /* Controllers */,
-				A45F444F12748375005D9BF4 /* Views */,
+				A45F444F12748375005D9BF4 /* Controls */,
 				A4EA536D15336753006BF354 /* Model */,
 				A435127614AFE7FA00BE02A8 /* Transformers */,
 				A45F442612748374005D9BF4 /* Extensions */,
@@ -696,7 +698,7 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		A45F444F12748375005D9BF4 /* Views */ = {
+		A45F444F12748375005D9BF4 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
 				A4C094421303AC4800CE8BB3 /* FSQAlertView.h */,
@@ -709,11 +711,13 @@
 				A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */,
 				A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */,
 				A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */,
+				A4BBEFB7156C4834003BBDE1 /* FSQProgressBar.h */,
+				A4BBEFB8156C4834003BBDE1 /* FSQProgressBar.m */,
 				A4EA537215336789006BF354 /* Menu */,
 				A45F445E12748375005D9BF4 /* RatingIndicator */,
 				A4F69F611540CAE6006DAF85 /* Thumbstrip */,
 			);
-			path = Views;
+			path = Controls;
 			sourceTree = "<group>";
 		};
 		A45F445E12748375005D9BF4 /* RatingIndicator */ = {
@@ -861,7 +865,6 @@
 				A4F69F621540CAE6006DAF85 /* FSQThumbstripView.h */,
 				A4F69F631540CAE6006DAF85 /* FSQThumbstripView.m */,
 				A4F69F661540CB43006DAF85 /* FSQThumbstripCell.h */,
-				A4C599681547409200350569 /* FSQThumbstripCell+Protected.h */,
 				A4F69F671540CB43006DAF85 /* FSQThumbstripCell.m */,
 				A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */,
 				A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */,
@@ -939,12 +942,11 @@
 				A4EA537515336789006BF354 /* FSQMenuControl.h in Headers */,
 				A4EA53791533679F006BF354 /* FSQMenuItemView.h in Headers */,
 				A408F4EA1534D549009B589D /* FSQMenuControl+Protected.h in Headers */,
-				A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */,
 				A4F69F641540CAE6006DAF85 /* FSQThumbstripView.h in Headers */,
 				A4F69F681540CB43006DAF85 /* FSQThumbstripCell.h in Headers */,
+				A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */,
 				A40FA7721542115E0013D6EF /* FSQThumbstripBaseDataSource.h in Headers */,
 				A40FA7761542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h in Headers */,
-				A4C599691547409200350569 /* FSQThumbstripCell+Protected.h in Headers */,
 				A4F3AF461550936D00E2BB87 /* FSQImageCache.h in Headers */,
 				A4FFAEBE1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h in Headers */,
 				A44624371558659200E25FFD /* FSQMenuPopover.h in Headers */,
@@ -952,6 +954,7 @@
 				A446243A1558659200E25FFD /* FSQMenuViewController.h in Headers */,
 				A4BEA9B2155C389200509D20 /* UIDevice+FSQUIKit.h in Headers */,
 				A40017371565C581004765ED /* NSURL+FSQFoundation.h in Headers */,
+				A4BBEFB9156C4834003BBDE1 /* FSQProgressBar.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -991,9 +994,9 @@
 				A4D02ED3152529E700C16B67 /* FSQCoreGraphics.h in Headers */,
 				A4D02ED915252B1400C16B67 /* FSQRuntime.h in Headers */,
 				A4D02EDC15252B4D00C16B67 /* FSQSecurity.h in Headers */,
-				A454C13115252F8A001E8B9F /* FSQKeychain.h in Headers */,
 				A4976AE71550A6DE003DB2FB /* FSQImageCache.h in Headers */,
 				A40017381565C581004765ED /* NSURL+FSQFoundation.h in Headers */,
+				A454C13115252F8A001E8B9F /* FSQKeychain.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1174,6 +1177,7 @@
 				A446243B1558659200E25FFD /* FSQMenuViewController.m in Sources */,
 				A4BEA9B3155C389200509D20 /* UIDevice+FSQUIKit.m in Sources */,
 				A40017391565C581004765ED /* NSURL+FSQFoundation.m in Sources */,
+				A4BBEFBA156C4834003BBDE1 /* FSQProgressBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1259,6 +1263,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -1292,6 +1297,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = FivesquareKit;
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1304,6 +1310,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				PRODUCT_NAME = FivesquareKit;
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SDKROOT = iphoneos;
 				ZERO_LINK = NO;
 			};

@@ -14,6 +14,7 @@
 - (void) fetch;
 
 - (BOOL) hasResults;
+- (NSUInteger) countOfObjects;
 
 - (NSInteger) numberOfSections;
 

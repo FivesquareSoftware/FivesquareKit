@@ -71,6 +71,7 @@
 @synthesize currentMemoryUsage=currentMemoryUsage_;
 @synthesize currentDiskUsage=currentDiskUsage_;
 @synthesize downloadHandler=downloadHandler_;
+@synthesize cancelationHandler=cancelationHandler_;
 
 // Private
 
@@ -247,6 +248,12 @@
 			}
 		}
 	});
+}
+
+- (void) cancelFetchForURL:(id)URLOrString {
+	if (cancelationHandler_) {
+		cancelationHandler_(URLOrString);
+	}
 }
 
 - (void) removeImageForURL:(id)URLOrString {

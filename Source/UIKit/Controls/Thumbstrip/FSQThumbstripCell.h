@@ -10,6 +10,7 @@
 
 @interface FSQThumbstripCell : UIView
 @property (nonatomic, strong, readonly) NSString *reuseIdentifier;
+@property (nonatomic, weak, readonly) UIView *contentView;
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 

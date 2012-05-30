@@ -35,16 +35,21 @@ typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 @property (nonatomic, readonly) NSUInteger currentMemoryUsage;
 @property (nonatomic, readonly) NSUInteger currentDiskUsage;
 
-/** A block that handles requests to download an image and invoke a completion block when done. */
+/** A block that satisfies requests to download an image using any networking library and invokes a completion block when done. */
 @property (nonatomic, copy) void(^downloadHandler)(NSURL *imageURL, FSQImageCacheCompletionHandler completionBlock);
+
+/** A block that passes requests to cancel the download of an image to the networking library handling the download. */
+@property (nonatomic, copy) void(^cancelationHandler)(NSURL *imageURL);
 
 - (id)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)diskPath;
 
-/** Searches for an image in the in-memory cache, and if not found in the disk cache. Finally, will use #downloadHandler to fetch the image from the internet. In all cases, completionHandler is invoked with the found image or an error on the main thread's queue (so it's safe to interact with your UI). 
+/** Searches for an image in the in-memory cache and if not found there, then in the disk cache. Finally, will use #downloadHandler to fetch the image from the internet. In all cases, completionHandler is invoked with the found image or an error on the main thread's queue (so it's safe to interact with your UI). 
  *  @param URL can be either an NSURL or an NSString representing a URL
  */
 - (void) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler;
 
+/** Calls #cancellationHandler with the supplied URL to cancel a download of the image if it is in progress. In-memory and disk cache fetches are not cancellable. */
+- (void) cancelFetchForURL:(id)URLOrString;
 
 /** Removes the image from the memory and disk caches.
  *  @param URLOrString can be either an NSURL or an NSString representing a URL

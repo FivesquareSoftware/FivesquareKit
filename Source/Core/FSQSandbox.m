@@ -53,7 +53,6 @@
 
 + (BOOL) createDirectoryInUserSearchPath:(NSUInteger)directoryIdentifier error:(NSError **)error {
 	NSString *directory = [self directoryInUserSearchPath:directoryIdentifier];
-	
 	NSFileManager *fm = [NSFileManager new];
 	BOOL created = YES;
 	if(NO == [fm fileExistsAtPath:directory isDirectory:NULL]) {

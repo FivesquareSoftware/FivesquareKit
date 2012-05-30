@@ -25,13 +25,24 @@
 @synthesize fetchedResultsController=fetchedResultsController_;
 
 - (NSManagedObjectContext *) managedObjectContext {
-	[FSQAsserter subclass:self responsibility:_cmd];
-	return nil;
+	if (managedObjectContext_ == nil) {
+		[FSQAsserter subclass:self responsibility:_cmd];
+	}
+	return managedObjectContext_;
 }
 
 - (NSFetchedResultsController *) fetchedResultsController {
-	[FSQAsserter subclass:self responsibility:_cmd];
-	return nil;
+	if (fetchedResultsController_ == nil) {
+		[FSQAsserter subclass:self responsibility:_cmd];
+	}
+	return fetchedResultsController_;
+}
+
+- (void) setFetchedResultsController:(NSFetchedResultsController *)fetchedResultsController {
+	if (fetchedResultsController_ != fetchedResultsController) {
+		fetchedResultsController_ = fetchedResultsController;
+		[fetchedResultsController_ fetch];
+	}
 }
 
 

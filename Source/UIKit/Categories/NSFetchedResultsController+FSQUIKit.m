@@ -25,6 +25,10 @@
 	return [self.fetchedObjects count] > 0;
 }
 
+- (NSUInteger) countOfObjects {
+	return [self.fetchedObjects count];
+}
+
 - (NSInteger) numberOfSections {
 	return (NSInteger)[self.sections count];
 }

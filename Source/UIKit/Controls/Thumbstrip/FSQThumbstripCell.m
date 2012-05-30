@@ -18,11 +18,17 @@
 @implementation FSQThumbstripCell
 
 @synthesize reuseIdentifier=reuseIdentifier_;
+@synthesize contentView=contentView_;
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithFrame:CGRectZero];
     if (self) {
         reuseIdentifier_ = reuseIdentifier;
+		UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
+		contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+		contentView.backgroundColor = [UIColor clearColor];
+		[self addSubview:contentView];
+		contentView_ = contentView;
     }
     return self;
 }

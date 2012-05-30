@@ -12,6 +12,8 @@
 #import "FSQAsserter.h"
 #import "FSQThumbstripCell.h"
 
+#define kFSQThumbstripCellTransitionAnimationDuration 0.1
+
 
 @interface FSQThumbstripView ()
 
@@ -21,8 +23,8 @@
 @property (nonatomic, strong) NSMutableSet *inactiveCells;
 @property (nonatomic, strong) NSMutableArray *cellOffsetRanges;
 @property (nonatomic, readonly) CGFloat offsetInSignificantDimension;
-@property (nonatomic) NSInteger indexOfCellAtCurrentOffset;
-@property (nonatomic) CGRect visibleRect;
+@property (nonatomic, readonly) NSInteger indexOfCellAtCurrentOffset;
+@property (nonatomic, readonly) CGRect visibleRect;
 @property (nonatomic, readonly) BOOL isHorizontal;
 
 // Overrides
@@ -30,13 +32,17 @@
 
 - (void) initialize;
 
+// Scroll view
+
+- (CGFloat) offsetInSignificantDimensionOfPoint:(CGPoint)point;
+
 // Cell handling
 
 - (CGSize) sizeThatFitsForCellAtIndex:(NSInteger)index;
 - (id) activeCellForIndex:(NSInteger)index;
 - (CGPoint) originForCellAtIndex:(NSInteger)index;
-- (void) loadCellAtIndex:(NSInteger)index;
 - (void) loadVisibleCells;
+- (void) loadCellAtIndex:(NSInteger)index;
 
 // Scroll handling
 
@@ -114,8 +120,7 @@
 
 @dynamic offsetInSignificantDimension;
 - (CGFloat) offsetInSignificantDimension {
-	CGFloat offset = self.isHorizontal ? self.contentOffset.x : self.contentOffset.y;
-	return offset;
+	return [self offsetInSignificantDimensionOfPoint:self.contentOffset];
 }
 
 @dynamic indexOfCellAtCurrentOffset;
@@ -153,11 +158,6 @@
 #pragma mark - Object
 
 
-- (void)dealloc {
-    [self.panGestureRecognizer removeObserver:self forKeyPath:@"state" context:nil];
-	[self removeObserver:self forKeyPath:@"contentOffset"];
-}
-
 
 - (void) initialize {
 	
@@ -174,11 +174,6 @@
 	self.pagingEnabled = NO;
 	
 	self.clipsToBounds = NO;
-
-	
-	[self.panGestureRecognizer addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-	[self addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-	
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -207,36 +202,21 @@
 - (void) layoutSubviews {
 	[super layoutSubviews];
 	
-	[cellOffsetRanges_ removeAllObjects];
-	
-	// get the total width, compute cell ranges, and set content size
-	NSInteger count = [dataSource_ numberOfItemsInthumbstripView:self];
-	CGFloat offset = 0;
-	for (int i = 0; i < count; i++) {
-		CGSize cellSize = [self sizeThatFitsForCellAtIndex:i];
-		CGFloat length = self.isHorizontal ? cellSize.width : cellSize.height;
-		[cellOffsetRanges_ addObject:[NSValue valueWithRange:NSMakeRange(offset, length)]];
-		offset += length;
-	}
-	CGSize newContentSize = self.contentSize;
-	if (self.isHorizontal) {
-		newContentSize.width = offset;
-	} else {
-		newContentSize.height = offset;
-	}
-	self.contentSize = newContentSize;
 
 	[self loadVisibleCells];
-}
-
-
-- (void) scrollingBegan {
-//	FLog(@"velocity: %@",NSStringFromCGPoint([self.panGestureRecognizer velocityInView:self]));
 }
 
 - (void) didScroll {
 //	FLog(@"contentOffset: %@", NSStringFromCGPoint(self.contentOffset));
 	[self loadVisibleCells];
+}
+
+- (void) willMoveToSuperview:(UIView *)newSuperview {
+	if (newSuperview) {
+		[self addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+	} else {
+		[self removeObserver:self forKeyPath:@"contentOffset"];
+	}
 }
 
 
@@ -272,6 +252,33 @@
 
 
 - (void) reloadData {
+//	[UIView animateWithDuration:kFSQThumbstripCellTransitionAnimationDuration animations:^{
+		for (id cell in activeCells_) {
+			[cell setAlpha:0];
+			[cell removeFromSuperview];
+		}
+//	}];
+	[activeCells_ removeAllObjects];
+	[inactiveCells_ removeAllObjects];	
+	[cellOffsetRanges_ removeAllObjects];
+	
+	// get the total width, compute cell ranges, and set content size
+	NSInteger count = [dataSource_ numberOfItemsInthumbstripView:self];
+	CGFloat offset = 0;
+	for (int i = 0; i < count; i++) {
+		CGSize cellSize = [self sizeThatFitsForCellAtIndex:i];
+		CGFloat length = self.isHorizontal ? cellSize.width : cellSize.height;
+		[cellOffsetRanges_ addObject:[NSValue valueWithRange:NSMakeRange(offset, length)]];
+		offset += length;
+	}
+	CGSize newContentSize = self.contentSize;
+	if (self.isHorizontal) {
+		newContentSize.width = offset;
+	} else {
+		newContentSize.height = offset;
+	}
+	self.contentSize = newContentSize;
+
 	[self layoutSubviews];
 }
 
@@ -283,8 +290,8 @@
 	
 	id cell;
 	if ( (cell = [inactiveCells_ anyObject]) ) {
-		[activeCells_ addObject:cell];
 		[inactiveCells_ removeObject:cell];
+		[cell prepareForReuse];
 	} else {
 		cell = [[klass alloc] initWithReuseIdentifier:identifier];
 	}
@@ -296,7 +303,10 @@
 
 #pragma mark - Helpers
 
-
+- (CGFloat) offsetInSignificantDimensionOfPoint:(CGPoint)point {
+	CGFloat offset = self.isHorizontal ? point.x : point.y;
+	return offset;
+}
 
 - (CGSize) sizeThatFitsForCellAtIndex:(NSInteger)index {
 	CGSize cellSize = self.cellSize;
@@ -335,28 +345,6 @@
 	return CGPointMake(x, y);
 }
 
-- (void) loadCellAtIndex:(NSInteger)index {
-//	FLog(@"loadCellAtIndex: %d",index);
-	// Is it already loaded
-	id cell = [self activeCellForIndex:index];
-//	FLog(@"existing cell: %@",cell);
-	if (nil == cell) {
-		cell = [dataSource_ thumbstripView:self cellForIndex:index];
-		FSQAssert(cell != nil, @"thumbstripView:cellForIndex: cannot return nil");
-//		FLog(@"new cell: %@",cell);
-	}
-	
-	CGRect cellFrame = CGRectZero;
-	cellFrame.size = [self sizeThatFitsForCellAtIndex:index];
-	cellFrame.origin = [self originForCellAtIndex:index];
-	[cell setFrame:cellFrame];
-	
-	if (nil == [cell superview]) {
-		[self addSubview:cell];
-		[activeCells_ addObject:cell];
-	}
-} 
-
 - (void) loadVisibleCells {
 	// dequeue unused cells
 	
@@ -378,7 +366,6 @@
 //	FLog(@"2. activeCells_: %@", activeCells_);
 //	FLog(@"2. inactiveCells_: %@", inactiveCells_);
 
-	[invisibleCells makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	
 	// load any visible cells that are not loaded
 	
@@ -386,8 +373,39 @@
 	for (NSInteger index = (NSInteger)visibleRange.location; index < NSMaxRange(visibleRange); index++) {
 		[self loadCellAtIndex:index];
 	}	
+
+	[invisibleCells makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
+- (void) loadCellAtIndex:(NSInteger)index {
+//	FLog(@"loadCellAtIndex: %d",index);
+
+	id existingCell = [self activeCellForIndex:index];
+	if (existingCell) {
+//		FLog(@"existing cell: %@",existingCell);
+		return;
+	}
+	if (dataSource_) {
+		id cell = [dataSource_ thumbstripView:self cellForIndex:index];
+		FSQAssert(cell != nil, @"thumbstripView:cellForIndex: cannot return nil");
+		if (cell) {
+			
+			CGRect cellFrame = CGRectZero;
+			cellFrame.size = [self sizeThatFitsForCellAtIndex:index];
+			cellFrame.origin = [self originForCellAtIndex:index];
+			[cell setFrame:cellFrame];
+			
+//			[cell setAlpha:0];
+//			[UIView animateWithDuration:kFSQThumbstripCellTransitionAnimationDuration animations:^{
+//				FLog(@"adding new cell");
+				[self addSubview:cell];
+				[cell setAlpha:1];
+//			} completion:^(BOOL finished) {
+				[activeCells_ addObject:cell];
+//			}];
+		}	
+	}
+} 
 
 
 
@@ -397,12 +415,13 @@
 
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if (object == self.panGestureRecognizer) {
-		[self scrollingBegan];
-	}
-	if (object == self) {
-		[self didScroll];
-	}
+//	if ([keyPath isEqualToString:@"contentOffset"]) {
+//		CGFloat currentOffset = [self offsetInSignificantDimension];
+//		CGFloat newOffset = [self offsetInSignificantDimensionOfPoint:[[change objectForKey:NSKeyValueChangeNewKey] CGPointValue]];
+//		if (currentOffset != newOffset) {
+//			[self didScroll];
+//		}
+//	}
 }
 
 
