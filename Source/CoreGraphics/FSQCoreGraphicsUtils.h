@@ -38,8 +38,8 @@ CGMutablePathRef CreateRoundedBottomBandPath(CGRect rect, CGFloat radius);
 CGContextRef CreateBitmapRenderingContext(
     CGRect rect, 
     CGColorSpaceRef colorSpace, 
-    int bytesPerPixel, 
-    int bitsPerComponent, 
+    size_t bytesPerPixel, 
+    size_t bitsPerComponent, 
     CGImageAlphaInfo alphaInformation
 );
 

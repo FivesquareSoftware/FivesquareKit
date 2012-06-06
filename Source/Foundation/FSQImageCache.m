@@ -15,6 +15,7 @@
 #import "FSQSandbox.h"
 #import "FSQAsserter.h"
 #import "FSQLogging.h"
+#import "FSQMacros.h"
 #import "NSString+FSQFoundation.h"
 #import "NSURL+FSQFoundation.h"
 
@@ -195,7 +196,7 @@
 
 	
 	NSURL *descaledKey = nil;
-	float scale = 1;
+	float scale FSQ_MAYBE_UNUSED = 1;
 	if (automaticallyDetectsScale_) {
 		scale = [self scaleForKey:key descaledKey:&descaledKey];
 	} 
@@ -370,7 +371,7 @@
 			}];
 			
 			[sortedCacheKeys enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id cacheKey, NSUInteger idx, BOOL *stop) {
-				id cachedImage = [[cache_ objectForKey:cacheKey] image];
+				id cachedImage FSQ_MAYBE_UNUSED = [[cache_ objectForKey:cacheKey] image];
 #if TARGET_OS_IPHONE
 				NSData *entryData = UIImagePNGRepresentation(cachedImage);
 #else

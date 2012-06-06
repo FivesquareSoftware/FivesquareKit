@@ -118,6 +118,8 @@
 		A42A2EDB1525252D0032AB39 /* CLLocation+FSQCoreLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43F712748374005D9BF4 /* CLLocation+FSQCoreLocation.m */; };
 		A42A2EDC1525252D0032AB39 /* FSQCoreGraphicsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43F312748374005D9BF4 /* FSQCoreGraphicsUtils.m */; };
 		A42A2F211525285D0032AB39 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A42A2F1F1525285D0032AB39 /* InfoPlist.strings */; };
+		A43A66E4157D600500640591 /* FSQMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A66E3157D600500640591 /* FSQMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A43A66E5157D600500640591 /* FSQMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A66E3157D600500640591 /* FSQMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A43CC1B91538AC960013700F /* UIView+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43CC1BC1538AC960013700F /* UIView+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */; };
 		A44624371558659200E25FFD /* FSQMenuPopover.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624321558659200E25FFD /* FSQMenuPopover.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -269,6 +271,7 @@
 		A43A48D114F559B000A722E9 /* FSQPropertyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQPropertyMapper.m; sourceTree = "<group>"; };
 		A43A492314F5717E00A722E9 /* FSQFoundationConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQFoundationConstants.h; sourceTree = "<group>"; };
 		A43A492414F5717E00A722E9 /* FSQFoundationConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQFoundationConstants.m; sourceTree = "<group>"; };
+		A43A66E3157D600500640591 /* FSQMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMacros.h; sourceTree = "<group>"; };
 		A43CC1B91538AC960013700F /* UIView+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FSQUIKit.h"; sourceTree = "<group>"; };
 		A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FSQUIKit.m"; sourceTree = "<group>"; };
 		A44624321558659200E25FFD /* FSQMenuPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMenuPopover.h; sourceTree = "<group>"; };
@@ -736,6 +739,7 @@
 			children = (
 				A42961C412F4738200AEAA83 /* FSQCore.h */,
 				A4F3B28613D354A700BFC134 /* FSQLogging.h */,
+				A43A66E3157D600500640591 /* FSQMacros.h */,
 				A45F446412748375005D9BF4 /* FSQAsserter.h */,
 				A45F446512748375005D9BF4 /* FSQAsserter.m */,
 				A429628D12F47D3700AEAA83 /* FSQSandbox.h */,
@@ -954,6 +958,7 @@
 				A446243A1558659200E25FFD /* FSQMenuViewController.h in Headers */,
 				A4BEA9B2155C389200509D20 /* UIDevice+FSQUIKit.h in Headers */,
 				A40017371565C581004765ED /* NSURL+FSQFoundation.h in Headers */,
+				A43A66E4157D600500640591 /* FSQMacros.h in Headers */,
 				A4BBEFB9156C4834003BBDE1 /* FSQProgressBar.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -996,6 +1001,7 @@
 				A4D02EDC15252B4D00C16B67 /* FSQSecurity.h in Headers */,
 				A4976AE71550A6DE003DB2FB /* FSQImageCache.h in Headers */,
 				A40017381565C581004765ED /* NSURL+FSQFoundation.h in Headers */,
+				A43A66E5157D600500640591 /* FSQMacros.h in Headers */,
 				A454C13115252F8A001E8B9F /* FSQKeychain.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

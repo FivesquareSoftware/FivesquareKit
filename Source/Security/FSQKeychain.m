@@ -12,9 +12,11 @@
 #import "FSQAsserter.h"
 
 @interface FSQKeychain ()
+#if TARGET_OS_IPHONE
 + (NSMutableDictionary *) keychainItemForQuery:(NSDictionary *)keychainQuery;
 + (void) saveKeychainItem:(NSMutableDictionary *)keychainItem matchingQuery:(NSDictionary *)aQuery;
 + (NSMutableDictionary *) fetchItemDataForItemOfClass:(id)itemClass withAttributes:(NSDictionary *)attributes;
+#endif
 @end
 
 @implementation FSQKeychain
