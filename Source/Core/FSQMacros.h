@@ -26,10 +26,3 @@
 #endif
 #endif
 
-#ifndef NS_RETURNS_NOT_RETAINED_PROPERTY
-#if __has_feature(attribute_ns_returns_not_retained) && __clang_major__ >= 3
-#define NS_RETURNS_NOT_RETAINED_PROPERTY __attribute__((ns_returns_not_retained))
-#else
-#define NS_RETURNS_NOT_RETAINED_PROPERTY
-#endif
-#endif
