@@ -24,6 +24,10 @@
 	return [self directoryInUserSearchPath:NSCachesDirectory];
 }
 
++ (NSString *) tempDirectory {
+	return NSTemporaryDirectory();
+}
+
 + (BOOL) createDocumentsDirectory {
 	NSError *error = nil;
 	BOOL created = [self createDirectoryInUserSearchPath:NSDocumentDirectory error:&error];

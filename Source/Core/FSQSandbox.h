@@ -16,6 +16,7 @@
 + (NSString *) documentsDirectory;
 + (NSString *) applicationSupportDirectory;
 + (NSString *) cachesDirectory;
++ (NSString *) tempDirectory;
 
 + (BOOL) createDocumentsDirectory;
 + (BOOL) createApplicationSupportDirectory;

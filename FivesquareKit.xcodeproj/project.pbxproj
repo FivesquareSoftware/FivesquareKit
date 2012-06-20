@@ -129,12 +129,21 @@
 		A446243B1558659200E25FFD /* FSQMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44624361558659200E25FFD /* FSQMenuViewController.m */; };
 		A454C13115252F8A001E8B9F /* FSQKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F441C12748374005D9BF4 /* FSQKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A454C13215252F90001E8B9F /* FSQKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441D12748374005D9BF4 /* FSQKeychain.m */; };
+		A4583292158BFC040022BE1A /* FSQAppKitConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A4583290158BFC040022BE1A /* FSQAppKitConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4583293158BFC040022BE1A /* FSQAppKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A4583291158BFC040022BE1A /* FSQAppKitConstants.m */; };
 		A4713EB813509EEB00FA1402 /* RatingIndicatorOff.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446112748375005D9BF4 /* RatingIndicatorOff.png */; };
 		A4713EB913509EED00FA1402 /* RatingIndicatorOn.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446212748375005D9BF4 /* RatingIndicatorOn.png */; };
 		A47E2EE6152B662800F7EDB1 /* FSQStretchableButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A47E2EE7152B662800F7EDB1 /* FSQStretchableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */; };
+		A4957788158FFFDB0095FE8F /* NSView+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4957786158FFFDB0095FE8F /* NSView+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4957789158FFFDB0095FE8F /* NSView+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4957787158FFFDB0095FE8F /* NSView+FSQAppKit.m */; };
 		A4976AE71550A6DE003DB2FB /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3AF441550936D00E2BB87 /* FSQImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4976AE81550A6DE003DB2FB /* FSQImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F3AF451550936D00E2BB87 /* FSQImageCache.m */; };
+		A4ACA5C3158BEA3D0078196E /* NSApplication+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5C1158BEA3D0078196E /* NSApplication+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4ACA5C4158BEA3D0078196E /* NSApplication+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ACA5C2158BEA3D0078196E /* NSApplication+FSQAppKit.m */; };
+		A4ACA5C8158BEE090078196E /* NSWindow+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5C6158BEE090078196E /* NSWindow+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4ACA5C9158BEE090078196E /* NSWindow+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ACA5C7158BEE090078196E /* NSWindow+FSQAppKit.m */; };
+		A4ACA5CB158BEEDB0078196E /* FSQAppKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5CA158BEEDB0078196E /* FSQAppKitTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4BBEFB9156C4834003BBDE1 /* FSQProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BBEFB7156C4834003BBDE1 /* FSQProgressBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4BBEFBA156C4834003BBDE1 /* FSQProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBEFB8156C4834003BBDE1 /* FSQProgressBar.m */; };
 		A4BD54D61582A0E800AC0BEE /* NSColor+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BD54D41582A0E800AC0BEE /* NSColor+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -285,6 +294,8 @@
 		A44624361558659200E25FFD /* FSQMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQMenuViewController.m; sourceTree = "<group>"; };
 		A45565091302225500932B98 /* FSQCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCoreDataStack.h; sourceTree = "<group>"; };
 		A455650A1302225500932B98 /* FSQCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FSQCoreDataStack.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		A4583290158BFC040022BE1A /* FSQAppKitConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAppKitConstants.h; sourceTree = "<group>"; };
+		A4583291158BFC040022BE1A /* FSQAppKitConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAppKitConstants.m; sourceTree = "<group>"; };
 		A45F43EA12748374005D9BF4 /* NSManagedObject+FSQCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+FSQCoreData.h"; sourceTree = "<group>"; };
 		A45F43EB12748374005D9BF4 /* NSManagedObject+FSQCoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+FSQCoreData.m"; sourceTree = "<group>"; };
 		A45F43EC12748374005D9BF4 /* NSManagedObjectContext+FSQCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+FSQCoreData.h"; sourceTree = "<group>"; };
@@ -355,6 +366,13 @@
 		A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQStretchableButton.m; sourceTree = "<group>"; };
 		A487175F12F5C76D000D9411 /* FSQUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUserDefaults.h; sourceTree = "<group>"; };
 		A487176012F5C76D000D9411 /* FSQUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUserDefaults.m; sourceTree = "<group>"; };
+		A4957786158FFFDB0095FE8F /* NSView+FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+FSQAppKit.h"; sourceTree = "<group>"; };
+		A4957787158FFFDB0095FE8F /* NSView+FSQAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+FSQAppKit.m"; sourceTree = "<group>"; };
+		A4ACA5C1158BEA3D0078196E /* NSApplication+FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+FSQAppKit.h"; sourceTree = "<group>"; };
+		A4ACA5C2158BEA3D0078196E /* NSApplication+FSQAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+FSQAppKit.m"; sourceTree = "<group>"; };
+		A4ACA5C6158BEE090078196E /* NSWindow+FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+FSQAppKit.h"; sourceTree = "<group>"; };
+		A4ACA5C7158BEE090078196E /* NSWindow+FSQAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+FSQAppKit.m"; sourceTree = "<group>"; };
+		A4ACA5CA158BEEDB0078196E /* FSQAppKitTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAppKitTypes.h; sourceTree = "<group>"; };
 		A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIColorToDataTransformer.h; sourceTree = "<group>"; };
@@ -791,6 +809,9 @@
 			isa = PBXGroup;
 			children = (
 				A4BD54D81582A0F800AC0BEE /* FSQAppKit.h */,
+				A4ACA5CA158BEEDB0078196E /* FSQAppKitTypes.h */,
+				A4583290158BFC040022BE1A /* FSQAppKitConstants.h */,
+				A4583291158BFC040022BE1A /* FSQAppKitConstants.m */,
 				A4BD54D21582A0C800AC0BEE /* Extensions */,
 			);
 			path = AppKit;
@@ -801,6 +822,12 @@
 			children = (
 				A4BD54D41582A0E800AC0BEE /* NSColor+FSQAppKit.h */,
 				A4BD54D51582A0E800AC0BEE /* NSColor+FSQAppKit.m */,
+				A4ACA5C1158BEA3D0078196E /* NSApplication+FSQAppKit.h */,
+				A4ACA5C2158BEA3D0078196E /* NSApplication+FSQAppKit.m */,
+				A4ACA5C6158BEE090078196E /* NSWindow+FSQAppKit.h */,
+				A4ACA5C7158BEE090078196E /* NSWindow+FSQAppKit.m */,
+				A4957786158FFFDB0095FE8F /* NSView+FSQAppKit.h */,
+				A4957787158FFFDB0095FE8F /* NSView+FSQAppKit.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1032,6 +1059,11 @@
 				A454C13115252F8A001E8B9F /* FSQKeychain.h in Headers */,
 				A4BD54D61582A0E800AC0BEE /* NSColor+FSQAppKit.h in Headers */,
 				A4BD54D91582A0F800AC0BEE /* FSQAppKit.h in Headers */,
+				A4ACA5C3158BEA3D0078196E /* NSApplication+FSQAppKit.h in Headers */,
+				A4ACA5C8158BEE090078196E /* NSWindow+FSQAppKit.h in Headers */,
+				A4ACA5CB158BEEDB0078196E /* FSQAppKitTypes.h in Headers */,
+				A4583292158BFC040022BE1A /* FSQAppKitConstants.h in Headers */,
+				A4957788158FFFDB0095FE8F /* NSView+FSQAppKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1249,6 +1281,10 @@
 				A4976AE81550A6DE003DB2FB /* FSQImageCache.m in Sources */,
 				A400173A1565C581004765ED /* NSURL+FSQFoundation.m in Sources */,
 				A4BD54D71582A0E800AC0BEE /* NSColor+FSQAppKit.m in Sources */,
+				A4ACA5C4158BEA3D0078196E /* NSApplication+FSQAppKit.m in Sources */,
+				A4ACA5C9158BEE090078196E /* NSWindow+FSQAppKit.m in Sources */,
+				A4583293158BFC040022BE1A /* FSQAppKitConstants.m in Sources */,
+				A4957789158FFFDB0095FE8F /* NSView+FSQAppKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1380,6 +1416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FivesquareKitFramework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = FivesquareKit;
@@ -1411,6 +1448,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FivesquareKitFramework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = FivesquareKit;
 				SDKROOT = macosx;
