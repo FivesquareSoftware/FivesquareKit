@@ -18,7 +18,7 @@
 #if TARGET_OS_IPHONE
 	#import "FSQUIKit.h"
 #else
-	//#import "FSQAppKit.h"
+	#import "FSQAppKit.h"
 #endif
 
 
