@@ -43,7 +43,11 @@
 @interface FSQImageCache ()
 
 @property (nonatomic, strong) NSMutableDictionary *cache;
-@property (nonatomic, assign) dispatch_queue_t cacheQueue; 
+#ifndef __IPHONE_6_0
+@property (nonatomic, assign) dispatch_queue_t cacheQueue;
+#else
+@property (nonatomic, strong) dispatch_queue_t cacheQueue;
+#endif
 @property (nonatomic, strong) NSMutableDictionary *completionHandlersByKey;
 @property (nonatomic, strong) NSMutableSet *currentDownloads;
 @property (nonatomic, strong) NSMutableArray *fileList;
@@ -109,7 +113,9 @@
 
 
 - (void)dealloc {
+#ifndef __IPHONE_6_0
     dispatch_release(cacheQueue_);
+#endif
 #if TARGET_OS_IPHONE
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 #endif
