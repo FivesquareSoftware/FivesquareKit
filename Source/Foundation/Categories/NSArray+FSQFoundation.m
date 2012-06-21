@@ -70,6 +70,15 @@
 	return [[self filteredArrayUsingPredicate:predicate] lastObject];
 }
 
+- (id) objectPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate {
+	id object = nil;
+	NSUInteger index  = [self indexOfObjectPassingTest:predicate];
+	if (index != NSNotFound) {
+		object = [self objectAtIndex:index];
+	}
+	return object;
+}
+
 @end
 
 
