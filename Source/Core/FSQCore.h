@@ -10,5 +10,6 @@
 
 #import "FSQAsserter.h"
 #import "FSQLogging.h"
+#import "FSQMacros.h"
 #import "FSQSandbox.h"
 #import "FSQRuntime.h"

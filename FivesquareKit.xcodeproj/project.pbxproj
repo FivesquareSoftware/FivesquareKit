@@ -144,6 +144,12 @@
 		A4ACA5C8158BEE090078196E /* NSWindow+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5C6158BEE090078196E /* NSWindow+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4ACA5C9158BEE090078196E /* NSWindow+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ACA5C7158BEE090078196E /* NSWindow+FSQAppKit.m */; };
 		A4ACA5CB158BEEDB0078196E /* FSQAppKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5CA158BEEDB0078196E /* FSQAppKitTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4B8ACAB15991E140062CE8C /* FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACA915991E140062CE8C /* FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4B8ACB015991E610062CE8C /* WebView+FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACAD15991E610062CE8C /* WebView+FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4B8ACB215991E610062CE8C /* WebView+FSQWebKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B8ACAE15991E610062CE8C /* WebView+FSQWebKit.m */; };
+		A4B8ACB415991EF70062CE8C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4B8ACB315991EF70062CE8C /* WebKit.framework */; };
+		A4B8ACB7159920300062CE8C /* NSAttributedString+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACB5159920300062CE8C /* NSAttributedString+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4B8ACB8159920300062CE8C /* NSAttributedString+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B8ACB6159920300062CE8C /* NSAttributedString+FSQAppKit.m */; };
 		A4BBEFB9156C4834003BBDE1 /* FSQProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BBEFB7156C4834003BBDE1 /* FSQProgressBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4BBEFBA156C4834003BBDE1 /* FSQProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBEFB8156C4834003BBDE1 /* FSQProgressBar.m */; };
 		A4BD54D61582A0E800AC0BEE /* NSColor+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BD54D41582A0E800AC0BEE /* NSColor+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -377,6 +383,12 @@
 		A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIColorToDataTransformer.h; sourceTree = "<group>"; };
 		A4AFECE315213F9700645412 /* FSQUIColorToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIColorToDataTransformer.m; sourceTree = "<group>"; };
+		A4B8ACA915991E140062CE8C /* FSQWebKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQWebKit.h; sourceTree = "<group>"; };
+		A4B8ACAD15991E610062CE8C /* WebView+FSQWebKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebView+FSQWebKit.h"; sourceTree = "<group>"; };
+		A4B8ACAE15991E610062CE8C /* WebView+FSQWebKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WebView+FSQWebKit.m"; sourceTree = "<group>"; };
+		A4B8ACB315991EF70062CE8C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
+		A4B8ACB5159920300062CE8C /* NSAttributedString+FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+FSQAppKit.h"; sourceTree = "<group>"; };
+		A4B8ACB6159920300062CE8C /* NSAttributedString+FSQAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+FSQAppKit.m"; sourceTree = "<group>"; };
 		A4BBEFB7156C4834003BBDE1 /* FSQProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQProgressBar.h; sourceTree = "<group>"; };
 		A4BBEFB8156C4834003BBDE1 /* FSQProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQProgressBar.m; sourceTree = "<group>"; };
 		A4BD54D41582A0E800AC0BEE /* NSColor+FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+FSQAppKit.h"; sourceTree = "<group>"; };
@@ -444,6 +456,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4B8ACB415991EF70062CE8C /* WebKit.framework in Frameworks */,
 				A4BD54DA1582A44E00AC0BEE /* AppKit.framework in Frameworks */,
 				A4D02EEB15252D0F00C16B67 /* Foundation.framework in Frameworks */,
 				A4D02EEF15252D2F00C16B67 /* ApplicationServices.framework in Frameworks */,
@@ -508,6 +521,7 @@
 				A45F441B12748374005D9BF4 /* Security */,
 				A45F43F412748374005D9BF4 /* CoreLocation */,
 				A45F43F112748374005D9BF4 /* CoreGraphics */,
+				A4B8ACA715991DF60062CE8C /* WebKit */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -805,6 +819,24 @@
 			path = "FSQUIKit-Resources";
 			sourceTree = "<group>";
 		};
+		A4B8ACA715991DF60062CE8C /* WebKit */ = {
+			isa = PBXGroup;
+			children = (
+				A4B8ACA915991E140062CE8C /* FSQWebKit.h */,
+				A4B8ACAC15991E3C0062CE8C /* Extensions */,
+			);
+			path = WebKit;
+			sourceTree = "<group>";
+		};
+		A4B8ACAC15991E3C0062CE8C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A4B8ACAD15991E610062CE8C /* WebView+FSQWebKit.h */,
+				A4B8ACAE15991E610062CE8C /* WebView+FSQWebKit.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A4BD54D11582A0C800AC0BEE /* AppKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -828,6 +860,8 @@
 				A4ACA5C7158BEE090078196E /* NSWindow+FSQAppKit.m */,
 				A4957786158FFFDB0095FE8F /* NSView+FSQAppKit.h */,
 				A4957787158FFFDB0095FE8F /* NSView+FSQAppKit.m */,
+				A4B8ACB5159920300062CE8C /* NSAttributedString+FSQAppKit.h */,
+				A4B8ACB6159920300062CE8C /* NSAttributedString+FSQAppKit.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -849,6 +883,7 @@
 		A4D02EE615252C4F00C16B67 /* Mac OS */ = {
 			isa = PBXGroup;
 			children = (
+				A4B8ACB315991EF70062CE8C /* WebKit.framework */,
 				A4D02EE915252C8A00C16B67 /* QuartzCore.framework */,
 				A4D02EE715252C7200C16B67 /* CoreLocation.framework */,
 				A4D02EE215252BED00C16B67 /* CoreData.framework */,
@@ -1064,6 +1099,9 @@
 				A4ACA5CB158BEEDB0078196E /* FSQAppKitTypes.h in Headers */,
 				A4583292158BFC040022BE1A /* FSQAppKitConstants.h in Headers */,
 				A4957788158FFFDB0095FE8F /* NSView+FSQAppKit.h in Headers */,
+				A4B8ACAB15991E140062CE8C /* FSQWebKit.h in Headers */,
+				A4B8ACB015991E610062CE8C /* WebView+FSQWebKit.h in Headers */,
+				A4B8ACB7159920300062CE8C /* NSAttributedString+FSQAppKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1285,6 +1323,8 @@
 				A4ACA5C9158BEE090078196E /* NSWindow+FSQAppKit.m in Sources */,
 				A4583293158BFC040022BE1A /* FSQAppKitConstants.m in Sources */,
 				A4957789158FFFDB0095FE8F /* NSView+FSQAppKit.m in Sources */,
+				A4B8ACB215991E610062CE8C /* WebView+FSQWebKit.m in Sources */,
+				A4B8ACB8159920300062CE8C /* NSAttributedString+FSQAppKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

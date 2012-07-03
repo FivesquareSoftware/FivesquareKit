@@ -15,4 +15,5 @@
 #import "NSApplication+FSQAppKit.h"
 #import "NSWindow+FSQAppKit.h"
 #import "NSView+FSQAppKit.h"
+#import "NSAttributedString+FSQAppKit.h"
 
