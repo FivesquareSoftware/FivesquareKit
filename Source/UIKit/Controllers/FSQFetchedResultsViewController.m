@@ -20,15 +20,25 @@
 
 #pragma mark - Properties
 
+#if __has_feature(objc_default_synthesize_properties) == 0
 
 @synthesize managedObjectContext=managedObjectContext_;
 @synthesize fetchedResultsController=fetchedResultsController_;
+
+#endif
 
 - (NSManagedObjectContext *) managedObjectContext {
 	if (managedObjectContext_ == nil) {
 		[FSQAsserter subclass:self responsibility:_cmd];
 	}
 	return managedObjectContext_;
+}
+
+- (void) setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	if (managedObjectContext_ != managedObjectContext) {
+		managedObjectContext_ = managedObjectContext;
+		self.fetchedResultsController = nil;
+	}
 }
 
 - (NSFetchedResultsController *) fetchedResultsController {

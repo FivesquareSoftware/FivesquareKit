@@ -35,9 +35,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 - (BOOL) saveWithErrorMessage:(NSString *)errorMessage {
 	__block NSError *error = nil;
 	__block BOOL success = NO;
-	[self performBlockAndWait:^{
-		success = [self save:&error];
-	}];
+	success = [self save:&error];
 	if (!success) {
 		FLog(@"%@: %@ (%@)", errorMessage, [error localizedDescription], [error userInfo]);
 	}	
@@ -54,17 +52,12 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	__block NSError *saveError = nil;
 	__block BOOL success = NO;
 	
-	[self performBlockAndWait:^{
-		__autoreleasing NSError *localError = nil;
-		if ( (success = [self save:&localError]) ) {
-			if (self.parentContext) {
-				[self.parentContext performBlock:^{[self.parentContext save:NULL];}];
-			}
+	if ( (success = [self save:&saveError]) ) {
+		if (self.parentContext) {
+			[self.parentContext performBlock:^{ success = [self.parentContext save:NULL]; }];
 		}
-		if (localError) {
-			saveError = localError;
-		}
-	}];
+	}
+	
 	if (error) {
 		*error = saveError;
 	}
