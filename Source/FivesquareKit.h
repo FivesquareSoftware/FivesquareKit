@@ -19,6 +19,7 @@
 	#import "FSQUIKit.h"
 #else
 	#import "FSQAppKit.h"
+	#import "FSQWebKit.h"
 #endif
 
 

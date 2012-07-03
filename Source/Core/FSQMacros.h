@@ -26,3 +26,11 @@
 #endif
 #endif
 
+#ifndef NS_RETURNS_AUTORELEASED
+#if __has_feature(attribute_ns_returns_autoreleased)
+#define NS_RETURNS_AUTORELEASED __attribute__((attribute_ns_returns_autoreleased))
+#else
+#define NS_RETURNS_AUTORELEASED
+#endif
+#endif
+

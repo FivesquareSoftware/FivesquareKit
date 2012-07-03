@@ -24,6 +24,7 @@
 - (NSString *) toHtmlWithKeyPath:(NSString *)keypath;
 
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
+- (id) objectPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate;
 
 @end
 

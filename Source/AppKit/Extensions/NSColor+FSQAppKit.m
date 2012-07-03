@@ -10,6 +10,7 @@
 
 @implementation NSColor (FSQAppKit)
 
+#ifndef __MAC_10_8
 @dynamic CGColor;
 - (CGColorRef) CGColor {
 	CGColorSpaceRef colorSpace = self.colorSpace.CGColorSpace;
@@ -22,5 +23,6 @@
 	
 	return CGColor;
 }
+#endif
 
 @end
