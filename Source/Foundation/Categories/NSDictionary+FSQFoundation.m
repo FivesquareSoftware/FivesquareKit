@@ -29,4 +29,14 @@
 
 @end
 
+@implementation NSMutableDictionary (FSQFoundation)
+
+- (void) setObjectIfNotNil:(id)obj forKey:(id<NSCopying>)key {
+	if (obj) {
+		[self setObject:obj forKey:key];
+	}
+}
+
+@end
+
 

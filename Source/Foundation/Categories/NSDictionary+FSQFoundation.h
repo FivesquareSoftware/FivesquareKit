@@ -16,3 +16,9 @@
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 
 @end
+
+@interface NSMutableDictionary (FSQFoundation)
+
+- (void) setObjectIfNotNil:(id)obj forKey:(id<NSCopying>)key;
+
+@end
