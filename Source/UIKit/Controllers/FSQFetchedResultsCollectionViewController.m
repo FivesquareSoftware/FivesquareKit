@@ -49,6 +49,7 @@
 - (void) setFetchedResultsController:(NSFetchedResultsController *)fetchedResultsController {
 	if (_fetchedResultsController != fetchedResultsController) {
 		_fetchedResultsController = fetchedResultsController;
+		_fetchedResultsController.delegate = self;
 		[_fetchedResultsController fetch];
 	}
 }
@@ -129,9 +130,7 @@
 //	if( ! self.animateTableUpdates ) return;
 //	
 //	self.mutatingSectionIndex = NSNotFound;
-//    [self.tableView beginUpdates];
 	
-//	[self.collectionView beginUpdates];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
@@ -195,26 +194,26 @@
 //			break;
 //    }
 	
-	
-    switch(type) {
-
-        case NSFetchedResultsChangeInsert:
-			[self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-            break;
-
-        case NSFetchedResultsChangeDelete:
+	switch(type) {
+			
+		case NSFetchedResultsChangeInsert:
+			[self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
 			[self.collectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-            break;
-
-        case NSFetchedResultsChangeUpdate:
+			break;
+			
+		case NSFetchedResultsChangeUpdate:
 			[self configureCell:[self.collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
-            break;
-
-        case NSFetchedResultsChangeMove:
+			break;
+			
+		case NSFetchedResultsChangeMove:
 			[self.collectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
 			[self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]];
 			break;
-    }
+	}
+	
 
 }
 
@@ -233,7 +232,6 @@
 //	}
 //
 	
-//	[self.collectionView endUpdates];
 }
 
 @end

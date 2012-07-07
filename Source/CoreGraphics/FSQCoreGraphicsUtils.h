@@ -44,4 +44,6 @@ CGContextRef CreateBitmapRenderingContext(
 );
 
 
-float radiansForDegrees(float degrees);
+float RadiansForDegrees(float degrees);
+
+CGFloat CGPointDistanceFromPoint(CGPoint firstPoint, CGPoint secondPoint);

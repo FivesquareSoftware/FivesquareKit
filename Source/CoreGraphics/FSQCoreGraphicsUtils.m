@@ -214,6 +214,14 @@ CGContextRef CreateBitmapRenderingContext(
     return context;
 }
 
-float radiansForDegrees(float degrees) {
+float RadiansForDegrees(float degrees) {
     return degrees * (M_PI / 180.0);
+}
+
+CGFloat CGPointDistanceFromPoint(CGPoint firstPoint, CGPoint secondPoint) {
+	CGFloat a = firstPoint.x-secondPoint.x;
+	CGFloat b = firstPoint.y-secondPoint.y;
+	
+	CGFloat c = sqrtf(powf(a,2)+powf(b,2));
+	return fabsf(c);
 }
