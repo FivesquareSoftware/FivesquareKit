@@ -9,7 +9,6 @@
 #import "FSQStretchableButton.h"
 
 @interface FSQStretchableButton ()
-- (void) initialize;
 - (void) generateStretchableImages;
 @end
 

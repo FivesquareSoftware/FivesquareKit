@@ -58,7 +58,7 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:block];
 }
 
-- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)cache completionBlock:(void(^)())block {
+- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)())block {
 	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
 		if (error) {
 			FLogError(error, @"Could not load image");
@@ -107,7 +107,7 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 	}
 
 
-	[cache fetchImageForURL:URLWithScale completionHandler:completionHandler];
+	[imageCache fetchImageForURL:URLWithScale completionHandler:completionHandler];
 }
 
 
