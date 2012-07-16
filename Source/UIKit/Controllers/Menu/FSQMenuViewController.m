@@ -20,10 +20,6 @@
 
 #pragma mark - Properties
 
-@synthesize selectionHandler=selectionHandler_;
-@synthesize displayNameKeyPath=displayNameKeyPath_;
-@synthesize itemTableCellClass=itemTableCellClass_;
-@synthesize selectedIndex=selectedIndex_;
 
 @dynamic items;
 - (NSArray *) items {
@@ -31,9 +27,9 @@
 }
 
 - (void) setDisplayNameKeyPath:(NSString *)displayNameKeyPath {
-	if (displayNameKeyPath_ != displayNameKeyPath) {
-		displayNameKeyPath_ = displayNameKeyPath;
-		[self.itemsInternal makeObjectsPerformSelector:@selector(setDisplayNameKeyPath:) withObject:displayNameKeyPath_];
+	if (_displayNameKeyPath != displayNameKeyPath) {
+		_displayNameKeyPath = displayNameKeyPath;
+		[self.itemsInternal makeObjectsPerformSelector:@selector(setDisplayNameKeyPath:) withObject:_displayNameKeyPath];
 	}
 }
 
@@ -54,13 +50,12 @@
 
 // Protected
 
-@synthesize itemsInternal=itemsInternal_;
 
 - (NSMutableArray *) itemsInternal {
-	if (itemsInternal_ == nil) {
-		itemsInternal_ = [NSMutableArray new];
+	if (_itemsInternal == nil) {
+		_itemsInternal = [NSMutableArray new];
 	}
-	return itemsInternal_;
+	return _itemsInternal;
 }
 
 
@@ -73,7 +68,7 @@
 	// Common initialization
 	self.clearsSelectionOnViewWillAppear = NO;
 	self.itemTableCellClass = [UITableViewCell class];
-	selectedIndex_ = UINT_MAX;
+	_selectedIndex = UINT_MAX;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -212,8 +207,8 @@
 }
 
 - (void) setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated {		
-	if (selectedIndex_ != selectedIndex) {
-		selectedIndex_ = selectedIndex;
+	if (_selectedIndex != selectedIndex) {
+		_selectedIndex = selectedIndex;
 		FSQMenuItem *selectedItem = [self.itemsInternal objectAtIndex:selectedIndex];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			self.selectionHandler(selectedItem, selectedIndex);

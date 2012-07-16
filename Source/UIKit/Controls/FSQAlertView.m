@@ -12,7 +12,6 @@
 @implementation FSQAlertView
 
 
-@synthesize userInfo=userInfo_;
 
 
 

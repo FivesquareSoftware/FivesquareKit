@@ -11,7 +11,6 @@
 
 @implementation FSQProxy
 
-@synthesize target=target_;
 
 + (id) withTarget:(id)aTarget {
 	return [[FSQProxy alloc] initWithTarget:aTarget];
@@ -24,11 +23,11 @@
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-	return [target_ methodSignatureForSelector:aSelector];
+	return [_target methodSignatureForSelector:aSelector];
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-	[invocation invokeWithTarget:target_];
+	[invocation invokeWithTarget:_target];
 }
 
 

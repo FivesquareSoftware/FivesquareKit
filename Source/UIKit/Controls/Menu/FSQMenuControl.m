@@ -21,12 +21,6 @@
 
 #pragma mark - Properties
 
-@synthesize displayNameKeyPath=displayNameKeyPath_;
-@synthesize maxItemSize=maxItemSize_;
-@synthesize selectionStyle=selectionStyle_;
-@synthesize itemAlignment=itemAlignment_;
-@synthesize direction=direction_;
-@synthesize selectedIndex=selectedIndex_;
 
 @dynamic backgroundImage;
 - (void) setBackgroundImage:(UIImage *)backgroundImage {
@@ -38,15 +32,15 @@
 }
 
 - (void) setSelectionStyle:(FSQMenuSelectionStyle)selectionStyle {
-	if (selectionStyle_ != selectionStyle) {
-		selectionStyle_ = selectionStyle;
+	if (_selectionStyle != selectionStyle) {
+		_selectionStyle = selectionStyle;
 		[self setItemsSelectionStyle:selectionStyle];
 	}
 }
 
 - (void) setItemAlignment:(UITextAlignment)itemAlignment {
-	if (itemAlignment_ != itemAlignment) {
-		itemAlignment_ = itemAlignment;
+	if (_itemAlignment != itemAlignment) {
+		_itemAlignment = itemAlignment;
 		[self setItemsTextAlignment:itemAlignment];
 	}
 }
@@ -83,33 +77,31 @@
 
 // Protected
 
-@synthesize itemsInternal=itemsInternal_;
-@synthesize backgroundImageView=backgroundImageView_;
-@synthesize contentView=contentView_;
 
 - (NSMutableArray *) itemsInternal {
-	if (itemsInternal_ == nil) {
-		itemsInternal_ = [NSMutableArray new];
+	if (_itemsInternal == nil) {
+		_itemsInternal = [NSMutableArray new];
 	}
-	return itemsInternal_;
+	return _itemsInternal;
 }
 
+@synthesize backgroundImageView = _backgroundImageView;
 - (UIImageView *) backgroundImageView {
-	if (backgroundImageView_ == nil) {
+	if (_backgroundImageView == nil) {
 		UIImageView *newImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 		newImageView.contentMode = UIViewContentModeScaleToFill;
 		newImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 		[self insertSubview:newImageView atIndex:0];
-		backgroundImageView_ = newImageView;
+		_backgroundImageView = newImageView;
 	}
-	return backgroundImageView_;
+	return _backgroundImageView;
 }
 
 - (void) setBackgroundImageView:(UIImageView *)backgroundImageView {
-	if (backgroundImageView_ != backgroundImageView) {
-		[backgroundImageView_ removeFromSuperview];
+	if (_backgroundImageView != backgroundImageView) {
+		[_backgroundImageView removeFromSuperview];
 		[self insertSubview:backgroundImageView atIndex:0];
-		backgroundImageView_ = backgroundImageView;
+		_backgroundImageView = backgroundImageView;
 	}
 }
 
@@ -127,10 +119,10 @@
 	// Common initialization
 	UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
 	[self addGestureRecognizer:tapRecognizer];	
-	maxItemSize_ = CGSizeMake(self.bounds.size.width, kFSQMenuControlMenuItemHeight);
-	selectionStyle_ = FSQMenuSelectionStyleDefault;
-	itemAlignment_ = INT_MAX;
-	selectedIndex_ = UINT_MAX;
+	_maxItemSize = CGSizeMake(self.bounds.size.width, kFSQMenuControlMenuItemHeight);
+	_selectionStyle = FSQMenuSelectionStyleDefault;
+	_itemAlignment = INT_MAX;
+	_selectedIndex = UINT_MAX;
 	
 	UIScrollView *contentView = [[UIScrollView alloc] initWithFrame:self.bounds];
 	contentView.showsHorizontalScrollIndicator = NO;
@@ -139,7 +131,7 @@
 	contentView.scrollEnabled = NO;
 	contentView.delegate = self;
 	[self insertSubview:contentView atIndex:0];
-	contentView_ = contentView;
+	_contentView = contentView;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -172,7 +164,7 @@
 	}
 	[self.itemsInternal addObject:menuItem];
 	CGRect menuItemBounds = CGRectZero;
-	menuItemBounds.size = maxItemSize_;
+	menuItemBounds.size = _maxItemSize;
 
 	FSQMenuItemView *menuView = [[FSQMenuItemView alloc] initWithFrame:menuItemBounds];
 	menuView.menuItem = menuItem;
@@ -191,11 +183,11 @@
 }
 
 - (void) setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated {
-	if (selectedIndex_ != selectedIndex) {
-		FSQMenuItemView *currentView = selectedIndex_ < self.itemViews.count ? [self.itemViews objectAtIndex:selectedIndex_] : nil;
+	if (_selectedIndex != selectedIndex) {
+		FSQMenuItemView *currentView = _selectedIndex < self.itemViews.count ? [self.itemViews objectAtIndex:_selectedIndex] : nil;
 		FSQMenuItemView *newView = [self.itemViews objectAtIndex:selectedIndex];
 
-		selectedIndex_ = selectedIndex;	
+		_selectedIndex = selectedIndex;	
 
 		NSTimeInterval duration = animated ? 0.265 : 0;
 		[UIView animateWithDuration:duration animations:^{
@@ -228,25 +220,25 @@
 #pragma mark - UIControl
 
 - (void) layoutSubviews {
-	if (direction_ == FSQMenuDirectionVertical) {
+	if (_direction == FSQMenuDirectionVertical) {
 		CGFloat offsetY = 0;
 		for (UIView *view in self.itemViews) {
 			CGRect itemFrame = CGRectZero;
 			itemFrame.origin = CGPointMake(0, offsetY);
-			itemFrame.size = maxItemSize_;
+			itemFrame.size = _maxItemSize;
 			view.frame = itemFrame;
-			offsetY += maxItemSize_.height;
+			offsetY += _maxItemSize.height;
 		}
 		if (offsetY > 0) {
 			self.contentView.contentSize = CGSizeMake(self.bounds.size.width, offsetY);
 		}
 
-	} else if (direction_ = FSQMenuDirectionHorizontal) {
+	} else if (_direction = FSQMenuDirectionHorizontal) {
 		CGFloat offsetX = 0;	
 		CGFloat deltaX = 0;
 		CGFloat deltaY = 0;
 		for (FSQMenuItemView *view in self.itemViews) {	
-			CGSize fitSize = [view sizeThatFits:maxItemSize_];
+			CGSize fitSize = [view sizeThatFits:_maxItemSize];
 			deltaX = (self.bounds.size.width - fitSize.width)/2;
 			deltaY = (self.bounds.size.height - fitSize.height)/2;
 			CGRect itemFrame = CGRectIntegral(CGRectInset(self.bounds, deltaX, deltaY));	

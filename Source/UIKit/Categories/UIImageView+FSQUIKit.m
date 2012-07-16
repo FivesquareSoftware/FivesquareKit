@@ -36,14 +36,14 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 - (BOOL) automaticallyRequestsScaledImage {
 	NSNumber *automaticallyRequestsScaledImageNumber = (NSNumber *)objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_automaticallyRequestsScaledImage);
 	if (automaticallyRequestsScaledImageNumber == nil) {
-		automaticallyRequestsScaledImageNumber = [NSNumber numberWithBool:YES];
+		automaticallyRequestsScaledImageNumber = @YES;
 		[self setAutomaticallyRequestsScaledImage:YES];
 	}
 	return [automaticallyRequestsScaledImageNumber boolValue];
 }
 
 - (void) setAutomaticallyRequestsScaledImage:(BOOL)automaticallyRequestsScaledImage {
-	NSNumber *automaticallyRequestsScaledImageNumber = [NSNumber numberWithBool:automaticallyRequestsScaledImage];
+	NSNumber *automaticallyRequestsScaledImageNumber = @(automaticallyRequestsScaledImage);
 	objc_setAssociatedObject(self, &kUIImageView_FSQUIKit_automaticallyRequestsScaledImage, automaticallyRequestsScaledImageNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

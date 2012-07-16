@@ -10,9 +10,6 @@
 
 @implementation FSQMenuItem
 
-@synthesize representedObject=representedObject_;
-@synthesize displayNameKeyPath=displayNameKeyPath_;
-@synthesize menu=menu_;
 
 @dynamic displayName;
 - (NSString *) displayName {
@@ -31,7 +28,7 @@
     self = [super init];
     if (self) {
 		self.representedObject = representedObject;
-        displayNameKeyPath_ = @"description";
+        _displayNameKeyPath = @"description";
     }
     return self;
 }

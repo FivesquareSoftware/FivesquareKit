@@ -27,19 +27,21 @@
 
 #pragma mark - Properties
 
-@synthesize tableView=tableView_;
+#if __has_feature(objc_default_synthesize_properties) == 0
 
+@synthesize tableView = _tableView;
 
-@synthesize editable=editable_;
-@synthesize reordering=reordering_;
-@synthesize mutatingSectionIndex=mutatingSectionIndex_;
-@synthesize fetchedResultsTableRowOffset=fetchedResultsTableRowOffset_;
-@synthesize fetchedResultsTableSection=fetchedResultsTableSection_;
-@synthesize showsPlaceholderRow=showsPlaceholderRow_;
-@synthesize animateTableUpdates=animateTableUpdates_;
-@synthesize tableRowAnimationType=tableRowAnimationType_;
-@synthesize clearsSelectionOnViewWillAppear=clearsSelectionOnViewWillAppear_;
+@synthesize editable = _editable;
+@synthesize reordering = _reordering;
+@synthesize mutatingSectionIndex = _mutatingSectionIndex;
+@synthesize fetchedResultsTableRowOffset = _fetchedResultsTableRowOffset;
+@synthesize fetchedResultsTableSection = _fetchedResultsTableSection;
+@synthesize showsPlaceholderRow = _showsPlaceholderRow;
+@synthesize animateTableUpdates = _animateTableUpdates;
+@synthesize tableRowAnimationType = _tableRowAnimationType;
+@synthesize clearsSelectionOnViewWillAppear = _clearsSelectionOnViewWillAppear;
 
+#endif
 
 
 // ========================================================================== //
@@ -47,9 +49,9 @@
 #pragma mark - Object
 
 - (void) initialize {
-	animateTableUpdates_ = YES;
-	tableRowAnimationType_ = UITableViewRowAnimationNone;
-	clearsSelectionOnViewWillAppear_ = YES;
+	_animateTableUpdates = YES;
+	_tableRowAnimationType = UITableViewRowAnimationNone;
+	_clearsSelectionOnViewWillAppear = YES;
 }
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -70,7 +72,7 @@
 }
 
 - (void) dealloc {
-	fetchedResultsController_.delegate = nil;
+	_fetchedResultsController.delegate = nil;
 	
 }
 
@@ -117,12 +119,12 @@
 
 - (NSIndexPath *) fetchedResultsIndexPathForTableIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row - (NSInteger)fetchedResultsTableRowOffset_ inSection:indexPath.section - (NSInteger)fetchedResultsTableSection_];
+	return [NSIndexPath indexPathForRow:indexPath.row - (NSInteger)_fetchedResultsTableRowOffset inSection:indexPath.section - (NSInteger)_fetchedResultsTableSection];
 }
 
 - (NSIndexPath *) tableIndexPathForFetchedResultsIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row + (NSInteger)fetchedResultsTableRowOffset_ inSection:indexPath.section + (NSInteger)fetchedResultsTableSection_];
+	return [NSIndexPath indexPathForRow:indexPath.row + (NSInteger)_fetchedResultsTableRowOffset inSection:indexPath.section + (NSInteger)_fetchedResultsTableSection];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -130,7 +132,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - (NSInteger)fetchedResultsTableSection_];
+    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - (NSInteger)_fetchedResultsTableSection];
 	if(count < 1 && self.showsPlaceholderRow)
 		count = 1;
 	return count;
@@ -146,13 +148,13 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section == fetchedResultsTableSection_)
-		return editable_;
+	if(indexPath.section == _fetchedResultsTableSection)
+		return _editable;
 	return NO;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section != fetchedResultsTableSection_) return;
+	if(indexPath.section != _fetchedResultsTableSection) return;
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
 		NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:[self fetchedResultsIndexPathForTableIndexPath:indexPath]];
 		[[object managedObjectContext] deleteObject:object];
@@ -165,7 +167,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return [self.fetchedResultsController nameOfSectionAtIndex:section - (NSInteger)fetchedResultsTableSection_];
+	return [self.fetchedResultsController nameOfSectionAtIndex:section - (NSInteger)_fetchedResultsTableSection];
 }
 
 - (CGFloat)tableView:(UITableView *)inTableView heightForHeaderInSection:(NSInteger)section {
@@ -212,11 +214,11 @@
 	
     switch(type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + fetchedResultsTableSection_]
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
 						  withRowAnimation:UITableViewRowAnimationFade];
             break;			
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + fetchedResultsTableSection_]
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
 						  withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
@@ -241,12 +243,12 @@
 			
         case NSFetchedResultsChangeInsert:
 			if(newIndexPath.section == self.mutatingSectionIndex) break;
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newTableIndexPath]
+            [self.tableView insertRowsAtIndexPaths:@[newTableIndexPath]
 								  withRowAnimation:UITableViewRowAnimationFade];
             break;
 			
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tableIndexPath]
+            [self.tableView deleteRowsAtIndexPaths:@[tableIndexPath]
 								  withRowAnimation:UITableViewRowAnimationFade];
             break;
 			
@@ -256,9 +258,9 @@
             break;
 			
         case NSFetchedResultsChangeMove:
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tableIndexPath]
+            [self.tableView deleteRowsAtIndexPaths:@[tableIndexPath]
 								  withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newTableIndexPath]
+            [self.tableView insertRowsAtIndexPaths:@[newTableIndexPath]
 								  withRowAnimation:UITableViewRowAnimationTop];
 			break;
     }

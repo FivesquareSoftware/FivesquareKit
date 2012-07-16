@@ -52,7 +52,7 @@
 
 - (NSArray *) sortedArrayUsingKey:(NSString *)sortKey ascending:(BOOL)ascending {
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
-    NSArray *sortedArray = [self sortedArrayUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+    NSArray *sortedArray = [self sortedArrayUsingDescriptors:@[descriptor]];
     return sortedArray;
 }
 
@@ -117,7 +117,7 @@
 
 - (void)sortUsingKey:(NSString *)sortKey ascending:(BOOL)ascending {
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
-    [self sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+    [self sortUsingDescriptors:@[descriptor]];
 }
 
 @end

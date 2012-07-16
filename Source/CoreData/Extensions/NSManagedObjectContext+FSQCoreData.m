@@ -89,7 +89,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 			NSString *entityClassName = [entityMapping objectForKey:@"entityClassName"];
 			Class destinationClass = NSClassFromString(entityClassName);
 			if (destinationClass == NULL) {
-				NSDictionary *info = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not create a class named %@",entityClassName] forKey:NSLocalizedDescriptionKey];
+				NSDictionary *info = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Could not create a class named %@",entityClassName]};
 				localError = [NSError errorWithDomain:kNSManagedObjectContext_FSQErrorDomain
 												 code:kFSQCoreDataInvalidDefaultData 
 											 userInfo:info];
@@ -98,8 +98,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 			
 			NSArray *objects = [entityMapping objectForKey:@"objects"];
 			if (NO == [objects isKindOfClass:[NSArray class]]) {
-				NSDictionary *info = [NSDictionary dictionaryWithObject:@"Entity mapping must contain a list of objects to insert for each entity"
-																 forKey:NSLocalizedDescriptionKey];
+				NSDictionary *info = @{NSLocalizedDescriptionKey: @"Entity mapping must contain a list of objects to insert for each entity"};
 				localError = [NSError errorWithDomain:kNSManagedObjectContext_FSQErrorDomain
 												 code:kFSQCoreDataInvalidDefaultData 
 											 userInfo:info];
@@ -123,10 +122,8 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 
 	}
 	@catch (NSException *exception) {
-		NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-							  @"Default data plist must contain a valid entity mapping dictionary for each entity you wish to map", NSLocalizedDescriptionKey
-							  , [exception reason], NSLocalizedFailureReasonErrorKey 
-							  , nil];
+		NSDictionary *info = @{NSLocalizedDescriptionKey: @"Default data plist must contain a valid entity mapping dictionary for each entity you wish to map"
+							  , NSLocalizedFailureReasonErrorKey: [exception reason]};
 		localError = [NSError errorWithDomain:kNSManagedObjectContext_FSQErrorDomain
 										 code:kFSQCoreDataInvalidDefaultData 
 									 userInfo:info];

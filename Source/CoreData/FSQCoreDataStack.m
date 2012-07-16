@@ -19,6 +19,9 @@
 @property (nonatomic, copy, readwrite) NSString *storeName;
 @property (nonatomic, retain, readwrite) NSURL *modelURL;
 
+
+
+
 + (NSURL *) storeURLForStoreName:(NSString *)aStoreName;
 + (NSString *) storePathForStoreName:(NSString *)aStoreName;
 - (NSPersistentStore *) storeNamed:(NSString *)aStoreName;
@@ -36,25 +39,16 @@
 
 #pragma mark - Properties
 
-@synthesize modelName=modelName_;
-@synthesize storeName=storeName_;
-
-@synthesize configurationName=configurationName_;
-@synthesize storeOptions=storeOptions_;
-@synthesize mergePolicy=mergePolicy_;
-@synthesize copyDefaultDatabaseFromBundle=copyDefaultDatabaseFromBundle_;
-
-@synthesize modelURL=modelURL_;
-@synthesize mainContext=mainContext_;
-@synthesize managedObjectModel=managedObjectModel_;
-@synthesize persistentStoreCoordinator=persistentStoreCoordinator_;
+@synthesize mainContext = _mainContext;
+@synthesize managedObjectModel = _managedObjectModel;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 
 - (NSURL *) modelURL {
-	if(modelURL_ == nil && self.modelName) {
-		modelURL_ = [[self class] modelURLForName:self.modelName];
+	if(_modelURL == nil && self.modelName) {
+		_modelURL = [[self class] modelURLForName:self.modelName];
 	}
-	return modelURL_;
+	return _modelURL;
 }
 
 
@@ -72,9 +66,9 @@
 	}
 	self = [super init];
 	if (self != nil) {
-		modelName_ = [modelName copy];
-		storeName_ = storeName;
-		copyDefaultDatabaseFromBundle_ = NO;
+		_modelName = [modelName copy];
+		_storeName = storeName;
+		_copyDefaultDatabaseFromBundle = NO;
 	}
 	return self;
 }
@@ -95,7 +89,7 @@
 	NSManagedObjectModel *destinationModel;	
 	
 	@synchronized(self) {
-		FSQAssert(persistentStoreCoordinator_ == NULL, @"Cannot migrate persistent store with it already open.");
+		FSQAssert(_persistentStoreCoordinator == NULL, @"Cannot migrate persistent store with it already open.");
 		
 		NSError * __autoreleasing*migrationError = NULL;
 		if(error != NULL) 
@@ -142,8 +136,7 @@
 					
 					// developer has provided a mapping model in the bundle
 					
-					NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-											 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption, nil];
+					NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES};
 					
 					migrationError = NULL;
 					[self createPersistentStoreCoordinator:options error:migrationError];
@@ -156,9 +149,8 @@
 						
 						FLog(@"Using lightweight migration");
 						
-						NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-												 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-												 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+						NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
+												 NSInferMappingModelAutomaticallyOption: @YES};
 						
 						migrationError = NULL;
 						[self createPersistentStoreCoordinator:options error:migrationError];
@@ -218,15 +210,15 @@
 
 - (NSManagedObjectContext *) mainContext {
 	@synchronized(self) {
-		if (mainContext_ == nil) {
+		if (_mainContext == nil) {
 			NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 			if (coordinator != nil) {
-				mainContext_ = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-				[mainContext_ setPersistentStoreCoordinator:coordinator];		
+				_mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+				[_mainContext setPersistentStoreCoordinator:coordinator];		
 			}
 		}
 	}
-	return mainContext_;
+	return _mainContext;
 }
 
 - (NSManagedObjectContext *) newChildContext {
@@ -238,24 +230,24 @@
 
 - (NSManagedObjectModel *)managedObjectModel {
 	@synchronized(self) {
-		if(managedObjectModel_ == nil) {
+		if(_managedObjectModel == nil) {
 			if(self.modelURL) { // will be nil if the file does not exist
-				managedObjectModel_ = [[NSManagedObjectModel alloc] initWithContentsOfURL:self.modelURL];
+				_managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:self.modelURL];
 			} else {
-				managedObjectModel_ = [NSManagedObjectModel mergedModelFromBundles:nil];
+				_managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 			}
 		}
 	}
-	return managedObjectModel_;
+	return _managedObjectModel;
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
 	@synchronized(self) {
-		if (persistentStoreCoordinator_ == nil) {
-			persistentStoreCoordinator_ = [self createPersistentStoreCoordinator:self.storeOptions error:NULL];
+		if (_persistentStoreCoordinator == nil) {
+			_persistentStoreCoordinator = [self createPersistentStoreCoordinator:self.storeOptions error:NULL];
 		}
 	}
-    return persistentStoreCoordinator_;
+    return _persistentStoreCoordinator;
 }
 
 - (NSPersistentStoreCoordinator *) createPersistentStoreCoordinator:(NSDictionary *)someStoreOptions error:(NSError **)error {
@@ -274,7 +266,7 @@
 	NSURL *storeURL = [[self class] storeURLForStoreName:self.storeName];
 	
 	NSPersistentStore *persistentStore = [aPersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType 
-																				   configuration:configurationName_
+																				   configuration:_configurationName
 																							 URL:storeURL 
 																						 options:someStoreOptions
 																						   error:storeErrorPointer];

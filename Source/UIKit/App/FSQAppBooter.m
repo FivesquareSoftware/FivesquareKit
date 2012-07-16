@@ -44,10 +44,6 @@
 
 // Private
 
-@synthesize booted=booted_;
-@synthesize bootQ=bootQ_;
-@synthesize errorsInternal=errorsInternal_;
-@synthesize completionBlock=completionBlock_;
 
 
 // ========================================================================== //
@@ -60,7 +56,7 @@
     self = [super init];
     if (self) {
         self.bootQ = [NSOperationQueue new];
-		[bootQ_ setSuspended:YES];
+		[_bootQ setSuspended:YES];
 		self.errorsInternal = [NSMutableArray new];
     }
     return self;
@@ -86,10 +82,10 @@
 }
 
 - (void) bootWithCompletionBlock:(void (^)(void))block {
-	FSQAssert(booted_ == NO, @"Already booted!");
-	if (booted_) return;
+	FSQAssert(_booted == NO, @"Already booted!");
+	if (_booted) return;
 
-	booted_ = YES;
+	_booted = YES;
 	self.completionBlock = block;
 	[self performSelectorInBackground:@selector(bootInBackground) withObject:nil];
 }
@@ -109,8 +105,8 @@
 	@autoreleasepool {
 		[self.bootQ setSuspended:NO];	
 		[self.bootQ waitUntilAllOperationsAreFinished];
-		if (completionBlock_) {
-			dispatch_async(dispatch_get_main_queue(), completionBlock_);
+		if (_completionBlock) {
+			dispatch_async(dispatch_get_main_queue(), _completionBlock);
 		}
 	}
 }

@@ -12,8 +12,8 @@
 
 @interface FSQFetchedResultsViewController : UIViewController <NSFetchedResultsControllerDelegate> {
 @protected
-	NSManagedObjectContext *managedObjectContext_;
-	NSFetchedResultsController *fetchedResultsController_;	
+	NSManagedObjectContext *_managedObjectContext;
+	NSFetchedResultsController *_fetchedResultsController;
 }
 
 /** @name Subclass properties

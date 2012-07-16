@@ -22,36 +22,36 @@
 
 #if __has_feature(objc_default_synthesize_properties) == 0
 
-@synthesize managedObjectContext=managedObjectContext_;
-@synthesize fetchedResultsController=fetchedResultsController_;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize fetchedResultsController = _fetchedResultsController;
 
 #endif
 
 - (NSManagedObjectContext *) managedObjectContext {
-	if (managedObjectContext_ == nil) {
+	if (_managedObjectContext == nil) {
 		[FSQAsserter subclass:self responsibility:_cmd];
 	}
-	return managedObjectContext_;
+	return _managedObjectContext;
 }
 
 - (void) setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
-	if (managedObjectContext_ != managedObjectContext) {
-		managedObjectContext_ = managedObjectContext;
+	if (_managedObjectContext != managedObjectContext) {
+		_managedObjectContext = managedObjectContext;
 		self.fetchedResultsController = nil;
 	}
 }
 
 - (NSFetchedResultsController *) fetchedResultsController {
-	if (fetchedResultsController_ == nil) {
+	if (_fetchedResultsController == nil) {
 		[FSQAsserter subclass:self responsibility:_cmd];
 	}
-	return fetchedResultsController_;
+	return _fetchedResultsController;
 }
 
 - (void) setFetchedResultsController:(NSFetchedResultsController *)fetchedResultsController {
-	if (fetchedResultsController_ != fetchedResultsController) {
-		fetchedResultsController_ = fetchedResultsController;
-		[fetchedResultsController_ fetch];
+	if (_fetchedResultsController != fetchedResultsController) {
+		_fetchedResultsController = fetchedResultsController;
+		[_fetchedResultsController fetch];
 	}
 }
 
@@ -63,7 +63,7 @@
 
 
 - (void) dealloc {
-	fetchedResultsController_.delegate = nil;
+	_fetchedResultsController.delegate = nil;
 }
 
 
@@ -72,7 +72,7 @@
 #pragma mark - View Controller
 
 - (void) viewDidUnload {
-	fetchedResultsController_ = nil;
+	_fetchedResultsController = nil;
 }
 
 - (void) viewWillAppear:(BOOL)animated {

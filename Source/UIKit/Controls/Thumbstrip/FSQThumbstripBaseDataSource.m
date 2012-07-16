@@ -19,7 +19,6 @@
 
 #pragma mark - Properties
 
-@synthesize fetchRequest=fetchRequest_;
 
 
 
@@ -45,7 +44,7 @@
 - (id)initWithFetchRequest:(NSFetchRequest *)fetchRequest  {
     self = [super init];
     if (self) {
-        fetchRequest_ = fetchRequest;
+        _fetchRequest = fetchRequest;
     }
     return self;
 }

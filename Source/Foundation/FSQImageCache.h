@@ -27,6 +27,7 @@ typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 @property (nonatomic, readonly) NSUInteger memoryCapacity; ///< In bytes, defaults to 0, which means no limit. However, on iOS memory warnings will cause the in-memory cache to be dumped
 @property (nonatomic, readonly) NSUInteger diskCapacity; ///< In bytes, defaults to 0, which means no limit
 @property (nonatomic, strong, readonly) NSString *diskPath; ///< On iOS a subdirectory in the caches directory, on Mac OS a full path
+@property (nonatomic) BOOL useICloud;
 /**
  * When YES, if a URL is passed in to fetchImageForURL:completionHandler: that contains the pattern @<f>x, then the scale is extracted from the URL and when a resulting image is created and returned its scale will be set so that [image scale] will return this value. Useful when you have image URLs that differ only by a scale factor, such as '@2x' and need to have the scale on the returned image set properly so you can make accurate size calculations. The default is YES.
  */

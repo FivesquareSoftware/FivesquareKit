@@ -46,7 +46,6 @@
 
 // Scroll handling
 
-- (void) scrollingBegan;
 - (void) didScroll;
 
 @end
@@ -59,11 +58,6 @@
 
 #pragma mark - Properties
 
-@synthesize dataSource=dataSource_;
-@synthesize delegate=delegate_;
-@synthesize cellClass=cellClass_;
-@synthesize cellSize=cellSize_;
-@synthesize backgroundView=backgroundView_;
 
 @dynamic visibleRange;
 - (NSRange) visibleRange {
@@ -78,9 +72,9 @@
 	NSRange contentRange = NSMakeRange(offset, contentSpan);
 //	FLog(@"contentRange: %@",NSStringFromRange(contentRange));
 	
-	NSUInteger count = cellOffsetRanges_.count;
+	NSUInteger count = _cellOffsetRanges.count;
 	for (NSInteger index = location; index < count; index++) {
-		NSRange cellRange = [[cellOffsetRanges_ objectAtIndex:(NSUInteger)index] rangeValue];
+		NSRange cellRange = [[_cellOffsetRanges objectAtIndex:(NSUInteger)index] rangeValue];
 //		FLog(@"cellRange: %@",NSStringFromRange(cellRange));
 		NSRange intersectionRange = NSIntersectionRange(contentRange, cellRange);
 //		FLog(@"intersectionRange: %@",NSStringFromRange(intersectionRange));
@@ -98,8 +92,8 @@
 }
 
 - (void) setCellSize:(CGSize)cellSize {
-	if (CGSizeEqualToSize(cellSize_, cellSize_)) {
-		cellSize_ = cellSize;
+	if (CGSizeEqualToSize(_cellSize, _cellSize)) {
+		_cellSize = cellSize;
 		[self setNeedsDisplay];
 	}
 }
@@ -108,9 +102,6 @@
 // Private
 
 
-@synthesize activeCells=activeCells_;
-@synthesize inactiveCells=inactiveCells_;
-@synthesize cellOffsetRanges=cellOffsetRanges_;
 
 
 @dynamic isHorizontal;
@@ -163,11 +154,11 @@
 	
 	self.directionalLockEnabled = YES;
 	
-	activeCells_  = [NSMutableSet new];
-	inactiveCells_ = [NSMutableSet new];
-	cellOffsetRanges_ = [NSMutableArray new];
+	_activeCells  = [NSMutableSet new];
+	_inactiveCells = [NSMutableSet new];
+	_cellOffsetRanges = [NSMutableArray new];
 	
-	cellSize_ = CGSizeMake(200, 200);
+	_cellSize = CGSizeMake(200, 200);
 //	self.backgroundColor = [UIColor redColor];
 	self.showsHorizontalScrollIndicator = NO;
 	self.showsVerticalScrollIndicator = NO;
@@ -228,7 +219,7 @@
 - (FSQThumbstripCell *) cellAtIndex:(NSInteger)index {
 	id cell = [self activeCellForIndex:index];
 	if (cell == nil) {
-		cell = [dataSource_ thumbstripView:self cellForIndex:index];
+		cell = [_dataSource thumbstripView:self cellForIndex:index];
 		FSQAssert(cell != nil, @"thumbstripView:cellForIndex: cannot return nil");
 	}
 	return cell;
@@ -253,22 +244,22 @@
 
 - (void) reloadData {
 //	[UIView animateWithDuration:kFSQThumbstripCellTransitionAnimationDuration animations:^{
-		for (id cell in activeCells_) {
+		for (id cell in _activeCells) {
 			[cell setAlpha:0];
 			[cell removeFromSuperview];
 		}
 //	}];
-	[activeCells_ removeAllObjects];
-	[inactiveCells_ removeAllObjects];	
-	[cellOffsetRanges_ removeAllObjects];
+	[_activeCells removeAllObjects];
+	[_inactiveCells removeAllObjects];	
+	[_cellOffsetRanges removeAllObjects];
 	
 	// get the total width, compute cell ranges, and set content size
-	NSInteger count = [dataSource_ numberOfItemsInthumbstripView:self];
+	NSInteger count = [_dataSource numberOfItemsInthumbstripView:self];
 	CGFloat offset = 0;
 	for (int i = 0; i < count; i++) {
 		CGSize cellSize = [self sizeThatFitsForCellAtIndex:i];
 		CGFloat length = self.isHorizontal ? cellSize.width : cellSize.height;
-		[cellOffsetRanges_ addObject:[NSValue valueWithRange:NSMakeRange(offset, length)]];
+		[_cellOffsetRanges addObject:[NSValue valueWithRange:NSMakeRange(offset, length)]];
 		offset += length;
 	}
 	CGSize newContentSize = self.contentSize;
@@ -283,14 +274,14 @@
 }
 
 - (id) dequeueReusableCellWithIdentifier:(NSString *)identifier {
-	Class klass = cellClass_;
+	Class klass = _cellClass;
 	if (klass == nil) {
 		klass = [FSQThumbstripCell class];
 	}
 	
 	id cell;
-	if ( (cell = [inactiveCells_ anyObject]) ) {
-		[inactiveCells_ removeObject:cell];
+	if ( (cell = [_inactiveCells anyObject]) ) {
+		[_inactiveCells removeObject:cell];
 		[cell prepareForReuse];
 	} else {
 		cell = [[klass alloc] initWithReuseIdentifier:identifier];
@@ -310,20 +301,20 @@
 
 - (CGSize) sizeThatFitsForCellAtIndex:(NSInteger)index {
 	CGSize cellSize = self.cellSize;
-	if ([delegate_ respondsToSelector:@selector(thumbstripView:sizeForCellAtIndex:)]) {
-		cellSize = [delegate_ thumbstripView:self sizeForCellAtIndex:index];
+	if ([self.delegate respondsToSelector:@selector(thumbstripView:sizeForCellAtIndex:)]) {
+		cellSize = [self.delegate thumbstripView:self sizeForCellAtIndex:index];
 	}
 	return cellSize;
 }
 
 - (id) activeCellForIndex:(NSInteger)index {
-	if (index >= cellOffsetRanges_.count) {
+	if (index >= _cellOffsetRanges.count) {
 		return nil;
 	}
 
-	NSRange cellRangeForIndex = [[cellOffsetRanges_ objectAtIndex:(NSUInteger)index] rangeValue];
+	NSRange cellRangeForIndex = [[_cellOffsetRanges objectAtIndex:(NSUInteger)index] rangeValue];
 	
-	for (FSQThumbstripCell *cell in activeCells_) {
+	for (FSQThumbstripCell *cell in _activeCells) {
 		CGFloat location = self.isHorizontal ? cell.frame.origin.x : cell.frame.origin.y;
 		CGFloat length = self.isHorizontal ? cell.frame.size.width : cell.frame.size.height;
 		NSRange cellRange = NSMakeRange(location, length);
@@ -336,10 +327,10 @@
 }
 
 - (CGPoint) originForCellAtIndex:(NSInteger)index {
-	if (index >= cellOffsetRanges_.count ) {
+	if (index >= _cellOffsetRanges.count ) {
 		return CGPointZero;
 	}
-	NSRange cellRange = [[cellOffsetRanges_ objectAtIndex:(NSUInteger)index] rangeValue];
+	NSRange cellRange = [[_cellOffsetRanges objectAtIndex:(NSUInteger)index] rangeValue];
 	CGFloat x = self.isHorizontal ? cellRange.location : 0;
 	CGFloat y = self.isHorizontal ? 0 : cellRange.location;
 	return CGPointMake(x, y);
@@ -350,7 +341,7 @@
 	
 	NSMutableSet *invisibleCells = [NSMutableSet new];
 	CGRect visibleRect = [self visibleRect];
-	for (id cell in activeCells_) {
+	for (id cell in _activeCells) {
 		CGRect cellRect = [cell frame];
 		BOOL visible = CGRectIntersectsRect(visibleRect, cellRect);
 		if (NO == visible) {
@@ -358,13 +349,13 @@
 		}
 	}
 //	FLog(@"inivisbleCells: %@", invisibleCells);
-//	FLog(@"1. activeCells_: %@", activeCells_);
-//	FLog(@"1. inactiveCells_: %@", inactiveCells_);
-	[activeCells_ minusSet:invisibleCells];
-	[inactiveCells_ unionSet:invisibleCells];
+//	FLog(@"1. _activeCells: %@", _activeCells);
+//	FLog(@"1. _inactiveCells: %@", _inactiveCells);
+	[_activeCells minusSet:invisibleCells];
+	[_inactiveCells unionSet:invisibleCells];
 
-//	FLog(@"2. activeCells_: %@", activeCells_);
-//	FLog(@"2. inactiveCells_: %@", inactiveCells_);
+//	FLog(@"2. _activeCells: %@", _activeCells);
+//	FLog(@"2. _inactiveCells: %@", _inactiveCells);
 
 	
 	// load any visible cells that are not loaded
@@ -385,8 +376,8 @@
 //		FLog(@"existing cell: %@",existingCell);
 		return;
 	}
-	if (dataSource_) {
-		id cell = [dataSource_ thumbstripView:self cellForIndex:index];
+	if (_dataSource) {
+		id cell = [_dataSource thumbstripView:self cellForIndex:index];
 		FSQAssert(cell != nil, @"thumbstripView:cellForIndex: cannot return nil");
 		if (cell) {
 			
@@ -401,7 +392,7 @@
 				[self addSubview:cell];
 				[cell setAlpha:1];
 //			} completion:^(BOOL finished) {
-				[activeCells_ addObject:cell];
+				[_activeCells addObject:cell];
 //			}];
 		}	
 	}

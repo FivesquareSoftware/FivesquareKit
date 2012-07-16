@@ -26,38 +26,33 @@
 
 
 
-@synthesize progress=progress_;
-@synthesize progressTrackGradientComponents=progressTrackGradientComponents_;
-@synthesize progressTintGradientComponents=progressTintGradientComponents_;
 
 - (void) setProgress:(CGFloat)progress {
-	if (progress_ != progress) {
-		progress_ = progress;
+	if (_progress != progress) {
+		_progress = progress;
 		[self setNeedsLayout];
 	}
 }
 
 - (void) setProgressTrackGradientComponents:(NSArray *)progressTrackGradientComponents {
-	if (progressTrackGradientComponents_ != progressTrackGradientComponents) {
-		progressTrackGradientComponents_ = progressTrackGradientComponents;
-		trackLayer_.colors = [progressTrackGradientComponents_ valueForKey:@"color"];
-		trackLayer_.locations = [progressTrackGradientComponents_ valueForKey:@"location"];
+	if (_progressTrackGradientComponents != progressTrackGradientComponents) {
+		_progressTrackGradientComponents = progressTrackGradientComponents;
+		_trackLayer.colors = [_progressTrackGradientComponents valueForKey:@"color"];
+		_trackLayer.locations = [_progressTrackGradientComponents valueForKey:@"location"];
 	}
 }
 
 - (void) setProgressTintGradientComponents:(NSArray *)progressTintGradientComponents {
-	if (progressTintGradientComponents_ != progressTintGradientComponents) {
-		progressTintGradientComponents_ = progressTintGradientComponents;
-		tintLayer_.colors = [progressTintGradientComponents_ valueForKey:@"color"];
-		tintLayer_.locations = [progressTintGradientComponents_ valueForKey:@"location"];
+	if (_progressTintGradientComponents != progressTintGradientComponents) {
+		_progressTintGradientComponents = progressTintGradientComponents;
+		_tintLayer.colors = [_progressTintGradientComponents valueForKey:@"color"];
+		_tintLayer.locations = [_progressTintGradientComponents valueForKey:@"location"];
 	}
 }
 
 
 // Private
 
-@synthesize trackLayer=trackLayer_;
-@synthesize tintLayer=tintLayer_;
 
 
 
@@ -72,7 +67,7 @@
 	
 	CAGradientLayer *trackLayer = [[CAGradientLayer alloc] init];
 	[self.layer addSublayer:trackLayer];
-	trackLayer_ = trackLayer;
+	_trackLayer = trackLayer;
 
 	CAGradientLayer *tintLayer = [[CAGradientLayer alloc] init];	
 	CALayer *tintMask = [[CALayer alloc] init];
@@ -80,7 +75,7 @@
 	tintLayer.mask = tintMask;
 	
 	[self.layer addSublayer:tintLayer];
-	tintLayer_ = tintLayer;
+	_tintLayer = tintLayer;
 
 }
 
@@ -99,18 +94,18 @@
 	
 	self.layer.cornerRadius  = self.bounds.size.height/2.f;
 	
-	trackLayer_.frame = self.bounds;
-	trackLayer_.cornerRadius = self.layer.cornerRadius;
+	_trackLayer.frame = self.bounds;
+	_trackLayer.cornerRadius = self.layer.cornerRadius;
 
 	CGRect tintFrame = CGRectInset(self.bounds, kFSQProgressBarTrackPadding, kFSQProgressBarTrackPadding);
-	tintLayer_.frame = tintFrame;
+	_tintLayer.frame = tintFrame;
 	
-	tintLayer_.cornerRadius = tintFrame.size.height / 2.f;
+	_tintLayer.cornerRadius = tintFrame.size.height / 2.f;
 
 	[UIView animateWithDuration:0.265 animations:^{
 		CGRect tintMaskFrame = tintFrame;
-		tintMaskFrame.size.width = tintMaskFrame.size.width*progress_;
-		tintLayer_.mask.frame = tintMaskFrame;
+		tintMaskFrame.size.width = tintMaskFrame.size.width*_progress;
+		_tintLayer.mask.frame = tintMaskFrame;
 	}];
 
 }

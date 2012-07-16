@@ -17,9 +17,9 @@
 
 @implementation FSQKeyboardHandler
 
-@synthesize keyboardUp = keyboardUp_;
-@synthesize keepKeyboardUp = keepKeyboardUp_;
-@synthesize viewController = viewController_;
+@synthesize keyboardUp = _keyboardUp;
+@synthesize keepKeyboardUp = _keepKeyboardUp;
+@synthesize viewController = _viewController;
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -28,7 +28,7 @@
 - (id) initWithViewController:(UIViewController *)aViewController {
 	self = [super init];
 	if (self != nil) {
-		viewController_ = aViewController;
+		_viewController = aViewController;
 		[self registerForKeyboardNotifications];
 	}
 	return self;
@@ -60,26 +60,26 @@
 
 - (void) keyboardDidShowNotification:(NSNotification *)notification {
 	
-	if(keyboardUp_)
+	if(_keyboardUp)
 		return;
 	
 	NSDictionary *userInfo = [notification userInfo];
 	CGRect keyboardBounds;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
 	
-	CGRect keyboardFrame = [viewController_.view.superview convertRect:keyboardBounds fromView:nil];
-	CGFloat deltaX = viewController_.view.frame.size.height - keyboardFrame.origin.y;
+	CGRect keyboardFrame = [_viewController.view.superview convertRect:keyboardBounds fromView:nil];
+	CGFloat deltaX = _viewController.view.frame.size.height - keyboardFrame.origin.y;
 	
-	CGRect newFrame = viewController_.view.frame;
+	CGRect newFrame = _viewController.view.frame;
 	newFrame.size.height -= deltaX;
 	
 	[UIView beginAnimations:@"ShowingKeyboard" context:nil];
 	
-	viewController_.view.frame = newFrame;
+	_viewController.view.frame = newFrame;
 	
 	[UIView commitAnimations];
 	
-	keyboardUp_ = YES;
+	_keyboardUp = YES;
 }
 
 - (void) keyboardWillHideNotification:(NSNotification *)notification {
@@ -92,8 +92,8 @@
 	CGRect keyboardBounds;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
 	
-	CGRect keyboardFrame = [viewController_.view.superview convertRect:keyboardBounds fromView:nil];
-	CGFloat deltaX = viewController_.view.superview.frame.size.height - keyboardFrame.origin.y;
+	CGRect keyboardFrame = [_viewController.view.superview convertRect:keyboardBounds fromView:nil];
+	CGFloat deltaX = _viewController.view.superview.frame.size.height - keyboardFrame.origin.y;
 	
 	NSTimeInterval keyboardAnimationDuration;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&keyboardAnimationDuration];
@@ -102,7 +102,7 @@
 	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&keyboardAnimationCurve];
 	
 	
-	CGRect newFrame = viewController_.view.frame;
+	CGRect newFrame = _viewController.view.frame;
 	newFrame.size.height += deltaX;//(keyboardBounds.size.height - self.tabBarController.tabBar.frame.size.height);
 	
 	[UIView beginAnimations:@"HidingKeyboard" context:nil];
@@ -111,11 +111,11 @@
 	[UIView setAnimationDuration:keyboardAnimationDuration];
 	[UIView setAnimationCurve:keyboardAnimationCurve];
 	
-	viewController_.view.frame = newFrame;
+	_viewController.view.frame = newFrame;
 	
 	[UIView commitAnimations];		
 	
-	keyboardUp_ = NO;
+	_keyboardUp = NO;
 }
 
 - (void) animationsStopped:(NSString *)animationID finished:(BOOL)finished context:(void *)context {

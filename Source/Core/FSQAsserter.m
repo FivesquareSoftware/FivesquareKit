@@ -33,11 +33,13 @@
 
 #ifndef NS_BLOCK_ASSERTIONS
 	FLog(msg);
-	[[NSAssertionHandler currentHandler] handleFailureInMethod:selector 
-														object:object 
-														  file:[NSString stringWithUTF8String:fileName] 
-													lineNumber:lineNumber 
-												   description:msg];
+	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-security"
+	[[NSAssertionHandler currentHandler] handleFailureInMethod:selector object:object file:@(fileName) lineNumber:lineNumber description:msg];
+#pragma clang diagnostic pop
+
+	
 #else
 	NSLog(@" *** Assertion Failed *** ");
 	NSLog(msg);

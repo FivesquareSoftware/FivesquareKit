@@ -27,26 +27,20 @@
 #pragma mark - Properties
 
 
-@synthesize menuItem=menuItem_;
-@synthesize selected=selected_;
-@synthesize edgeInsets=edgeInsets_;
-@synthesize selectionStyle=selectionStyle_;
-@synthesize backgroundView=backgroundView_;
-@synthesize selectedBackgroundView=selectedBackgroundView_;
 
 - (void) setEdgeInsets:(UIEdgeInsets)edgeInsets {
-	if (NO == UIEdgeInsetsEqualToEdgeInsets(edgeInsets_, edgeInsets)) {
-		edgeInsets_ = edgeInsets;
+	if (NO == UIEdgeInsetsEqualToEdgeInsets(_edgeInsets, edgeInsets)) {
+		_edgeInsets = edgeInsets;
 		[(FSQMenuControl *)self.menuItem.menu setNeedsLayout];
 	}
 }
 
 - (void) setSelected:(BOOL)selected {
-	if (selected_ != selected) {
+	if (_selected != selected) {
 		self.textLabel.highlighted = selected;
 		self.backgroundView.hidden = selected;
 		self.selectedBackgroundView.hidden = !selected;
-		selected_ = selected;
+		_selected = selected;
 	}
 }
 
@@ -70,8 +64,8 @@
 }
 
 - (void) setSelectionStyle:(FSQMenuSelectionStyle)selectionStyle {
-	if (selectionStyle_ != selectionStyle) {
-		selectionStyle_ = selectionStyle;
+	if (_selectionStyle != selectionStyle) {
+		_selectionStyle = selectionStyle;
 		switch (selectionStyle) {
 			case FSQMenuSelectionStyleNone:
 				self.selectedBackgroundView = nil;
@@ -91,8 +85,8 @@
 }
 
 - (void) setBackgroundView:(UIView *)backgroundView {
-	if (backgroundView_ != backgroundView) {
-		[backgroundView_ removeFromSuperview];
+	if (_backgroundView != backgroundView) {
+		[_backgroundView removeFromSuperview];
 		if (backgroundView) {
 			if (self.selectedBackgroundView) {
 				[self insertSubview:backgroundView belowSubview:self.selectedBackgroundView];
@@ -100,13 +94,13 @@
 				[self insertSubview:backgroundView atIndex:0];
 			}
 		}
-		backgroundView_ = backgroundView;
+		_backgroundView = backgroundView;
 	}
 }
 
 - (void) setSelectedBackgroundView:(UIView *)selectedBackgroundView {
-	if (selectedBackgroundView_ != selectedBackgroundView) {
-		[selectedBackgroundView_ removeFromSuperview];
+	if (_selectedBackgroundView != selectedBackgroundView) {
+		[_selectedBackgroundView removeFromSuperview];
 		if (selectedBackgroundView) {
 			selectedBackgroundView.hidden = !self.selected;
 			if (self.backgroundView) {
@@ -115,7 +109,7 @@
 				[self insertSubview:selectedBackgroundView atIndex:0];
 			}
 		}
-		selectedBackgroundView_ = selectedBackgroundView;
+		_selectedBackgroundView = selectedBackgroundView;
 	}
 }
 
@@ -141,23 +135,22 @@
 
 // Private
 
-@synthesize textLabel=textLabel_;
 
 - (void) setMenuItem:(FSQMenuItem *)menuItem {
-	if (menuItem_ != menuItem) {
-		menuItem_ = menuItem;
+	if (_menuItem != menuItem) {
+		_menuItem = menuItem;
 		self.textLabel.text = menuItem.displayName;
 	}
 }
 
-@synthesize defaultSelectionStyleBackgroundView=defaultSlectionStyleBackgroundView_;
+@synthesize defaultSelectionStyleBackgroundView = _defaultSelectionStyleBackgroundView;
 - (UIView *) defaultSelectionStyleBackgroundView {
-	if (defaultSlectionStyleBackgroundView_ == nil) {
-		defaultSlectionStyleBackgroundView_ = [[UIView alloc] initWithFrame:self.bounds];
+	if (_defaultSelectionStyleBackgroundView == nil) {
+		_defaultSelectionStyleBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
 		//TODO: make this a view that draws a nice gradient rather than just this solid color
-		defaultSlectionStyleBackgroundView_.backgroundColor = [UIColor blueColor];
+		_defaultSelectionStyleBackgroundView.backgroundColor = [UIColor blueColor];
 	}
-	return defaultSlectionStyleBackgroundView_;
+	return _defaultSelectionStyleBackgroundView;
 }
 
 
@@ -174,26 +167,26 @@
 						
 		UILabel *newLabel = [[UILabel alloc] initWithFrame:self.bounds];
 		newLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		newLabel.lineBreakMode = UILineBreakModeTailTruncation;
+		newLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 		newLabel.backgroundColor = [UIColor clearColor];
 		newLabel.font = [UIFont boldSystemFontOfSize:17];
 		newLabel.textColor = [UIColor darkTextColor];
 		newLabel.highlightedTextColor = [UIColor lightTextColor];
 		[self addSubview:newLabel];
-		textLabel_ = newLabel;
+		_textLabel = newLabel;
 		
-		edgeInsets_ = UIEdgeInsetsZero;
+		_edgeInsets = UIEdgeInsetsZero;
 		
 		UIView *backgroundView = [[UIView alloc] initWithFrame:self.bounds];
 		backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 		backgroundView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 		[self insertSubview:backgroundView atIndex:0];
-		backgroundView_ = backgroundView;
+		_backgroundView = backgroundView;
 		
-		[self insertSubview:self.defaultSelectionStyleBackgroundView aboveSubview:backgroundView_];
-		selectedBackgroundView_ = self.defaultSelectionStyleBackgroundView;
+		[self insertSubview:self.defaultSelectionStyleBackgroundView aboveSubview:_backgroundView];
+		_selectedBackgroundView = self.defaultSelectionStyleBackgroundView;
 		
-		selectionStyle_ = FSQMenuSelectionStyleDefault;
+		_selectionStyle = FSQMenuSelectionStyleDefault;
     }
     return self;
 }
@@ -201,8 +194,8 @@
 
 - (CGSize) sizeThatFits:(CGSize)size {
 	
-	CGFloat horizontalInsets = edgeInsets_.left + edgeInsets_.top;
-	CGFloat verticalInsets = edgeInsets_.top + edgeInsets_.bottom;
+	CGFloat horizontalInsets = _edgeInsets.left + _edgeInsets.top;
+	CGFloat verticalInsets = _edgeInsets.top + _edgeInsets.bottom;
 	CGSize fitSize = size;
 	CGSize labelSize = [self.textLabel.text sizeWithFont:self.textLabel.font constrainedToSize:size lineBreakMode:self.textLabel.lineBreakMode];
 	if ((labelSize.width + horizontalInsets) < fitSize.width) {

@@ -17,7 +17,6 @@
 
 @implementation FSQPropertyMapper
 
-@synthesize object=object_;
 
 + (id) withTargetObject:(NSObject *)target {
 	return [[self alloc] initWithTargetObject:target];

@@ -12,22 +12,21 @@
 
 @implementation FSQOpenStruct
 
-
-@synthesize attributes=attributes_;
+@synthesize attributes = _attributes;
 
 - (NSMutableDictionary *) attributes {
 	@synchronized(self) {
-		if (nil == attributes_) {
-			attributes_ = [NSMutableDictionary new];
+		if (nil == _attributes) {
+			_attributes = [NSMutableDictionary new];
 		}
 	}
-	return attributes_;
+	return _attributes;
 }
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
     self = [super init];
     if (self) {
-        attributes_ = [attributes mutableDeepCopy];
+        _attributes = [attributes mutableDeepCopy];
     }
     return self;
 }
@@ -75,11 +74,11 @@
 #pragma mark - Proxy
 
 //- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-//	return [attributes_ methodSignatureForSelector:aSelector];
+//	return [_attributes methodSignatureForSelector:aSelector];
 //}
 //
 //- (void)forwardInvocation:(NSInvocation *)invocation {
-//	[invocation invokeWithTarget:attributes_];
+//	[invocation invokeWithTarget:_attributes];
 //}
 
 

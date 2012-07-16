@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) UIImage *offImage;
 @property (nonatomic, strong) UIImage *onImage;
-@property (nonatomic, assign) NSUInteger value;
+@property (nonatomic, assign) NSInteger value;
 @property (nonatomic, assign) NSUInteger segments;
 
 @end

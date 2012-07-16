@@ -13,7 +13,6 @@
 
 @implementation FSQBindingsMapper
 
-@synthesize bindings=bindings_;
 
 
 + (id) mapperForClass:(Class)aClass {
@@ -43,7 +42,7 @@
 - (id) initWithBindings:(NSArray *)someBindings {
 	self = [super init];
 	if (self != nil) {
-		bindings_ = someBindings;
+		_bindings = someBindings;
 	}
 	return self;
 }

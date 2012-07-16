@@ -19,11 +19,10 @@
 
 #pragma mark - Properties
 
-@synthesize capInsets=capInsets_;
 
 - (void) setCapInsets:(UIEdgeInsets)capInsets {
-	if (NO == UIEdgeInsetsEqualToEdgeInsets(capInsets_, capInsets)) {
-		capInsets_ = capInsets;
+	if (NO == UIEdgeInsetsEqualToEdgeInsets(_capInsets, capInsets)) {
+		_capInsets = capInsets;
 		[self generateStretchableImages];
 	}
 }
@@ -37,7 +36,7 @@
 }
 
 - (CGPoint) horizontalCapInsets {
-	return CGPointMake(capInsets_.left, capInsets_.right);
+	return CGPointMake(_capInsets.left, _capInsets.right);
 }
 
 @dynamic verticalCapInsets;
@@ -49,7 +48,7 @@
 }
 
 - (CGPoint) verticalCapInsets {
-	return CGPointMake(capInsets_.top, capInsets_.bottom);
+	return CGPointMake(_capInsets.top, _capInsets.bottom);
 }
 
 

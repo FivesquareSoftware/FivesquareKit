@@ -20,18 +20,18 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 
 @implementation _<$managedObjectClassName$>
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
-	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)_moc {
+	NSParameterAssert(_moc);
+	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:_moc];
 }
 
 + (NSString*)entityName {
 	return @"<$name$>";
 }
 
-+ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
-	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"<$name$>" inManagedObjectContext:moc_];
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)_moc {
+	NSParameterAssert(_moc);
+	return [NSEntityDescription entityForName:@"<$name$>" inManagedObjectContext:_moc];
 }
 
 - (<$managedObjectClassName$>ID*)objectID {
@@ -61,8 +61,8 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	return [result <$Attribute.scalarAccessorMethodName$>];
 }
 
-- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self set<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarFactoryMethodName$>value_]];
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)_value {
+	[self set<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarFactoryMethodName$>_value]];
 }
 
 - (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value {
@@ -70,8 +70,8 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	return [result <$Attribute.scalarAccessorMethodName$>];
 }
 
-- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self setPrimitive<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarFactoryMethodName$>value_]];
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)_value {
+	[self setPrimitive<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarFactoryMethodName$>_value]];
 }
 <$endif$>
 <$endif$>
@@ -100,9 +100,9 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
-	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
+	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
 	if (error) {
 #if TARGET_OS_IPHONE
 		NSLog(@"error: %@", error);
@@ -112,11 +112,11 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	}
 	return result;
 }
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
-	NSParameterAssert(moc_);
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)_error {
+	NSParameterAssert(_moc);
 	NSError *error = nil;
 	
-	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	NSManagedObjectModel *model = [[_moc persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
@@ -131,7 +131,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
 	
 	id result = nil;
-	NSArray *results = [moc_ executeFetchRequest:fetchRequest error:&error];
+	NSArray *results = [_moc executeFetchRequest:fetchRequest error:&error];
 	
 	if (!error) {
 		switch ([results count]) {
@@ -149,13 +149,13 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 		}
 	}
 	
-	if (error_) *error_ = error;
+	if (_error) *_error = error;
 	return result;
 }
 <$else$>
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
-	NSArray *result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
+	NSArray *result = [self fetch<$FetchRequest.name.initialCapitalString$>:_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
 	if (error) {
 #if TARGET_OS_IPHONE
 		NSLog(@"error: %@", error);
@@ -165,11 +165,11 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	}
 	return result;
 }
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
-	NSParameterAssert(moc_);
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)_error {
+	NSParameterAssert(_moc);
 	NSError *error = nil;
 	
-	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	NSManagedObjectModel *model = [[_moc persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
@@ -183,8 +183,8 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
 	
-	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
-	if (error_) *error_ = error;
+	NSArray *result = [_moc executeFetchRequest:fetchRequest error:&error];
+	if (_error) *_error = error;
 	return result;
 }
 <$endif$>

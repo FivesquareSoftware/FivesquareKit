@@ -96,7 +96,7 @@
 					 sortDescriptors:(NSArray *)sortDescriptors 
 						   inContext:(NSManagedObjectContext *)context {
 	
-	NSDictionary *requestOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"fetchBatchSize"];
+	NSDictionary *requestOptions = @{@"fetchBatchSize": @1};
 	NSFetchRequest *fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:requestOptions inContext:context];
 										
 	id found = nil;
@@ -194,7 +194,7 @@
 	if(sortDescriptors) {
 		[requestOptions setObject:sortDescriptors forKey:@"sortDescriptors"];
 	}
-	[requestOptions setObject:[NSNumber numberWithInt:1] forKey:@"fetchBatchSize"];
+	[requestOptions setObject:@1 forKey:@"fetchBatchSize"];
 	[requestOptions addEntriesFromDictionary:options];
 
 	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
@@ -328,7 +328,7 @@
 
 + (BOOL) deleteAllWithPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context {
 	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
-	[requestOptions setObject:[NSNumber numberWithBool:NO] forKey:@"includesPropertyValues"];
+	[requestOptions setObject:@NO forKey:@"includesPropertyValues"];
 	if(predicate) {
 		[requestOptions setObject:predicate forKey:@"predicate"];
 	}

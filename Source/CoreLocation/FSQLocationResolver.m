@@ -40,27 +40,19 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 
 // Public
 
-@synthesize resolving=resolving_;
-@synthesize aborted=aborted_;
-@synthesize currentLocation=currentLocation_;
-@synthesize error=error_;
 
 
 // Private
 
-@synthesize locationManager=locationManager_;
-@synthesize locationUpdatesStartedOn=locationUpdatesStartedOn_;
-@synthesize locationServicesAbortTimer=locationServicesAbortTimer_;
-@synthesize completionHandler=completionHandler_;
 
 
 - (CLLocationManager *) locationManager {
-    if(locationManager_ == nil) {
+    if(_locationManager == nil) {
         CLLocationManager *locationManager = [CLLocationManager new];
         locationManager.delegate = self;
-        locationManager_ = locationManager;
+        _locationManager = locationManager;
     }
-    return locationManager_;
+    return _locationManager;
 }
 
 
@@ -167,7 +159,7 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 	if (self.error) {
 		[info setObject:self.error forKey:kFSQLocationResolverKeyError];
 	}
-	[info setObject:[NSNumber numberWithBool:self.aborted] forKey:kFSQLocationResolverKeyAborted];
+	[info setObject:@(self.aborted) forKey:kFSQLocationResolverKeyAborted];
 	
 	if (self.completionHandler) {
 		dispatch_async(dispatch_get_main_queue(), ^{

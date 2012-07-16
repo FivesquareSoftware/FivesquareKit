@@ -21,18 +21,13 @@
 #pragma mark -
 #pragma mark Properties
 
-@synthesize delegate=delegate_;
-
-@synthesize offImage=offImage_;
-@synthesize onImage=onImage_;
-@synthesize value=value_;
-@synthesize segments=segments_;
 
 
-- (void) setValue:(NSUInteger)newValue {
-    if(value_ != newValue) {
-        if(newValue <= segments_) {
-            value_ = newValue;
+
+- (void) setValue:(NSInteger)newValue {
+    if(_value != newValue) {
+        if(newValue <= _segments) {
+            _value = newValue;
 			[self setNeedsDisplay];
 			[self.delegate ratingIndicatorValueChanged:self];
         }
@@ -40,9 +35,9 @@
 }
 
 - (void) setSegments:(NSUInteger)newSegments {
-    if(segments_ != newSegments) {
+    if(_segments != newSegments) {
         if(newSegments <= kFSQRatingIndicatorViewMaxSegments) {
-            segments_ = newSegments;
+            _segments = newSegments;
         }
     }
 }

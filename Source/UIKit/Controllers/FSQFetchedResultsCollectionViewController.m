@@ -143,11 +143,11 @@
 //	
 //    switch(type) {
 //        case NSFetchedResultsChangeInsert:
-//            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + fetchedResultsTableSection_]
+//            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
 //						  withRowAnimation:UITableViewRowAnimationFade];
 //            break;
 //        case NSFetchedResultsChangeDelete:
-//            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + fetchedResultsTableSection_]
+//            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
 //						  withRowAnimation:UITableViewRowAnimationFade];
 //            break;
 //    }
@@ -197,11 +197,11 @@
 	switch(type) {
 			
 		case NSFetchedResultsChangeInsert:
-			[self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]];
+			[self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			[self.collectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+			[self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
@@ -209,8 +209,8 @@
 			break;
 			
 		case NSFetchedResultsChangeMove:
-			[self.collectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-			[self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]];
+			[self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+			[self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
 			break;
 	}
 	

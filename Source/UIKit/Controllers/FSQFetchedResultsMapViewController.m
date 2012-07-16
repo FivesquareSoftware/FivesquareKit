@@ -23,17 +23,15 @@
 
 #pragma mark - Properties
 
-@synthesize mapView=mapView_;
-@synthesize zoomSpan=zoomSpan_;
 
 - (void) setZoomSpan:(NSUInteger)zoomSpan {
 	[self setZoomSpan:zoomSpan animated:NO];
 }
 
 - (void) setZoomSpan:(NSUInteger)zoomSpan animated:(BOOL)animated {
-	if (zoomSpan_ != zoomSpan) {
-		zoomSpan_ = zoomSpan;		
-		MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.mapView.centerCoordinate, zoomSpan_, zoomSpan_);
+	if (_zoomSpan != zoomSpan) {
+		_zoomSpan = zoomSpan;		
+		MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.mapView.centerCoordinate, _zoomSpan, _zoomSpan);
 		[self.mapView setRegion:region animated:animated];
 	}
 }
@@ -44,7 +42,7 @@
 #pragma mark - Object
 
 - (void) initialize {
-	zoomSpan_ = 1000;
+	_zoomSpan = 1000;
 }
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -64,9 +62,6 @@
     return self;
 }
 
-- (void) dealloc {
-	fetchedResultsController_.delegate = nil;
-}
 
 
 // ========================================================================== //

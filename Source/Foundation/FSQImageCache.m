@@ -29,7 +29,7 @@
 @end
 
 @implementation FSQImageCacheEntry
-@synthesize image=image_, lastAccessDate=lastAccessDate_;
+@synthesize image=_image, lastAccessDate=_lastAccessDate;
 + (id) withImage:(id)image {
 	FSQImageCacheEntry *entry = [self new];
 	entry.image = image;
@@ -68,42 +68,23 @@
 
 #pragma mark - Properties
 
-@synthesize name=name_;
-@synthesize memoryCapacity=memoryCapacity_;
-@synthesize diskCapacity=diskCapacity_;
-@synthesize diskPath=diskPath_;
-@synthesize automaticallyDetectsScale=automaticallyDetectsScale_;
-@synthesize currentMemoryUsage=currentMemoryUsage_;
-@synthesize currentDiskUsage=currentDiskUsage_;
-@synthesize downloadHandler=downloadHandler_;
-@synthesize cancelationHandler=cancelationHandler_;
-
-// Private
-
-@synthesize cache=cache_;
-@synthesize cacheQueue=cacheQueue_;
-@synthesize completionHandlersByKey=completionHandlersByKey_;
-@synthesize currentDownloads=currentDownloads_;
-@synthesize fileList=fileList_;
-@synthesize cachePath=cachePath_;
-
 
 - (NSString *) cachePath {
-	if (cachePath_ == nil) {
+	if (_cachePath == nil) {
 		BOOL created;
 		NSError *error = nil;
 #if TARGET_OS_IPHONE
-		cachePath_ = [[FSQSandbox cachesDirectory] stringByAppendingPathComponent:diskPath_];
+		_cachePath = [[FSQSandbox cachesDirectory] stringByAppendingPathComponent:_diskPath];
 #else
-		cachePath_ = [diskPath_ copy];
+		_cachePath = [_diskPath copy];
 #endif
 		NSFileManager *fm = [NSFileManager new];
-		created = [fm createDirectoryAtPath:cachePath_ withIntermediateDirectories:YES attributes:NULL error:&error];
+		created = [fm createDirectoryAtPath:_cachePath withIntermediateDirectories:YES attributes:NULL error:&error];
 		if (NO == created) {
 			FLogError(error, @"Could not create image cache");
 		};
 	}
-	return cachePath_;
+	return _cachePath;
 }
 
 
@@ -114,7 +95,7 @@
 
 - (void)dealloc {
 //#ifndef __IPHONE_6_0
-//    dispatch_release(cacheQueue_);
+//    dispatch_release(_cacheQueue);
 //#endif
 #if TARGET_OS_IPHONE
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -129,25 +110,25 @@
 		self = nil;
 	}
 	if (self) {
-		memoryCapacity_ = memoryCapacity;
-		diskCapacity_ = diskCapacity;
-		diskPath_ = diskPath;
-		automaticallyDetectsScale_ = YES;
+		_memoryCapacity = memoryCapacity;
+		_diskCapacity = diskCapacity;
+		_diskPath = diskPath;
+		_automaticallyDetectsScale = YES;
 		
-		cache_ = [NSMutableDictionary new];
-		cacheQueue_ = dispatch_queue_create([[NSString stringWithFormat:@"FSQImageCache.%p",self] UTF8String], DISPATCH_QUEUE_SERIAL);
-		completionHandlersByKey_ = [NSMutableDictionary new];
-		currentDownloads_ = [NSMutableSet new];
+		_cache = [NSMutableDictionary new];
+		_cacheQueue = dispatch_queue_create([[NSString stringWithFormat:@"FSQImageCache.%p",self] UTF8String], DISPATCH_QUEUE_SERIAL);
+		_completionHandlersByKey = [NSMutableDictionary new];
+		_currentDownloads = [NSMutableSet new];
 #if TARGET_OS_IPHONE
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 #endif
 		// build a cached file list and calculate disk usage before any requests come in 
-		dispatch_async(cacheQueue_, ^{
+		dispatch_async(_cacheQueue, ^{
 			NSFileManager *fm = [NSFileManager new];
 			NSError *error = nil;
 			
 			NSArray *files = [fm contentsOfDirectoryAtURL:[NSURL fileURLWithPath:self.cachePath] 
-							   includingPropertiesForKeys:[NSArray arrayWithObjects:NSURLContentAccessDateKey,NSURLFileSizeKey,nil] 
+							   includingPropertiesForKeys:@[NSURLContentAccessDateKey,NSURLFileSizeKey] 
 												  options:NSDirectoryEnumerationSkipsHiddenFiles 
 													error:&error];
 			if (error) {
@@ -160,7 +141,7 @@
 					id lastAccessDate;
 					if ([file getResourceValue:&lastAccessDate forKey:NSURLContentAccessDateKey error:&error]) {
 						entry.lastAccessDate = lastAccessDate;
-						[fileList_ addObject:entry];
+						[_fileList addObject:entry];
 					}
 					FSQAssert(error == nil, @"Couldn't get last access date");
 
@@ -169,7 +150,7 @@
 					id fileSize;
 					if ([file getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error]) {
 						NSUInteger size = [fileSize unsignedIntegerValue];
-						currentDiskUsage_ += size;
+						_currentDiskUsage += size;
 					} 
 					FSQAssert(error == nil, @"Couldn't get file size");
 				}
@@ -180,7 +161,11 @@
 }
 
 - (NSString *) description {
-	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%u",[super description], name_, diskPath_, currentMemoryUsage_];
+#if TARGET_OS_IPHONE
+	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%u",[super description], _name, _diskPath, _currentMemoryUsage];
+#else
+	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%lu",[super description], _name, _diskPath, _currentMemoryUsage];
+#endif
 }
 
 
@@ -203,7 +188,7 @@
 	
 	NSURL *descaledKey = nil;
 	float scale FSQ_MAYBE_UNUSED = 1;
-	if (automaticallyDetectsScale_) {
+	if (_automaticallyDetectsScale) {
 		scale = [self scaleForKey:key descaledKey:&descaledKey];
 	} 
 	else {
@@ -212,13 +197,13 @@
 	
 	// don't block the main thread with disk scans etc..
 	// all cache access is piped through our serial queue so there are no concurrency issues
-	dispatch_async(cacheQueue_, ^{
+	dispatch_async(_cacheQueue, ^{
 		
 		// register our handler for the key
 		[self addHandler:completionHandler forKey:key];
 		
 		// check the memory cache for the image
-		id image = [[cache_ objectForKey:key] image];
+		id image = [[_cache objectForKey:key] image];
 		if (image) {
 			[self dispatchCompletionHandlersForKey:key withImage:image error:nil];
 		} 
@@ -235,7 +220,7 @@
 			}
 			// begin downloading it if noone else is
 			else if ([self beginDownload:key]) {
-				downloadHandler_(key,^(id downloadedImage, NSError *downloadError){
+				_downloadHandler(key,^(id downloadedImage, NSError *downloadError){
 					if (downloadedImage && downloadError == nil) {
 #if TARGET_OS_IPHONE
 						if (scale > 1) {
@@ -250,7 +235,7 @@
 					} else {
 						[self dispatchCompletionHandlersForKey:key withImage:nil error:downloadError];
 					}
-					[currentDownloads_ removeObject:key];
+					[_currentDownloads removeObject:key];
 				});
 			}
 		}
@@ -258,16 +243,16 @@
 }
 
 - (void) cancelFetchForURL:(id)URLOrString {
-	if (cancelationHandler_) {
-		cancelationHandler_(URLOrString);
+	if (_cancelationHandler) {
+		_cancelationHandler(URLOrString);
 	}
 }
 
 - (void) removeImageForURL:(id)URLOrString {
 	FLog(@"removeImageForURL: %@",URLOrString);
 	NSURL *key = [self keyForKeyObject:URLOrString];
-	dispatch_async(cacheQueue_, ^{
-		[cache_ removeObjectForKey:key];
+	dispatch_async(_cacheQueue, ^{
+		[_cache removeObjectForKey:key];
 		NSFileManager *fm = [NSFileManager new];
 		NSError *error = nil;
 		if (NO == [fm removeItemAtPath:[self cachePathForKey:key] error:&error]) {
@@ -324,31 +309,31 @@
 }
 
 - (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(NSURL *)key {
-	NSMutableSet *handlersForKey = [completionHandlersByKey_ objectForKey:key];
+	NSMutableSet *handlersForKey = [_completionHandlersByKey objectForKey:key];
 	if (handlersForKey == nil) {
 		handlersForKey = [NSMutableSet new];
-		[completionHandlersByKey_ setObject:handlersForKey forKey:key];
+		[_completionHandlersByKey setObject:handlersForKey forKey:key];
 	}
 	[handlersForKey addObject:[handler copy]];
 }
 
 - (void) dispatchCompletionHandlersForKey:(NSURL *)key withImage:(id)image error:(NSError *)error {
-	NSSet *handlers = [completionHandlersByKey_ objectForKey:key];
+	NSSet *handlers = [_completionHandlersByKey objectForKey:key];
 	for (FSQImageCacheCompletionHandler handler in handlers) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			handler(image,error);
 		});
 	}
-	[completionHandlersByKey_ removeObjectForKey:key];
+	[_completionHandlersByKey removeObjectForKey:key];
 }
 
 - (BOOL) beginDownload:(NSURL *)key {
-	FSQAssert(downloadHandler_ != nil, @"downloadHandler cannot be nil!");
-	if (downloadHandler_ == nil) {
+	FSQAssert(_downloadHandler != nil, @"downloadHandler cannot be nil!");
+	if (_downloadHandler == nil) {
 		return NO;
 	}
-	if (NO == [currentDownloads_ containsObject:key]) {
-		[currentDownloads_ addObject:key];
+	if (NO == [_currentDownloads containsObject:key]) {
+		[_currentDownloads addObject:key];
 		return YES;
 	}
 	return NO;
@@ -358,7 +343,7 @@
 //	FLog(@"storeImage:forURL: %@",key);
 	
 	// all cache access is piped through our serial queue so there are no concurrency issues
-	dispatch_async(cacheQueue_, ^{
+	dispatch_async(_cacheQueue, ^{
 		
 		// trim memory cache if over size
 #if TARGET_OS_IPHONE
@@ -368,37 +353,44 @@
 #endif
 		NSUInteger imageSize = [imageData length];
 		
-		__block NSUInteger newMemoryUsage = currentMemoryUsage_ + imageSize;
-		if (memoryCapacity_ != 0 && newMemoryUsage > memoryCapacity_) {
-			FLog(@"Memory capacity (%u) exceeded, purging cache",currentMemoryUsage_);
-			
-			NSArray *sortedCacheKeys = [cache_ keysSortedByValueUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
+		__block NSUInteger newMemoryUsage = _currentMemoryUsage + imageSize;
+		if (_memoryCapacity != 0 && newMemoryUsage > _memoryCapacity) {
+#if TARGET_OS_IPHONE
+			FLog(@"Memory capacity (%u) exceeded, purging cache",_currentMemoryUsage);
+#else
+			FLog(@"Memory capacity (%lu) exceeded, purging cache",_currentMemoryUsage);
+#endif
+			NSArray *sortedCacheKeys = [_cache keysSortedByValueUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
 				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
 			}];
 			
 			[sortedCacheKeys enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id cacheKey, NSUInteger idx, BOOL *stop) {
-				id cachedImage FSQ_MAYBE_UNUSED = [[cache_ objectForKey:cacheKey] image];
+				id cachedImage FSQ_MAYBE_UNUSED = [[_cache objectForKey:cacheKey] image];
 #if TARGET_OS_IPHONE
 				NSData *entryData = UIImagePNGRepresentation(cachedImage);
 #else
 				NSData *entryData = nil; //TODO: get image data for mac os
 #endif				
-				[cache_ removeObjectForKey:cacheKey];
+				[_cache removeObjectForKey:cacheKey];
 				newMemoryUsage -= [entryData length];
-				*stop = newMemoryUsage < memoryCapacity_;
+				*stop = newMemoryUsage < _memoryCapacity;
 			}];
 		}
 		
 		// store in memory cache
-		[cache_ setObject:[FSQImageCacheEntry withImage:image] forKey:key];
-		currentMemoryUsage_ = newMemoryUsage;
+		[_cache setObject:[FSQImageCacheEntry withImage:image] forKey:key];
+		_currentMemoryUsage = newMemoryUsage;
 		
 		// trim disk cache if over size
-		__block NSUInteger newDiskUsage = currentDiskUsage_ + imageSize;
-		if (diskCapacity_ != 0 && newDiskUsage > diskCapacity_) {
-			FLog(@"Disk capacity (%u) exceeded, purging cache",currentDiskUsage_);
-			
-			NSArray *sortedFileList = [fileList_ sortedArrayUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
+		__block NSUInteger newDiskUsage = _currentDiskUsage + imageSize;
+		if (_diskCapacity != 0 && newDiskUsage > _diskCapacity) {
+#if TARGET_OS_IPHONE
+			FLog(@"Disk capacity (%u) exceeded, purging cache",_currentDiskUsage);
+#else
+			FLog(@"Disk capacity (%lu) exceeded, purging cache",_currentDiskUsage);
+#endif
+
+			NSArray *sortedFileList = [_fileList sortedArrayUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
 				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
 			}];
 			
@@ -409,12 +401,12 @@
 					NSUInteger bytes = [fileSize unsignedIntegerValue];
 					NSFileManager *fm = [NSFileManager new];
 					if ([fm removeItemAtURL:file error:&error]) {
-						[fileList_ removeObject:file];
+						[_fileList removeObject:file];
 						newMemoryUsage -= bytes;
 					};
 				}
 				FSQAssert(error == nil, @"Couldn't get file size");
-				*stop = newDiskUsage < diskCapacity_;
+				*stop = newDiskUsage < _diskCapacity;
 			}];
 			
 		}
@@ -436,8 +428,8 @@
 #if TARGET_OS_IPHONE
 
 - (void) didReceiveMemoryWarning:(NSNotification *)notification {
-	dispatch_async(cacheQueue_, ^{
-		[cache_ removeAllObjects];
+	dispatch_async(_cacheQueue, ^{
+		[_cache removeAllObjects];
 	});
 }
 

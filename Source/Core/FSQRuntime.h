@@ -30,7 +30,7 @@
  *  @param source - The class to swizzle the method from
  *  @param replacementMethod_sel - The method selector of the method in target being used to swizzle the original method in source
  *  @param target - The class to swizzle the method to
- *  @param aliasOriginal - Whether to stash the original method implementation in a new method called "original_<originalMethod>"
+ *  @param aliasOriginal - Whether to stash the original method implementation in a new method called "_original<originalMethod>"
  *  @return YES on success
  */
 + (BOOL) swizzleMethod:(SEL)originalMethod_sel inTarget:(Class)target withMethod:(SEL)replacementMethod_sel fromSource:(Class)source aliasOriginal:(BOOL)shouldAlias;

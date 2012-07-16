@@ -24,9 +24,9 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 @end
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)_moc;
 + (NSString*)entityName;
-+ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)_moc;
 - (<$managedObjectClassName$>ID*)objectID;
 
 <$foreach Attribute noninheritedAttributes do$>
@@ -39,9 +39,9 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$if Attribute.hasScalarAttributeType$>
 @property <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
-- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)_value;
 <$endif$>
-//- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)_value error:(NSError**)_error;
 <$endif$>
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
@@ -58,16 +58,16 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$else$>
 @property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
 <$endif$>
-//- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)_value error:(NSError**)_error;
 <$endif$>
 <$endforeach do$>
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)_error;
 <$else$>
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)_moc <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)_error;
 <$endif$>
 <$endforeach do$>
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
@@ -86,10 +86,10 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedAccessors)
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
-- (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
-- (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
-- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
-- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+- (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)_value;
+- (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)_value;
+- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)_value;
+- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)_value;
 <$endif$><$endforeach do$>
 @end
 
@@ -100,7 +100,7 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
 <$if Attribute.hasScalarAttributeType$>
 - (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
-- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)_value;
 <$endif$>
 <$endif$>
 <$endforeach do$>

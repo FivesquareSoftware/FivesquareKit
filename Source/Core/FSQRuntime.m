@@ -39,7 +39,7 @@
 	FSQAssert(relacementMethod != NULL, @"Can't swizzle missing replacement method");
 
 	if(shouldAlias) {
-		NSString *aliasMethodName = [NSString stringWithFormat:@"original_%@",NSStringFromSelector(originalMethod_sel)];
+		NSString *aliasMethodName = [NSString stringWithFormat:@"_original%@",NSStringFromSelector(originalMethod_sel)];
 		[self aliasMethod:originalMethod_sel to:NSSelectorFromString(aliasMethodName) inClass:target];
 	}
 	

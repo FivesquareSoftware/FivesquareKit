@@ -28,11 +28,9 @@
 		[self setValue:value forKeyPath:keyPath];
 	}
 	@catch (NSException *exception) {
-		NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-							  keyPath, kFSQMapperErrorInfoKeyFailingDestinationKeyPath
-							  , NSLocalizedDescriptionKey, @"Failed to map a keypath"
-							  , NSUnderlyingErrorKey, exception
-							  , nil];
+		NSDictionary *info = @{kFSQMapperErrorInfoKeyFailingDestinationKeyPath: keyPath
+							  , @"Failed to map a keypath": NSLocalizedDescriptionKey
+							  , exception: NSUnderlyingErrorKey};
 		NSError *mappingError = [NSError errorWithDomain:kFSQFoundationErrorDomain code:kFSQMapperErrorCodeMappingFailed userInfo:info];
 		if (error) {
 			*error = mappingError;

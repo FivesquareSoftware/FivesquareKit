@@ -33,6 +33,3 @@
 #define NS_RETURNS_AUTORELEASED
 #endif
 #endif
-
-#define FSQ_SYTHESIZE_START #if __has_feature(objc_default_synthesize_properties) == 0
-#define FSQ_SYNTHESIZE_END #endif
