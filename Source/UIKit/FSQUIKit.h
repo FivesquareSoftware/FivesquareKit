@@ -26,10 +26,13 @@
 
 #import "FSQFetchedResultsTableViewController.h"
 #import "FSQFetchedResultsViewController.h"
-#import "FSQFetchedResultsCollectionViewController.h"
 #import "FSQMenuPopover.h"
 #import "FSQMenuViewController.h"
 #import "FSQMenuViewController+Protected.h"
+
+#ifdef __IPHONE_6_0
+#import "FSQFetchedResultsCollectionViewController.h"
+#endif
 
 // Views
 

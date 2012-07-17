@@ -129,8 +129,6 @@
 		A446243B1558659200E25FFD /* FSQMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44624361558659200E25FFD /* FSQMenuViewController.m */; };
 		A454C13115252F8A001E8B9F /* FSQKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F441C12748374005D9BF4 /* FSQKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A454C13215252F90001E8B9F /* FSQKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441D12748374005D9BF4 /* FSQKeychain.m */; };
-		A466435015A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A466434E15A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.h */; };
-		A466435115A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A466434F15A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.m */; };
 		A4583292158BFC040022BE1A /* FSQAppKitConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A4583290158BFC040022BE1A /* FSQAppKitConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4583293158BFC040022BE1A /* FSQAppKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A4583291158BFC040022BE1A /* FSQAppKitConstants.m */; };
 		A4713EB813509EEB00FA1402 /* RatingIndicatorOff.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446112748375005D9BF4 /* RatingIndicatorOff.png */; };
@@ -1055,7 +1053,6 @@
 				A40017371565C581004765ED /* NSURL+FSQFoundation.h in Headers */,
 				A43A66E4157D600500640591 /* FSQMacros.h in Headers */,
 				A4BBEFB9156C4834003BBDE1 /* FSQProgressBar.h in Headers */,
-				A466435015A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1290,7 +1287,6 @@
 				A4BEA9B3155C389200509D20 /* UIDevice+FSQUIKit.m in Sources */,
 				A40017391565C581004765ED /* NSURL+FSQFoundation.m in Sources */,
 				A4BBEFBA156C4834003BBDE1 /* FSQProgressBar.m in Sources */,
-				A466435115A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
