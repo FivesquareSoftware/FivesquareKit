@@ -12,7 +12,7 @@
 
 @interface UIImageView (FSQUIKit)
 
-@property (nonatomic, weak) FSQImageCache *cache;
+@property (nonatomic, unsafe_unretained) FSQImageCache *cache;
 
 /** Whether scale signifiers (e.g. '@2x') are appended to filenames in URLS. The default is YES.
  *  @examples

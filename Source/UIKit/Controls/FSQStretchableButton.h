@@ -14,6 +14,9 @@
 @property (nonatomic) CGPoint horizontalCapInsets; ///< Sets just the left and right insets, x = left, y = right
 @property (nonatomic) CGPoint verticalCapInsets; ///< Sets just the top and bottom insets, x = top, y = bottom
 
+
+- (void) initialize; ///< Subclasses can override to share common init
+
 - (void) setBackgroundImage:(UIImage *)image forState:(UIControlState)state capInsets:(UIEdgeInsets)capInsets;
 
 @end

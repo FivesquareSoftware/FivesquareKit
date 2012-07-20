@@ -25,6 +25,8 @@
 @synthesize fetchedResultsController = _fetchedResultsController;
 #endif
 
+
+
 - (NSManagedObjectContext *) managedObjectContext {
 	if (_managedObjectContext == nil) {
 		[FSQAsserter subclass:self responsibility:_cmd];
