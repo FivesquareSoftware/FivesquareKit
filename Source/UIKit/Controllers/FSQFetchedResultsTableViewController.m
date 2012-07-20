@@ -15,6 +15,8 @@
 #import "UITableView+FSQUIKit.h"
 
 
+#import "FSQMacros.h"
+
 @interface FSQFetchedResultsTableViewController ()
 - (void) initialize;
 @end
@@ -27,21 +29,19 @@
 
 #pragma mark - Properties
 
-#if __has_feature(objc_default_synthesize_properties) == 0
 
-@synthesize tableView = _tableView;
+FSQ_SYNTHESIZE(tableView);
 
-@synthesize editable = _editable;
-@synthesize reordering = _reordering;
-@synthesize mutatingSectionIndex = _mutatingSectionIndex;
-@synthesize fetchedResultsTableRowOffset = _fetchedResultsTableRowOffset;
-@synthesize fetchedResultsTableSection = _fetchedResultsTableSection;
-@synthesize showsPlaceholderRow = _showsPlaceholderRow;
-@synthesize animateTableUpdates = _animateTableUpdates;
-@synthesize tableRowAnimationType = _tableRowAnimationType;
-@synthesize clearsSelectionOnViewWillAppear = _clearsSelectionOnViewWillAppear;
+FSQ_SYNTHESIZE(editable);
+FSQ_SYNTHESIZE(reordering);
+FSQ_SYNTHESIZE(mutatingSectionIndex);
+FSQ_SYNTHESIZE(fetchedResultsTableRowOffset);
+FSQ_SYNTHESIZE(fetchedResultsTableSection);
+FSQ_SYNTHESIZE(showsPlaceholderRow);
+FSQ_SYNTHESIZE(animateTableUpdates);
+FSQ_SYNTHESIZE(tableRowAnimationType);
+FSQ_SYNTHESIZE(clearsSelectionOnViewWillAppear);
 
-#endif
 
 
 // ========================================================================== //

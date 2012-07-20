@@ -13,6 +13,8 @@
 #import "NSObject+FSQFoundation.h"
 #import "NSFetchedResultsController+FSQUIKit.h"
 
+#import "FSQMacros.h"
+
 
 @implementation FSQFetchedResultsViewController
 
@@ -20,12 +22,9 @@
 
 #pragma mark - Properties
 
-#if __has_feature(objc_default_synthesize_properties) == 0
+FSQ_SYNTHESIZE(managedObjectContext)
+FSQ_SYNTHESIZE(fetchedResultsController)
 
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize fetchedResultsController = _fetchedResultsController;
-
-#endif
 
 - (NSManagedObjectContext *) managedObjectContext {
 	if (_managedObjectContext == nil) {
