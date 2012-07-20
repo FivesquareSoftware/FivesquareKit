@@ -34,5 +34,8 @@
 #endif
 #endif
 
-#define FSQ_SYTHESIZE_START #if __has_feature(objc_default_synthesize_properties) == 0
-#define FSQ_SYNTHESIZE_END #endif
+#if __has_feature(objc_default_synthesize_properties) == 0
+#define FSQ_SYNTHESIZE(property) @synthesize property = _property;
+#else
+#define FSQ_SYNTHESIZE(property)
+#endif
