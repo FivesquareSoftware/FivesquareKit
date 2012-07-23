@@ -194,15 +194,15 @@ FSQ_SYNTHESIZE(changedKeys)
 }
 
 - (void)setFloat:(float)value forKey:(NSString *)defaultName {
-	[self setValueSynchronized:[NSNumber numberWithInteger:value] forKey:defaultName];
+	[self setValueSynchronized:[NSNumber numberWithFloat:value] forKey:defaultName];
 }
 
 - (void)setDouble:(double)value forKey:(NSString *)defaultName {
-	[self setValueSynchronized:[NSNumber numberWithInteger:value] forKey:defaultName];
+	[self setValueSynchronized:[NSNumber numberWithDouble:value] forKey:defaultName];
 }
 
 - (void)setBool:(BOOL)value forKey:(NSString *)defaultName {
-	[self setValueSynchronized:[NSNumber numberWithInteger:value] forKey:defaultName];
+	[self setValueSynchronized:[NSNumber numberWithBool:value] forKey:defaultName];
 }
 
 - (void)setURL:(NSURL *)url forKey:(NSString *)defaultName {
