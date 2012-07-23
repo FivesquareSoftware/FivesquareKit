@@ -13,6 +13,16 @@
 
 @implementation NSObject (FSQFoundation)
 
++ (BOOL) isEmpty:(id)obj {
+	if (nil == obj) {
+		return YES;
+	}
+	if ([NSNull null] == obj) {
+		return YES;
+	}
+	return NO;
+}
+
 #if (TARGET_OS_IPHONE)
 + (NSString *) className {
 	return NSStringFromClass(self);

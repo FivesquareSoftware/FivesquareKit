@@ -49,7 +49,7 @@
 #import "FSQThumbstripCell.h"
 #import "FSQThumbstripBaseDataSource.h"
 #import "FSQThumbstripBaseDataSource+Protected.h"
-
+#import "FSQLabel.h"
 
 // Transformers
 

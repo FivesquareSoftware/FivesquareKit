@@ -29,7 +29,7 @@
 @end
 
 @implementation FSQImageCacheEntry
-@synthesize image=_image, lastAccessDate=_lastAccessDate;
+@synthesize image = _image, lastAccessDate = _lastAccessDate;
 + (id) withImage:(id)image {
 	FSQImageCacheEntry *entry = [self new];
 	entry.image = image;
@@ -186,13 +186,13 @@
 	}
 
 	
-	NSURL *descaledKey = nil;
+	NSURL *unscaledKey = nil;
 	float scale FSQ_MAYBE_UNUSED = 1;
 	if (_automaticallyDetectsScale) {
-		scale = [self scaleForKey:key descaledKey:&descaledKey];
+		scale = [self scaleForKey:key descaledKey:&unscaledKey];
 	} 
 	else {
-		descaledKey = key;
+		unscaledKey = key;
 	}
 	
 	// don't block the main thread with disk scans etc..
@@ -210,7 +210,7 @@
 		// check the disk cache for the image
 		else { 
 #if TARGET_OS_IPHONE
-			NSString *imagePath = [self cachePathForKey:descaledKey]; // use the unscaled path because imageWithContentsOfFile: gets the right version for us
+			NSString *imagePath = [self cachePathForKey:unscaledKey]; // use the unscaled path because imageWithContentsOfFile: gets the right version for us
 			image = [UIImage imageWithContentsOfFile:imagePath];
 #else
 			//TODO: load image from disk for mac os

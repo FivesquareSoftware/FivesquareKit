@@ -16,4 +16,5 @@
 #else
 	#define FLog(frmt, ...)
 	#define FLogError(error, frmt, ...)
+	#define FLogMethod()
 #endif
