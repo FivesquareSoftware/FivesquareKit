@@ -13,6 +13,12 @@
 
 @implementation NSArray (FSQFoundation)
 
+// ========================================================================== //
+
+#pragma mark - Sorting
+
+
+
 // Returns an autoreleased array with elements from the receiver that contain the description
 - (NSArray *) filteredArrayOnItemDescriptionContains:(NSString *)aDescription; {
     NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
@@ -57,6 +63,12 @@
 }
 
 
+// ========================================================================== //
+
+#pragma mark - Strings
+
+
+
 - (NSString *) toHtmlWithKeyPath:(NSString *)keypath {
     NSMutableString *listString = [NSMutableString stringWithString:@"<ul>"];
     for (id item in self) {
@@ -65,6 +77,12 @@
     [listString appendString:@"</ul>"];
     return listString;    
 }
+
+// ========================================================================== //
+
+#pragma mark - Queying
+
+
 
 - (id) objectMatchingPredicate:(NSPredicate *)predicate {
 	return [[self filteredArrayUsingPredicate:predicate] lastObject];
@@ -77,6 +95,49 @@
 		object = [self objectAtIndex:index];
 	}
 	return object;
+}
+
+// ========================================================================== //
+
+#pragma mark - Enumeration
+
+
+- (NSArray *) collect:(id(^)(id obj))enumerationBlock {
+	if (nil == enumerationBlock) {
+		return [self copy];
+	}
+	NSMutableArray *newArray = [NSMutableArray new];
+	[self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		id newObj = enumerationBlock(obj);
+		if (obj) {
+			[newArray addObject:newObj];
+		}
+	}];
+	return newArray;
+}
+
+- (NSArray *) flatten {
+	return [self flatten:nil];
+}
+
+- (NSArray *) flatten:(id(^)(id obj))enumerationBlock {
+	NSMutableArray *newArray = [NSMutableArray new];
+	[self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		id newObj;
+		if (enumerationBlock) {	
+			newObj = enumerationBlock(obj);
+		}
+		else {
+			newObj = obj;
+		}
+		if ([newObj isKindOfClass:[NSArray class]]) {
+			[newArray addObjectsFromArray:[newObj flatten:enumerationBlock]];
+		}
+		else {
+			[newArray addObject:newObj];
+		}
+	}];
+	return newArray;
 }
 
 @end

@@ -13,18 +13,31 @@
 
 @interface NSArray (FSQFoundation)
 
+// Sorting
+
 - (NSArray *) filteredArrayOnItemDescriptionContains:(NSString *)aDescription;
 - (NSArray *) filteredArrayOnItemDescriptionStartsWith:(NSString *)aDescription;
 - (NSArray *) filteredArrayOnAttribute:(NSString *)attributeNamed contains:(NSString *)aValue;
 - (NSArray *) filteredArrayOnAttribute:(NSString *)attributeNamed startsWith:(NSString *)aValue;
 - (NSArray *) filteredArrayOnAttribute:(NSString *)attributeNamed isEqual:(id)aValue;
-
 - (NSArray *) sortedArrayUsingKey:(NSString *)sortKey ascending:(BOOL)ascending;
+
+// Strings
 
 - (NSString *) toHtmlWithKeyPath:(NSString *)keypath;
 
+// Querying
+
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 - (id) objectPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate;
+
+// Enumeration
+
+
+- (NSArray *) collect:(id(^)(id obj))enumerationBlock;
+
+- (NSArray *) flatten;
+- (NSArray *) flatten:(id(^)(id obj))enumerationBlock;
 
 @end
 
