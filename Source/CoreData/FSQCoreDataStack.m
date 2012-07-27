@@ -136,7 +136,7 @@
 					
 					// developer has provided a mapping model in the bundle
 					
-					NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES};
+					NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @(YES)};
 					
 					migrationError = NULL;
 					[self createPersistentStoreCoordinator:options error:migrationError];
@@ -149,8 +149,8 @@
 						
 						FLog(@"Using lightweight migration");
 						
-						NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
-												 NSInferMappingModelAutomaticallyOption: @YES};
+						NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @(YES),
+												 NSInferMappingModelAutomaticallyOption: @(YES)};
 						
 						migrationError = NULL;
 						[self createPersistentStoreCoordinator:options error:migrationError];

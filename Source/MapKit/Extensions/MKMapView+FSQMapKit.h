@@ -8,10 +8,14 @@
 
 #import <MapKit/MapKit.h>
 
-typedef NS_ENUM(NSUInteger, FSQMapZoomLevel) {
+
+#import "FSQMacros.h"
+
+NS_ENUM(NSUInteger, FSQMapZoomLevel) {
 	FSQMapZoomLevelMin = 0
 	, FSQMapZoomLevelMax = 20
 };
+
 
 @interface MKMapView (FSQMapKit)
 

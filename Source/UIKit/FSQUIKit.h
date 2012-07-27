@@ -8,6 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+
+
+//#ifndef UILineBreakModeClip
+//#define UILineBreakModeClip NSLineBreakByClipping 
+//#endif
+//
+//#ifndef UILineBreakModeTailTruncation
+//#define UILineBreakModeTailTruncation NSLineBreakByTruncatingTail
+//#endif
+//
+//#ifndef UITextAlignmentCenter
+//#define UITextAlignmentCenter NSTextAlignmentCenter
+//#endif
+
+
+//NSTextAlignmentCenter
+
 // App
 
 #import "FSQAppBooter.h"

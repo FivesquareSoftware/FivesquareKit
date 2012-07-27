@@ -328,7 +328,7 @@
 
 + (BOOL) deleteAllWithPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context {
 	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
-	[requestOptions setObject:@NO forKey:@"includesPropertyValues"];
+	[requestOptions setObject:@(NO) forKey:@"includesPropertyValues"];
 	if(predicate) {
 		[requestOptions setObject:predicate forKey:@"predicate"];
 	}
