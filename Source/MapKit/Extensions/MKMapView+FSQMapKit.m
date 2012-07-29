@@ -8,6 +8,7 @@
 
 #import "MKMapView+FSQMapKit.h"
 
+
 @implementation MKMapView (FSQMapKit)
 
 - (void) setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSInteger)zoomLevel animated:(BOOL)animated {

@@ -68,7 +68,9 @@
 
 
 - (void) initialize {
+#ifdef __IPHONE_6_0
 	self.translatesAutoresizingMaskIntoConstraints = NO;
+#endif
 	_placeholderColor = [UIColor lightTextColor];
 	[self setTextColor:_placeholderColor];
 }

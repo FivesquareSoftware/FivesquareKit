@@ -115,8 +115,11 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 //					FLog(@"object: %@",object);
 					mappedCount++;
 				}
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat"
 				FLog(@"Mapped %u %@s",mappedCount, entityClassName);
 				FLog(@"actual count: %u",[destinationClass countInContext:self]);
+#pragma clang diagnostic pop
 			}
 		}
 

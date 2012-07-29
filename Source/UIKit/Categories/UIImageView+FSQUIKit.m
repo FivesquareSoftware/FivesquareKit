@@ -36,7 +36,7 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 - (BOOL) automaticallyRequestsScaledImage {
 	NSNumber *automaticallyRequestsScaledImageNumber = (NSNumber *)objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_automaticallyRequestsScaledImage);
 	if (automaticallyRequestsScaledImageNumber == nil) {
-		automaticallyRequestsScaledImageNumber = @YES;
+		automaticallyRequestsScaledImageNumber = @(YES);
 		[self setAutomaticallyRequestsScaledImage:YES];
 	}
 	return [automaticallyRequestsScaledImageNumber boolValue];

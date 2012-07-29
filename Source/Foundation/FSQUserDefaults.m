@@ -16,6 +16,7 @@
 
 
 @interface FSQUserDefaults ()
+@property (nonatomic, strong) NSMutableDictionary *typesForKeys;
 @end
 
 @implementation FSQUserDefaults
@@ -43,6 +44,7 @@ FSQ_SYNTHESIZE(changedKeys)
 			_defaultKeysAndValues = defaults;
 		}
 		_changedKeys = [NSMutableSet new];
+		_typesForKeys = [NSMutableDictionary new];
     }
     return self;
 }
@@ -75,7 +77,12 @@ FSQ_SYNTHESIZE(changedKeys)
 
 #if TARGET_OS_IPHONE
 - (UIColor *) colorForKey:(NSString *)key {
-	return [NSKeyedUnarchiver unarchiveObjectWithData:[self valueForKeySynchronized:key]];
+	UIColor *color = nil;
+	NSData *colorData = [self valueForKeySynchronized:key];
+	if (colorData) {
+		color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+	}
+	return color;
 }
 
 - (void) setColor:(UIColor *)color forKey:(NSString *)key {
@@ -83,7 +90,7 @@ FSQ_SYNTHESIZE(changedKeys)
 }
 #else
 - (NSColor *) colorForKey:(NSString *)key {
-	
+	return nil;
 }
 
 - (void) setColor:(NSColor *)color forKey:(NSString *)key {
@@ -194,15 +201,15 @@ FSQ_SYNTHESIZE(changedKeys)
 }
 
 - (void)setFloat:(float)value forKey:(NSString *)defaultName {
-	[self setValueSynchronized:[NSNumber numberWithInteger:value] forKey:defaultName];
+	[self setValueSynchronized:[NSNumber numberWithFloat:value] forKey:defaultName];
 }
 
 - (void)setDouble:(double)value forKey:(NSString *)defaultName {
-	[self setValueSynchronized:[NSNumber numberWithInteger:value] forKey:defaultName];
+	[self setValueSynchronized:[NSNumber numberWithDouble:value] forKey:defaultName];
 }
 
 - (void)setBool:(BOOL)value forKey:(NSString *)defaultName {
-	[self setValueSynchronized:[NSNumber numberWithInteger:value] forKey:defaultName];
+	[self setValueSynchronized:[NSNumber numberWithBool:value] forKey:defaultName];
 }
 
 - (void)setURL:(NSURL *)url forKey:(NSString *)defaultName {
@@ -218,6 +225,7 @@ FSQ_SYNTHESIZE(changedKeys)
 
 
 // Extensions that synchronize the defaults
+
 
 - (id) valueForKeySynchronized:(NSString *)key {
 	[StandardDefaults() synchronize];

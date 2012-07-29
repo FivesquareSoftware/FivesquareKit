@@ -188,18 +188,10 @@ CGContextRef CreateBitmapRenderingContext(
   CGImageAlphaInfo alphaInformation                                       
 ) {        
     CGContextRef    context = NULL;
-    void *          bitmapData;
-    size_t             bitmapByteCount;
     size_t             bitmapBytesPerRow;
     
     bitmapBytesPerRow   = (rect.size.width * bytesPerPixel);
-    bitmapByteCount     = (bitmapBytesPerRow * rect.size.height);
-    bitmapData = malloc(bitmapByteCount);
-    if (bitmapData == NULL)  {
-        NSLog(@"Couldn't allocate memory for bitmap context");
-        return NULL;
-    }
-    context = CGBitmapContextCreate(bitmapData,
+    context = CGBitmapContextCreate(NULL,
                                     rect.size.width,
                                     rect.size.height,
                                     bitsPerComponent,
@@ -207,7 +199,6 @@ CGContextRef CreateBitmapRenderingContext(
                                     colorSpace,
                                     alphaInformation);
     if (context== NULL) {
-        free (bitmapData);
         NSLog(@"Could not create bitmap context");
         return NULL;
     }    

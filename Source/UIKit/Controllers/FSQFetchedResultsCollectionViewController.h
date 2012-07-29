@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
+#ifdef __IPHONE_6_0
+
 @interface FSQFetchedResultsCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate> {
 @protected
 	NSManagedObjectContext *_managedObjectContext;
@@ -29,3 +31,6 @@
 
 
 @end
+
+
+#endif
