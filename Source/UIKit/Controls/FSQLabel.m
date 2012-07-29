@@ -11,20 +11,61 @@
 #import "NSString+FSQFoundation.h"
 
 
+@interface FSQLabel ()
+@property (nonatomic, strong) UIColor *textColorInternal;
+@property (nonatomic, strong) NSLayoutConstraint *collapseConstraint;
+@end
+
 @implementation FSQLabel
 
-@synthesize textColor = _textColorInternal;
+- (void) setPlaceholderText:(NSString *)placeholderText {
+	if (_placeholderText != placeholderText) {
+		_placeholderText = placeholderText;
+		[super setTextColor:_placeholderColor];
+		[super setText:_placeholderText];
+	}
+}
 
 - (void) setText:(NSString *)text {
 	if ([NSString isEmpty:text]) {
-		text = _placeholderText;
-		self.textColor = _placeholderColor;
+		if (_collapseWhenEmpty) {
+			NSLayoutConstraint *collapseConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0];
+			self.collapseConstraint = collapseConstraint;
+			[self setNeedsLayout];
+		}
+		else {
+			text = _placeholderText;
+			[super setTextColor:_placeholderColor];
+			if (_collapseWhenEmpty) {
+				self.collapseConstraint = nil;
+				[self setNeedsLayout];
+			}
+		}
 	}
 	else {
-		self.textColor = _textColorInternal;
+		[super setTextColor:_textColorInternal];
 	}
 	[super setText:text];
 }
+
+- (void) setTextColor:(UIColor *)textColor {
+	[super setTextColor:textColor];
+	_textColorInternal = textColor;
+}
+
+
+- (void) setCollapseConstraint:(NSLayoutConstraint *)collapseConstraint {
+	if (_collapseConstraint != collapseConstraint) {
+		if (_collapseConstraint) {
+			[self removeConstraint:_collapseConstraint];
+		}
+		_collapseConstraint = collapseConstraint;
+		if (_collapseConstraint) {
+			[self addConstraint:_collapseConstraint];
+		}
+	}
+}
+
 
 - (void) initialize {
 	self.translatesAutoresizingMaskIntoConstraints = NO;

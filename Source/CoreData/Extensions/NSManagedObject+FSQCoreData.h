@@ -109,6 +109,11 @@
 				  attributes:(NSDictionary *)someAttributes
 					   inContext:(NSManagedObjectContext *)context;
 
++ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
+					  substitutionVariables:(NSDictionary *)variables
+								 attributes:(id)someAttributes
+								  inContext:(NSManagedObjectContext *)context;
+
 + (id) createInContext:(NSManagedObjectContext *)context;
 
 + (id) createWithAttributes:(NSDictionary *)someAttributes
@@ -131,6 +136,7 @@
  *  @{
  */
 
+/** @deprecated - @see updateWithObject:merge: instead. This method now simply calls that method with merge = YES. */
 - (BOOL) updateWithAttributes:(NSDictionary *)attributes;
 
 /** Will map object's values onto the receiver, recursing relationships and creating instances of those objects as necessary.

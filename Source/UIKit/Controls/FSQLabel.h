@@ -13,4 +13,6 @@
 @property (nonatomic, strong) NSString *placeholderText;
 @property (nonatomic, strong) UIColor *placeholderColor;
 
+@property (nonatomic) BOOL collapseWhenEmpty;
+
 @end

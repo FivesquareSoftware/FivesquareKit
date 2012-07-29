@@ -281,7 +281,7 @@
 	return [self findOrCreateWithPredicate:predicate attributes:nil inContext:context];
 }
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
++ (id) findOrCreateWithPredicate:(NSPredicate *)predicate
 					  attributes:(NSDictionary *)someAttributes
 					   inContext:(NSManagedObjectContext *)context {
 	__block id found = [self firstWithPredicate:predicate inContext:context];
@@ -289,10 +289,21 @@
 		[context performBlockAndWait:^{
 			found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 		}];
+		[found updateWithObject:someAttributes merge:YES];
+	}
+	return found;
+}
 
-		for (NSString *key in someAttributes) {
-			[found setValue:[someAttributes objectForKey:key] forKey:key];
-		}
++ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
+			  substitutionVariables:(NSDictionary *)variables
+					  attributes:(id)someAttributes
+					   inContext:(NSManagedObjectContext *)context {
+	__block id found = [self firstWithFetchRequestTemplate:templateName substitutionVariables:variables inContext:context];
+	if(found == nil) {
+		[context performBlockAndWait:^{
+			found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
+		}];
+		[found updateWithObject:someAttributes merge:YES];
 	}
 	return found;
 }
@@ -309,9 +320,7 @@
 		created = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 	}];
 
-	for (NSString *key in someAttributes) {
-		[created setValue:[someAttributes objectForKey:key] forKey:key];
-	}
+	[created updateWithObject:someAttributes merge:NO];
 	return created;
 }
 
@@ -365,18 +374,8 @@
 
 
 - (BOOL) updateWithAttributes:(NSDictionary *)attributes {
-	for (NSString *key in attributes) {
-		id value = [attributes valueForKey:key];
-		if(class_getProperty([self class], [key UTF8String])) {
-			NSError  *error = nil;
-			if ([self setValue:value forKeyPath:key error:&error]) {
-				FLog(@"Error mapping attributes %@ to object %@",attributes,self);
-				return NO;
-			}
-		}
-	}
-	return YES;
-} 
+	return [self updateWithObject:attributes merge:YES];
+}
 
 - (BOOL) updateWithObject:(NSObject *)source merge:(BOOL)merge {
 	NSDictionary *attributes = [[self entity] propertiesByName];
