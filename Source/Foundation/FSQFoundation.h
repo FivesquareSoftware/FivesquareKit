@@ -23,4 +23,5 @@
 #import "NSBundle+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
 #import "NSURL+FSQFoundation.h"
+#import "NSError+FSQFoundation.h"
 

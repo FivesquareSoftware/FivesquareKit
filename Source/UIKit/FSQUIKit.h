@@ -46,6 +46,7 @@
 #import "FSQMenuPopover.h"
 #import "FSQMenuViewController.h"
 #import "FSQMenuViewController+Protected.h"
+#import "FSQFetchedResultsDataSource.h"
 
 #ifdef __IPHONE_6_0
 #import "FSQFetchedResultsCollectionViewController.h"

@@ -11,7 +11,7 @@
 
 #ifdef __IPHONE_6_0
 
-@interface FSQFetchedResultsCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate> {
+@interface FSQFetchedResultsCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate> {
 @protected
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
