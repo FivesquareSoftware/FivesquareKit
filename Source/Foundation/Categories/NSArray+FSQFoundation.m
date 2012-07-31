@@ -97,6 +97,13 @@
 	return object;
 }
 
+- (id) firstObject {
+	if (self.count < 1) {
+		return nil;
+	}
+	return [self objectAtIndex:0];
+}
+
 // ========================================================================== //
 
 #pragma mark - Enumeration

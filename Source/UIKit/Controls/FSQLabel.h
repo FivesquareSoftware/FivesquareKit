@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#ifdef __IPHONE_6_0
+
 @interface FSQLabel : UILabel
 
 @property (nonatomic, strong) NSString *placeholderText;
@@ -16,3 +18,5 @@
 @property (nonatomic) BOOL collapseWhenEmpty;
 
 @end
+
+#endif

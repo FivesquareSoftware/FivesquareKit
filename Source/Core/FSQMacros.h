@@ -14,6 +14,8 @@
 #define FSQ_SYNTHESIZE(property)
 #endif
 
+#define FSQWeakSelf() __weak typeof(self) _self = self
+
 
 #ifndef NS_RETURNS_RETAINED
 #if __has_feature(attribute_ns_returns_retained)
