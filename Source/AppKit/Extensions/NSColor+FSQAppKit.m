@@ -12,7 +12,7 @@
 
 #ifndef __MAC_10_8
 @dynamic CGColor;
-- (CGColorRef) CGColor {
+- (id) CGColor {
 	CGColorSpaceRef colorSpace = self.colorSpace.CGColorSpace;
 	NSColor *deviceColor = [self colorUsingColorSpaceName:NSDeviceRGBColorSpace];
 	
@@ -21,7 +21,7 @@
 	
 	CGColorRef CGColor =  CGColorCreate (colorSpace, components);
 	
-	return CGColor;
+	return (__bridge id)CGColor;
 }
 #endif
 
