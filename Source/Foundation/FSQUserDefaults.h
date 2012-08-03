@@ -86,5 +86,10 @@
 - (NSPoint) pointForKey:(NSString *)key;
 - (void) setPoint:(NSPoint)point forKey:(NSString *)key;
 #endif
+
+- (id) archivedObjectForKey:(NSString *)key;
+- (void) setArchivedObject:(id<NSCoding>)object forKey:(NSString *)key;
+
+
 @end
 
