@@ -11,7 +11,6 @@
 @interface NSColor (FSQAppKit)
 
 #ifndef __MAC_10_8
-@property (nonatomic, readonly) CGColorRef CGColor CF_RETURNS_RETAINED; 
-- (CGColorRef) CGColor CF_RETURNS_RETAINED;
+- (id) CGColor NS_RETURNS_AUTORELEASED;
 #endif
 @end

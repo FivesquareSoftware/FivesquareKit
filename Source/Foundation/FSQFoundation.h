@@ -20,6 +20,7 @@
 #import "NSFileManager+FSQFoundation.h"
 #import "NSObject+FSQFoundation.h"
 #import "NSString+FSQFoundation.h"
+#import "NSAttributedString+FSQFoundation.h"
 #import "NSBundle+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
 #import "NSURL+FSQFoundation.h"

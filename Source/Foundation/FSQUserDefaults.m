@@ -137,6 +137,19 @@ FSQ_SYNTHESIZE(changedKeys)
 }
 #endif
 
+- (id) archivedObjectForKey:(NSString *)key {
+	id object = nil;
+	NSData *objectData = [self valueForKeySynchronized:key];
+	if (objectData) {
+		object = [NSKeyedUnarchiver unarchiveObjectWithData:objectData];
+	}
+	return object;
+}
+
+- (void) setArchivedObject:(id<NSCoding>)object forKey:(NSString *)key {
+	[self setValueSynchronized:[NSKeyedArchiver archivedDataWithRootObject:object] forKey:key];
+}
+
 
 
 // ========================================================================== //
@@ -215,7 +228,6 @@ FSQ_SYNTHESIZE(changedKeys)
 - (void)setURL:(NSURL *)url forKey:(NSString *)defaultName {
 	[self setValueSynchronized:url forKey:defaultName];
 }
-
 
 
 
