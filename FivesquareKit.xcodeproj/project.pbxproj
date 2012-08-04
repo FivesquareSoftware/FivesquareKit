@@ -1132,13 +1132,10 @@
 				A40856D115BC9FE6002CCA20 /* FSQLabel.h in Headers */,
 				A487DF2315C5D6CA00CB0C76 /* NSError+FSQFoundation.h in Headers */,
 				A4541F5815C5F156008F085E /* FSQFetchedResultsDataSource.h in Headers */,
-<<<<<<< HEAD
 				A429E1D815C983F9006572D5 /* FSQLeftDetailCell.h in Headers */,
 				A44DF45815CACBFF00FF23B8 /* FSQBaseTableViewCell.h in Headers */,
 				A4A8251C15B49765003485B8 /* FSQMapKit.h in Headers */,
-=======
 				A4A5C90D15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h in Headers */,
->>>>>>> f30eac444213df2f098e966cb2f6e75db33d34bd
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1381,12 +1378,9 @@
 				A40856D215BC9FE6002CCA20 /* FSQLabel.m in Sources */,
 				A487DF2515C5D6CA00CB0C76 /* NSError+FSQFoundation.m in Sources */,
 				A4541F5915C5F156008F085E /* FSQFetchedResultsDataSource.m in Sources */,
-<<<<<<< HEAD
 				A429E1D915C983F9006572D5 /* FSQLeftDetailCell.m in Sources */,
 				A44DF45915CACBFF00FF23B8 /* FSQBaseTableViewCell.m in Sources */,
-=======
 				A4A5C90F15C99B9B001759F1 /* NSAttributedString+FSQFoundation.m in Sources */,
->>>>>>> f30eac444213df2f098e966cb2f6e75db33d34bd
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
