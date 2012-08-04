@@ -35,9 +35,11 @@
 
 // Cells
 
+#import "FSQBaseTableViewCell.h"
 #import "FSQLabeledControlCell.h"
 #import "FSQTextFieldCell.h"
 #import "FSQTextViewCell.h"
+#import "FSQLeftDetailCell.h"
 
 // Controllers
 

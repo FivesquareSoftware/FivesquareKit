@@ -11,8 +11,6 @@
 
 @implementation FSQTextViewCell
 
-@synthesize textView;
-
 - (BOOL) becomeFirstResponder {
 	return [self.textView becomeFirstResponder];
 }

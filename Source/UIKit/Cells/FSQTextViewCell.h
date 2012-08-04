@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "FSQBaseTableViewCell.h"
 
-@interface FSQTextViewCell : UITableViewCell {
-	UITextView *__unsafe_unretained textView;
-}
+
+@interface FSQTextViewCell : FSQBaseTableViewCell
 
 @property (nonatomic, assign) IBOutlet UITextView *textView;
 

@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "FSQBaseTableViewCell.h"
 
-@interface FSQTextFieldCell : UITableViewCell {
-	UITextField *__unsafe_unretained textField;
-}
 
-@property (nonatomic, assign) IBOutlet UITextField *textField;
+@interface FSQTextFieldCell : FSQBaseTableViewCell
+
+@property (nonatomic, weak) IBOutlet UITextField *textField;
 
 @end

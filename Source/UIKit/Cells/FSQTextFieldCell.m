@@ -11,8 +11,6 @@
 
 @implementation FSQTextFieldCell
 
-@synthesize textField;
-
 - (BOOL) becomeFirstResponder {
 	return [self.textField becomeFirstResponder];
 }

@@ -18,7 +18,6 @@
 #import "FSQMacros.h"
 
 @interface FSQFetchedResultsTableViewController ()
-- (void) initialize;
 @end
 
 
@@ -29,8 +28,9 @@
 
 #pragma mark - Properties
 
+FSQ_SYNTHESIZE(managedObjectContext)
+FSQ_SYNTHESIZE(fetchedResultsController)
 
-FSQ_SYNTHESIZE(tableView);
 
 FSQ_SYNTHESIZE(editable);
 FSQ_SYNTHESIZE(reordering);
@@ -40,7 +40,36 @@ FSQ_SYNTHESIZE(fetchedResultsTableSection);
 FSQ_SYNTHESIZE(showsPlaceholderRow);
 FSQ_SYNTHESIZE(animateTableUpdates);
 FSQ_SYNTHESIZE(tableRowAnimationType);
-FSQ_SYNTHESIZE(clearsSelectionOnViewWillAppear);
+
+
+
+- (NSManagedObjectContext *) managedObjectContext {
+	if (_managedObjectContext == nil) {
+		[FSQAsserter subclass:self responsibility:_cmd];
+	}
+	return _managedObjectContext;
+}
+
+- (void) setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	if (_managedObjectContext != managedObjectContext) {
+		_managedObjectContext = managedObjectContext;
+		self.fetchedResultsController = nil;
+	}
+}
+
+- (NSFetchedResultsController *) fetchedResultsController {
+	if (_fetchedResultsController == nil) {
+		[FSQAsserter subclass:self responsibility:_cmd];
+	}
+	return _fetchedResultsController;
+}
+
+- (void) setFetchedResultsController:(NSFetchedResultsController *)fetchedResultsController {
+	if (_fetchedResultsController != fetchedResultsController) {
+		_fetchedResultsController = fetchedResultsController;
+		[_fetchedResultsController fetch];
+	}
+}
 
 
 
@@ -51,7 +80,6 @@ FSQ_SYNTHESIZE(clearsSelectionOnViewWillAppear);
 - (void) initialize {
 	_animateTableUpdates = YES;
 	_tableRowAnimationType = UITableViewRowAnimationNone;
-	_clearsSelectionOnViewWillAppear = YES;
 }
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -84,17 +112,11 @@ FSQ_SYNTHESIZE(clearsSelectionOnViewWillAppear);
 
 - (void) viewDidLoad {
 	[super viewDidLoad];
-	if (self.tableView == nil) {
-		FSQAssert([self.view isKindOfClass:[UITableView class]],@"View is not a table view");
-		self.tableView = (UITableView *)self.view;
-	}
 }
 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	if (self.clearsSelectionOnViewWillAppear) {
-		[self.tableView clearSelectionAnimated:animated];
-	}
+	[self.fetchedResultsController fetch];
 	[self.tableView reloadData];
 }
 

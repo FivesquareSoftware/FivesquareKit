@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#import "FSQBaseTableViewCell.h"
 
-@interface FSQLabeledControlCell : UITableViewCell {
-}
+@interface FSQLabeledControlCell : FSQBaseTableViewCell
 
 @property (nonatomic, weak) IBOutlet UIControl *control;
 @property (nonatomic, weak) IBOutlet UILabel *controlLabel;

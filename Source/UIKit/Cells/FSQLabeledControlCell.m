@@ -11,7 +11,8 @@
 
 @implementation FSQLabeledControlCell
 
-@synthesize control;
-@synthesize controlLabel;
+- (BOOL) becomeFirstResponder {
+	return [self.control becomeFirstResponder];
+}
 
 @end

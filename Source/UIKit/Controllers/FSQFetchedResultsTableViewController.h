@@ -11,9 +11,20 @@
 
 #import "FSQFetchedResultsViewController.h"
 
-@interface FSQFetchedResultsTableViewController : FSQFetchedResultsViewController <UITableViewDataSource, UITableViewDelegate> 
+@interface FSQFetchedResultsTableViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate> {
+@protected
+	NSManagedObjectContext *_managedObjectContext;
+	NSFetchedResultsController *_fetchedResultsController;
+}
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
+/** @name Subclass properties
+ *  @{
+ */
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong, readwrite) NSFetchedResultsController *fetchedResultsController;
+
+/** @} */
+
 
 
 @property (nonatomic) BOOL editable;
@@ -26,8 +37,6 @@
 /** Right now does nothing. */
 @property (nonatomic, assign) UITableViewRowAnimation tableRowAnimationType;
 
-/** @see UITablewViewController.clearsSelectionOnViewWillAppear */
-@property(nonatomic) BOOL clearsSelectionOnViewWillAppear;
 
 - (NSIndexPath *) fetchedResultsIndexPathForTableIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *) tableIndexPathForFetchedResultsIndexPath:(NSIndexPath *)indexPath;	
