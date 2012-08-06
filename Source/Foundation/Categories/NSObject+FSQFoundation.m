@@ -10,6 +10,7 @@
 
 #import "FSQFoundationConstants.h"
 #import "FSQPropertyMapper.h"
+#import "NSError+FSQFoundation.h"
 
 @implementation NSObject (FSQFoundation)
 
@@ -48,6 +49,19 @@
 		return NO;
 	}
 	return YES;
+}
+
+- (id) valueForKeyPath:(NSString *)keyPath error:(NSError **)error {
+	id value = nil;
+	@try {
+		value = [self valueForKeyPath:keyPath];
+	}
+	@catch (NSException *exception) {
+		if (error) {
+			*error = [NSError withException:exception];
+		}
+	}
+	return value;
 }
 
 - (BOOL) mapFromObject:(NSObject *)source error:(NSError **)error {

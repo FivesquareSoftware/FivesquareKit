@@ -250,6 +250,8 @@
 		A4D02EF015252D3B00C16B67 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE215252BED00C16B67 /* CoreData.framework */; };
 		A4D02EF115252D4400C16B67 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE715252C7200C16B67 /* CoreLocation.framework */; };
 		A4D02EF215252D4E00C16B67 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE915252C8A00C16B67 /* QuartzCore.framework */; };
+		A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */; };
+		A4D460D515D022A700F59A95 /* FSQCapsuleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */; };
 		A4EA537015336753006BF354 /* FSQMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EA536E15336753006BF354 /* FSQMenuItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4EA537115336753006BF354 /* FSQMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EA536F15336753006BF354 /* FSQMenuItem.m */; };
 		A4EA537515336789006BF354 /* FSQMenuControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EA537315336789006BF354 /* FSQMenuControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -455,6 +457,8 @@
 		A4D02EE415252C2500C16B67 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
 		A4D02EE715252C7200C16B67 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		A4D02EE915252C8A00C16B67 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCapsuleButton.h; sourceTree = "<group>"; };
+		A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQCapsuleButton.m; sourceTree = "<group>"; };
 		A4D4B318152FBA7400B3A66E /* mogenerator */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mogenerator; sourceTree = "<group>"; };
 		A4D4B319152FBA7400B3A66E /* momd-rule.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = "momd-rule.rb"; sourceTree = "<group>"; };
 		A4D4B31B152FBA7400B3A66E /* human.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
@@ -680,14 +684,14 @@
 		A45F43FD12748374005D9BF4 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				A45F440812748374005D9BF4 /* NSObject+FSQFoundation.h */,
+				A45F440912748374005D9BF4 /* NSObject+FSQFoundation.m */,
 				A45F43FE12748374005D9BF4 /* NSArray+FSQFoundation.h */,
 				A45F43FF12748374005D9BF4 /* NSArray+FSQFoundation.m */,
 				A45F440412748374005D9BF4 /* NSData+FSQFoundation.h */,
 				A45F440512748374005D9BF4 /* NSData+FSQFoundation.m */,
 				A45F440612748374005D9BF4 /* NSFileManager+FSQFoundation.h */,
 				A45F440712748374005D9BF4 /* NSFileManager+FSQFoundation.m */,
-				A45F440812748374005D9BF4 /* NSObject+FSQFoundation.h */,
-				A45F440912748374005D9BF4 /* NSObject+FSQFoundation.m */,
 				A45F440A12748374005D9BF4 /* NSString+FSQFoundation.h */,
 				A45F440B12748374005D9BF4 /* NSString+FSQFoundation.m */,
 				A4A5C90B15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h */,
@@ -814,6 +818,8 @@
 				A4BBEFB8156C4834003BBDE1 /* FSQProgressBar.m */,
 				A40856CF15BC9FE6002CCA20 /* FSQLabel.h */,
 				A40856D015BC9FE6002CCA20 /* FSQLabel.m */,
+				A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */,
+				A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */,
 				A4EA537215336789006BF354 /* Menu */,
 				A45F445E12748375005D9BF4 /* RatingIndicator */,
 				A4F69F611540CAE6006DAF85 /* Thumbstrip */,
@@ -1136,6 +1142,7 @@
 				A44DF45815CACBFF00FF23B8 /* FSQBaseTableViewCell.h in Headers */,
 				A4A8251C15B49765003485B8 /* FSQMapKit.h in Headers */,
 				A4A5C90D15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h in Headers */,
+				A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1381,6 +1388,7 @@
 				A429E1D915C983F9006572D5 /* FSQLeftDetailCell.m in Sources */,
 				A44DF45915CACBFF00FF23B8 /* FSQBaseTableViewCell.m in Sources */,
 				A4A5C90F15C99B9B001759F1 /* NSAttributedString+FSQFoundation.m in Sources */,
+				A4D460D515D022A700F59A95 /* FSQCapsuleButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

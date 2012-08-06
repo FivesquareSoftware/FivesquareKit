@@ -54,7 +54,7 @@
 #import "FSQFetchedResultsCollectionViewController.h"
 #endif
 
-// Views
+// Controls
 
 #import "FSQAlertView.h"
 #import "FSQModalImageView.h"
@@ -70,6 +70,7 @@
 #import "FSQThumbstripBaseDataSource.h"
 #import "FSQThumbstripBaseDataSource+Protected.h"
 #import "FSQLabel.h"
+#import "FSQCapsuleButton.h"
 
 // Transformers
 

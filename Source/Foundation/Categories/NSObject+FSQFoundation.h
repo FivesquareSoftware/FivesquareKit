@@ -18,6 +18,7 @@
 #endif
 
 - (BOOL) setValue:(id)value forKeyPath:(NSString *)keyPath error:(NSError **)error;
+- (id) valueForKeyPath:(NSString *)keyPath error:(NSError **)error;
 - (BOOL) mapFromObject:(NSObject *)source error:(NSError **)error;
 
 
