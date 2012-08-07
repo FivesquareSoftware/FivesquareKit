@@ -8,6 +8,7 @@
 
 #import "FSQCapsuleButton.h"
 
+#import <QuartzCore/QuartzCore.h>
 
 @interface FSQCapsuleButton ()
 @property (nonatomic, weak) CALayer *capsuleLayer;
