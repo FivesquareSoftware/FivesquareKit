@@ -8,6 +8,10 @@
 
 #import "FSQCapsuleButton.h"
 
+#import <QuartzCore/QuartzCore.h>
+#import "UIColor+FSQUIKit.h"
+
+#define kFSQCapsuleButtonFillColorAdjustment -.1
 
 @interface FSQCapsuleButton ()
 @property (nonatomic, weak) CALayer *capsuleLayer;
@@ -20,13 +24,20 @@
 #pragma mark - Properties
 
 
-
 - (void) setFillColor:(UIColor *)fillColor {
 	if (_fillColor != fillColor) {
 		_fillColor = fillColor;
 		_capsuleLayer.backgroundColor = _fillColor.CGColor;
 		[self setNeedsDisplay];
 	}
+}
+
+@synthesize highlightedFillColor = _highlightedFillColor;
+- (UIColor *) highlightedFillColor {
+	if (nil == _highlightedFillColor) {
+		return [_fillColor colorWithBrightnessAdjustment:kFSQCapsuleButtonFillColorAdjustment];
+	}
+	return _highlightedFillColor;
 }
 
 - (void) setHighlightedFillColor:(UIColor *)highlightedFillColor {
@@ -42,6 +53,14 @@
 		_capsuleLayer.borderColor = _borderColor.CGColor;
 		[self setNeedsDisplay];
 	}
+}
+
+@synthesize highlightedBorderColor = _highlightedBorderColor;
+- (UIColor *) highlightedBorderColor {
+	if (nil == _highlightedBorderColor) {
+		return _borderColor;
+	}
+	return _highlightedBorderColor;
 }
 
 - (void) setHighlightedBorderColor:(UIColor *)highlightedBorderColor {
@@ -71,15 +90,8 @@
 #endif
 	
 	_fillColor = [UIColor colorWithWhite:.75 alpha:1.f];
-	CGFloat components[4];
-	[_fillColor getHue:&components[0] saturation:&components[1] brightness:&components[2] alpha:&components[3]];
-	_highlightedFillColor = [UIColor colorWithHue:components[0] saturation:components[1] brightness:components[2]-10.f alpha:components[3]];
-
 	_borderColor = [UIColor whiteColor];
-	_highlightedBorderColor = _borderColor;
-//	[_borderColor getHue:&components[0] saturation:&components[1] brightness:&components[2] alpha:&components[3]];
-//	_highlightedFillColor = [UIColor colorWithHue:components[0] saturation:components[1] brightness:components[2]-10.f alpha:components[3]];
-	
+
 	_borderWidth = 2.f;
 }
 
@@ -134,8 +146,8 @@
 	
 	[UIView animateWithDuration:[CATransaction animationDuration] animations:^{
 		if (highlighted) {
-			_capsuleLayer.backgroundColor = _highlightedFillColor.CGColor;
-			_capsuleLayer.borderColor = _highlightedBorderColor.CGColor;
+			_capsuleLayer.backgroundColor = self.highlightedFillColor.CGColor;
+			_capsuleLayer.borderColor = self.highlightedBorderColor.CGColor;
 		}
 		else {
 			_capsuleLayer.backgroundColor = _fillColor.CGColor;
@@ -153,5 +165,7 @@
     // Drawing code
 }
 */
+
+
 
 @end
