@@ -153,7 +153,7 @@
 		A4957789158FFFDB0095FE8F /* NSView+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4957787158FFFDB0095FE8F /* NSView+FSQAppKit.m */; };
 		A4976AE71550A6DE003DB2FB /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3AF441550936D00E2BB87 /* FSQImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4976AE81550A6DE003DB2FB /* FSQImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F3AF451550936D00E2BB87 /* FSQImageCache.m */; };
-		A4A5C90D15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4A5C90B15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h */; };
+		A4A5C90D15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4A5C90B15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4A5C90E15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4A5C90B15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4A5C90F15C99B9B001759F1 /* NSAttributedString+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A5C90C15C99B9B001759F1 /* NSAttributedString+FSQFoundation.m */; };
 		A4A5C91015C99B9B001759F1 /* NSAttributedString+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A5C90C15C99B9B001759F1 /* NSAttributedString+FSQFoundation.m */; };
@@ -244,13 +244,13 @@
 		A4D02EDC15252B4D00C16B67 /* FSQSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D02ECC1525299800C16B67 /* FSQSecurity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D02EEB15252D0F00C16B67 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EDE15252BE000C16B67 /* Foundation.framework */; };
 		A4D02EEC15252D1800C16B67 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
-		A4D02EED15252D1B00C16B67 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A429620712F4775B00AEAA83 /* UIKit.framework */; };
+		A4D02EED15252D1B00C16B67 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A429620712F4775B00AEAA83 /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A4D02EEE15252D2B00C16B67 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A429678612F4D62500AEAA83 /* CoreGraphics.framework */; };
 		A4D02EEF15252D2F00C16B67 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE415252C2500C16B67 /* ApplicationServices.framework */; };
 		A4D02EF015252D3B00C16B67 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE215252BED00C16B67 /* CoreData.framework */; };
 		A4D02EF115252D4400C16B67 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE715252C7200C16B67 /* CoreLocation.framework */; };
 		A4D02EF215252D4E00C16B67 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE915252C8A00C16B67 /* QuartzCore.framework */; };
-		A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */; };
+		A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D460D515D022A700F59A95 /* FSQCapsuleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */; };
 		A4EA537015336753006BF354 /* FSQMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EA536E15336753006BF354 /* FSQMenuItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4EA537115336753006BF354 /* FSQMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EA536F15336753006BF354 /* FSQMenuItem.m */; };

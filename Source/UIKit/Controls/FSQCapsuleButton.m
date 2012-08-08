@@ -13,6 +13,7 @@
 
 #define kFSQCapsuleButtonFillColorAdjustment -.1
 
+
 @interface FSQCapsuleButton ()
 @property (nonatomic, weak) CALayer *capsuleLayer;
 @end

@@ -14,6 +14,7 @@
 #ifdef __IPHONE_6_0
 //	self.translatesAutoresizingMaskIntoConstraints = NO; // Crashes as of 6b3
 #endif
+	
 }
 
 - (void) ready {
