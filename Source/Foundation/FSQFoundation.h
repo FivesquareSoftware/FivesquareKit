@@ -14,6 +14,7 @@
 #import "FSQUserDefaults.h"
 #import "FSQOpenStruct.h"
 #import "FSQImageCache.h"
+#import "FSQZlib.h"
 
 #import "NSArray+FSQFoundation.h"
 #import "NSData+FSQFoundation.h"
