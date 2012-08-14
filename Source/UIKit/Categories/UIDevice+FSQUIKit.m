@@ -12,18 +12,26 @@
 
 @dynamic iPad;
 - (BOOL) iPad {
-	if([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)]) {
-		return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+	if([self respondsToSelector:@selector(userInterfaceIdiom)]) {
+		return [self userInterfaceIdiom] == UIUserInterfaceIdiomPad;
 	}
 	return NO;
 }
 
 @dynamic iPhone;
 - (BOOL) iPhone {
-	if([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)]) {
-		return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone;
+	if([self respondsToSelector:@selector(userInterfaceIdiom)]) {
+		return [self userInterfaceIdiom] == UIUserInterfaceIdiomPhone;
 	}
 	return YES;
+}
+
+- (NSString *) newPersistentIdentifier {
+	//???: Just using a UUID right now, it would be nice if this was tied to hardware like net interface or something so it could be recreated reliably
+	CFUUIDRef newUUID = CFUUIDCreate(NULL);
+	CFStringRef UUIDString = CFUUIDCreateString(NULL, newUUID);
+	CFRelease(newUUID);
+	return (NSString *)CFBridgingRelease(UUIDString);
 }
 
 @end

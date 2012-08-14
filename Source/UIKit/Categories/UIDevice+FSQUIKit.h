@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface UIDevice (FSQUIKit)
-@property (nonatomic) BOOL iPhone;
-@property (nonatomic) BOOL iPad;
+
+@property (nonatomic, readonly) BOOL iPhone;
+@property (nonatomic, readonly) BOOL iPad;
+
+- (NSString *) newPersistentIdentifier;
+
 @end
