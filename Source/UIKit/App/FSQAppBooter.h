@@ -12,6 +12,8 @@
 
 @interface FSQAppBooter : NSObject
 
+@property (nonatomic) NSTimeInterval minimumBootTime;
+
 @property (nonatomic, readonly) NSArray *errors;
 @property (nonatomic) BOOL failed; ///< YES if the count of errors is greater than 0
 
