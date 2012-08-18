@@ -122,6 +122,7 @@
 	capsuleLayer.backgroundColor = _fillColor.CGColor;
 	capsuleLayer.borderColor = _borderColor.CGColor;
 	capsuleLayer.borderWidth = _borderWidth;
+	capsuleLayer.needsDisplayOnBoundsChange = YES;
 	
 	[self.layer insertSublayer:capsuleLayer below:self.imageView.layer];
 	_capsuleLayer = capsuleLayer;
@@ -179,8 +180,10 @@
 //	_capsuleLayer.cornerRadius = (capsuleFrame.size.height/2.f);
 //	_capsuleLayer.frame = capsuleFrame;
 	
-	_capsuleLayer.frame = self.bounds;
-	_capsuleLayer.cornerRadius = (self.bounds.size.height/2.f);
+	CGRect bounds = self.bounds;
+	_capsuleLayer.frame = bounds;
+	CGFloat cornerDimension = (bounds.size.height > bounds.size.width ? bounds.size.width : bounds.size.height);
+	_capsuleLayer.cornerRadius = (cornerDimension/2.f);
 }
 
 - (void) setHighlighted:(BOOL)highlighted {
