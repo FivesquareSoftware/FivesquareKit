@@ -103,11 +103,14 @@
 
 - (void) bootInBackground {
 	@autoreleasepool {
+		NSDate *startDate = [NSDate date];
 		[self.bootQ setSuspended:NO];	
 		[self.bootQ waitUntilAllOperationsAreFinished];
+		[NSThread sleepUntilDate:[startDate dateByAddingTimeInterval:_minimumBootTime]];
 		if (_completionBlock) {
 			dispatch_async(dispatch_get_main_queue(), _completionBlock);
 		}
+		
 	}
 }
 
