@@ -285,6 +285,7 @@
 /* Begin PBXFileReference section */
 		A40017351565C581004765ED /* NSURL+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FSQFoundation.h"; sourceTree = "<group>"; };
 		A40017361565C581004765ED /* NSURL+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+FSQFoundation.m"; sourceTree = "<group>"; };
+		A406E28215E2C0B200830E5F /* FivesquareKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "FivesquareKit-Prefix.pch"; path = "Source/FivesquareKit-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		A40856CF15BC9FE6002CCA20 /* FSQLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQLabel.h; sourceTree = "<group>"; };
 		A40856D015BC9FE6002CCA20 /* FSQLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQLabel.m; sourceTree = "<group>"; };
 		A408F4E81534D549009B589D /* FSQMenuControl+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQMenuControl+Protected.h"; sourceTree = "<group>"; };
@@ -883,6 +884,7 @@
 		A4713EAD13509E3A00FA1402 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A406E28215E2C0B200830E5F /* FivesquareKit-Prefix.pch */,
 				A4D02E94152528C600C16B67 /* FivesquareKitFramework-Info.plist */,
 				A4713EAE13509E3A00FA1402 /* FSQUIKit-Resources-Info.plist */,
 			);
@@ -1484,6 +1486,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Source/FivesquareKit-Prefix.pch";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_MISSING_PARENTHESES = NO;
@@ -1505,6 +1509,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Source/FivesquareKit-Prefix.pch";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_MISSING_PARENTHESES = NO;
