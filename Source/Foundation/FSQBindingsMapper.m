@@ -55,6 +55,11 @@
 		NSString *valueTransformerName = [binding objectForKey:@"valueTransformerName"];
 		
 		id value = [source valueForKeyPath:sourceKeyPath];
+
+        if (value == [NSNull null])
+        {
+            value = nil;
+        }
 		
 		if (NO == [NSString isEmpty:valueTransformerName]) {
 			Class valueTransformerClass = NSClassFromString(valueTransformerName);
