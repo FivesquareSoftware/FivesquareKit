@@ -22,6 +22,10 @@ static NSString *kFSQ_NSStringPathWithOptionalScaleExpression = @"^(\\w+)(@([0-9
 	return string == nil || [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length < 1;
 }
 
++ (BOOL) isNotEmpty:(NSString *)string {
+	return NO == [self isEmpty:string];
+}
+
 - (NSString *) MD5Hash {
 	const char *cStr = [self UTF8String];
 	unsigned char result[CC_MD5_DIGEST_LENGTH];

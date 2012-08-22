@@ -12,6 +12,7 @@
 @interface NSString (FSQFoundation)
 
 + (BOOL) isEmpty:(NSString *)string;
++ (BOOL) isNotEmpty:(NSString *)string;
 
 - (NSString *) MD5Hash;
 

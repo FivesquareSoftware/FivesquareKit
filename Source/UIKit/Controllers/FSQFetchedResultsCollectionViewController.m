@@ -14,7 +14,6 @@
 
 #import "FSQMacros.h"
 
-#ifdef __IPHONE_6_0
 
 
 @interface FSQFetchedResultsCollectionViewController ()
@@ -239,4 +238,3 @@ FSQ_SYNTHESIZE(fetchedResultsController)
 
 @end
 
-#endif

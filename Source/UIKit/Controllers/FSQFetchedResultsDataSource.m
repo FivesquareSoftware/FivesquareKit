@@ -19,9 +19,6 @@
 
 #pragma mark - Properties
 
-FSQ_SYNTHESIZE(managedObjectContext)
-FSQ_SYNTHESIZE(fetchedResultsController)
-
 
 - (NSManagedObjectContext *) managedObjectContext {
 	if (_managedObjectContext == nil) {
