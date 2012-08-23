@@ -9,6 +9,7 @@
 #import "FSQBindingsMapper.h"
 
 #import "NSObject+FSQFoundation.h"
+#import "NSString+FSQFoundation.h"
 
 
 @implementation FSQBindingsMapper
@@ -51,7 +52,24 @@
 	for (NSDictionary *binding in self.bindings) {
 		NSString *sourceKeyPath = [binding objectForKey:@"sourceKeyPath"];
 		NSString *destinationKeyPath = [binding objectForKey:@"destinationKeyPath"];
-		if (NO == [target setValue:[source valueForKeyPath:sourceKeyPath] forKeyPath:destinationKeyPath error:error]) {
+		NSString *valueTransformerName = [binding objectForKey:@"valueTransformerName"];
+		
+		id value = [source valueForKeyPath:sourceKeyPath];
+
+        if (value == [NSNull null])
+        {
+            value = nil;
+        }
+		
+		if (NO == [NSString isEmpty:valueTransformerName]) {
+			Class valueTransformerClass = NSClassFromString(valueTransformerName);
+			if (valueTransformerClass) {
+				id valueTransformer = [valueTransformerClass new];
+				value = [valueTransformer transformedValue:value];
+			}
+		}
+		
+		if (NO == [target setValue:value forKeyPath:destinationKeyPath error:error]) {
 			return NO;
 		}
 	}

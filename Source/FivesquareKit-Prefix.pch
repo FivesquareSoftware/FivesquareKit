@@ -1,0 +1,27 @@
+//
+//  FivesquareKit-Prefix.pch
+//  FivesquareKit
+//
+//  Created by John Clayton on 6/6/2009.
+//  Copyright 2009 Fivesquare Software, LLC. All rights reserved.
+//
+
+
+#import "FSQMacros.h"
+
+#if HAS_MODERN_OBJC == 0
+//#error "FivesquareKit requires a modern obj-c compiler"
+#warn "FivesquareKit will require a modern obj-c compiler very soon (yours isn't)"
+#endif
+
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+
+	#if TARGET_OS_IPHONE
+		#import <UIKit/UIKit.h>
+	#else
+		#import <AppKit/AppKit.h>
+	#endif
+
+#endif
