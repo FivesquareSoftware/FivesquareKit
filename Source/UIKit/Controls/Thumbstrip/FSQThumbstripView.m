@@ -1,4 +1,4 @@
-//
+
 //  FSQThumbstripView.m
 //  FivesquareKit
 //
@@ -25,7 +25,6 @@
 @property (nonatomic, readonly) CGFloat offsetInSignificantDimension;
 @property (nonatomic, readonly) NSInteger indexOfCellAtCurrentOffset;
 @property (nonatomic, readonly) CGRect visibleRect;
-@property (nonatomic, readonly) BOOL isHorizontal;
 
 // Overrides
 

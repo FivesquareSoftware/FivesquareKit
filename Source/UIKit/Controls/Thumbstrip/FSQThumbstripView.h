@@ -40,6 +40,7 @@
 
 @property (nonatomic) CGSize cellSize UI_APPEARANCE_SELECTOR; ///< Default is 200x200
 @property (nonatomic, weak) UIView *backgroundView UI_APPEARANCE_SELECTOR;
+@property (nonatomic, readonly) BOOL isHorizontal;
 
 
 // Info
