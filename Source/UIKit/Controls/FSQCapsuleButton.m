@@ -12,12 +12,11 @@
 #import "UIColor+FSQUIKit.h"
 
 #define kFSQCapsuleButtonFillColorAdjustment -.1
-#define kFSQCapsuleButtonEdgeWidth .5
 
 
 @interface FSQCapsuleButton ()
 @property (nonatomic, weak) CALayer *capsuleLayer;
-//@property (nonatomic, weak) CALayer *edgeLayer;
+@property (nonatomic, weak) CALayer *edgeLayer;
 @end
 
 @implementation FSQCapsuleButton
@@ -93,11 +92,19 @@
 		if (nil == _edgeColor) {
 			_edgeColor = [UIColor clearColor];
 		}
-		self.layer.shadowColor = _edgeColor.CGColor;
+//		self.layer.shadowColor = _edgeColor.CGColor;
+		_edgeLayer.backgroundColor = _edgeColor.CGColor;
 		[self setNeedsDisplay];
 	}
 }
 
+- (void) setEdgeWidth:(CGFloat)edgeWidth {
+	if (_edgeWidth != edgeWidth) {
+		_edgeWidth = edgeWidth;
+//		self.layer.shadowRadius = _edgeWidth;
+		[self setNeedsLayout];
+	}
+}
 
 // ========================================================================== //
 
@@ -115,6 +122,7 @@
 	_edgeColor = [UIColor clearColor];
 
 	_borderWidth = 2.f;
+	_edgeWidth = .5;
 }
 
 - (void) ready {
@@ -126,18 +134,17 @@
 	
 	[self.layer insertSublayer:capsuleLayer below:self.imageView.layer];
 	_capsuleLayer = capsuleLayer;
-
 	
-	CALayer *layer = self.layer;
-	layer.shadowColor = _edgeColor.CGColor;
-	layer.shadowOpacity = 1.f;
-	layer.shadowOffset = CGSizeZero;
-	layer.shadowRadius = kFSQCapsuleButtonEdgeWidth;
+//	CALayer *layer = self.layer;
+//	layer.shadowColor = _edgeColor.CGColor;
+//	layer.shadowOpacity = 1.f;
+//	layer.shadowOffset = CGSizeZero;
+//	layer.shadowRadius = _edgeWidth;
 	
-//	CALayer *edgeLayer = [[CALayer alloc] init];
-//	edgeLayer.backgroundColor = _edgeColor.CGColor;
-//	[self.layer insertSublayer:edgeLayer below:_capsuleLayer];
-//	_edgeLayer = edgeLayer;
+	CALayer *edgeLayer = [[CALayer alloc] init];
+	edgeLayer.backgroundColor = _edgeColor.CGColor;
+	[self.layer insertSublayer:edgeLayer below:_capsuleLayer];
+	_edgeLayer = edgeLayer;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -172,17 +179,16 @@
 - (void) layoutSubviews {
 	[super layoutSubviews];
 	
-//	_edgeLayer.frame = self.bounds;
-//	_edgeLayer.cornerRadius = (self.bounds.size.height/2.f);
-//	
-//	CGRect capsuleFrame = CGRectInset(self.bounds, kFSQCapsuleButtonEdgeWidth, kFSQCapsuleButtonEdgeWidth);
-//	
-//	_capsuleLayer.cornerRadius = (capsuleFrame.size.height/2.f);
-//	_capsuleLayer.frame = capsuleFrame;
-	
 	CGRect bounds = self.bounds;
-	_capsuleLayer.frame = bounds;
 	CGFloat cornerDimension = (bounds.size.height > bounds.size.width ? bounds.size.width : bounds.size.height);
+
+	_edgeLayer.frame = bounds;
+	_edgeLayer.cornerRadius = (cornerDimension/2.f);
+	
+	CGRect capsuleFrame = CGRectInset(bounds, _edgeWidth, _edgeWidth);
+	cornerDimension = (capsuleFrame.size.height > capsuleFrame.size.width ? capsuleFrame.size.width : capsuleFrame.size.height);
+	
+	_capsuleLayer.frame = capsuleFrame;
 	_capsuleLayer.cornerRadius = (cornerDimension/2.f);
 }
 

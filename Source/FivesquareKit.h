@@ -19,7 +19,7 @@
 #import "FSQFoundation.h"
 #import "FSQCoreData.h"
 #import "FSQCoreLocation.h"
-#import "FSQCoreGraphics.h"
+#import "FSQQuartz.h"
 #import "FSQSecurity.h"
 
 #if TARGET_OS_IPHONE

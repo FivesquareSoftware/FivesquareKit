@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIColor *borderColor; ///< Draws border around the capsule. Defaults to white
 @property (nonatomic, strong) UIColor *highlightedBorderColor; ///< Defaults to borderColor
 @property (nonatomic) CGFloat borderWidth; ///< Defaults to 2
-@property (nonatomic, strong) UIColor *edgeColor; ///< Defaults to clear, draws a thin ege around the border. Setting to nil results in clear
+@property (nonatomic, strong) UIColor *edgeColor; ///< Defaults to clear, draws an edge around the border. Setting to nil results in clear.
+@property (nonatomic) CGFloat edgeWidth; ///< Defaults to .5
 
 @end
