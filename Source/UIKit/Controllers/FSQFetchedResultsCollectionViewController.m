@@ -16,7 +16,6 @@
 
 #ifdef __IPHONE_6_0
 
-
 @interface FSQFetchedResultsCollectionViewController ()
 
 @end

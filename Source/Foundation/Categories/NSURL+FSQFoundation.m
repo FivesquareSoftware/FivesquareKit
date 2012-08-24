@@ -30,11 +30,15 @@ static NSString *kFSQ_NSURLWithOptionalScaleExpression = @"^(.+/(\\w+))(@([0-9.]
 	NSString *filename = [[[self path] lastPathComponent] stringByDeletingPathExtension];
 	
 	NSError *error = nil;
-	NSRegularExpression *scaleModifierExpression = [NSRegularExpression regularExpressionWithPattern:@"@[0-9.]+x$" options:0 error:&error];
-	NSRange modifierRange = [scaleModifierExpression rangeOfFirstMatchInString:filename options:0 range:NSMakeRange(0, filename.length)];
-	if (modifierRange.location != NSNotFound) {
-		scaleModifier = [filename substringWithRange:modifierRange];
-	}
+    // TODO: FIX THIS shouldn't have to check if the filename is valid... this code has trust issues.
+    if (filename)
+    {
+        NSRegularExpression *scaleModifierExpression = [NSRegularExpression regularExpressionWithPattern:@"@[0-9.]+x$" options:0 error:&error];
+        NSRange modifierRange = [scaleModifierExpression rangeOfFirstMatchInString:filename options:0 range:NSMakeRange(0, filename.length)];
+        if (modifierRange.location != NSNotFound) {
+            scaleModifier = [filename substringWithRange:modifierRange];
+        }
+    }
 	return scaleModifier;
 }
 - (float) scale {

@@ -15,4 +15,8 @@
 	return [self.control becomeFirstResponder];
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+	[self.control setEnabled:editing];
+}
+
 @end
