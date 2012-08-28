@@ -59,6 +59,8 @@
 
 
 - (NSDictionary *) storeMetadata;
++ (NSURL *) storeURLForStoreName:(NSString *)aStoreName;
++ (NSString *) storePathForStoreName:(NSString *)aStoreName;
 + (NSString *) databaseDirectory;
 
 
