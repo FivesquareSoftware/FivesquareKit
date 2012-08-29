@@ -472,9 +472,9 @@
 	NSManagedObjectModel *managedObjectModel = [entity managedObjectModel];
 	if(requestName) {
 		if(variables) {
-			fetchRequest = [managedObjectModel fetchRequestFromTemplateWithName:requestName substitutionVariables:variables];
+			fetchRequest = [[managedObjectModel fetchRequestFromTemplateWithName:requestName substitutionVariables:variables] copy];
 		} else {
-			fetchRequest = [managedObjectModel fetchRequestTemplateForName:requestName];
+			fetchRequest = [[managedObjectModel fetchRequestTemplateForName:requestName] copy];
 		}
 	} else {
 		fetchRequest = [[NSFetchRequest alloc] init];
