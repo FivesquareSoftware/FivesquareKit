@@ -62,9 +62,8 @@
         }
 		
 		if (NO == [NSString isEmpty:valueTransformerName]) {
-			Class valueTransformerClass = NSClassFromString(valueTransformerName);
-			if (valueTransformerClass) {
-				id valueTransformer = [valueTransformerClass new];
+			NSValueTransformer *valueTransformer = [NSValueTransformer valueTransformerForName:valueTransformerName];
+			if (valueTransformer) {
 				value = [valueTransformer transformedValue:value];
 			}
 		}
