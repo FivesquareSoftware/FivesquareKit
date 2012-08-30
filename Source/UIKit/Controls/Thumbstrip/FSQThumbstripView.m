@@ -25,6 +25,7 @@
 @property (nonatomic, readonly) CGFloat offsetInSignificantDimension;
 @property (nonatomic, readonly) NSInteger indexOfCellAtCurrentOffset;
 @property (nonatomic, readonly) CGRect visibleRect;
+@property (nonatomic, strong) NSMutableArray *cellsToAdd;
 
 // Overrides
 
@@ -156,6 +157,7 @@
 	_activeCells  = [NSMutableSet new];
 	_inactiveCells = [NSMutableSet new];
 	_cellOffsetRanges = [NSMutableArray new];
+    _cellsToAdd = [NSMutableArray new];
 	
 	_cellSize = CGSizeMake(200, 200);
 //	self.backgroundColor = [UIColor redColor];
@@ -264,12 +266,15 @@
 	CGSize newContentSize = self.contentSize;
 	if (self.isHorizontal) {
 		newContentSize.width = offset;
+        //newContentSize.height = self.bounds.size.height;
 	} else {
 		newContentSize.height = offset;
+        //newContentSize.width = self.bounds.size.width;
 	}
 	self.contentSize = newContentSize;
 
 	[self layoutSubviews];
+    [self setNeedsDisplay];
 }
 
 - (id) dequeueReusableCellWithIdentifier:(NSString *)identifier {
@@ -365,10 +370,20 @@
 	}	
 
 	[invisibleCells makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    for(id cell in _cellsToAdd)
+    {
+        [self addSubview:cell];
+        [cell setAlpha:1];
+    }
+    [_cellsToAdd removeAllObjects];
+    
 }
 
+
+
 - (void) loadCellAtIndex:(NSInteger)index {
-//	FLog(@"loadCellAtIndex: %d",index);
+	//FLog(@"loadCellAtIndex: %d",index);
 
 	id existingCell = [self activeCellForIndex:index];
 	if (existingCell) {
@@ -385,17 +400,12 @@
 			cellFrame.origin = [self originForCellAtIndex:index];
 			[cell setFrame:cellFrame];
 			
-//			[cell setAlpha:0];
-//			[UIView animateWithDuration:kFSQThumbstripCellTransitionAnimationDuration animations:^{
-//				FLog(@"adding new cell");
-				[self addSubview:cell];
-				[cell setAlpha:1];
-//			} completion:^(BOOL finished) {
-				[_activeCells addObject:cell];
-//			}];
-		}	
+            [_activeCells addObject:cell];
+            [_cellsToAdd addObject:cell]; //Issue # 71 - cells sometimes disappear when scrolling 
+		}
 	}
-} 
+}
+
 
 
 
