@@ -1,4 +1,4 @@
-
+    
 //  FSQThumbstripView.m
 //  FivesquareKit
 //
@@ -266,10 +266,10 @@
 	CGSize newContentSize = self.contentSize;
 	if (self.isHorizontal) {
 		newContentSize.width = offset;
-        //newContentSize.height = self.bounds.size.height;
+        newContentSize.height = self.bounds.size.height;
 	} else {
 		newContentSize.height = offset;
-        //newContentSize.width = self.bounds.size.width;
+        newContentSize.width = self.bounds.size.width;
 	}
 	self.contentSize = newContentSize;
 
