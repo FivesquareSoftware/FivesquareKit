@@ -331,7 +331,7 @@
 	
 	
 	NSString *storePath = [[self class] storePathForStoreName:self.modelName];
-	NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:self.modelName ofType:@"sqlite"];
+	NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:self.storeName ofType:@"sqlite"];
 	
 	@synchronized(self) {
 		if (defaultStorePath && ![fileManager fileExistsAtPath:storePath]) {
