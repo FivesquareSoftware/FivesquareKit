@@ -330,7 +330,7 @@
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	
 	
-	NSString *storePath = [[self class] storePathForStoreName:self.modelName];
+	NSString *storePath = [[self class] storePathForStoreName:self.storeName];
 	NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:self.storeName ofType:@"sqlite"];
 	
 	@synchronized(self) {
