@@ -10,6 +10,8 @@
 
 @interface FSQPropertyMapper : NSObject
 
+@property (nonatomic) BOOL mapsFromSourceProperties;
+
 + (id) withTargetObject:(NSObject *)target;
 - (id) initWithTargetObject:(NSObject *)target;
 

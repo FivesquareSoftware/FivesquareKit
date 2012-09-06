@@ -31,7 +31,8 @@
 }
 
 - (BOOL) mapFromObject:(NSObject *)source error:(NSError **)error {
-	Class templateClass = [self.object class];
+	BOOL fullyMapped = YES;
+	Class templateClass = _mapsFromSourceProperties ? [source class] : [self.object class] ;
 	
 	unsigned int outCount;
 	objc_property_t *properties = class_copyPropertyList(templateClass, &outCount);
@@ -39,13 +40,18 @@
 	for (unsigned int i = 0; i < outCount; i++) {
 		objc_property_t property = properties[i];		
 		NSString *key = [NSString stringWithFormat:@"%s", property_getName(property)];		
-		id value = [source valueForKey:key];		
+		id value;
+		if ( nil == (value = [source valueForKeyPath:key error:error]) ) {
+			fullyMapped = NO;
+			continue;
+		}
 		if (NO == [self.object setValue:value forKeyPath:key error:error]) {
-			return NO;
+			fullyMapped = NO;
+			continue;
 		}
 	}			
     free(properties);
-	return YES;
+	return fullyMapped;
 }
 
 @end

@@ -31,14 +31,14 @@ static NSString *kFSQ_NSURLWithOptionalScaleExpression = @"^(.+/(\\w+))(@([0-9.]
 	
 	NSError *error = nil;
     // TODO: FIX THIS shouldn't have to check if the filename is valid... this code has trust issues.
-    if (filename)
-    {
+//    if (filename)
+//    {
         NSRegularExpression *scaleModifierExpression = [NSRegularExpression regularExpressionWithPattern:@"@[0-9.]+x$" options:0 error:&error];
         NSRange modifierRange = [scaleModifierExpression rangeOfFirstMatchInString:filename options:0 range:NSMakeRange(0, filename.length)];
         if (modifierRange.location != NSNotFound) {
             scaleModifier = [filename substringWithRange:modifierRange];
         }
-    }
+//    }
 	return scaleModifier;
 }
 - (float) scale {
@@ -72,7 +72,7 @@ static NSString *kFSQ_NSURLWithOptionalScaleExpression = @"^(.+/(\\w+))(@([0-9.]
 		if (match) {
 			base = [string substringWithRange:[match rangeAtIndex:kFSQ_NSURLComponentBase]];
 			NSRange scaleRange = [match rangeAtIndex:kFSQ_NSURLComponentScaleFactor];
-			if (scaleRange.location != NSNotFound) {
+			if (scaleRange.location != NSNotFound && scaleRange.length > 0) {
 				scaleModifier = [string substringWithRange:scaleRange];
 			}
 			if (scale > 1.f) {
@@ -111,7 +111,7 @@ static NSString *kFSQ_NSURLWithOptionalScaleExpression = @"^(.+/(\\w+))(@([0-9.]
 	NSRange keyRange = NSMakeRange(0, string.length);
 	NSTextCheckingResult *match = [URLExpression firstMatchInString:string options:0 range:keyRange];
 	NSRange scaleRange = [match rangeAtIndex:kFSQ_NSURLComponentScaleFactor];
-	if (scaleRange.location != NSNotFound) {
+	if (scaleRange.location != NSNotFound && scaleRange.length > 0) {
 		base = [string substringWithRange:[match rangeAtIndex:kFSQ_NSURLComponentBase]];
 		
 		NSRange extensionRange = [match rangeAtIndex:kFSQ_NSURLComponentExtension];
