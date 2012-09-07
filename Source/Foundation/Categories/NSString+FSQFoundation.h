@@ -22,5 +22,6 @@
 - (BOOL) isValidEmailAddress;
 
 - (NSString *) stringByDeletingScaleModifier;
+- (NSString *)substringAsFarAsIndex:(NSUInteger)anIndex; ///< A safe version of substringToIndex: that checks the index for a range exception
 
 @end

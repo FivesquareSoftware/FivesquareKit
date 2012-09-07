@@ -12,7 +12,7 @@
 
 + (void) load {
 	@autoreleasepool {
-		[NSValueTransformer setValueTransformer:[FSQUIColorToDataTransformer new] forName:@"UIColorToDataTransformer"];
+		[NSValueTransformer setValueTransformer:[FSQUIColorToDataTransformer new] forName:@"FSQUIColorToDataTransformer"];
 	}
 }
 

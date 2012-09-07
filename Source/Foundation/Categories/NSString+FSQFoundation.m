@@ -77,4 +77,12 @@ static NSString *kFSQ_NSStringPathWithOptionalScaleExpression = @"^(\\w+)(@([0-9
 	return string;
 }
 
+- (NSString *)substringAsFarAsIndex:(NSUInteger)anIndex {
+	NSUInteger length = self.length;
+	if (anIndex >= length) {
+		anIndex = length;
+	}
+	return [self substringToIndex:anIndex];
+}
+
 @end
