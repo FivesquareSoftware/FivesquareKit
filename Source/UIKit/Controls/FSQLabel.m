@@ -11,7 +11,6 @@
 #import "NSString+FSQFoundation.h"
 
 
-#ifdef __IPHONE_6_0
 
 @interface FSQLabel ()
 @property (nonatomic, strong) UIColor *textColorInternal;
@@ -98,4 +97,3 @@
 
 @end
 
-#endif
