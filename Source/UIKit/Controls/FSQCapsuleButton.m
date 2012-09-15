@@ -113,9 +113,7 @@
 
 
 - (void) initialize {
-#ifdef __IPHONE_6_0
 	self.translatesAutoresizingMaskIntoConstraints = NO;
-#endif
 	
 	_fillColor = [UIColor colorWithWhite:.75 alpha:1.f];
 	_borderColor = [UIColor whiteColor];

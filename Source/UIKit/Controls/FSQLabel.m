@@ -11,8 +11,6 @@
 #import "NSString+FSQFoundation.h"
 
 
-#ifdef __IPHONE_6_0
-
 @interface FSQLabel ()
 @property (nonatomic, strong) UIColor *textColorInternal;
 @property (nonatomic, strong) NSLayoutConstraint *collapseConstraint;
@@ -70,9 +68,7 @@
 
 
 - (void) initialize {
-#ifdef __IPHONE_6_0
 	self.translatesAutoresizingMaskIntoConstraints = NO;
-#endif
 	_placeholderColor = [UIColor lightTextColor];
 	[self setTextColor:_placeholderColor];
 }
@@ -97,5 +93,3 @@
 
 
 @end
-
-#endif
