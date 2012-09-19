@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "FSQFoundationUtils.h"
+
 #import "FSQBindingsMapper.h"
 #import "FSQPropertyMapper.h"
 #import "FSQProxy.h"
