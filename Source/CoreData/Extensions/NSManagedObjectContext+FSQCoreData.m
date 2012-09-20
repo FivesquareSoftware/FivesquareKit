@@ -107,8 +107,8 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 			NSUInteger count = [destinationClass countInContext:self];
 			NSUInteger mappedCount = 0;
 			if (count < 1) {
+				loaded = YES;
 				for (id data in objects) {
-					loaded = YES;
 					NSManagedObject *object = [destinationClass createInContext:self];
 					[object updateWithObject:data merge:NO];
 //					FLog(@"data: %@",data);

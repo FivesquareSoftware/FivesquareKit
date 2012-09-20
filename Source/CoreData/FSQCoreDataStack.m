@@ -311,8 +311,8 @@
 	NSFileManager *fm = [NSFileManager new];
 	if( ! [fm fileExistsAtPath:databaseDir isDirectory:NULL] ) {
 		NSError *error = nil;
-		BOOL created = [fm createDirectoryAtPath:databaseDir withIntermediateDirectories:YES attributes:NULL error:&error];
-		FSQAssert(created, @"Could not create database directory! %@ (%@)",[error localizedDescription],[error userInfo]);
+		[fm createDirectoryAtPath:databaseDir withIntermediateDirectories:YES attributes:NULL error:&error];
+		FSQAssert([fm fileExistsAtPath:databaseDir isDirectory:NULL], @"Could not create database directory! %@ (%@)",[error localizedDescription],[error userInfo]);
 	}
 	
     return databaseDir;
@@ -330,8 +330,8 @@
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	
 	
-	NSString *storePath = [[self class] storePathForStoreName:self.modelName];
-	NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:self.modelName ofType:@"sqlite"];
+	NSString *storePath = [[self class] storePathForStoreName:self.storeName];
+	NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:self.storeName ofType:@"sqlite"];
 	
 	@synchronized(self) {
 		if (defaultStorePath && ![fileManager fileExistsAtPath:storePath]) {

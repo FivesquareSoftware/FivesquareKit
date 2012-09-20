@@ -10,4 +10,6 @@
 
 @interface FSQManagedObject : NSManagedObject
 
+- (void) markForDeletion;
+
 @end
