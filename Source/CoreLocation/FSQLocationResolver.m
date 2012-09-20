@@ -8,7 +8,7 @@
 
 #import "FSQLocationResolver.h"
 
-
+#import "FSQLogging.h"
 
 NSString *kFSQLocationResolverCompletedResolutionNotification = @"kFSQLocationManagerChangedNotification";
 NSString *kFSQLocationResolverKeyLocation = @"Location";
@@ -22,7 +22,8 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSDate *locationUpdatesStartedOn;
 @property (nonatomic, strong) NSTimer *locationServicesAbortTimer;
-@property (nonatomic, copy) FSQLocationResolverCompletionHandler completionHandler;
+//@property (nonatomic, copy) FSQLocationResolverCompletionHandler completionHandler;
+@property (nonatomic, strong) NSMutableSet *completionHandlers;
 
 - (void) locationSearchTimeLimitReached:(NSTimer *)timer;
 - (void) handleResolutionCompletion;
@@ -65,11 +66,19 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 
 
 - (void)dealloc {
+	[_completionHandlers removeAllObjects];
 	if([self.locationServicesAbortTimer isValid]) {
 		[self.locationServicesAbortTimer invalidate];
 	}
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _completionHandlers = [NSMutableSet new];
+    }
+    return self;
+}
 
 
 
@@ -86,17 +95,28 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverCompletionHandler)handler {
 	
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
-	if (self.isResolving) return NO;
+	
+	[_completionHandlers addObject:[handler copy]];
+	if (self.isResolving) return YES;
 	
 	self.resolving = YES;
 	self.aborted = NO;
 	
-	self.completionHandler = handler;
+//	self.completionHandler = handler;
 	
 	self.locationUpdatesStartedOn = [NSDate date];
     self.locationManager.desiredAccuracy = accuracy;
     [self.locationManager startUpdatingLocation];
+	
+	if (self.locationServicesAbortTimer) {
+		[self.locationServicesAbortTimer invalidate];
+		self.locationServicesAbortTimer = nil;
+	}
     self.locationServicesAbortTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(locationSearchTimeLimitReached:) userInfo:nil repeats:NO];
+
+	// experimenting with getting a cached location
+	//	self.currentLocation = self.locationManager.location;
+	
 	return YES;
 }
 
@@ -107,10 +127,10 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 #pragma mark - CLLocationManagerDelegate
 
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
+    FLog(@"didUpdateToLocation:%@ fromLocation:%@",newLocation,oldLocation);
 	NSDate *eventDate = newLocation.timestamp;
     NSTimeInterval fromWhenUpdatesStarted = [eventDate timeIntervalSinceDate:self.locationUpdatesStartedOn];
-	
+	FLogSimple();
 	if (fromWhenUpdatesStarted <= 0) return; // this update was cached before we started resolving
 	if (newLocation.horizontalAccuracy < 0) return; // an invalid location
 
@@ -142,6 +162,10 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 	self.aborted = YES;
 	[self.locationManager stopUpdatingLocation];
 	self.currentLocation = self.locationManager.location; // get the best location we can
+	
+	NSError *abortError = [NSError errorWithDomain:kCLErrorDomain code:kCLErrorLocationUnknown userInfo:@{ NSLocalizedDescriptionKey : NSLocalizedString(@"Timed out resolving location. Cached location may have been good already.", @"FSQLocationResolver timeout error description") }];
+	self.error = abortError;
+	
 	[self handleResolutionCompletion];
 }
 
@@ -151,6 +175,10 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 #pragma mark - Handlers
 
 - (void) handleResolutionCompletion {
+	if (self.locationServicesAbortTimer) {
+		[self.locationServicesAbortTimer invalidate];
+		self.locationServicesAbortTimer = nil;
+	}
 	
 	NSMutableDictionary *info = [NSMutableDictionary new];
 	if (self.currentLocation) {
@@ -161,13 +189,13 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 	}
 	[info setObject:@(self.aborted) forKey:kFSQLocationResolverKeyAborted];
 	
-	if (self.completionHandler) {
+	[[NSNotificationCenter defaultCenter] postNotificationName:kFSQLocationResolverCompletedResolutionNotification object:self userInfo:info];
+	[_completionHandlers enumerateObjectsUsingBlock:^(FSQLocationResolverCompletionHandler handler, BOOL *stop) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			self.completionHandler(info);
+			handler(self.currentLocation,self.error);
 		});
-	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:kFSQLocationResolverCompletedResolutionNotification object:self userInfo:info];	
-	}
+	}];
+	[_completionHandlers removeAllObjects];
 	
 	self.resolving = NO;
 }

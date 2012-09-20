@@ -20,11 +20,7 @@
 }
 
 + (FSQAlertView *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate {
-	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:aTitle 
-														message:aMessage 
-													   delegate:aDelegate 
-											  cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button Title") 
-											  otherButtonTitles:nil];
+	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:aTitle  message:aMessage delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button Title") otherButtonTitles:nil];
 	alertView.userInfo = aUserInfo;
 	alertView.delegate = aDelegate;
 	
@@ -32,29 +28,19 @@
 }
 
 + (FSQAlertView *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage button:(NSString *)aButton userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate {
-	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:aTitle 
-														message:aMessage 
-													   delegate:aDelegate 
-											  cancelButtonTitle:aButton 
-											  otherButtonTitles:nil];
+	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:aTitle message:aMessage delegate:aDelegate cancelButtonTitle:aButton otherButtonTitles:nil];
 	alertView.userInfo = aUserInfo;
 	alertView.delegate = aDelegate;
 	
 	return alertView;
 }
 
-+ (FSQAlertView *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage button:(NSString *)aButton cancellable:(BOOL)cancellable userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate {
-	
-	if (!cancellable)
-	{
-		return [FSQAlertView infoAlertWithTitle:aTitle message:aMessage button:aButton userInfo:aUserInfo delegate:aDelegate];
-	}
-	
-	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:aTitle 
-														message:aMessage 
-													   delegate:aDelegate 
-											  cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel Button Title") 
-											  otherButtonTitles:aButton, nil];
++ (FSQAlertView *) errorAlertWithError:(NSError *)error {
+	return  [self errorAlertWithError:error userInfo:nil delegate:nil];
+}
+
++ (FSQAlertView *) errorAlertWithError:(NSError *)error userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate {
+	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"Error Alert Title")  message:[error localizedDescription] delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button Title") otherButtonTitles:nil];
 	alertView.userInfo = aUserInfo;
 	alertView.delegate = aDelegate;
 	
@@ -66,11 +52,15 @@
 }
 
 + (FSQAlertView *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate {
-	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:aTitle 
-														message:aMessage 
-													   delegate:aDelegate 
-											  cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel Button Title")
-											  otherButtonTitles:NSLocalizedString(@"OK", @"OK Button Title"),nil];
+	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:aTitle message:aMessage delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel Button Title") otherButtonTitles:NSLocalizedString(@"OK", @"OK Button Title"),nil];
+	alertView.userInfo = aUserInfo;
+	alertView.delegate = aDelegate;
+	
+	return alertView;
+}
+
++ (FSQAlertView *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage button:(NSString *)aButton userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate {
+	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:aTitle message:aMessage delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel Button Title") otherButtonTitles:aButton,nil];
 	alertView.userInfo = aUserInfo;
 	alertView.delegate = aDelegate;
 	
