@@ -28,4 +28,5 @@
 #import "NSDictionary+FSQFoundation.h"
 #import "NSURL+FSQFoundation.h"
 #import "NSError+FSQFoundation.h"
+#import "NSValue+FSQFoundation.h"
 
