@@ -16,6 +16,8 @@
 
 #define FSQWeakSelf() __weak typeof(self) _self = self
 
+#define i18n(string,comment) NSLocalizedString(string,comment)
+
 #define HAS_MODERN_OBJC (__has_feature(objc_default_synthesize_properties) && __has_feature(objc_array_literals) && __has_feature(objc_dictionary_literals) && __has_feature(objc_subscripting) && __has_feature(objc_bool))
 
 
