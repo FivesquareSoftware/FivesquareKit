@@ -15,6 +15,13 @@ NSRange NSRangeFromCFRange(CFRange cfRange) {
 	return range;
 }
 
+CFRange CFRangeFromNSRange(NSRange nsRange) {
+	CFIndex location = nsRange.location == NSNotFound ? kCFNotFound : (CFIndex)nsRange.location;
+	CFIndex length = (CFIndex)nsRange.length;
+	CFRange range = CFRangeMake(location, length);
+	return range;
+}
+
 #if TARGET_OS_IPHONE == 0
 
 NSString * NSStringFromCGPoint ( CGPoint point ) {
