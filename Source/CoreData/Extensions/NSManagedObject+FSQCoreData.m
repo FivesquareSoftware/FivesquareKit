@@ -289,8 +289,8 @@
 		[context performBlockAndWait:^{
 			found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 		}];
-		[found updateWithObject:someAttributes merge:YES];
 	}
+	[found updateWithObject:someAttributes merge:YES];
 	return found;
 }
 
@@ -303,8 +303,8 @@
 		[context performBlockAndWait:^{
 			found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 		}];
-		[found updateWithObject:someAttributes merge:YES];
 	}
+	[found updateWithObject:someAttributes merge:YES];
 	return found;
 }
 
