@@ -13,18 +13,42 @@
 #import "NSFetchedResultsController+FSQUIKit.h"
 
 #import "FSQMacros.h"
+#import "FSQLogging.h"
 
-#ifdef __IPHONE_6_0
+
+
+@interface FSQCollectionViewChange : NSObject
+@property (nonatomic) NSFetchedResultsChangeType type;
+@property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, strong) NSIndexPath *newIndexPath NS_RETURNS_NOT_RETAINED;
++ (id) withType:(NSFetchedResultsChangeType)type indexPath:(NSIndexPath *)indexPath newIndexPath:(NSIndexPath *)newIndexPath;
+@end
+@implementation FSQCollectionViewChange
+- (NSUInteger) hash {
+	return [[NSString stringWithFormat:@"%@ %@ %@",@(_type),_indexPath,_newIndexPath] hash];
+}
+- (BOOL) isEqual:(id)object {
+	if (NO == [object isKindOfClass:[FSQCollectionViewChange class]]) {
+		return NO;
+	}
+	return [self hash] == [object hash];
+}
++ (id) withType:(NSFetchedResultsChangeType)type indexPath:(NSIndexPath *)indexPath newIndexPath:(NSIndexPath *)newIndexPath {
+	FSQCollectionViewChange *change = [[self alloc] init];
+	change.type = type;
+	change.indexPath = indexPath;
+	change.newIndexPath = newIndexPath;
+	return change;
+}
+@end
+
 
 @interface FSQFetchedResultsCollectionViewController ()
-
+@property (nonatomic, strong) NSMutableSet *pendingChanges;
 @end
 
 @implementation FSQFetchedResultsCollectionViewController
 
-
-FSQ_SYNTHESIZE(managedObjectContext)
-FSQ_SYNTHESIZE(fetchedResultsController)
 
 - (NSManagedObjectContext *) managedObjectContext {
 	if (_managedObjectContext == nil) {
@@ -66,12 +90,38 @@ FSQ_SYNTHESIZE(fetchedResultsController)
 	_fetchedResultsController.delegate = nil;
 }
 
+- (void) initialize {
+	// Initialization code
+	if (nil == _pendingChanges) {
+		_pendingChanges = [NSMutableSet new];
+	}
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self initialize];
+    }
+    return self;
+}
+
+
 
 // ========================================================================== //
 
 #pragma mark - View Controller
 
-
+- (void) viewDidLoad {
+	[super viewDidLoad];
+}
 
 - (void) viewWillAppear:(BOOL)animated {
 	[self.collectionView reloadData];
@@ -154,6 +204,12 @@ FSQ_SYNTHESIZE(fetchedResultsController)
 //    }
 }
 
+
+//NSFetchedResultsChangeInsert = 1,
+//NSFetchedResultsChangeDelete = 2,
+//NSFetchedResultsChangeMove = 3,
+//NSFetchedResultsChangeUpdate = 4
+
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
 	
 //	if(self.reordering) return;
@@ -195,25 +251,32 @@ FSQ_SYNTHESIZE(fetchedResultsController)
 //			break;
 //    }
 	
-	switch(type) {
-			
-		case NSFetchedResultsChangeInsert:
-			[self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-			break;
-			
-		case NSFetchedResultsChangeDelete:
-			[self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-			break;
-			
-		case NSFetchedResultsChangeUpdate:
-			[self configureCell:[self.collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
-			break;
-			
-		case NSFetchedResultsChangeMove:
-			[self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-			[self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-			break;
-	}
+	FLogSimple(@"controller.fetchRequest:%@",controller.fetchRequest);
+	FLogSimple(@"object:%@",anObject);
+	FLogSimple(@"indexPath:%@",indexPath);
+	FLogSimple(@"type:%@",@(type));
+	FLogSimple(@"newIndexPath:%@",newIndexPath);
+	
+	[_pendingChanges addObject:[FSQCollectionViewChange withType:type indexPath:indexPath newIndexPath:newIndexPath]];
+//	switch(type) {
+//			
+//		case NSFetchedResultsChangeInsert:
+//			[self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+//			break;
+//			
+//		case NSFetchedResultsChangeDelete:
+//			[self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+//			break;
+//			
+//		case NSFetchedResultsChangeUpdate:
+//			[self configureCell:[self.collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+//			break;
+//			
+//		case NSFetchedResultsChangeMove:
+//			[self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+//			[self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+//			break;
+//	}
 	
 
 }
@@ -233,9 +296,37 @@ FSQ_SYNTHESIZE(fetchedResultsController)
 //	}
 //
 	
+	
+	[self.collectionView performBatchUpdates:^{
+		[_pendingChanges enumerateObjectsUsingBlock:^(FSQCollectionViewChange *change, BOOL *stop) {
+			switch(change.type) {
+					
+				case NSFetchedResultsChangeInsert:
+					[self.collectionView insertItemsAtIndexPaths:@[change.newIndexPath]];
+					break;
+					
+				case NSFetchedResultsChangeDelete:
+					[self.collectionView deleteItemsAtIndexPaths:@[change.indexPath]];
+					break;
+					
+				case NSFetchedResultsChangeUpdate:
+//					[self configureCell:[self.collectionView cellForItemAtIndexPath:change.indexPath] atIndexPath:change.indexPath];
+					[self.collectionView reloadItemsAtIndexPaths:@[change.indexPath]];
+					break;
+					
+				case NSFetchedResultsChangeMove:
+					[self.collectionView deleteItemsAtIndexPaths:@[change.indexPath]];
+					[self.collectionView insertItemsAtIndexPaths:@[change.newIndexPath]];
+					break;
+			}
+
+		}];
+	} completion:^(BOOL finished) {
+		[_pendingChanges removeAllObjects];
+	}];
+	
 }
 
 
 @end
 
-#endif

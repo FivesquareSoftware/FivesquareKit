@@ -24,6 +24,11 @@
 	return NO;
 }
 
++ (BOOL) isNotEmpty:(id)obj {
+	return NO == [self isEmpty:obj];
+}
+
+
 #if (TARGET_OS_IPHONE)
 + (NSString *) className {
 	return NSStringFromClass(self);

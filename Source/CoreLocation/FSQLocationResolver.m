@@ -24,6 +24,8 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 @property (nonatomic, strong) NSTimer *locationServicesAbortTimer;
 //@property (nonatomic, copy) FSQLocationResolverCompletionHandler completionHandler;
 @property (nonatomic, strong) NSMutableSet *completionHandlers;
+@property (strong) CLLocation *lastUpdatedLocation; ///< The last location we got from the location manager. May or may/not be better than the best effort location.
+
 
 - (void) locationSearchTimeLimitReached:(NSTimer *)timer;
 - (void) handleResolutionCompletion;
@@ -130,14 +132,28 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
     FLog(@"didUpdateToLocation:%@ fromLocation:%@",newLocation,oldLocation);
 	NSDate *eventDate = newLocation.timestamp;
     NSTimeInterval fromWhenUpdatesStarted = [eventDate timeIntervalSinceDate:self.locationUpdatesStartedOn];
-	FLogSimple();
+//	FLog(@"fromWhenUpdatesStarted: %@",@(fromWhenUpdatesStarted));
+
 	if (fromWhenUpdatesStarted <= 0) return; // this update was cached before we started resolving
 	if (newLocation.horizontalAccuracy < 0) return; // an invalid location
 
-	if (self.currentLocation == nil || self.currentLocation.horizontalAccuracy > newLocation.horizontalAccuracy) {
+	self.lastUpdatedLocation = newLocation;
+	// If we got at least as good a location update consider this test to pass since a new location may actually be as good as our last one (i.e. our current one may actually be pretty good)
+	if (self.currentLocation == nil || self.currentLocation.horizontalAccuracy >= newLocation.horizontalAccuracy) {
+		FLog(@"Got decent location, setting it to best effort location");
         self.currentLocation = newLocation;
-        if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy) {
+
+//		FLogSimple(@"newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
+//		FLogSimple(@"locationManager.desiredAccuracy:%f",self.locationManager.desiredAccuracy);
+//		FLogSimple(@"kCLLocationAccuracyBestForNavigation:%f",kCLLocationAccuracyBestForNavigation);
+//		FLogSimple(@"kCLLocationAccuracyBest:%f",kCLLocationAccuracyBest);
+		
+		// When caller has set desired accuracy to one of the "best" values, they will actually be negative, which in a location update would indicate invalid, so just check for less than the 1
+        if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy < 1) ) {
+			FLog(@"Got a good enough location, stopping updates");
+			FLog(@"newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
 			[self.locationManager stopUpdatingLocation];
+			self.currentLocation = newLocation;
 			[self handleResolutionCompletion];
         }
     }
@@ -146,7 +162,7 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     if ([error code] != kCLErrorLocationUnknown) { // Unknown means we could recover
 		[self.locationManager stopUpdatingLocation];
-		self.currentLocation = self.locationManager.location; // get the best location we can
+		self.currentLocation = self.locationManager.location; // use the best location we can
 		self.error = error;
 		[self handleResolutionCompletion];
 	}
@@ -160,10 +176,10 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 
 - (void) locationSearchTimeLimitReached:(NSTimer *)timer {
 	self.aborted = YES;
-	[self.locationManager stopUpdatingLocation];
+	[self.locationManager stopUpdatingLocation];	
 	self.currentLocation = self.locationManager.location; // get the best location we can
 	
-	NSError *abortError = [NSError errorWithDomain:kCLErrorDomain code:kCLErrorLocationUnknown userInfo:@{ NSLocalizedDescriptionKey : NSLocalizedString(@"Timed out resolving location. Cached location may have been good already.", @"FSQLocationResolver timeout error description") }];
+	NSError *abortError = [NSError errorWithDomain:kCLErrorDomain code:kCLErrorLocationUnknown userInfo:@{ NSLocalizedDescriptionKey : NSLocalizedString(@"Timed out resolving location, using best effort location.", @"FSQLocationResolver timeout error description") }];
 	self.error = abortError;
 	
 	[self handleResolutionCompletion];
@@ -180,6 +196,10 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 		self.locationServicesAbortTimer = nil;
 	}
 	
+	if (NO == self.resolving) {
+		return;
+	}
+		
 	NSMutableDictionary *info = [NSMutableDictionary new];
 	if (self.currentLocation) {
 		[info setObject:self.currentLocation forKey:kFSQLocationResolverKeyLocation];

@@ -23,7 +23,7 @@ extern NSString *kFSQLocationResolverKeyAborted; ///< Whether the resolution tim
 
 @property (getter = isResolving) BOOL resolving;
 @property BOOL aborted; ///< YES when the timeout occurs before accuracy was acheived
-@property (strong) CLLocation *currentLocation; ///< The best effor location
+@property (strong) CLLocation *currentLocation; ///< The best effort location
 @property (strong) NSError *error; ///< The error that occurred during last resolution
 
 
