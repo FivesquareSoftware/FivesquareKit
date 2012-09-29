@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface FSQFetchedResultsCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate> {
+NS_CLASS_AVAILABLE_IOS(6_0) @interface FSQFetchedResultsCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate> {
 @protected
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;

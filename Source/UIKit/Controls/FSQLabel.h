@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface FSQLabel : UILabel
+NS_CLASS_AVAILABLE_IOS(6_0) @interface FSQLabel : UILabel
 
 @property (nonatomic, strong) NSString *placeholderText;
 @property (nonatomic, strong) UIColor *placeholderColor;

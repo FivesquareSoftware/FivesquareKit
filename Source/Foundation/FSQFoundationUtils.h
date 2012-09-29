@@ -9,3 +9,11 @@
 #import <Foundation/Foundation.h>
 
 NSRange NSRangeFromCFRange(CFRange cfRange);
+CFRange CFRangeFromNSRange(NSRange nsRange);
+
+#if TARGET_OS_IPHONE == 0
+
+NSString * NSStringFromCGPoint ( CGPoint point );
+NSString * NSStringFromCGRect (  CGRect rect );
+
+#endif
