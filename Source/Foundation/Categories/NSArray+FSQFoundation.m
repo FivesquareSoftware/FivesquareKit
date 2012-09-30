@@ -13,6 +13,24 @@
 
 @implementation NSArray (FSQFoundation)
 
+
++ (BOOL) isEmpty:(id)obj {
+	if (nil == obj) {
+		return YES;
+	}
+	if ([NSNull null] == obj) {
+		return YES;
+	}
+	
+	return [obj count] == 0;
+}
+
++ (BOOL) isNotEmpty:(id)obj {
+	return NO == [self isEmpty:obj];
+}
+
+
+
 // ========================================================================== //
 
 #pragma mark - Sorting

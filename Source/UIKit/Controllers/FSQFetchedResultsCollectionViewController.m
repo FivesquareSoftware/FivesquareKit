@@ -124,16 +124,22 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-	[self.collectionView reloadData];
 	[super viewWillAppear:animated];
 }
+
+- (void) viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	[self.collectionView reloadData];
+}
+
 
 // ========================================================================== //
 
 #pragma mark - Collection View Methods
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return [self.fetchedResultsController numberOfObjectsInSection:section];
+	NSInteger numberOfItems =  [self.fetchedResultsController numberOfObjectsInSection:section];
+	return numberOfItems;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
@@ -177,31 +183,11 @@
 
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-//	if(self.reordering) return;
-//	if( ! self.animateTableUpdates ) return;
-//	
-//	self.mutatingSectionIndex = NSNotFound;
 	
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-	
-//	if(self.reordering) return;
-//	if( ! self.animateTableUpdates ) return;
-//	
-//	
-//	if(type == NSFetchedResultsChangeInsert) self.mutatingSectionIndex = sectionIndex;
-//	
-//    switch(type) {
-//        case NSFetchedResultsChangeInsert:
-//            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
-//						  withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//        case NSFetchedResultsChangeDelete:
-//            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
-//						  withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//    }
+
 }
 
 
@@ -211,92 +197,16 @@
 //NSFetchedResultsChangeUpdate = 4
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-	
-//	if(self.reordering) return;
-//	if( ! self.animateTableUpdates ) return;
-//	
-//	BOOL changedSection = [[[anObject changedValues] allKeys] containsObject:[self.fetchedResultsController sectionNameKeyPath]];
-//    if ( (NSFetchedResultsChangeUpdate == type) && changedSection) {
-//        type = NSFetchedResultsChangeMove;
-//        newIndexPath = indexPath;
-//    }
-//	
-//	
-//	NSIndexPath *tableIndexPath = [self tableIndexPathForFetchedResultsIndexPath:indexPath];
-//	NSIndexPath *newTableIndexPath = [self tableIndexPathForFetchedResultsIndexPath:newIndexPath];
-//	
-//    switch(type) {
-//			
-//        case NSFetchedResultsChangeInsert:
-//			if(newIndexPath.section == self.mutatingSectionIndex) break;
-//            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newTableIndexPath]
-//								  withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//			
-//        case NSFetchedResultsChangeDelete:
-//            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tableIndexPath]
-//								  withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//			
-//        case NSFetchedResultsChangeUpdate:
-//            [self configureCell:[self.tableView cellForRowAtIndexPath:tableIndexPath]
-//					atIndexPath:tableIndexPath];
-//            break;
-//			
-//        case NSFetchedResultsChangeMove:
-//            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tableIndexPath]
-//								  withRowAnimation:UITableViewRowAnimationFade];
-//            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newTableIndexPath]
-//								  withRowAnimation:UITableViewRowAnimationTop];
-//			break;
-//    }
-	
-	FLogSimple(@"controller.fetchRequest:%@",controller.fetchRequest);
-	FLogSimple(@"object:%@",anObject);
-	FLogSimple(@"indexPath:%@",indexPath);
-	FLogSimple(@"type:%@",@(type));
-	FLogSimple(@"newIndexPath:%@",newIndexPath);
+	FLog(@"controller.fetchRequest:%@",controller.fetchRequest);
+	FLog(@"object:%@",anObject);
+	FLog(@"indexPath:%@",indexPath);
+	FLog(@"type:%@",@(type));
+	FLog(@"newIndexPath:%@",newIndexPath);
 	
 	[_pendingChanges addObject:[FSQCollectionViewChange withType:type indexPath:indexPath newIndexPath:newIndexPath]];
-//	switch(type) {
-//			
-//		case NSFetchedResultsChangeInsert:
-//			[self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-//			break;
-//			
-//		case NSFetchedResultsChangeDelete:
-//			[self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-//			break;
-//			
-//		case NSFetchedResultsChangeUpdate:
-//			[self configureCell:[self.collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
-//			break;
-//			
-//		case NSFetchedResultsChangeMove:
-//			[self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-//			[self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-//			break;
-//	}
-	
-
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-//	if(self.reordering) {
-//		self.reordering = NO;
-//		return;
-//	}
-//	
-//	self.mutatingSectionIndex = NSNotFound;
-//	
-//	if( ! self.animateTableUpdates ) {
-//		[self.tableView reloadData];
-//	} else {
-//		[self.tableView endUpdates];
-//	}
-//
-	
-	
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {	
 	[self.collectionView performBatchUpdates:^{
 		[_pendingChanges enumerateObjectsUsingBlock:^(FSQCollectionViewChange *change, BOOL *stop) {
 			switch(change.type) {
@@ -324,7 +234,6 @@
 	} completion:^(BOOL finished) {
 		[_pendingChanges removeAllObjects];
 	}];
-	
 }
 
 

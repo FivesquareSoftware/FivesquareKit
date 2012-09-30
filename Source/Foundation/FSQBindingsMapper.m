@@ -73,7 +73,24 @@
 		}
 		else if (_mergePolicy == FSQBindingsMapperMergePolicyDestinationObjectTrumpsSource) {
 			id destinationValue = [target valueForKeyPath:destinationKeyPath];
-			if ([NSObject isEmpty:destinationValue]) {
+			
+			BOOL destinationEmpty = [NSObject isEmpty:destinationValue];
+			if (NO == destinationEmpty) {
+				if ([destinationValue isKindOfClass:[NSString class]]) {
+					destinationEmpty = [NSString isEmpty:destinationValue];
+				}
+				else if ([destinationValue isKindOfClass:[NSArray class]]) {
+					destinationEmpty = [NSArray isEmpty:destinationValue];
+				}
+				else if ([destinationValue isKindOfClass:[NSDictionary class]]) {
+					destinationEmpty = [NSDictionary isEmpty:destinationValue];
+				}
+				else if ([destinationValue isKindOfClass:[NSSet class]]) {
+					destinationEmpty = [NSSet isEmpty:destinationValue];
+				}
+			}
+			
+			if (destinationEmpty) {
 				if (NO == [target setValue:value forKeyPath:destinationKeyPath error:error]) {
 					return NO;
 				}
