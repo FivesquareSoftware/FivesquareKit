@@ -22,7 +22,7 @@ extern NSString *kFSQLocationResolverKeyAborted; ///< Whether the resolution tim
 @interface FSQLocationResolver : NSObject <CLLocationManagerDelegate> 
 
 @property (getter = isResolving) BOOL resolving;
-@property BOOL aborted; ///< YES when the timeout occurs before accuracy was acheived
+@property BOOL aborted; ///< YES when the timeout occurs before accuracy was achieved
 @property (strong) CLLocation *currentLocation; ///< The best effort location
 @property (strong) NSError *error; ///< The error that occurred during last resolution
 
@@ -40,5 +40,8 @@ extern NSString *kFSQLocationResolverKeyAborted; ///< Whether the resolution tim
  *  @note Notifications are also sent in addition to the handler blocks being invoked. 
  */
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverCompletionHandler)handler;
+
+/** Stops location updates and removes all completion handlers. */
+- (void) stopResolving;
 
 @end

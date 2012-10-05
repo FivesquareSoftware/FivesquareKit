@@ -16,6 +16,7 @@ NSString *kFSQLocationResolverKeyError = @"Error";
 NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 
 
+#define kFSQLocationResolverAccuracyBest 5
 
 @interface FSQLocationResolver()
 
@@ -122,7 +123,18 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 	return YES;
 }
 
+- (void) stopResolving {
+	[self.locationManager stopUpdatingLocation];
 
+	if (self.locationServicesAbortTimer) {
+		[self.locationServicesAbortTimer invalidate];
+		self.locationServicesAbortTimer = nil;
+	}
+	
+	[_completionHandlers removeAllObjects];
+	
+	self.resolving = NO;
+}
 
 // ========================================================================== //
 
@@ -143,13 +155,13 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 		FLog(@"Got decent location, setting it to best effort location");
         self.currentLocation = newLocation;
 
-//		FLogSimple(@"newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
-//		FLogSimple(@"locationManager.desiredAccuracy:%f",self.locationManager.desiredAccuracy);
-//		FLogSimple(@"kCLLocationAccuracyBestForNavigation:%f",kCLLocationAccuracyBestForNavigation);
-//		FLogSimple(@"kCLLocationAccuracyBest:%f",kCLLocationAccuracyBest);
+		FLogSimple(@"newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
+		FLogSimple(@"locationManager.desiredAccuracy:%f",self.locationManager.desiredAccuracy);
+		FLogSimple(@"kCLLocationAccuracyBestForNavigation:%f",kCLLocationAccuracyBestForNavigation);
+		FLogSimple(@"kCLLocationAccuracyBest:%f",kCLLocationAccuracyBest);
 		
-		// When caller has set desired accuracy to one of the "best" values, they will actually be negative, which in a location update would indicate invalid, so just check for less than the 1
-        if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy < 1) ) {
+		// When caller has set desired accuracy to one of the "best" values, they will actually be negative, which in a location update would indicate invalid, so just check for <= the kFSQLocationResolverAccuracyBest, which seems to be the best possible accuracy we get
+        if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy <= kFSQLocationResolverAccuracyBest) ) {
 			FLog(@"Got a good enough location, stopping updates");
 			FLog(@"newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
 			[self.locationManager stopUpdatingLocation];
