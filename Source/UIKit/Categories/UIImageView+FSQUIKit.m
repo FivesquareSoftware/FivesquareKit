@@ -18,9 +18,16 @@
 
 static const NSString *kUIImageView_FSQUIKit_Cache = @"UIImageView_FSQUIKit_Cache";
 static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = @"UIImageView_FSQUIKit_Cache";
+static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
 
 
 @implementation UIImageView (FSQUIKit)
+
+// ========================================================================== //
+
+#pragma mark - Proeprties
+
+
 
 @dynamic cache;
 - (FSQImageCache *) cache {
@@ -47,28 +54,51 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 	objc_setAssociatedObject(self, &kUIImageView_FSQUIKit_automaticallyRequestsScaledImage, automaticallyRequestsScaledImageNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+@dynamic URL;
+- (id) URL {
+	id URL = objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_URL);
+	return URL;
+}
+
+- (void) setURL:(id)URL {
+	objc_setAssociatedObject(self, &kUIImageView_FSQUIKit_URL, URL, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+
+// ========================================================================== //
+
+#pragma mark - Loaders
+
+
 
 - (void) setImageWithContentsOfURL:(id)URL {
 	FSQAssert(self.cache != nil, @"Tried to load an image from a non-existent cache!");
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:nil];
 }
 
-- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)())block {
+- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)(id image, id URL))block {
 	FSQAssert(self.cache != nil, @"Tried to load an image from a non-existent cache!");
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:block];
 }
 
-- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)())block {
+- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)(id image, id URL))block {
+	self.URL = nil;
+	
 	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
+		id fetchedURL = URLOrString;
 		if (error) {
 			FLogError(error, @"Could not load image");
-		} else {
-			self.image = image;
-			if (block) {
-				block();
-			}
+		}
+		else {
+//			if ([fetchedURL isEqual:self.URL]) {
+				self.image = image;
+				if (block) {
+					block(image,URLOrString);
+				}
+//			}
 		}
 	};
+	
 	
 	NSURL *URL;
 	// Get the arg into an NSURL and do a little validation
@@ -91,6 +121,8 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 	if (NO == [URL isKindOfClass:[NSURL class]]) {
 		return;
 	}
+	
+	self.URL = URL;
 
 	NSURL *URLWithScale = URL;
 	

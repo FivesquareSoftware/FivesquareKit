@@ -21,6 +21,8 @@
  */
 @property (nonatomic) BOOL automaticallyRequestsScaledImage; 
 
+@property (nonatomic) id URL;
+
 /** Sets the receiver's image from the URL using #cache.
  *  @throws an exception if #cache is not set
  *  @see setImageWithContentsOfURL:cache:completionBlock: 
@@ -31,12 +33,12 @@
  *  @throws an exception if #cache is not set
  *  @see setImageWithContentsOfURL:cache:completionBlock: 
  */
-- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)())block;
+- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)(id image, id URL))block;
 
 /** Sets the receiver's image from a URL, first checking in the specified cache before fetching it from the internet. 
  *  @param completionBlock runs if the image is loaded successfully
  *  @param URLOrString may be an NSURL or an NSString representing an URL
  */
-- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)cache completionBlock:(void(^)())block;
+- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)cache completionBlock:(void(^)(id image, id URL))block;
 
 @end
