@@ -76,12 +76,12 @@ static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:nil];
 }
 
-- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)(id image, id URL))block {
+- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)())block {
 	FSQAssert(self.cache != nil, @"Tried to load an image from a non-existent cache!");
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:block];
 }
 
-- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)(id image, id URL))block {
+- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)())block {
 
 	// Reject any pending completion handlers that might be out there
 	self.URL = nil;
@@ -121,7 +121,7 @@ static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
 			if ([fetchedURL isEqual:self.URL]) {
 				self.image = image;
 				if (block) {
-					block(image,fetchedURL);
+					block();
 				}
 			}
 		}
