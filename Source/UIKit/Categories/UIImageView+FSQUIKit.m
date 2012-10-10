@@ -82,26 +82,13 @@ static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
 }
 
 - (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)(id image, id URL))block {
+
+	// Reject any pending completion handlers that might be out there
 	self.URL = nil;
 	
-	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
-		id fetchedURL = URLOrString;
-		if (error) {
-			FLogError(error, @"Could not load image");
-		}
-		else {
-//			if ([fetchedURL isEqual:self.URL]) {
-				self.image = image;
-				if (block) {
-					block(image,URLOrString);
-				}
-//			}
-		}
-	};
 	
-	
-	NSURL *URL;
 	// Get the arg into an NSURL and do a little validation
+	NSURL *URL;
 	
 	if ([URLOrString isKindOfClass:[NSString class]]) {
 		NSString *trimmedString = [URLOrString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -123,6 +110,23 @@ static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
 	}
 	
 	self.URL = URL;
+	
+	// Set up a completion handler that checks if our URL is still the same as what was fetched
+	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
+		id fetchedURL = URL; // capture the URL we're fetching here
+		if (error) {
+			FLogError(error, @"Could not load image");
+		}
+		else {
+			if ([fetchedURL isEqual:self.URL]) {
+				self.image = image;
+				if (block) {
+					block(image,fetchedURL);
+				}
+			}
+		}
+	};
+	
 
 	NSURL *URLWithScale = URL;
 	
@@ -141,7 +145,6 @@ static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
 
 	[imageCache fetchImageForURL:URLWithScale completionHandler:completionHandler];
 }
-
 
 
 @end
