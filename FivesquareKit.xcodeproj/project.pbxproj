@@ -147,6 +147,9 @@
 		A4541F5915C5F156008F085E /* FSQFetchedResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A4541F5715C5F156008F085E /* FSQFetchedResultsDataSource.m */; };
 		A454C13115252F8A001E8B9F /* FSQKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F441C12748374005D9BF4 /* FSQKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A454C13215252F90001E8B9F /* FSQKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441D12748374005D9BF4 /* FSQKeychain.m */; };
+		A457EE4B16274E7500240B7E /* FSQFoundationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFFE981607F398001C6D31 /* FSQFoundationUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A457EE4D16274E7E00240B7E /* FSQFoundationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFFE991607F398001C6D31 /* FSQFoundationUtils.m */; };
+		A457EE4E16274E7F00240B7E /* FSQFoundationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFFE991607F398001C6D31 /* FSQFoundationUtils.m */; };
 		A4583292158BFC040022BE1A /* FSQAppKitConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A4583290158BFC040022BE1A /* FSQAppKitConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4583293158BFC040022BE1A /* FSQAppKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A4583291158BFC040022BE1A /* FSQAppKitConstants.m */; };
 		A4713EB813509EEB00FA1402 /* RatingIndicatorOff.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446112748375005D9BF4 /* RatingIndicatorOff.png */; };
@@ -173,7 +176,7 @@
 		A4ACA5C8158BEE090078196E /* NSWindow+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5C6158BEE090078196E /* NSWindow+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4ACA5C9158BEE090078196E /* NSWindow+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ACA5C7158BEE090078196E /* NSWindow+FSQAppKit.m */; };
 		A4ACA5CB158BEEDB0078196E /* FSQAppKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5CA158BEEDB0078196E /* FSQAppKitTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A4AFFE9A1607F398001C6D31 /* FSQFoundationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFFE981607F398001C6D31 /* FSQFoundationUtils.h */; };
+		A4AFFE9A1607F398001C6D31 /* FSQFoundationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFFE981607F398001C6D31 /* FSQFoundationUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B8ACAB15991E140062CE8C /* FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACA915991E140062CE8C /* FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B8ACB015991E610062CE8C /* WebView+FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACAD15991E610062CE8C /* WebView+FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B8ACB215991E610062CE8C /* WebView+FSQWebKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B8ACAE15991E610062CE8C /* WebView+FSQWebKit.m */; };
@@ -1280,6 +1283,7 @@
 				A447AFED160BD98200DD56BC /* NSValue+FSQFoundation.h in Headers */,
 				A4C4B2E2161E6241004256F3 /* NSData+FSQFoundation_Base64.h in Headers */,
 				A4E416231617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
+				A457EE4B16274E7500240B7E /* FSQFoundationUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1477,6 +1481,7 @@
 				A4E4160C1617AA3D00B3FADE /* FSQFetchedResultsCollectionViewController.m in Sources */,
 				A4E416241617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */,
 				A4E6FCDD1618C0DA0040D57D /* FSQSearchDisplayController.m in Sources */,
+				A457EE4E16274E7F00240B7E /* FSQFoundationUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1526,6 +1531,7 @@
 				A447AFEF160BD98200DD56BC /* NSValue+FSQFoundation.m in Sources */,
 				A4C4B2E3161E6241004256F3 /* NSData+FSQFoundation_Base64.m in Sources */,
 				A4E416251617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */,
+				A457EE4D16274E7E00240B7E /* FSQFoundationUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

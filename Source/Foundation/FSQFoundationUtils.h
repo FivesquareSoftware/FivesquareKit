@@ -17,3 +17,7 @@ NSString * NSStringFromCGPoint ( CGPoint point );
 NSString * NSStringFromCGRect (  CGRect rect );
 
 #endif
+
+@interface FSQFoundationUtils : NSObject
+
+@end

@@ -34,3 +34,9 @@ NSString * NSStringFromCGRect (  CGRect rect ) {
 }
 
 #endif
+
+@implementation FSQFoundationUtils
+
+
+
+@end
