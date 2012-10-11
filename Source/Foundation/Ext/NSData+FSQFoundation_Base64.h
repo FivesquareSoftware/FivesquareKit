@@ -27,6 +27,9 @@
 // Modified by John Clayton 2012/05/11
 // Added a method that allows encoding from the NSData interface that has no line breaks
 
+// Modified by John Clayton 2012/10/11
+// Ignored sign conversion warnings
+
 
 #import <Foundation/Foundation.h>
 

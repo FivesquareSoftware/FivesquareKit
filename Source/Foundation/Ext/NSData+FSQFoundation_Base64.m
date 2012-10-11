@@ -157,6 +157,8 @@ char *NewBase64Encode(
 	bool separateLines,
 	size_t *outputLength)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
 	const unsigned char *inputBuffer = (const unsigned char *)buffer;
 	
 	#define MAX_NUM_PADDING_CHARS 2
@@ -260,6 +262,7 @@ char *NewBase64Encode(
 		*outputLength = j;
 	}
 	return outputBuffer;
+#pragma clang diagnostic pop
 }
 
 @implementation NSData (FSQFoundation_Base64)
@@ -275,7 +278,7 @@ char *NewBase64Encode(
 //
 // returns the autoreleased NSData representation of the base64 string
 //
-+ (NSData *)rc_dataFromBase64String:(NSString *)aString
++ (NSData *) dataFromBase64String:(NSString *)aString
 {
 	NSData *data = [aString dataUsingEncoding:NSASCIIStringEncoding];
 	size_t outputLength;
@@ -294,12 +297,12 @@ char *NewBase64Encode(
 // returns an autoreleased NSString being the base 64 representation of the
 //	receiver.
 //
-- (NSString *)rc_base64EncodedString
+- (NSString *) base64EncodedString
 {
-	return [self rc_base64EncodedStringWithLineBreaks:YES];
+	return [self base64EncodedStringWithLineBreaks:YES];
 }
 
-- (NSString *)rc_base64EncodedStringWithLineBreaks:(BOOL)shouldBreakAtLines {
+- (NSString *) base64EncodedStringWithLineBreaks:(BOOL)shouldBreakAtLines {
 	size_t outputLength = 0;
 	char *outputBuffer = NewBase64Encode([self bytes], [self length], shouldBreakAtLines, &outputLength);
 	
