@@ -24,14 +24,20 @@
 /** Returns a simple alert view with custom button text. */
 + (FSQAlertView *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage button:(NSString *)aButton userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate;
 
-/** Returns a simple alert view with custom button text and an optional cancel button. */
-+ (FSQAlertView *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage button:(NSString *)aButton cancellable:(BOOL)cancellable userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate;
+/** @see  errorAlertWithError:userInfo:delegate: */
++ (FSQAlertView *) errorAlertWithError:(NSError *)error;
+
+/** Returns a simple alert view with an "OK" button with the title and message derived from the supplied error object. */
++ (FSQAlertView *) errorAlertWithError:(NSError *)error userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate;
 
 /** @see confirmationAlertWithTitle:message:userInfo:delegate:. */
 + (FSQAlertView *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage;
 
 /** Returns an alert with a "OK" and "Cancel" buttons. */
 + (FSQAlertView *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate;
+
+/** Returns an alert with a button derived from the supplied button string and a "Cancel" button. */
++ (FSQAlertView *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage button:(NSString *)aButton userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate;
 
 
 @end

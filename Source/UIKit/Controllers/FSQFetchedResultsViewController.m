@@ -15,15 +15,17 @@
 
 #import "FSQMacros.h"
 
+@interface FSQFetchedResultsViewController ()
+@property (nonatomic) BOOL initialized;
+@property (nonatomic) BOOL readied;
+@end
+
 
 @implementation FSQFetchedResultsViewController
 
 // ========================================================================== //
 
 #pragma mark - Properties
-
-FSQ_SYNTHESIZE(managedObjectContext)
-FSQ_SYNTHESIZE(fetchedResultsController)
 
 
 - (NSManagedObjectContext *) managedObjectContext {
@@ -65,16 +67,49 @@ FSQ_SYNTHESIZE(fetchedResultsController)
 	_fetchedResultsController.delegate = nil;
 }
 
+- (void) initialize {
+	// Initialization code
+	self.initialized = YES;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self initialize];
+    }
+    return self;
+}
+
+
 
 // ========================================================================== //
 
 #pragma mark - View Controller
+
+- (void) viewDidLoad {
+	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
+	[super viewDidLoad];
+	[self ready];
+}
+
+- (void) ready {
+	self.readied = YES;
+}
 
 - (void) viewDidUnload {
 	_fetchedResultsController = nil;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+	FSQAssert(self.readied, @"Controller not readied. Did you forget to call [super ready] from %@?",self);
 	[self.fetchedResultsController fetch];
 	[super viewWillAppear:animated];
 }

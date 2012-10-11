@@ -14,4 +14,7 @@
 	#import <ApplicationServices/ApplicationServices.h>
 #endif
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "FSQCoreGraphicsUtils.h"
+#import "CALayer+FSQQuartz.h"

@@ -13,6 +13,10 @@
 
 @interface NSArray (FSQFoundation)
 
++ (BOOL) isEmpty:(id)obj; //< @returns YES if obj == nil || [obj count] == 0
++ (BOOL) isNotEmpty:(id)obj;
+
+
 // Sorting
 
 - (NSArray *) filteredArrayOnItemDescriptionContains:(NSString *)aDescription;

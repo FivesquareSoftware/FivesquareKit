@@ -11,6 +11,7 @@
 @interface NSObject (FSQFoundation)
 
 + (BOOL) isEmpty:(id)obj; //< @returns YES if obj == nil || [NSNull null]
++ (BOOL) isNotEmpty:(id)obj;
 
 #if (TARGET_OS_IPHONE)
 + (NSString *)className;

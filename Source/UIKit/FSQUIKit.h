@@ -49,8 +49,9 @@
 #import "FSQMenuViewController.h"
 #import "FSQMenuViewController+Protected.h"
 #import "FSQFetchedResultsDataSource.h"
+#import "FSQFetchedResultsCollectionViewController.h"
+#import "FSQSearchDisplayController.h"
 
-//#import "FSQFetchedResultsCollectionViewController.h"
 
 // Controls
 
@@ -67,7 +68,7 @@
 #import "FSQThumbstripCell.h"
 #import "FSQThumbstripBaseDataSource.h"
 #import "FSQThumbstripBaseDataSource+Protected.h"
-//#import "FSQLabel.h"
+#import "FSQLabel.h"
 #import "FSQCapsuleButton.h"
 
 // Transformers

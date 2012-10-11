@@ -26,4 +26,6 @@
 /** The view controller to manage the keyboard for. */
 @property (nonatomic, weak) IBOutlet UIViewController *viewController;
 
+- (id) initWithViewController:(UIViewController *)aViewController;
+
 @end

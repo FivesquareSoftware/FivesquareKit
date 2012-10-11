@@ -25,11 +25,19 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void) initialize {
+}
+
+- (void) ready {
+	[self registerForKeyboardNotifications];
+}
+
 - (id) initWithViewController:(UIViewController *)aViewController {
 	self = [super init];
 	if (self != nil) {
 		_viewController = aViewController;
-		[self registerForKeyboardNotifications];
+		[self initialize];
+		[self ready];
 	}
 	return self;
 }
@@ -37,7 +45,8 @@
 - (id) initWithCoder {
 	self = [super init];
 	if (self != nil) {
-		[self registerForKeyboardNotifications];
+		[self initialize];
+		[self ready];
 	}
 	return self;
 }
@@ -45,11 +54,15 @@
 - (id) init {
 	self = [super init];
 	if (self != nil) {
-		[self registerForKeyboardNotifications];
+		[self initialize];
 	}
 	return self;
 }
 
+- (void) awakeFromNib {
+	[super awakeFromNib];
+	[self ready];
+}
 
 
 // ========================================================================== //

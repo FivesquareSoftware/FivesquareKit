@@ -24,6 +24,10 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface FSQFetchedResultsCollectionViewController
 
 /** @} */
 
+- (void) initialize; //< subclasses can override to share initialization
+- (void) ready; //< subclasses can override to share initialization after view is loaded
+
+
 
 /** Override this in your subclass to configure a cell with a fetched object. */
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;

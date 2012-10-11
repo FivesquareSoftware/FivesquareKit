@@ -18,6 +18,8 @@
 #import "FSQMacros.h"
 
 @interface FSQFetchedResultsTableViewController ()
+@property (nonatomic) BOOL initialized;
+@property (nonatomic) BOOL readied;
 @end
 
 
@@ -28,18 +30,6 @@
 
 #pragma mark - Properties
 
-FSQ_SYNTHESIZE(managedObjectContext)
-FSQ_SYNTHESIZE(fetchedResultsController)
-
-
-FSQ_SYNTHESIZE(editable);
-FSQ_SYNTHESIZE(reordering);
-FSQ_SYNTHESIZE(mutatingSectionIndex);
-FSQ_SYNTHESIZE(fetchedResultsTableRowOffset);
-FSQ_SYNTHESIZE(fetchedResultsTableSection);
-FSQ_SYNTHESIZE(showsPlaceholderRow);
-FSQ_SYNTHESIZE(animateTableUpdates);
-FSQ_SYNTHESIZE(tableRowAnimationType);
 
 
 
@@ -78,6 +68,7 @@ FSQ_SYNTHESIZE(tableRowAnimationType);
 #pragma mark - Object
 
 - (void) initialize {
+	self.initialized = YES;
 	_animateTableUpdates = YES;
 	_tableRowAnimationType = UITableViewRowAnimationNone;
 }
@@ -111,10 +102,17 @@ FSQ_SYNTHESIZE(tableRowAnimationType);
 
 
 - (void) viewDidLoad {
+	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
 	[super viewDidLoad];
+	[self ready];
+}
+
+- (void) ready {
+	self.readied = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+	FSQAssert(self.readied, @"Controller not readied. Did you forget to call [super ready] from %@?",self);
 	[super viewWillAppear:animated];
 	[self.fetchedResultsController fetch];
 	[self.tableView reloadData];

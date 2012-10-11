@@ -15,7 +15,6 @@
 @implementation FSQBindingsMapper
 
 
-
 + (id) mapperForClass:(Class)aClass {
 	return [self withBindingsNamed:[aClass className]];
 }
@@ -44,6 +43,7 @@
 	self = [super init];
 	if (self != nil) {
 		_bindings = someBindings;
+		_mergePolicy = FSQBindingsMapperMergePolicySourceObjectTrumpsDestination;
 	}
 	return self;
 }
@@ -56,8 +56,7 @@
 		
 		id value = [source valueForKeyPath:sourceKeyPath];
 
-        if (value == [NSNull null])
-        {
+        if (value == [NSNull null]) {
             value = nil;
         }
 		
@@ -67,10 +66,37 @@
 				value = [valueTransformer transformedValue:value];
 			}
 		}
-		
-		if (NO == [target setValue:value forKeyPath:destinationKeyPath error:error]) {
-			return NO;
+		if (_mergePolicy == FSQBindingsMapperMergePolicySourceObjectTrumpsDestination) {
+			if (NO == [target setValue:value forKeyPath:destinationKeyPath error:error]) {
+				return NO;
+			}
 		}
+		else if (_mergePolicy == FSQBindingsMapperMergePolicyDestinationObjectTrumpsSource) {
+			id destinationValue = [target valueForKeyPath:destinationKeyPath];
+			
+			BOOL destinationEmpty = [NSObject isEmpty:destinationValue];
+			if (NO == destinationEmpty) {
+				if ([destinationValue isKindOfClass:[NSString class]]) {
+					destinationEmpty = [NSString isEmpty:destinationValue];
+				}
+				else if ([destinationValue isKindOfClass:[NSArray class]]) {
+					destinationEmpty = [NSArray isEmpty:destinationValue];
+				}
+				else if ([destinationValue isKindOfClass:[NSDictionary class]]) {
+					destinationEmpty = [NSDictionary isEmpty:destinationValue];
+				}
+				else if ([destinationValue isKindOfClass:[NSSet class]]) {
+					destinationEmpty = [NSSet isEmpty:destinationValue];
+				}
+			}
+			
+			if (destinationEmpty) {
+				if (NO == [target setValue:value forKeyPath:destinationKeyPath error:error]) {
+					return NO;
+				}
+			}
+		}
+		
 	}
 	return YES;
 }

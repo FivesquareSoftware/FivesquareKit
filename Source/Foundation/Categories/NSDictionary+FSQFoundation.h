@@ -10,6 +10,9 @@
 
 @interface NSDictionary (FSQFoundation)
 
++ (BOOL) isEmpty:(id)obj; //< @returns YES if obj == nil || [obj count] == 0
++ (BOOL) isNotEmpty:(id)obj;
+
 - (NSDictionary *) deepCopy;
 - (NSMutableDictionary *) mutableDeepCopy;
 

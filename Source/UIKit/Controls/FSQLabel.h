@@ -17,4 +17,3 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface FSQLabel : UILabel
 @property (nonatomic) BOOL collapseWhenEmpty;
 
 @end
-

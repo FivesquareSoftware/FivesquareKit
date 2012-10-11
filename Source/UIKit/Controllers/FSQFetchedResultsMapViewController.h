@@ -22,6 +22,10 @@
 /** Subclasses should override this to provide a fetched results controller that returns fetched objects that fit into the region. */
 //- (void) fetchedResultsControllerForRegion:(MKCoordinateRegion *)region;
 
+- (void) initialize; //< subclasses can override to share initialization
+- (void) ready; //< subclasses can override to share initialization after view is loaded
+
+
 @end
 
 

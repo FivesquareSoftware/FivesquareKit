@@ -30,5 +30,6 @@
 #import "NSURL+FSQFoundation.h"
 #import "NSError+FSQFoundation.h"
 #import "NSValue+FSQFoundation.h"
+#import "NSSet+FSQFoundation.h"
 
 
