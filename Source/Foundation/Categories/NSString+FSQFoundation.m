@@ -85,4 +85,44 @@ static NSString *kFSQ_NSStringPathWithOptionalScaleExpression = @"^(\\w+)(@([0-9
 	return [self substringToIndex:anIndex];
 }
 
+- (NSString *) substringAroundRange:(NSRange)range padding:(NSUInteger)paddingCharacters matchWords:(BOOL)matchWords {
+	NSRange totalRange = NSMakeRange(0, self.length);
+	NSUInteger midRange = range.location+(range.length/2);
+	NSRange newRange = NSMakeRange(NSNotFound, 0);
+	
+	NSInteger rangeMin = (NSInteger)midRange-(NSInteger)paddingCharacters;
+	if (rangeMin < 0) {
+		rangeMin = 0;
+	}
+
+	NSUInteger rangeMax = midRange + paddingCharacters;
+	if (rangeMax > NSMaxRange(totalRange)) {
+		rangeMax = NSMaxRange(totalRange);
+	}
+	
+	newRange.location = (NSUInteger)rangeMin;
+	newRange.length = rangeMax-newRange.location;
+	
+	__block NSRange wordsRange = NSMakeRange(NSNotFound, 0);
+	if (matchWords) {
+		__block NSUInteger idx = 0;
+		[self enumerateSubstringsInRange:newRange options:NSStringEnumerationByWords usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+			if (idx++ == 1) {
+				wordsRange.location = substringRange.location;
+			}
+			else {
+				wordsRange.length = NSMaxRange(substringRange)-wordsRange.location;
+			}
+		}];
+	}
+
+	if (wordsRange.location != NSNotFound) {
+		newRange = wordsRange;
+	}
+
+	NSString *newString = [self substringWithRange:newRange];
+	return newString;
+}
+
+
 @end

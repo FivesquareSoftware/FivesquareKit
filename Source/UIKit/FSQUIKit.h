@@ -50,9 +50,7 @@
 #import "FSQMenuViewController+Protected.h"
 #import "FSQFetchedResultsDataSource.h"
 
-#ifdef __IPHONE_6_0
-#import "FSQFetchedResultsCollectionViewController.h"
-#endif
+//#import "FSQFetchedResultsCollectionViewController.h"
 
 // Controls
 
@@ -69,7 +67,7 @@
 #import "FSQThumbstripCell.h"
 #import "FSQThumbstripBaseDataSource.h"
 #import "FSQThumbstripBaseDataSource+Protected.h"
-#import "FSQLabel.h"
+//#import "FSQLabel.h"
 #import "FSQCapsuleButton.h"
 
 // Transformers

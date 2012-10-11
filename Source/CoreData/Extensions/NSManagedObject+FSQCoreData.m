@@ -29,6 +29,21 @@
 	return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
+- (NSDictionary *) attributes {
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	NSDictionary *propertiesByName = [[self entity] propertiesByName];
+	for (NSString *key in propertiesByName) {
+		id propertyDescription = [propertiesByName objectForKey:key];
+		if ([propertyDescription isKindOfClass:[NSAttributeDescription class]]) {
+			id value = [self valueForKeyPath:key error:NULL];
+			if (value) {
+				[attributes setValue:value forKey:key];
+			}
+		}
+	}
+	return attributes;
+}
+
 
 // ========================================================================== //
 
@@ -289,8 +304,8 @@
 		[context performBlockAndWait:^{
 			found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 		}];
-		[found updateWithObject:someAttributes merge:YES];
 	}
+	[found updateWithObject:someAttributes merge:YES];
 	return found;
 }
 
@@ -303,8 +318,8 @@
 		[context performBlockAndWait:^{
 			found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 		}];
-		[found updateWithObject:someAttributes merge:YES];
 	}
+	[found updateWithObject:someAttributes merge:YES];
 	return found;
 }
 

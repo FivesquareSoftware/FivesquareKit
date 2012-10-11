@@ -16,6 +16,10 @@
 + (NSString *) entityName;
 + (NSEntityDescription *) entityInContext:(NSManagedObjectContext *)context;
 
+
+@property (nonatomic, readonly) NSDictionary *attributes; //< @returns just the non-entity, i.e. non-relationship, properties
+
+
 /** @name Counters. 
  *  @{
  */

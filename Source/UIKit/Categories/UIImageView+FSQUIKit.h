@@ -21,6 +21,8 @@
  */
 @property (nonatomic) BOOL automaticallyRequestsScaledImage; 
 
+@property (nonatomic) id URL;
+
 /** Sets the receiver's image from the URL using #cache.
  *  @throws an exception if #cache is not set
  *  @see setImageWithContentsOfURL:cache:completionBlock: 

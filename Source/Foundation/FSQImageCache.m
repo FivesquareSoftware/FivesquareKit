@@ -243,9 +243,21 @@
 }
 
 - (void) cancelFetchForURL:(id)URLOrString {
-	if (_cancelationHandler) {
-		_cancelationHandler(URLOrString);
+	NSURL *key = [self keyForKeyObject:URLOrString];
+	
+	if (key == nil || [NSString isEmpty:[key description]]) {
+		FLog(@"'%@' is not a valid URL-like object",[URLOrString description]);
+		return;
 	}
+
+	dispatch_async(_cacheQueue, ^{
+		[_completionHandlersByKey removeObjectForKey:key];
+		if (_cancelationHandler) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				_cancelationHandler(URLOrString);
+			});
+		}
+	});
 }
 
 - (void) removeImageForURL:(id)URLOrString {

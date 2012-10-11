@@ -217,11 +217,17 @@ CGFloat CGPointDistanceFromPoint(CGPoint firstPoint, CGPoint secondPoint) {
 	return fabsf(c);
 }
 
-CGRect CGRectFlipInBounds(CGRect rect, CGRect bounds, bool horizontal) {
+CGRect CGRectFlipInBounds(CGRect rect, CGRect bounds) {
 	rect = CGRectApplyAffineTransform(rect, CGAffineTransformMakeTranslation(0, -CGRectGetMaxY(bounds)));
-	CGFloat ytransform = horizontal ? 1.f : -1.f;
-	CGFloat xtransform = horizontal ? -1.f : 1.f;
-	rect = CGRectApplyAffineTransform(rect, CGAffineTransformMakeScale(xtransform, ytransform));
+	rect = CGRectApplyAffineTransform(rect, CGAffineTransformMakeScale(1.f, -1.f));
 	return rect;
 
 }
+
+CGPoint CGPointFlipInBounds(CGPoint point, CGRect bounds) {
+	point = CGPointApplyAffineTransform(point, CGAffineTransformMakeTranslation(0, -CGRectGetMaxY(bounds)));
+	point = CGPointApplyAffineTransform(point, CGAffineTransformMakeScale(1.f, -1.f));
+	return point;
+}
+
+
