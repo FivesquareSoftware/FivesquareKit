@@ -12,7 +12,7 @@
 		A40017391565C581004765ED /* NSURL+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A40017361565C581004765ED /* NSURL+FSQFoundation.m */; };
 		A400173A1565C581004765ED /* NSURL+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A40017361565C581004765ED /* NSURL+FSQFoundation.m */; };
 		A408F4EA1534D549009B589D /* FSQMenuControl+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A408F4E81534D549009B589D /* FSQMenuControl+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */ = {isa = PBXBuildFile; fileRef = A40D3E8115E7E3FB00C2063E /* CALayer+FSQQuartz.h */; };
+		A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */ = {isa = PBXBuildFile; fileRef = A40D3E8115E7E3FB00C2063E /* CALayer+FSQQuartz.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40D3E8415E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */ = {isa = PBXBuildFile; fileRef = A40D3E8115E7E3FB00C2063E /* CALayer+FSQQuartz.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40D3E8515E7E3FB00C2063E /* CALayer+FSQQuartz.m in Sources */ = {isa = PBXBuildFile; fileRef = A40D3E8215E7E3FB00C2063E /* CALayer+FSQQuartz.m */; };
 		A40D3E8615E7E3FB00C2063E /* CALayer+FSQQuartz.m in Sources */ = {isa = PBXBuildFile; fileRef = A40D3E8215E7E3FB00C2063E /* CALayer+FSQQuartz.m */; };
@@ -276,7 +276,7 @@
 		A4E416231617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E416201617AD9400B3FADE /* NSSet+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4E416241617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E416211617AD9400B3FADE /* NSSet+FSQFoundation.m */; };
 		A4E416251617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E416211617AD9400B3FADE /* NSSet+FSQFoundation.m */; };
-		A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E6FCDA1618C0D90040D57D /* FSQSearchDisplayController.h */; };
+		A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E6FCDA1618C0D90040D57D /* FSQSearchDisplayController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4E6FCDD1618C0DA0040D57D /* FSQSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E6FCDB1618C0D90040D57D /* FSQSearchDisplayController.m */; };
 		A4EA537015336753006BF354 /* FSQMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EA536E15336753006BF354 /* FSQMenuItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4EA537115336753006BF354 /* FSQMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EA536F15336753006BF354 /* FSQMenuItem.m */; };
@@ -1215,14 +1215,14 @@
 				A4A5C90D15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h in Headers */,
 				A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */,
 				A421B03415D441BB00811143 /* FSQZlib.h in Headers */,
-				A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */,
 				A447AFEC160BD98200DD56BC /* NSValue+FSQFoundation.h in Headers */,
 				A4AFFE9A1607F398001C6D31 /* FSQFoundationUtils.h in Headers */,
 				A4C4B2E5161E6241004256F3 /* NSData+FSQFoundation_Base64.h in Headers */,
 				A4E4160D1617AA4300B3FADE /* FSQFetchedResultsCollectionViewController.h in Headers */,
 				A4E4160E1617AA4A00B3FADE /* FSQLabel.h in Headers */,
-				A4E416221617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
+				A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */,
 				A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */,
+				A4E416221617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1619,6 +1619,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = FivesquareKit;
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SDKROOT = iphoneos;
@@ -1632,6 +1633,7 @@
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = FivesquareKit;
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SDKROOT = iphoneos;

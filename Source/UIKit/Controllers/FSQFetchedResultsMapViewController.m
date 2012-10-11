@@ -13,7 +13,6 @@
 
 @interface FSQFetchedResultsMapViewController ()
 @property (nonatomic) BOOL initialized;
-@property (nonatomic) BOOL readied;
 
 @end
 
@@ -73,11 +72,6 @@
 - (void) viewDidLoad {
 	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
 	[super viewDidLoad];
-	[self ready];
-}
-
-- (void) ready {
-	self.readied = YES;
 	if (self.mapView == nil) {
 		FSQAssert([self.view isKindOfClass:[MKMapView class]],@"View is not a map view");
 		self.mapView = (MKMapView *)self.view;
@@ -85,7 +79,6 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-	FSQAssert(self.readied, @"Controller not readied. Did you forget to call [super ready] from %@?",self);
 	[super viewWillAppear:animated];
 	[self addAnnotationsForEntities:self.fetchedResultsController.fetchedObjects];
 }

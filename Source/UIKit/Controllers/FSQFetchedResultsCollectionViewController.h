@@ -25,7 +25,6 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface FSQFetchedResultsCollectionViewController
 /** @} */
 
 - (void) initialize; //< subclasses can override to share initialization
-- (void) ready; //< subclasses can override to share initialization after view is loaded
 
 
 

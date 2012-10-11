@@ -19,7 +19,6 @@
 
 @interface FSQFetchedResultsTableViewController ()
 @property (nonatomic) BOOL initialized;
-@property (nonatomic) BOOL readied;
 @end
 
 
@@ -104,15 +103,9 @@
 - (void) viewDidLoad {
 	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
 	[super viewDidLoad];
-	[self ready];
-}
-
-- (void) ready {
-	self.readied = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-	FSQAssert(self.readied, @"Controller not readied. Did you forget to call [super ready] from %@?",self);
 	[super viewWillAppear:animated];
 	[self.fetchedResultsController fetch];
 	[self.tableView reloadData];
