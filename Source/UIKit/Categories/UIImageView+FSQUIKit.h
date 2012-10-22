@@ -14,7 +14,7 @@
 
 @property (nonatomic, unsafe_unretained) FSQImageCache *cache;
 
-/** Whether scale signifiers (e.g. '@2x') are appended to filenames in URLS. The default is YES.
+/** Whether scale signifiers (e.g. '@2x') are appended to filenames in URLS. The default is NO.
  *  @examples
  *    - foo.png will become foo@2x.png if the device scale is 2.
  *    - foo.png will remain unchanged if the device scale is 1.

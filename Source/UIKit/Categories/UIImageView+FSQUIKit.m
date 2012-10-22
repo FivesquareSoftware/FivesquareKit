@@ -43,8 +43,8 @@ static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
 - (BOOL) automaticallyRequestsScaledImage {
 	NSNumber *automaticallyRequestsScaledImageNumber = (NSNumber *)objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_automaticallyRequestsScaledImage);
 	if (automaticallyRequestsScaledImageNumber == nil) {
-		automaticallyRequestsScaledImageNumber = @(YES);
-		[self setAutomaticallyRequestsScaledImage:YES];
+		automaticallyRequestsScaledImageNumber = @(NO);
+		[self setAutomaticallyRequestsScaledImage:NO];
 	}
 	return [automaticallyRequestsScaledImageNumber boolValue];
 }
@@ -143,7 +143,7 @@ static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
 	}
 
 
-	[imageCache fetchImageForURL:URLWithScale completionHandler:completionHandler];
+	[imageCache fetchImageForURL:URLWithScale scale:scale completionHandler:completionHandler];
 }
 
 

@@ -113,7 +113,9 @@
 
 
 - (void) initialize {
-	self.translatesAutoresizingMaskIntoConstraints = NO;
+	if ([self respondsToSelector:@selector(translatesAutoresizingMaskIntoConstraints)]) {
+		self.translatesAutoresizingMaskIntoConstraints = NO;
+	}
 	
 	_fillColor = [UIColor colorWithWhite:.75 alpha:1.f];
 	_borderColor = [UIColor whiteColor];

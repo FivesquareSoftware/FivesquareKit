@@ -161,11 +161,7 @@
 }
 
 - (NSString *) description {
-#if TARGET_OS_IPHONE
-	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%u",[super description], _name, _diskPath, _currentMemoryUsage];
-#else
-	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%lu",[super description], _name, _diskPath, _currentMemoryUsage];
-#endif
+	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%@",[super description], _name, _diskPath, @(_currentMemoryUsage)];
 }
 
 
@@ -177,6 +173,10 @@
 
 
 - (void) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
+	[self fetchImageForURL:URLOrString scale:0 completionHandler:completionHandler];
+}
+
+- (void) fetchImageForURL:(id)URLOrString scale:(CGFloat)scaleOverride completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
 
 	NSURL *key = [self keyForKeyObject:URLOrString];
 	
@@ -193,6 +193,9 @@
 	} 
 	else {
 		unscaledKey = key;
+	}
+	if (scaleOverride > 0) {
+		scale = scaleOverride;
 	}
 	
 	// don't block the main thread with disk scans etc..
@@ -367,11 +370,7 @@
 		
 		__block NSUInteger newMemoryUsage = _currentMemoryUsage + imageSize;
 		if (_memoryCapacity != 0 && newMemoryUsage > _memoryCapacity) {
-#if TARGET_OS_IPHONE
-			FLog(@"Memory capacity (%u) exceeded, purging cache",_currentMemoryUsage);
-#else
-			FLog(@"Memory capacity (%lu) exceeded, purging cache",_currentMemoryUsage);
-#endif
+			FLog(@"%@ - ** Memory capacity (%@) exceeded, purging cache",self,@(_currentMemoryUsage));
 			NSArray *sortedCacheKeys = [_cache keysSortedByValueUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
 				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
 			}];
@@ -396,11 +395,7 @@
 		// trim disk cache if over size
 		__block NSUInteger newDiskUsage = _currentDiskUsage + imageSize;
 		if (_diskCapacity != 0 && newDiskUsage > _diskCapacity) {
-#if TARGET_OS_IPHONE
-			FLog(@"Disk capacity (%u) exceeded, purging cache",_currentDiskUsage);
-#else
-			FLog(@"Disk capacity (%lu) exceeded, purging cache",_currentDiskUsage);
-#endif
+			FLog(@"%@ - ** Disk capacity (%@) exceeded, purging cache",self,@(_currentDiskUsage));
 
 			NSArray *sortedFileList = [_fileList sortedArrayUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
 				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
@@ -440,6 +435,7 @@
 #if TARGET_OS_IPHONE
 
 - (void) didReceiveMemoryWarning:(NSNotification *)notification {
+	FLog(@"** LOW MEMORY ** -- IMAGE CACHE DUMPING CONTENTS -- %@",[self description]);
 	dispatch_async(_cacheQueue, ^{
 		[_cache removeAllObjects];
 	});
