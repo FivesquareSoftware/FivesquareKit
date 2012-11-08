@@ -398,10 +398,11 @@
 		id propertyDescription = [attributes objectForKey:key];
 		if ([propertyDescription isKindOfClass:[NSAttributeDescription class]]) {
 			id value = [source valueForKeyPath:key error:NULL];
-			if (value) {
-				[self setValue:value forKey:key];
+			if (value == [NSNull null]) {
+				value = nil;
 			}
-		} 
+			[self setValue:value forKey:key];
+		}
 		else if ([propertyDescription isKindOfClass:[NSRelationshipDescription class]]) {
 			NSEntityDescription *destinationEntity = [propertyDescription destinationEntity];
 			if ([propertyDescription isToMany]) {
@@ -438,22 +439,27 @@
 			} 
 			else {
 				id value = [source valueForKeyPath:key error:NULL];
-				if (value) {
-					id ref = [value valueForKeyPath:@"<ref>" error:NULL];
-					if (ref) {
-						NSPredicate *predicate = [NSPredicate predicateWithFormat:ref];
-						Class destinationClass = NSClassFromString([destinationEntity managedObjectClassName]);
-						NSManagedObject *fetchedObject = [destinationClass firstWithPredicate:predicate inContext:self.managedObjectContext];
-						[self setValue:fetchedObject forKey:key];
-					}
-					else if ([value isKindOfClass:[NSManagedObject class]]) {
-						[self setValue:value forKey:key];
-					}
-					else {
-						NSManagedObject *newObject = [NSEntityDescription insertNewObjectForEntityForName:[destinationEntity name] inManagedObjectContext:self.managedObjectContext];
-						[newObject updateWithObject:value merge:merge];
-						[self setValue:newObject forKey:key];
-					}
+				if (value == [NSNull null]) {
+					value = nil;
+				}
+
+				id ref = [value valueForKeyPath:@"<ref>" error:NULL];
+				if (ref) {
+					NSPredicate *predicate = [NSPredicate predicateWithFormat:ref];
+					Class destinationClass = NSClassFromString([destinationEntity managedObjectClassName]);
+					NSManagedObject *fetchedObject = [destinationClass firstWithPredicate:predicate inContext:self.managedObjectContext];
+					[self setValue:fetchedObject forKey:key];
+				}
+				else if ([value isKindOfClass:[NSManagedObject class]]) {
+					[self setValue:value forKey:key];
+				}
+				else if (value) {
+					NSManagedObject *newObject = [NSEntityDescription insertNewObjectForEntityForName:[destinationEntity name] inManagedObjectContext:self.managedObjectContext];
+					[newObject updateWithObject:value merge:merge];
+					[self setValue:newObject forKey:key];
+				}
+				else {
+					[self setValue:value forKey:key];
 				}
 			}
 		}

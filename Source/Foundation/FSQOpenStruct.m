@@ -51,6 +51,9 @@
 
 - (void)setValue:(id)value forKey:(NSString *)key {
 	[self willChangeValueForKey:key];
+	if (nil == value) {
+		value = [NSNull null];
+	}
 	[self.attributes setValue:value forKey:key];
 	[self didChangeValueForKey:key];
 }
