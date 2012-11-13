@@ -20,7 +20,7 @@ enum {
 };
 
 
-static NSString *kFSQ_NSURLWithOptionalScaleExpression = @"^(.+/(\\w+))(@([0-9.]+)x)?(\\.([^.]+))$";
+static NSString *kFSQ_NSURLWithOptionalScaleExpression = @"^(.+/(.+))(@([0-9.]+)x)?(\\.([^.]+))$";
 
 
 @implementation NSURL (FSQFoundation)
