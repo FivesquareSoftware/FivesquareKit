@@ -25,6 +25,11 @@
 	return NO == [self isEmpty:obj];
 }
 
+- (BOOL) hasKey:(id)key {
+	NSArray *keys = [self allKeys];
+	return [keys containsObject:key];
+}
+
 - (NSDictionary *) deepCopy {
     NSMutableDictionary *deepCopy = [[NSMutableDictionary alloc] init];
 	for (NSString *key in self) {

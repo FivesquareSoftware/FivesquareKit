@@ -22,6 +22,7 @@
 @property (nonatomic) BOOL automaticallyRequestsScaledImage; 
 
 @property (nonatomic) id URL;
+@property (nonatomic) id completionTicket;
 
 /** Sets the receiver's image from the URL using #cache.
  *  @throws an exception if #cache is not set

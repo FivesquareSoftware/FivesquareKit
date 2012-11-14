@@ -16,6 +16,7 @@
 
 
 @interface FSQUserDefaults ()
+@property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSMutableDictionary *typesForKeys;
 @end
 
@@ -26,28 +27,31 @@
 #pragma mark - Properties
 
 
-FSQ_SYNTHESIZE(defaultsKeysAndValues)
-FSQ_SYNTHESIZE(changedKeys)
-
 
 + (id) withDefaults:(NSString *)name {
 	return [[self alloc] initWithDefaults:name];
 }
 
+- (void) initialize {
+	NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:_fileName ofType:@"plist"];
+	NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+	if(defaults) {
+		[StandardDefaults() registerDefaults:defaults];
+		_defaultKeysAndValues = defaults;
+	}
+	_changedKeys = [NSMutableSet new];
+	_typesForKeys = [NSMutableDictionary new];
+}
+
 - (id) initWithDefaults:(NSString *)name {
     self = [super init];
     if (self) {
-		NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:name ofType:@"plist"];
-		NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-		if(defaults) {
-			[StandardDefaults() registerDefaults:defaults];
-			_defaultKeysAndValues = defaults;
-		}
-		_changedKeys = [NSMutableSet new];
-		_typesForKeys = [NSMutableDictionary new];
+		_fileName = name;
+		[self initialize];
     }
     return self;
 }
+
 
 
 // ========================================================================== //
@@ -57,7 +61,9 @@ FSQ_SYNTHESIZE(changedKeys)
 
 
 - (void) resetDefaults {
-	//TODO: resetDefaults
+	[NSUserDefaults resetStandardUserDefaults];
+	[StandardDefaults() removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+	[self initialize];
 }
 
 - (BOOL) valueWasSetForKey:(NSString *)key {

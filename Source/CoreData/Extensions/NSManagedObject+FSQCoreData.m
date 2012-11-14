@@ -310,6 +310,12 @@
 }
 
 + (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
+					  substitutionVariables:(NSDictionary *)variables
+								  inContext:(NSManagedObjectContext *)context {
+	return [self findOrCreateWithFetchRequestTemplate:templateName substitutionVariables:variables attributes:nil inContext:context];
+}
+
++ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
 			  substitutionVariables:(NSDictionary *)variables
 					  attributes:(id)someAttributes
 					   inContext:(NSManagedObjectContext *)context {
@@ -393,15 +399,21 @@
 }
 
 - (BOOL) updateWithObject:(NSObject *)source merge:(BOOL)merge {
+	if (nil == source || [NSNull null] == source) {
+		return NO;
+	}
 	NSDictionary *attributes = [[self entity] propertiesByName];
 	for (NSString *key in attributes) {
 		id propertyDescription = [attributes objectForKey:key];
 		if ([propertyDescription isKindOfClass:[NSAttributeDescription class]]) {
 			id value = [source valueForKeyPath:key error:NULL];
-			if (value) {
+			if (value == [NSNull null]) {
+				[self setValue:nil forKey:key];
+			}
+			else if (value) {
 				[self setValue:value forKey:key];
 			}
-		} 
+		}
 		else if ([propertyDescription isKindOfClass:[NSRelationshipDescription class]]) {
 			NSEntityDescription *destinationEntity = [propertyDescription destinationEntity];
 			if ([propertyDescription isToMany]) {
@@ -449,7 +461,10 @@
 					else if ([value isKindOfClass:[NSManagedObject class]]) {
 						[self setValue:value forKey:key];
 					}
-					else {
+					else if (value == [NSNull null]) {
+						[self setValue:nil forKey:key];
+					}
+					else if (value) {
 						NSManagedObject *newObject = [NSEntityDescription insertNewObjectForEntityForName:[destinationEntity name] inManagedObjectContext:self.managedObjectContext];
 						[newObject updateWithObject:value merge:merge];
 						[self setValue:newObject forKey:key];

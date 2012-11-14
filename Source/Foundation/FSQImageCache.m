@@ -172,21 +172,23 @@
 
 
 
-- (void) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
-	[self fetchImageForURL:URLOrString scale:0 completionHandler:completionHandler];
+- (id) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
+	return [self fetchImageForURL:URLOrString scale:0 completionHandler:completionHandler];
 }
 
-- (void) fetchImageForURL:(id)URLOrString scale:(CGFloat)scaleOverride completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
+- (id) fetchImageForURL:(id)URLOrString scale:(CGFloat)scaleOverride completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
+//	FLog(@"fetchImageForURL:%@ scale:%@",URLOrString,@(scaleOverride));
 
 	NSURL *key = [self keyForKeyObject:URLOrString];
 	
 	if (key == nil || [NSString isEmpty:[key description]]) {
 		FLog(@"'%@' is not a valid URL-like object",[URLOrString description]);
-		return;
+		return nil;
 	}
 
 	
 	NSURL *unscaledKey = nil;
+	NSURL *storageKey = nil;
 	float scale FSQ_MAYBE_UNUSED = 1;
 	if (_automaticallyDetectsScale) {
 		scale = [self scaleForKey:key descaledKey:&unscaledKey];
@@ -194,16 +196,23 @@
 	else {
 		unscaledKey = key;
 	}
+	
 	if (scaleOverride > 0) {
 		scale = scaleOverride;
+		storageKey = [key URLBySettingScale:scale];
+	}
+	else {
+		storageKey = key;
 	}
 	
+	NSString *ticket = [NSString stringWithFormat:@"%@ %@",[key absoluteString],[[NSDate date] description]];
+
 	// don't block the main thread with disk scans etc..
 	// all cache access is piped through our serial queue so there are no concurrency issues
 	dispatch_async(_cacheQueue, ^{
 		
 		// register our handler for the key
-		[self addHandler:completionHandler forKey:key];
+		[self addHandler:completionHandler forKey:key ticket:ticket];
 		
 		// check the memory cache for the image
 		id image = [[_cache objectForKey:key] image];
@@ -233,7 +242,7 @@
 #else
 						//TODO: will Mac OS support @2x?
 #endif
-						[self storeImage:downloadedImage forKey:key];
+						[self storeImage:downloadedImage forKey:key storageKey:storageKey];
 						[self dispatchCompletionHandlersForKey:key withImage:downloadedImage error:nil];
 					} else {
 						[self dispatchCompletionHandlersForKey:key withImage:nil error:downloadError];
@@ -241,6 +250,18 @@
 					[_currentDownloads removeObject:key];
 				});
 			}
+		}
+	});
+	
+	return ticket;
+}
+
+- (void) removeHandler:(id)identifier forURL:(id)URLOrString {
+	NSURL *key = [self keyForKeyObject:URLOrString];
+	dispatch_async(_cacheQueue, ^{
+		NSMutableDictionary *handlersForKey = [_completionHandlersByKey objectForKey:key];
+		if (handlersForKey) {
+			[handlersForKey removeObjectForKey:identifier];
 		}
 	});
 }
@@ -323,17 +344,17 @@
 	return cachePath;
 }
 
-- (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(NSURL *)key {
-	NSMutableSet *handlersForKey = [_completionHandlersByKey objectForKey:key];
+- (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(NSURL *)key ticket:(id)ticket {
+	NSMutableDictionary *handlersForKey = [_completionHandlersByKey objectForKey:key];
 	if (handlersForKey == nil) {
-		handlersForKey = [NSMutableSet new];
+		handlersForKey = [NSMutableDictionary new];
 		[_completionHandlersByKey setObject:handlersForKey forKey:key];
 	}
-	[handlersForKey addObject:[handler copy]];
+	[handlersForKey setObject:[handler copy] forKey:ticket];
 }
 
 - (void) dispatchCompletionHandlersForKey:(NSURL *)key withImage:(id)image error:(NSError *)error {
-	NSSet *handlers = [_completionHandlersByKey objectForKey:key];
+	NSArray *handlers = [[_completionHandlersByKey objectForKey:key] allValues];
 	for (FSQImageCacheCompletionHandler handler in handlers) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			handler(image,error);
@@ -354,7 +375,7 @@
 	return NO;
 }
 		
-- (void) storeImage:(id)image forKey:(NSURL *)key {
+- (void) storeImage:(id)image forKey:(NSURL *)key storageKey:(NSURL *)storageKey {
 //	FLog(@"storeImage:forURL: %@",key);
 	
 	// all cache access is piped through our serial queue so there are no concurrency issues
@@ -420,7 +441,7 @@
 		
 		// store in disk cache
 		NSError *writeError = nil;
-		if (NO == [imageData writeToFile:[self cachePathForKey:key] options:NSDataWritingAtomic error:&writeError]) {
+		if (NO == [imageData writeToFile:[self cachePathForKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
 			FLogError(writeError, @"Could not write image to disk");
 		}
 	});
