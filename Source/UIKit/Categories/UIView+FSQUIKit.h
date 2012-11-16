@@ -10,6 +10,9 @@
 
 @interface UIView (FSQUIKit)
 
+/** Looks down the view hierarchy, starting with the receiver's immediate subviews, and returns the first view that is of the supplied class. */
 - (id) firstDescendantMemberOfClass:(Class)aClass;
+/** Looks up the view hierarchy, starting with the receiver, and returns the first view that is of the supplied class. */
+- (id) firstAncestorOfClass:(Class)aClass;
 
 @end
