@@ -18,6 +18,8 @@
 - (NSDictionary *) deepCopy;
 - (NSMutableDictionary *) mutableDeepCopy;
 
+- (NSString *) stringValue;
+
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 
 @end

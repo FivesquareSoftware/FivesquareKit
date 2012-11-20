@@ -30,6 +30,18 @@
 	return [keys containsObject:key];
 }
 
+- (NSString *) stringValue {
+	NSMutableString *stringValue = [NSMutableString new];
+	NSArray *sortedKeys = [[self allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		return [obj1 compare:obj2];
+	}];
+	[sortedKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
+		[stringValue appendFormat:@":%@:%@:",@([key hash]),@([[self objectForKey:key] hash])];
+	}];
+	return stringValue;
+}
+
+
 - (NSDictionary *) deepCopy {
     NSMutableDictionary *deepCopy = [[NSMutableDictionary alloc] init];
 	for (NSString *key in self) {
