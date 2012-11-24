@@ -14,11 +14,15 @@
 	#define FLogError(error, frmt, ...) NSLog(@" - %@:%d %s - %@. Error: %@ (%@)", FSQ_FILE(__FILE__), __LINE__,  __PRETTY_FUNCTION__, [NSString stringWithFormat:frmt, ##__VA_ARGS__], [(NSError *)error localizedDescription], [(NSError *)error userInfo])
 	#define FLogMethod() FLog(@"-->")
 	#define FLogSimple(frmt, ...) NSLog(frmt, ##__VA_ARGS__)
+	#define FLogMark(name,frmt, ...) NSLog(@" - [%@] - %@", name, [NSString stringWithFormat:frmt, ##__VA_ARGS__])
+	#define FLogDebug(frmt, ...) FLogMark(@"DEBUG",frmt, ##__VA_ARGS__)
 	#define FLogTime(start,frmt, ...) NSLog(@" - [TIMED] - %@s - %@", @(-[start timeIntervalSinceNow]), [NSString stringWithFormat:frmt, ##__VA_ARGS__])
 #else
 	#define FLog(frmt, ...)
 	#define FLogError(error, frmt, ...)
 	#define FLogMethod()
 	#define FLogSimple(frmt, ...)
+	#define FLogMark(name,frmt, ...)
+	#define FLogDebug(frmt, ...)
 	#define FLogTime(start,frmt, ...)
 #endif

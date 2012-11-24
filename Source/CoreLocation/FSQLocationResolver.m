@@ -143,10 +143,10 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 		FLog(@"Got decent location, setting it to best effort location");
         self.currentLocation = newLocation;
 
-//		FLogSimple(@"newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
-//		FLogSimple(@"locationManager.desiredAccuracy:%f",self.locationManager.desiredAccuracy);
-//		FLogSimple(@"kCLLocationAccuracyBestForNavigation:%f",kCLLocationAccuracyBestForNavigation);
-//		FLogSimple(@"kCLLocationAccuracyBest:%f",kCLLocationAccuracyBest);
+//		FLogDebug(@"newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
+//		FLogDebug(@"locationManager.desiredAccuracy:%f",self.locationManager.desiredAccuracy);
+//		FLogDebug(@"kCLLocationAccuracyBestForNavigation:%f",kCLLocationAccuracyBestForNavigation);
+//		FLogDebug(@"kCLLocationAccuracyBest:%f",kCLLocationAccuracyBest);
 		
 		// When caller has set desired accuracy to one of the "best" values, they will actually be negative, which in a location update would indicate invalid, so just check for less than the 1
         if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy < 1) ) {

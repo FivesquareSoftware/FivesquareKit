@@ -53,14 +53,14 @@
 	}
 
 	NSRange contentRange = NSMakeRange(offset, contentSpan);
-//	FLogSimple(@"contentRange: %@",NSStringFromRange(contentRange));
+//	FLogDebug(@"contentRange: %@",NSStringFromRange(contentRange));
 	
 	NSUInteger count = _cellOffsetRanges.count;
 	for (NSInteger index = location; index < count; index++) {
 		NSRange cellRange = [[_cellOffsetRanges objectAtIndex:(NSUInteger)index] rangeValue];
-//		FLogSimple(@"cellRange: %@",NSStringFromRange(cellRange));
+//		FLogDebug(@"cellRange: %@",NSStringFromRange(cellRange));
 		NSRange intersectionRange = NSIntersectionRange(contentRange, cellRange);
-//		FLogSimple(@"intersectionRange: %@",NSStringFromRange(intersectionRange));
+//		FLogDebug(@"intersectionRange: %@",NSStringFromRange(intersectionRange));
 		if (intersectionRange.length == 0) {
 			break;
 		}
@@ -334,7 +334,7 @@
 	
 	NSMutableSet *invisibleCells = [NSMutableSet new];
 	CGRect visibleRect = [self visibleRect];
-//	FLogSimple(@"visibleRect:%@",NSStringFromCGRect(visibleRect));
+//	FLogDebug(@"visibleRect:%@",NSStringFromCGRect(visibleRect));
 	for (id cell in _activeCells) {
 		CGRect cellRect = [cell frame];
 		BOOL visible = CGRectIntersectsRect(visibleRect, cellRect);
@@ -342,20 +342,20 @@
 			[invisibleCells addObject:cell];
 		}
 	}
-//	FLogSimple(@"inivisbleCells: %@", invisibleCells);
-//	FLogSimple(@"1. _activeCells: %@", _activeCells);
-//	FLogSimple(@"1. _inactiveCells: %@", _inactiveCells);
+//	FLogDebug(@"inivisbleCells: %@", invisibleCells);
+//	FLogDebug(@"1. _activeCells: %@", _activeCells);
+//	FLogDebug(@"1. _inactiveCells: %@", _inactiveCells);
 	[_activeCells minusSet:invisibleCells];
 	[_inactiveCells unionSet:invisibleCells];
 
-//	FLogSimple(@"2. _activeCells: %@", _activeCells);
-//	FLogSimple(@"2. _inactiveCells: %@", _inactiveCells);
+//	FLogDebug(@"2. _activeCells: %@", _activeCells);
+//	FLogDebug(@"2. _inactiveCells: %@", _inactiveCells);
 
 	
 	// load any visible cells that are not loaded
 	
 	NSRange visibleRange = [self visibleRange];
-//	FLogSimple(@"visibleRange:%@",NSStringFromRange(visibleRange));
+//	FLogDebug(@"visibleRange:%@",NSStringFromRange(visibleRange));
 	for (NSInteger index = (NSInteger)visibleRange.location; index < NSMaxRange(visibleRange); index++) {
 		[self loadCellAtIndex:index];
 	}	
