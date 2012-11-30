@@ -230,4 +230,13 @@ CGPoint CGPointFlipInBounds(CGPoint point, CGRect bounds) {
 	return point;
 }
 
+#if TARGET_OS_IPHONE == 0
+CGSize CGSizeFromString(NSString *string) {
+    return NSSizeFromString(string);
+}
+NSString *NSStringFromCGSize(CGSize size) {
+    return NSStringFromSize(size);
+}
+#endif
+
 
