@@ -17,6 +17,7 @@
 	#define FLogMethod() FLog(@"-->")
 	#define FLogSimple(frmt, ...) NSLog(frmt, ##__VA_ARGS__)
 	#define FLogDebug(frmt, ...) FLogMark(@"DEBUG",frmt, ##__VA_ARGS__)
+    #define FLogWarn(frmt, ...) FLogMark(@"WARN",frmt, ##__VA_ARGS__)
 	#define FLogTime(start,frmt, ...) NSLog(@" - [TIMED] - %@s - %@", @(-[start timeIntervalSinceNow]), [NSString stringWithFormat:frmt, ##__VA_ARGS__])
 #else
 	#define FLog(frmt, ...)
@@ -25,5 +26,6 @@
 	#define FLogSimple(frmt, ...)
 	#define FLogMark(name,frmt, ...)
 	#define FLogDebug(frmt, ...)
-	#define FLogTime(start,frmt, ...)
+    #define FLogWarn(frmt, ...)
+    #define FLogTime(start,frmt, ...)
 #endif

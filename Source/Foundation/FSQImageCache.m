@@ -53,13 +53,6 @@
 @property (nonatomic, strong) NSMutableArray *fileList;
 @property (nonatomic, strong) NSString *cachePath;
 
-- (NSURL *) keyForKeyObject:(id)URLOrString;
-- (float) scaleForKey:(NSURL *)URL descaledKey:(NSURL **)descaledKeyPtr;
-- (NSString *) cachePathForKey:(NSURL *)key;
-- (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(NSURL *)key;
-- (void) dispatchCompletionHandlersForKey:(NSURL *)key withImage:(id)image error:(NSError *)error;
-- (BOOL) beginDownload:(NSURL *)key;
-- (void) storeImage:(id)image forKey:(NSURL *)key;
 @end
 
 @implementation FSQImageCache
