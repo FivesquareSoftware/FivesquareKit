@@ -55,6 +55,15 @@
 		NSString *valueTransformerName = [binding objectForKey:@"valueTransformerName"];
 		
 		id value = [source valueForKeyPath:sourceKeyPath];
+		
+		// we want to check if the source object actually responded to this key or was simply missing it, missing values should not be mapped
+		if (value == nil) {
+			SEL sourceKeySelector = NSSelectorFromString(sourceKeyPath);
+			BOOL hasKey = [source respondsToSelector:sourceKeySelector];
+			if (NO == hasKey) {
+				continue;
+			}
+		}
 
         if (value == [NSNull null]) {
             value = nil;

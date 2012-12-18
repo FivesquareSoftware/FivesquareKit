@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSMutableSet *activeCells;
 @property (nonatomic, strong) NSMutableSet *inactiveCells;
 @property (nonatomic, strong) NSMutableArray *cellOffsetRanges;
+@property (nonatomic, readonly) CGFloat offsetInSignificantDimensionAdjustedForContentInset;
 @property (nonatomic, readonly) CGFloat offsetInSignificantDimension;
 @property (nonatomic, readonly) NSInteger indexOfCellAtCurrentOffset;
 @property (nonatomic, readonly) CGRect visibleRect;
@@ -29,24 +30,6 @@
 
 // Overrides
 
-
-- (void) initialize;
-
-// Scroll view
-
-- (CGFloat) offsetInSignificantDimensionOfPoint:(CGPoint)point;
-
-// Cell handling
-
-- (CGSize) sizeThatFitsForCellAtIndex:(NSInteger)index;
-- (id) activeCellForIndex:(NSInteger)index;
-- (CGPoint) originForCellAtIndex:(NSInteger)index;
-- (void) loadVisibleCells;
-- (void) loadCellAtIndex:(NSInteger)index;
-
-// Scroll handling
-
-- (void) didScroll;
 
 @end
 
@@ -70,14 +53,14 @@
 	}
 
 	NSRange contentRange = NSMakeRange(offset, contentSpan);
-//	FLog(@"contentRange: %@",NSStringFromRange(contentRange));
+//	FLogDebug(@"contentRange: %@",NSStringFromRange(contentRange));
 	
 	NSUInteger count = _cellOffsetRanges.count;
 	for (NSInteger index = location; index < count; index++) {
 		NSRange cellRange = [[_cellOffsetRanges objectAtIndex:(NSUInteger)index] rangeValue];
-//		FLog(@"cellRange: %@",NSStringFromRange(cellRange));
+//		FLogDebug(@"cellRange: %@",NSStringFromRange(cellRange));
 		NSRange intersectionRange = NSIntersectionRange(contentRange, cellRange);
-//		FLog(@"intersectionRange: %@",NSStringFromRange(intersectionRange));
+//		FLogDebug(@"intersectionRange: %@",NSStringFromRange(intersectionRange));
 		if (intersectionRange.length == 0) {
 			break;
 		}
@@ -109,18 +92,23 @@
 	return self.bounds.size.width >= self.bounds.size.height;
 }
 
+@dynamic offsetInSignificantDimensionAdjustedForContentInset;
+- (CGFloat) offsetInSignificantDimensionAdjustedForContentInset {
+	return [self offsetInSignificantDimensionOfPoint:self.contentOffset adjustForContentInset:YES];
+}
+
 @dynamic offsetInSignificantDimension;
 - (CGFloat) offsetInSignificantDimension {
-	return [self offsetInSignificantDimensionOfPoint:self.contentOffset];
+	return [self offsetInSignificantDimensionOfPoint:self.contentOffset adjustForContentInset:NO];
 }
 
 @dynamic indexOfCellAtCurrentOffset;
 - (NSInteger) indexOfCellAtCurrentOffset {
 	__block NSInteger index = NSNotFound;
-	CGFloat offset = [self offsetInSignificantDimension];
+	CGFloat offsetAdjustedForInset = [self offsetInSignificantDimensionAdjustedForContentInset];
 	[self.cellOffsetRanges enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSRange range = [obj rangeValue];
-		if (NSLocationInRange(offset, range)) {
+		if (NSLocationInRange(offsetAdjustedForInset, range)) {
 			index = (NSInteger)idx;
 			*stop = YES;
 		}
@@ -193,8 +181,6 @@
 
 - (void) layoutSubviews {
 	[super layoutSubviews];
-	
-
 	[self loadVisibleCells];
 }
 
@@ -298,8 +284,11 @@
 
 #pragma mark - Helpers
 
-- (CGFloat) offsetInSignificantDimensionOfPoint:(CGPoint)point {
+- (CGFloat) offsetInSignificantDimensionOfPoint:(CGPoint)point adjustForContentInset:(BOOL)adjustForInset {
 	CGFloat offset = self.isHorizontal ? point.x : point.y;
+	if (adjustForInset) {
+		offset += (self.isHorizontal ? self.contentInset.left : self.contentInset.top);
+	}
 	return offset;
 }
 
@@ -345,6 +334,7 @@
 	
 	NSMutableSet *invisibleCells = [NSMutableSet new];
 	CGRect visibleRect = [self visibleRect];
+//	FLogDebug(@"visibleRect:%@",NSStringFromCGRect(visibleRect));
 	for (id cell in _activeCells) {
 		CGRect cellRect = [cell frame];
 		BOOL visible = CGRectIntersectsRect(visibleRect, cellRect);
@@ -352,19 +342,20 @@
 			[invisibleCells addObject:cell];
 		}
 	}
-//	FLog(@"inivisbleCells: %@", invisibleCells);
-//	FLog(@"1. _activeCells: %@", _activeCells);
-//	FLog(@"1. _inactiveCells: %@", _inactiveCells);
+//	FLogDebug(@"inivisbleCells: %@", invisibleCells);
+//	FLogDebug(@"1. _activeCells: %@", _activeCells);
+//	FLogDebug(@"1. _inactiveCells: %@", _inactiveCells);
 	[_activeCells minusSet:invisibleCells];
 	[_inactiveCells unionSet:invisibleCells];
 
-//	FLog(@"2. _activeCells: %@", _activeCells);
-//	FLog(@"2. _inactiveCells: %@", _inactiveCells);
+//	FLogDebug(@"2. _activeCells: %@", _activeCells);
+//	FLogDebug(@"2. _inactiveCells: %@", _inactiveCells);
 
 	
 	// load any visible cells that are not loaded
 	
 	NSRange visibleRange = [self visibleRange];
+//	FLogDebug(@"visibleRange:%@",NSStringFromRange(visibleRange));
 	for (NSInteger index = (NSInteger)visibleRange.location; index < NSMaxRange(visibleRange); index++) {
 		[self loadCellAtIndex:index];
 	}	

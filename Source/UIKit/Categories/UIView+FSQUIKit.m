@@ -26,5 +26,17 @@
 	return descendant;
 }
 
+- (id) firstAncestorOfClass:(Class)aClass {
+	UIView *ancestor = nil;
+	UIView *view = self;
+	do {
+		if ([view isKindOfClass:aClass]) {
+			ancestor = view;
+			break;
+		}
+		view = view.superview;
+	} while (view);
+	return ancestor;
+}
 
 @end

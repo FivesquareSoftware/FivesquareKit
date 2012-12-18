@@ -16,6 +16,10 @@
 + (NSString *) entityName;
 + (NSEntityDescription *) entityInContext:(NSManagedObjectContext *)context;
 
+
+@property (nonatomic, readonly) NSDictionary *attributes; //< @returns just the non-entity, i.e. non-relationship, properties
+
+
 /** @name Counters. 
  *  @{
  */
@@ -111,6 +115,10 @@
 
 + (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
 					  substitutionVariables:(NSDictionary *)variables
+								  inContext:(NSManagedObjectContext *)context;
+
++ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
+					  substitutionVariables:(NSDictionary *)variables
 								 attributes:(id)someAttributes
 								  inContext:(NSManagedObjectContext *)context;
 
@@ -141,6 +149,8 @@
 
 /** Will map object's values onto the receiver, recursing relationships and creating instances of those objects as necessary.
  * @param merge - if YES, will merge toMany properties rather than setting them
+ * @returns YES if mapping was attempted, NO if attributes were nil
+ * @note - We don't set attributes to nil values b/c we have no sure fire way of knowing if the source object actually responds to that key and would just return a spurios nil. If the value is NSNull however, the attribute is set to nil, with the assumption NSNull was deliberately set by the caller.
  */
 - (BOOL) updateWithObject:(NSObject *)source merge:(BOOL)merge;
 

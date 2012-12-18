@@ -23,7 +23,6 @@
 //- (void) fetchedResultsControllerForRegion:(MKCoordinateRegion *)region;
 
 - (void) initialize; //< subclasses can override to share initialization
-- (void) ready; //< subclasses can override to share initialization after view is loaded
 
 
 @end

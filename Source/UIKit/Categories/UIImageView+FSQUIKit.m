@@ -18,9 +18,17 @@
 
 static const NSString *kUIImageView_FSQUIKit_Cache = @"UIImageView_FSQUIKit_Cache";
 static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = @"UIImageView_FSQUIKit_Cache";
+static const NSString *kUIImageView_FSQUIKit_URL = @"UIImageView_FSQUIKit_URL";
+static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FSQUIKit_completionTicket";
 
 
 @implementation UIImageView (FSQUIKit)
+
+// ========================================================================== //
+
+#pragma mark - Properties
+
+
 
 @dynamic cache;
 - (FSQImageCache *) cache {
@@ -36,8 +44,8 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 - (BOOL) automaticallyRequestsScaledImage {
 	NSNumber *automaticallyRequestsScaledImageNumber = (NSNumber *)objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_automaticallyRequestsScaledImage);
 	if (automaticallyRequestsScaledImageNumber == nil) {
-		automaticallyRequestsScaledImageNumber = @(YES);
-		[self setAutomaticallyRequestsScaledImage:YES];
+		automaticallyRequestsScaledImageNumber = @(NO);
+		[self setAutomaticallyRequestsScaledImage:NO];
 	}
 	return [automaticallyRequestsScaledImageNumber boolValue];
 }
@@ -46,6 +54,44 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 	NSNumber *automaticallyRequestsScaledImageNumber = @(automaticallyRequestsScaledImage);
 	objc_setAssociatedObject(self, &kUIImageView_FSQUIKit_automaticallyRequestsScaledImage, automaticallyRequestsScaledImageNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
+
+@dynamic URL;
+- (id) URL {
+	id URL = objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_URL);
+	return URL;
+}
+
+- (void) setURL:(id)URL {
+	objc_setAssociatedObject(self, &kUIImageView_FSQUIKit_URL, URL, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+@dynamic completionTicket;
+- (id) completionTicket {
+	id ticket = objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_completionTicket);
+	return ticket;
+}
+
+- (void) setCompletionTicket:(id)completionTicket {
+	objc_setAssociatedObject(self, &kUIImageView_FSQUIKit_completionTicket, completionTicket, OBJC_ASSOCIATION_RETAIN);
+}
+
+// ========================================================================== //
+
+#pragma mark - Object
+
+
+//FIXME: do not like putting a dealloc in a category ... even considering the new ARC behavior
+- (void)dealloc {
+	if (self.cache && self.URL && self.completionTicket) {
+		[self.cache removeHandler:self.completionTicket forURL:self.URL];
+		self.completionTicket = nil;
+	}
+}
+
+// ========================================================================== //
+
+#pragma mark - Loaders
+
 
 
 - (void) setImageWithContentsOfURL:(id)URL {
@@ -59,19 +105,16 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 }
 
 - (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)())block {
-	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
-		if (error) {
-			FLogError(error, @"Could not load image");
-		} else {
-			self.image = image;
-			if (block) {
-				block();
-			}
-		}
-	};
+
+	// Cancel/reject any completion handlers that might be out there already
+	if (self.URL && self.completionTicket) {
+		[imageCache removeHandler:self.completionTicket forURL:self.URL];
+		self.completionTicket = nil;
+	}
 	
-	NSURL *URL;
+	
 	// Get the arg into an NSURL and do a little validation
+	NSURL *URL;
 	
 	if ([URLOrString isKindOfClass:[NSString class]]) {
 		NSString *trimmedString = [URLOrString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -91,25 +134,40 @@ static const NSString *kUIImageView_FSQUIKit_automaticallyRequestsScaledImage = 
 	if (NO == [URL isKindOfClass:[NSURL class]]) {
 		return;
 	}
-
-	NSURL *URLWithScale = URL;
-	
+		
 	// Check if we need to add scale
+	NSURL *URLWithScale = URL;
 	
 	CGFloat scale = [[UIScreen mainScreen] scale];
 	if (self.automaticallyRequestsScaledImage && scale > 1.f) {
-		
 		// Is scale set already?
-		
 		if ([NSString isEmpty:[URL scaleModifier]]) { 
 			URLWithScale = [URL URLBySettingScale:scale];
 		} 
 	}
+	
+	// Set up a completion handler that checks if our URL is still the same as what was fetched
+	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
+		id fetchedURL = URLWithScale; // capture the URL we're fetching here
+		if (error) {
+			FLogError(error, @"Could not load image");
+		}
+		else {
+			if ([fetchedURL isEqual:self.URL]) {
+				self.image = image;
+				if (block) {
+					block();
+				}
+			}
+		}
+		self.completionTicket = nil;
+	};
+	
+	self.URL = URLWithScale;
+	id ticket = [imageCache fetchImageForURL:self.URL scale:scale completionHandler:completionHandler];
+	self.completionTicket = ticket;
 
-
-	[imageCache fetchImageForURL:URLWithScale completionHandler:completionHandler];
 }
-
 
 
 @end

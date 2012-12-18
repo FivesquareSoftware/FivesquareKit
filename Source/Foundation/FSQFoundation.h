@@ -20,6 +20,7 @@
 
 #import "NSArray+FSQFoundation.h"
 #import "NSData+FSQFoundation.h"
+#import "NSData+FSQFoundation_Base64.h"
 #import "NSFileManager+FSQFoundation.h"
 #import "NSObject+FSQFoundation.h"
 #import "NSString+FSQFoundation.h"
@@ -30,4 +31,5 @@
 #import "NSError+FSQFoundation.h"
 #import "NSValue+FSQFoundation.h"
 #import "NSSet+FSQFoundation.h"
+
 

@@ -31,8 +31,8 @@
 
 @interface FSQThumbstripView : UIScrollView <UIAppearanceContainer>
 
-@property (nonatomic, weak) id<FSQThumbstripDataSource> dataSource; 
-@property (nonatomic, weak) id<FSQThumbstripDelegate> delegate; 
+@property (nonatomic, weak) IBOutlet id<FSQThumbstripDataSource> dataSource;
+@property (nonatomic, weak) IBOutlet id<FSQThumbstripDelegate> delegate;
 
 @property (nonatomic, strong) Class cellClass;
 

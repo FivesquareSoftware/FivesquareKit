@@ -13,8 +13,12 @@
 + (BOOL) isEmpty:(id)obj; //< @returns YES if obj == nil || [obj count] == 0
 + (BOOL) isNotEmpty:(id)obj;
 
+- (BOOL) hasKey:(id)key;
+
 - (NSDictionary *) deepCopy;
 - (NSMutableDictionary *) mutableDeepCopy;
+
+- (NSString *) stringValue;
 
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 

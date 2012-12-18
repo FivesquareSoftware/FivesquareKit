@@ -50,3 +50,8 @@ CGFloat CGPointDistanceFromPoint(CGPoint firstPoint, CGPoint secondPoint);
 
 CGRect CGRectFlipInBounds(CGRect rect, CGRect bounds);
 CGPoint CGPointFlipInBounds(CGPoint point, CGRect bounds);
+
+#if TARGET_OS_IPHONE == 0
+CGSize CGSizeFromString(NSString *string);
+NSString *NSStringFromCGSize(CGSize size);
+#endif

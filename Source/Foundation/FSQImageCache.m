@@ -53,13 +53,6 @@
 @property (nonatomic, strong) NSMutableArray *fileList;
 @property (nonatomic, strong) NSString *cachePath;
 
-- (NSURL *) keyForKeyObject:(id)URLOrString;
-- (float) scaleForKey:(NSURL *)URL descaledKey:(NSURL **)descaledKeyPtr;
-- (NSString *) cachePathForKey:(NSURL *)key;
-- (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(NSURL *)key;
-- (void) dispatchCompletionHandlersForKey:(NSURL *)key withImage:(id)image error:(NSError *)error;
-- (BOOL) beginDownload:(NSURL *)key;
-- (void) storeImage:(id)image forKey:(NSURL *)key;
 @end
 
 @implementation FSQImageCache
@@ -161,11 +154,7 @@
 }
 
 - (NSString *) description {
-#if TARGET_OS_IPHONE
-	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%u",[super description], _name, _diskPath, _currentMemoryUsage];
-#else
-	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%lu",[super description], _name, _diskPath, _currentMemoryUsage];
-#endif
+	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%@",[super description], _name, _diskPath, @(_currentMemoryUsage)];
 }
 
 
@@ -176,17 +165,23 @@
 
 
 
-- (void) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
+- (id) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
+	return [self fetchImageForURL:URLOrString scale:0 completionHandler:completionHandler];
+}
+
+- (id) fetchImageForURL:(id)URLOrString scale:(CGFloat)scaleOverride completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
+//	FLog(@"fetchImageForURL:%@ scale:%@",URLOrString,@(scaleOverride));
 
 	NSURL *key = [self keyForKeyObject:URLOrString];
 	
 	if (key == nil || [NSString isEmpty:[key description]]) {
 		FLog(@"'%@' is not a valid URL-like object",[URLOrString description]);
-		return;
+		return nil;
 	}
 
 	
 	NSURL *unscaledKey = nil;
+	NSURL *storageKey = nil;
 	float scale FSQ_MAYBE_UNUSED = 1;
 	if (_automaticallyDetectsScale) {
 		scale = [self scaleForKey:key descaledKey:&unscaledKey];
@@ -195,12 +190,22 @@
 		unscaledKey = key;
 	}
 	
+	if (scaleOverride > 0) {
+		scale = scaleOverride;
+		storageKey = [key URLBySettingScale:scale];
+	}
+	else {
+		storageKey = key;
+	}
+	
+	NSString *ticket = [NSString stringWithFormat:@"%@ %@",[key absoluteString],[[NSDate date] description]];
+
 	// don't block the main thread with disk scans etc..
 	// all cache access is piped through our serial queue so there are no concurrency issues
 	dispatch_async(_cacheQueue, ^{
 		
 		// register our handler for the key
-		[self addHandler:completionHandler forKey:key];
+		[self addHandler:completionHandler forKey:key ticket:ticket];
 		
 		// check the memory cache for the image
 		id image = [[_cache objectForKey:key] image];
@@ -230,7 +235,7 @@
 #else
 						//TODO: will Mac OS support @2x?
 #endif
-						[self storeImage:downloadedImage forKey:key];
+						[self storeImage:downloadedImage forKey:key storageKey:storageKey];
 						[self dispatchCompletionHandlersForKey:key withImage:downloadedImage error:nil];
 					} else {
 						[self dispatchCompletionHandlersForKey:key withImage:nil error:downloadError];
@@ -240,12 +245,36 @@
 			}
 		}
 	});
+	
+	return ticket;
+}
+
+- (void) removeHandler:(id)identifier forURL:(id)URLOrString {
+	NSURL *key = [self keyForKeyObject:URLOrString];
+	dispatch_async(_cacheQueue, ^{
+		NSMutableDictionary *handlersForKey = [_completionHandlersByKey objectForKey:key];
+		if (handlersForKey) {
+			[handlersForKey removeObjectForKey:identifier];
+		}
+	});
 }
 
 - (void) cancelFetchForURL:(id)URLOrString {
-	if (_cancelationHandler) {
-		_cancelationHandler(URLOrString);
+	NSURL *key = [self keyForKeyObject:URLOrString];
+	
+	if (key == nil || [NSString isEmpty:[key description]]) {
+		FLog(@"'%@' is not a valid URL-like object",[URLOrString description]);
+		return;
 	}
+
+	dispatch_async(_cacheQueue, ^{
+		[_completionHandlersByKey removeObjectForKey:key];
+		if (_cancelationHandler) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				_cancelationHandler(URLOrString);
+			});
+		}
+	});
 }
 
 - (void) removeImageForURL:(id)URLOrString {
@@ -308,17 +337,17 @@
 	return cachePath;
 }
 
-- (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(NSURL *)key {
-	NSMutableSet *handlersForKey = [_completionHandlersByKey objectForKey:key];
+- (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(NSURL *)key ticket:(id)ticket {
+	NSMutableDictionary *handlersForKey = [_completionHandlersByKey objectForKey:key];
 	if (handlersForKey == nil) {
-		handlersForKey = [NSMutableSet new];
+		handlersForKey = [NSMutableDictionary new];
 		[_completionHandlersByKey setObject:handlersForKey forKey:key];
 	}
-	[handlersForKey addObject:[handler copy]];
+	[handlersForKey setObject:[handler copy] forKey:ticket];
 }
 
 - (void) dispatchCompletionHandlersForKey:(NSURL *)key withImage:(id)image error:(NSError *)error {
-	NSSet *handlers = [_completionHandlersByKey objectForKey:key];
+	NSArray *handlers = [[_completionHandlersByKey objectForKey:key] allValues];
 	for (FSQImageCacheCompletionHandler handler in handlers) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			handler(image,error);
@@ -339,7 +368,7 @@
 	return NO;
 }
 		
-- (void) storeImage:(id)image forKey:(NSURL *)key {
+- (void) storeImage:(id)image forKey:(NSURL *)key storageKey:(NSURL *)storageKey {
 //	FLog(@"storeImage:forURL: %@",key);
 	
 	// all cache access is piped through our serial queue so there are no concurrency issues
@@ -355,11 +384,7 @@
 		
 		__block NSUInteger newMemoryUsage = _currentMemoryUsage + imageSize;
 		if (_memoryCapacity != 0 && newMemoryUsage > _memoryCapacity) {
-#if TARGET_OS_IPHONE
-			FLog(@"Memory capacity (%u) exceeded, purging cache",_currentMemoryUsage);
-#else
-			FLog(@"Memory capacity (%lu) exceeded, purging cache",_currentMemoryUsage);
-#endif
+			FLog(@"%@ - ** Memory capacity (%@) exceeded, purging cache",self,@(_currentMemoryUsage));
 			NSArray *sortedCacheKeys = [_cache keysSortedByValueUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
 				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
 			}];
@@ -384,11 +409,7 @@
 		// trim disk cache if over size
 		__block NSUInteger newDiskUsage = _currentDiskUsage + imageSize;
 		if (_diskCapacity != 0 && newDiskUsage > _diskCapacity) {
-#if TARGET_OS_IPHONE
-			FLog(@"Disk capacity (%u) exceeded, purging cache",_currentDiskUsage);
-#else
-			FLog(@"Disk capacity (%lu) exceeded, purging cache",_currentDiskUsage);
-#endif
+			FLog(@"%@ - ** Disk capacity (%@) exceeded, purging cache",self,@(_currentDiskUsage));
 
 			NSArray *sortedFileList = [_fileList sortedArrayUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
 				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
@@ -413,7 +434,7 @@
 		
 		// store in disk cache
 		NSError *writeError = nil;
-		if (NO == [imageData writeToFile:[self cachePathForKey:key] options:NSDataWritingAtomic error:&writeError]) {
+		if (NO == [imageData writeToFile:[self cachePathForKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
 			FLogError(writeError, @"Could not write image to disk");
 		}
 	});
@@ -428,6 +449,7 @@
 #if TARGET_OS_IPHONE
 
 - (void) didReceiveMemoryWarning:(NSNotification *)notification {
+	FLog(@"** LOW MEMORY ** -- IMAGE CACHE DUMPING CONTENTS -- %@",[self description]);
 	dispatch_async(_cacheQueue, ^{
 		[_cache removeAllObjects];
 	});

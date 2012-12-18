@@ -107,7 +107,7 @@ static NSString *kFSQ_NSStringPathWithOptionalScaleExpression = @"^(\\w+)(@([0-9
 	if (matchWords) {
 		__block NSUInteger idx = 0;
 		[self enumerateSubstringsInRange:newRange options:NSStringEnumerationByWords usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-			if (idx++ == 1) {
+			if (idx++ == 0) {
 				wordsRange.location = substringRange.location;
 			}
 			else {

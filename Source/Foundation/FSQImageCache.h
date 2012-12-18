@@ -44,10 +44,20 @@ typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 
 - (id)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)diskPath;
 
-/** Searches for an image in the in-memory cache and if not found there, then in the disk cache. Finally, will use #downloadHandler to fetch the image from the internet. In all cases, completionHandler is invoked with the found image or an error on the main thread's queue (so it's safe to interact with your UI). 
- *  @param URL can be either an NSURL or an NSString representing a URL
+/** @see fetchImageForURL:scale:completionHandler: 
+ *  If scale is not embedded in the URL, scale = 1 will be assumed.
  */
-- (void) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler;
+- (id) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler;
+
+/** Searches for an image in the in-memory cache and if not found there, then in the disk cache. Finally, will use #downloadHandler to fetch the image from the internet. In all cases, completionHandler is invoked with the found image or an error on the main thread's queue (so it's safe to interact with your UI).
+ *  @param URL can be either an NSURL or an NSString representing a URL
+ *  @param scale can be used to force an image scale regardless of whether a scale modifier is embedded in the URL or not, or to provide a scale when a scale modifier is missing from the URL.
+ *  @returns an identifier that can be passed as 'identifier' to removeHandler:forURL: to remove the registered handler
+ */
+- (id) fetchImageForURL:(id)URLOrString scale:(CGFloat)scale completionHandler:(FSQImageCacheCompletionHandler)completionHandler;
+
+/** If a caller goes out of scope or becomes disinterested in a fetched image but still wants the fetch to continue in the background, it can remove it's handler from the callbacks by calling thsi method. */
+- (void) removeHandler:(id)identifier forURL:(id)URLOrString;
 
 /** Calls #cancellationHandler with the supplied URL to cancel a download of the image if it is in progress. In-memory and disk cache fetches are not cancellable. */
 - (void) cancelFetchForURL:(id)URLOrString;

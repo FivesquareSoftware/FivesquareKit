@@ -39,7 +39,6 @@
 
 
 - (void) initialize; //< subclasses can override to share initialization
-- (void) ready; //< subclasses can override to share initialization after view is loaded
 
 - (NSIndexPath *) fetchedResultsIndexPathForTableIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *) tableIndexPathForFetchedResultsIndexPath:(NSIndexPath *)indexPath;	
