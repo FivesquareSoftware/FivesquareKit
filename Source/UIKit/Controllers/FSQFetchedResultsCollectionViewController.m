@@ -148,6 +148,10 @@
 
 #pragma mark - Collection View Methods
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return [self.fetchedResultsController numberOfSections];
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 	NSInteger numberOfItems =  [self.fetchedResultsController numberOfObjectsInSection:section];
 	return numberOfItems;
@@ -163,7 +167,6 @@
 	[FSQAsserter subclass:self warn:_cmd];
 }
 
-//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView;
 //
 //// The view that is returned must be retrieved from a call to -dequeueReusableSupplementaryViewOfKind:withReuseIdentifier:forIndexPath:
 //- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
