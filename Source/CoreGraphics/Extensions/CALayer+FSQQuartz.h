@@ -19,5 +19,7 @@
 @interface CALayer (FSQQuartz)
 
 - (void) setShadow:(FSQShadow *)shadow;
-
+- (void) setShadowColor:(CGColorRef)shadowColor opacity:(float)shadowOpacity;
+- (void) setShadowColor:(CGColorRef)shadowColor opacity:(float)shadowOpacity offset:(CGSize)shadowOffset;
+- (void) setShadowColor:(CGColorRef)shadowColor opacity:(float)shadowOpacity offset:(CGSize)shadowOffset radius:(CGFloat)shadowRadius;
 @end

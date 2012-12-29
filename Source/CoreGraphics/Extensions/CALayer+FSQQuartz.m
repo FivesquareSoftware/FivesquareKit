@@ -29,5 +29,22 @@
 	self.shadowOffset = shadow.offset;
 }
 
+- (void) setShadowColor:(CGColorRef)shadowColor opacity:(float)shadowOpacity {
+    self.shadowColor = shadowColor;
+    self.shadowOpacity = shadowOpacity;
+}
+
+- (void) setShadowColor:(CGColorRef)shadowColor opacity:(float)shadowOpacity offset:(CGSize)shadowOffset {
+    self.shadowColor = shadowColor;
+    self.shadowOpacity = shadowOpacity;
+    self.shadowOffset = shadowOffset;
+}
+
+- (void) setShadowColor:(CGColorRef)shadowColor opacity:(float)shadowOpacity offset:(CGSize)shadowOffset radius:(CGFloat)shadowRadius {
+    self.shadowColor = shadowColor;
+    self.shadowOpacity = shadowOpacity;
+    self.shadowOffset = shadowOffset;
+    self.shadowRadius = shadowRadius;
+}
 
 @end
