@@ -9,6 +9,8 @@
 #import "FSQOpenStruct.h"
 
 #import "NSDictionary+FSQFoundation.h"
+#import "NSObject+FSQFoundation.h"
+#import "NSArray+FSQFoundation.h"
 
 @implementation FSQOpenStruct
 
@@ -41,11 +43,14 @@
 
 
 - (id)valueForKey:(NSString *)key {
-	id value = [self.attributes valueForKey:key];
-	if (nil == value) {
-		value = [NSMutableDictionary new];
-		[self.attributes setObject:value forKey:key];
-	}
+	id value = [super valueForKey:key];
+    if (nil == value) {
+        value = [self.attributes valueForKey:key];
+    }    
+//	if (nil == value) {
+//		value = [NSMutableDictionary new];
+//		[self.attributes setObject:value forKey:key];
+//	}
 	return value;
 }
 
@@ -53,9 +58,33 @@
 	[self willChangeValueForKey:key];
 	if (nil == value) {
 		value = [NSNull null];
-	}
+	}    
 	[self.attributes setValue:value forKey:key];
 	[self didChangeValueForKey:key];
+}
+
+- (void) setValue:(id)value forKeyPath:(NSString *)keyPath {
+    if ([NSString isEmpty:keyPath]) {
+        return;
+    }
+    
+    NSArray *keys = [keyPath componentsSeparatedByString:@"."];
+    __block id receiver = self;
+    NSUInteger count = [keys count];
+    [keys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+        if (idx == count-1) {
+            [receiver setValue:value forKey:key];
+            *stop = YES;
+            return;
+        }
+//        [receiver setValue:value forKey:key];
+        
+        receiver = [receiver valueForKey:key];
+        if (nil == receiver) {
+            receiver = [NSMutableDictionary new];
+        }
+        
+    }];
 }
 
 - (NSDictionary *)dictionaryWithValuesForKeys:(NSArray *)keys {
@@ -70,6 +99,10 @@
 	for (NSString *key in keyedValues) {
 		[self didChangeValueForKey:key];
 	}
+}
+
+- (id) valueForUndefinedKey:(NSString *)key {
+    return nil;
 }
 
 // ========================================================================== //

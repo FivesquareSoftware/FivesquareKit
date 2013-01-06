@@ -11,6 +11,7 @@
 #import "FSQAsserter.h"
 #import "NSObject+FSQFoundation.h"
 #import "NSFetchedResultsController+FSQUIKit.h"
+#import "NSIndexPath+FSQFoundation.h"
 
 #import "FSQMacros.h"
 #import "FSQLogging.h"
@@ -24,14 +25,20 @@
 + (id) withType:(NSFetchedResultsChangeType)type indexPath:(NSIndexPath *)indexPath newIndexPath:(NSIndexPath *)newIndexPath;
 @end
 @implementation FSQCollectionViewChange
+- (NSString *) toString {
+    return [NSString stringWithFormat:@"%@ %@ %@",@(_type),[_indexPath toString],[_newIndexPath toString]];
+}
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ %@",[super description],[self toString]];
+}
 - (NSUInteger) hash {
-	return [[NSString stringWithFormat:@"%@ %@ %@",@(_type),_indexPath,_newIndexPath] hash];
+	return [[self toString] hash];
 }
 - (BOOL) isEqual:(id)object {
 	if (NO == [object isKindOfClass:[FSQCollectionViewChange class]]) {
 		return NO;
 	}
-	return [self hash] == [object hash];
+	return [[self toString] isEqualToString:[object toString]];
 }
 + (id) withType:(NSFetchedResultsChangeType)type indexPath:(NSIndexPath *)indexPath newIndexPath:(NSIndexPath *)newIndexPath {
 	FSQCollectionViewChange *change = [[self alloc] init];
@@ -204,11 +211,14 @@
 //NSFetchedResultsChangeUpdate = 4
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-	FLog(@"controller.fetchRequest:%@",controller.fetchRequest);
-	FLog(@"object:%@",anObject);
-	FLog(@"indexPath:%@",indexPath);
-	FLog(@"type:%@",@(type));
-	FLog(@"newIndexPath:%@",newIndexPath);
+//	FLog(@"controller.fetchRequest:%@",controller.fetchRequest);
+//	FLog(@"object:%@",anObject);
+//	FLog(@"indexPath:%@",indexPath);
+//	FLog(@"type:%@",@(type));
+//	FLog(@"newIndexPath:%@",newIndexPath);
+    
+//    FLog(@"changedValues: %@",[anObject changedValues]);
+//    FLog(@"changedValuesForCurrentEvent: %@",[anObject changedValuesForCurrentEvent]);
 	
 	[_pendingChanges addObject:[FSQCollectionViewChange withType:type indexPath:indexPath newIndexPath:newIndexPath]];
 }
@@ -238,8 +248,9 @@
 			}
 
 		}];
+        [_pendingChanges removeAllObjects];
 	} completion:^(BOOL finished) {
-		[_pendingChanges removeAllObjects];
+//		[_pendingChanges removeAllObjects];
 	}];
 }
 

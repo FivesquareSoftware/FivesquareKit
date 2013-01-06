@@ -12,6 +12,7 @@
 #import "FSQPropertyMapper.h"
 #import "NSError+FSQFoundation.h"
 
+
 @implementation NSObject (FSQFoundation)
 
 + (BOOL) isEmpty:(id)obj {
@@ -30,6 +31,12 @@
 }
 
 
+// ========================================================================== //
+
+#pragma mark - Class name
+
+
+
 #if (TARGET_OS_IPHONE)
 + (NSString *) className {
 	return NSStringFromClass(self);
@@ -39,6 +46,13 @@
 	return NSStringFromClass([self class]);
 }
 #endif
+
+
+// ========================================================================== //
+
+#pragma mark - KVO
+
+
 
 - (BOOL) setValue:(id)value forKeyPath:(NSString *)keyPath error:(NSError **)error {
 	@try {
@@ -75,4 +89,20 @@
 	return [mapper mapFromObject:source error:error];
 }
 
+
+// ========================================================================== //
+
+#pragma mark - KVO Blocks
+
+- (id) onKeyPathChange:(NSString *)keyPath do:(void(^)(id value))block {
+    FSQKeyObserver *observer = [FSQKeyObserver withObject:self];
+    return [observer onKeyPathChange:keyPath do:block];
+}
+
+- (void) removeObservationBlock:(id)observation {
+    FSQKeyObserver *observer = [FSQKeyObserver withObject:self];
+    [observer removeObservationBlock:observation];
+}
+
 @end
+

@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-
 //#ifndef UILineBreakModeClip
 //#define UILineBreakModeClip NSLineBreakByClipping 
 //#endif
@@ -24,6 +23,8 @@
 
 
 //NSTextAlignmentCenter
+
+
 
 // App
 
@@ -70,6 +71,7 @@
 #import "FSQThumbstripBaseDataSource+Protected.h"
 #import "FSQLabel.h"
 #import "FSQCapsuleButton.h"
+#import "FSQProgressAlert.h"
 
 // Transformers
 

@@ -11,6 +11,10 @@
 		A40017381565C581004765ED /* NSURL+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A40017351565C581004765ED /* NSURL+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40017391565C581004765ED /* NSURL+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A40017361565C581004765ED /* NSURL+FSQFoundation.m */; };
 		A400173A1565C581004765ED /* NSURL+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A40017361565C581004765ED /* NSURL+FSQFoundation.m */; };
+		A4062E361697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4062E341697A6D900F25E7D /* NSIndexPath+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4062E371697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4062E341697A6D900F25E7D /* NSIndexPath+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4062E381697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4062E351697A6D900F25E7D /* NSIndexPath+FSQFoundation.m */; };
+		A4062E391697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4062E351697A6D900F25E7D /* NSIndexPath+FSQFoundation.m */; };
 		A408F4EA1534D549009B589D /* FSQMenuControl+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A408F4E81534D549009B589D /* FSQMenuControl+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */ = {isa = PBXBuildFile; fileRef = A40D3E8115E7E3FB00C2063E /* CALayer+FSQQuartz.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40D3E8415E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */ = {isa = PBXBuildFile; fileRef = A40D3E8115E7E3FB00C2063E /* CALayer+FSQQuartz.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -19,6 +23,8 @@
 		A40FA7721542115E0013D6EF /* FSQThumbstripBaseDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40FA7731542115E0013D6EF /* FSQThumbstripBaseDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A40FA7711542115E0013D6EF /* FSQThumbstripBaseDataSource.m */; };
 		A40FA7761542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A41625D3169508A1008499ED /* FSQUIKitConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A41625D1169508A1008499ED /* FSQUIKitConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A41625D2169508A1008499ED /* FSQUIKitConstants.m */; };
 		A41E2C40152F84F7005554B9 /* FSQTransparentSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A41E2C41152F84F7005554B9 /* FSQTransparentSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */; };
 		A421B03415D441BB00811143 /* FSQZlib.h in Headers */ = {isa = PBXBuildFile; fileRef = A421B03215D441BB00811143 /* FSQZlib.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -152,6 +158,19 @@
 		A457EE4E16274E7F00240B7E /* FSQFoundationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFFE991607F398001C6D31 /* FSQFoundationUtils.m */; };
 		A4583292158BFC040022BE1A /* FSQAppKitConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A4583290158BFC040022BE1A /* FSQAppKitConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4583293158BFC040022BE1A /* FSQAppKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A4583291158BFC040022BE1A /* FSQAppKitConstants.m */; };
+		A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; };
+		A45FAF8916926EC50066B78C /* FSQKeyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8716926EC50066B78C /* FSQKeyObserver.m */; };
+		A45FAF8D16926ED30066B78C /* FSQKeyObservation.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8B16926ED30066B78C /* FSQKeyObservation.h */; };
+		A45FAF8E16926ED30066B78C /* FSQKeyObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */; };
+		A45FAF8F16926ED80066B78C /* FSQKeyObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */; };
+		A45FAF9016926EDE0066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; };
+		A45FAF9116926EDE0066B78C /* FSQKeyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8716926EC50066B78C /* FSQKeyObserver.m */; };
+		A45FAFD416938C4B0066B78C /* FSQProgressAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAFCE16938C4B0066B78C /* FSQProgressAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A45FAFD516938C4B0066B78C /* FSQProgressAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAFCF16938C4B0066B78C /* FSQProgressAlert.m */; };
+		A45FAFD616938C4B0066B78C /* FSQProgressPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAFD016938C4B0066B78C /* FSQProgressPanel.h */; settings = {ATTRIBUTES = (); }; };
+		A45FAFD716938C4B0066B78C /* FSQProgressPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAFD116938C4B0066B78C /* FSQProgressPanel.m */; };
+		A45FAFD816938C4B0066B78C /* FSQProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAFD216938C4B0066B78C /* FSQProgressView.h */; settings = {ATTRIBUTES = (); }; };
+		A45FAFD916938C4B0066B78C /* FSQProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAFD316938C4B0066B78C /* FSQProgressView.m */; };
 		A4713EB813509EEB00FA1402 /* RatingIndicatorOff.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446112748375005D9BF4 /* RatingIndicatorOff.png */; };
 		A4713EB913509EED00FA1402 /* RatingIndicatorOn.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446212748375005D9BF4 /* RatingIndicatorOn.png */; };
 		A47E2EE6152B662800F7EDB1 /* FSQStretchableButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -307,6 +326,8 @@
 /* Begin PBXFileReference section */
 		A40017351565C581004765ED /* NSURL+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FSQFoundation.h"; sourceTree = "<group>"; };
 		A40017361565C581004765ED /* NSURL+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+FSQFoundation.m"; sourceTree = "<group>"; };
+		A4062E341697A6D900F25E7D /* NSIndexPath+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+FSQFoundation.h"; sourceTree = "<group>"; };
+		A4062E351697A6D900F25E7D /* NSIndexPath+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+FSQFoundation.m"; sourceTree = "<group>"; };
 		A406E28215E2C0B200830E5F /* FivesquareKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "FivesquareKit-Prefix.pch"; path = "Source/FivesquareKit-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		A40856CF15BC9FE6002CCA20 /* FSQLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQLabel.h; sourceTree = "<group>"; };
 		A40856D015BC9FE6002CCA20 /* FSQLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQLabel.m; sourceTree = "<group>"; };
@@ -316,6 +337,8 @@
 		A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQThumbstripBaseDataSource.h; sourceTree = "<group>"; };
 		A40FA7711542115E0013D6EF /* FSQThumbstripBaseDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQThumbstripBaseDataSource.m; sourceTree = "<group>"; };
 		A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQThumbstripBaseDataSource+Protected.h"; sourceTree = "<group>"; };
+		A41625D1169508A1008499ED /* FSQUIKitConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIKitConstants.h; sourceTree = "<group>"; };
+		A41625D2169508A1008499ED /* FSQUIKitConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIKitConstants.m; sourceTree = "<group>"; };
 		A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQTransparentSearchBar.h; sourceTree = "<group>"; };
 		A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQTransparentSearchBar.m; sourceTree = "<group>"; };
 		A421B03215D441BB00811143 /* FSQZlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQZlib.h; sourceTree = "<group>"; };
@@ -426,6 +449,16 @@
 		A45F446212748375005D9BF4 /* RatingIndicatorOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RatingIndicatorOn.png; sourceTree = "<group>"; };
 		A45F446412748375005D9BF4 /* FSQAsserter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAsserter.h; sourceTree = "<group>"; };
 		A45F446512748375005D9BF4 /* FSQAsserter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAsserter.m; sourceTree = "<group>"; };
+		A45FAF8616926EC50066B78C /* FSQKeyObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQKeyObserver.h; sourceTree = "<group>"; };
+		A45FAF8716926EC50066B78C /* FSQKeyObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQKeyObserver.m; sourceTree = "<group>"; };
+		A45FAF8B16926ED30066B78C /* FSQKeyObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQKeyObservation.h; sourceTree = "<group>"; };
+		A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQKeyObservation.m; sourceTree = "<group>"; };
+		A45FAFCE16938C4B0066B78C /* FSQProgressAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQProgressAlert.h; sourceTree = "<group>"; };
+		A45FAFCF16938C4B0066B78C /* FSQProgressAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQProgressAlert.m; sourceTree = "<group>"; };
+		A45FAFD016938C4B0066B78C /* FSQProgressPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQProgressPanel.h; sourceTree = "<group>"; };
+		A45FAFD116938C4B0066B78C /* FSQProgressPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQProgressPanel.m; sourceTree = "<group>"; };
+		A45FAFD216938C4B0066B78C /* FSQProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQProgressView.h; sourceTree = "<group>"; };
+		A45FAFD316938C4B0066B78C /* FSQProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQProgressView.m; sourceTree = "<group>"; };
 		A464DA2A13D38978006B6C59 /* NSOperationQueue+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperationQueue+FSQFoundation.h"; sourceTree = "<group>"; };
 		A464DA2B13D38979006B6C59 /* NSOperationQueue+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperationQueue+FSQFoundation.m"; sourceTree = "<group>"; };
 		A464DA3113D38A8C006B6C59 /* FSQAppBooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAppBooter.h; sourceTree = "<group>"; };
@@ -741,6 +774,10 @@
 				A4F3AF451550936D00E2BB87 /* FSQImageCache.m */,
 				A421B03215D441BB00811143 /* FSQZlib.h */,
 				A421B03315D441BB00811143 /* FSQZlib.m */,
+				A45FAF8616926EC50066B78C /* FSQKeyObserver.h */,
+				A45FAF8716926EC50066B78C /* FSQKeyObserver.m */,
+				A45FAF8B16926ED30066B78C /* FSQKeyObservation.h */,
+				A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */,
 				A45F43FD12748374005D9BF4 /* Categories */,
 				A44E1191161E26EE00F574F3 /* Ext */,
 			);
@@ -776,6 +813,8 @@
 				A447AFEB160BD98200DD56BC /* NSValue+FSQFoundation.m */,
 				A4E416201617AD9400B3FADE /* NSSet+FSQFoundation.h */,
 				A4E416211617AD9400B3FADE /* NSSet+FSQFoundation.m */,
+				A4062E341697A6D900F25E7D /* NSIndexPath+FSQFoundation.h */,
+				A4062E351697A6D900F25E7D /* NSIndexPath+FSQFoundation.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -794,6 +833,8 @@
 			isa = PBXGroup;
 			children = (
 				A45F443512748374005D9BF4 /* FSQUIKit.h */,
+				A41625D1169508A1008499ED /* FSQUIKitConstants.h */,
+				A41625D2169508A1008499ED /* FSQUIKitConstants.m */,
 				A464DA3013D38A8C006B6C59 /* App */,
 				A464DA3513D38B12006B6C59 /* Helpers */,
 				A45F441F12748374005D9BF4 /* Cells */,
@@ -892,6 +933,7 @@
 				A40856D015BC9FE6002CCA20 /* FSQLabel.m */,
 				A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */,
 				A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */,
+				A45FAFCD16938C4B0066B78C /* ProgressHUD */,
 				A4EA537215336789006BF354 /* Menu */,
 				A45F445E12748375005D9BF4 /* RatingIndicator */,
 				A4F69F611540CAE6006DAF85 /* Thumbstrip */,
@@ -924,6 +966,19 @@
 				A4D02ED715252B1400C16B67 /* FSQRuntime.m */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		A45FAFCD16938C4B0066B78C /* ProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				A45FAFCE16938C4B0066B78C /* FSQProgressAlert.h */,
+				A45FAFCF16938C4B0066B78C /* FSQProgressAlert.m */,
+				A45FAFD216938C4B0066B78C /* FSQProgressView.h */,
+				A45FAFD316938C4B0066B78C /* FSQProgressView.m */,
+				A45FAFD016938C4B0066B78C /* FSQProgressPanel.h */,
+				A45FAFD116938C4B0066B78C /* FSQProgressPanel.m */,
+			);
+			path = ProgressHUD;
 			sourceTree = "<group>";
 		};
 		A464DA3013D38A8C006B6C59 /* App */ = {
@@ -1223,6 +1278,13 @@
 				A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */,
 				A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */,
 				A4E416221617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
+				A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */,
+				A45FAF8D16926ED30066B78C /* FSQKeyObservation.h in Headers */,
+				A45FAFD416938C4B0066B78C /* FSQProgressAlert.h in Headers */,
+				A45FAFD616938C4B0066B78C /* FSQProgressPanel.h in Headers */,
+				A45FAFD816938C4B0066B78C /* FSQProgressView.h in Headers */,
+				A41625D3169508A1008499ED /* FSQUIKitConstants.h in Headers */,
+				A4062E361697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1284,6 +1346,8 @@
 				A4C4B2E2161E6241004256F3 /* NSData+FSQFoundation_Base64.h in Headers */,
 				A4E416231617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
 				A457EE4B16274E7500240B7E /* FSQFoundationUtils.h in Headers */,
+				A45FAF9016926EDE0066B78C /* FSQKeyObserver.h in Headers */,
+				A4062E371697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1482,6 +1546,13 @@
 				A4E416241617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */,
 				A4E6FCDD1618C0DA0040D57D /* FSQSearchDisplayController.m in Sources */,
 				A457EE4E16274E7F00240B7E /* FSQFoundationUtils.m in Sources */,
+				A45FAF8916926EC50066B78C /* FSQKeyObserver.m in Sources */,
+				A45FAF8E16926ED30066B78C /* FSQKeyObservation.m in Sources */,
+				A45FAFD516938C4B0066B78C /* FSQProgressAlert.m in Sources */,
+				A45FAFD716938C4B0066B78C /* FSQProgressPanel.m in Sources */,
+				A45FAFD916938C4B0066B78C /* FSQProgressView.m in Sources */,
+				A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */,
+				A4062E381697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1532,6 +1603,9 @@
 				A4C4B2E3161E6241004256F3 /* NSData+FSQFoundation_Base64.m in Sources */,
 				A4E416251617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */,
 				A457EE4D16274E7E00240B7E /* FSQFoundationUtils.m in Sources */,
+				A45FAF8F16926ED80066B78C /* FSQKeyObservation.m in Sources */,
+				A45FAF9116926EDE0066B78C /* FSQKeyObserver.m in Sources */,
+				A4062E391697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
