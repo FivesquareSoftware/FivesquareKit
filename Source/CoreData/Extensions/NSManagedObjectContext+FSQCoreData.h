@@ -17,8 +17,9 @@
 /** Saves the context, failing with the provided error message if the save fails. */
 - (BOOL)saveWithErrorMessage:(NSString *)errorMessage;
 
-/** @returns a child context of concurrency type NSPrivateQueueConcurrencyType. This conext  must be messaged by calling performBlock: and may be used from any thread.  */
+/** @returns a child context of concurrency type NSPrivateQueueConcurrencyType. This context  must be messaged by calling performBlock: and may be used from any thread.  */
 - (NSManagedObjectContext *) newChildContext;
+- (NSManagedObjectContext *) newChildContextWithConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType;
 
 /** Saves the receiver and if it has a parent asynchronously saves the parent. 
  *  @returns YES if the receiver was saved. Does not indicate the success or failure of saving the parent.

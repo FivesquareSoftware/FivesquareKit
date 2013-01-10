@@ -45,7 +45,11 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 }
 
 - (NSManagedObjectContext *) newChildContext {
-    NSManagedObjectContext *child = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    return [self newChildContextWithConcurrencyType:NSPrivateQueueConcurrencyType];
+}
+
+- (NSManagedObjectContext *) newChildContextWithConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType {
+    NSManagedObjectContext *child = [[NSManagedObjectContext alloc] initWithConcurrencyType:concurrencyType];
     child.parentContext = self;
     return child;
 }

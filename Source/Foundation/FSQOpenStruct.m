@@ -82,6 +82,7 @@
         receiver = [receiver valueForKey:key];
         if (nil == receiver) {
             receiver = [NSMutableDictionary new];
+            [_attributes setObject:receiver forKey:key];
         }
         
     }];
