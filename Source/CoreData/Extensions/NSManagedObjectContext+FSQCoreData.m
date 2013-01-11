@@ -32,6 +32,10 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	return [self saveWithErrorMessage:@"Could not save context"];
 }
 
+- (void) saveWithCompletionBlock:(void(^)(NSError *error))completionBlock {
+    [self saveWithErrorMessage:@"Could not save context" completionBlock:completionBlock];
+}
+
 - (BOOL) saveWithErrorMessage:(NSString *)errorMessage {
 	__block NSError *error = nil;
 	__block BOOL success = NO;
@@ -44,14 +48,8 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	return success;
 }
 
-- (NSManagedObjectContext *) newChildContext {
-    return [self newChildContextWithConcurrencyType:NSPrivateQueueConcurrencyType];
-}
-
-- (NSManagedObjectContext *) newChildContextWithConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType {
-    NSManagedObjectContext *child = [[NSManagedObjectContext alloc] initWithConcurrencyType:concurrencyType];
-    child.parentContext = self;
-    return child;
+- (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(NSError *error))completionBlock {
+    
 }
 
 - (BOOL) saveWithParent:(NSError **)error {
@@ -70,6 +68,21 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	}
 	return success;
 }
+
+- (void) saveWithParentWithCompletionBlock:(void(^)(NSError *error))completionBlock {
+    
+}
+
+- (NSManagedObjectContext *) newChildContext {
+    return [self newChildContextWithConcurrencyType:NSPrivateQueueConcurrencyType];
+}
+
+- (NSManagedObjectContext *) newChildContextWithConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType {
+    NSManagedObjectContext *child = [[NSManagedObjectContext alloc] initWithConcurrencyType:concurrencyType];
+    child.parentContext = self;
+    return child;
+}
+
 
 
 // ========================================================================== //

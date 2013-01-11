@@ -11,21 +11,28 @@
 
 @interface NSManagedObjectContext (FSQCoreData)
 
-/** Saves the context, failing with a generic error message if the save fails. */
+/** Saves the receiver synchronously using performBlockAndWait:, failing with a generic error message if the save fails. */
 - (BOOL)save;
+/** Saves the receiver asynchronously using performBlock: and calls completionBlock when done. */
+- (void) saveWithCompletionBlock:(void(^)(NSError *error))completionBlock;
 
-/** Saves the context, failing with the provided error message if the save fails. */
+/** Saves the receiver synchronously using performBlockAndWait:, failing with the provided error message if the save fails. */
 - (BOOL)saveWithErrorMessage:(NSString *)errorMessage;
+/** Saves the receiver asynchronously using performBlock:,logs the provided error message if the save fails and calls completionBlock. */
+- (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(NSError *error))completionBlock;
+
+/** Saves the receiver synchronously and, if it has a parent, synchronously saves the parent using performBlockAndWait:.
+ *  @returns YES if the receiver and its parent if any were saved successfully. 
+ *  @param error contains any errors that occurred saving the receiver or its parent.
+ */
+- (BOOL) saveWithParent:(NSError **)error;
+
+/** Saves the receiver asynchronously and, if it has a parent, asynchronously saves the parent using performBlock: calling completionBlock when done. */
+- (void) saveWithParentWithCompletionBlock:(void(^)(NSError *error))completionBlock;
 
 /** @returns a child context of concurrency type NSPrivateQueueConcurrencyType. This context  must be messaged by calling performBlock: and may be used from any thread.  */
 - (NSManagedObjectContext *) newChildContext;
 - (NSManagedObjectContext *) newChildContextWithConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType;
-
-/** Saves the receiver and if it has a parent asynchronously saves the parent. 
- *  @returns YES if the receiver was saved. Does not indicate the success or failure of saving the parent.
- *  @param error contains any errors that occurred saving the receiver. Does not contain information of parent save errors.
- */
-- (BOOL) saveWithParent:(NSError **)error;
 
 /** Looks for a plist with the same value as #storeName and will attempt to load the objects it finds there into the database if the entities in the plist have a count of 0. The top-level elements of the plist should be dictionaries that include the following keys:
  *    - entityClassName - the class that corresponds to the entities to be inserted
