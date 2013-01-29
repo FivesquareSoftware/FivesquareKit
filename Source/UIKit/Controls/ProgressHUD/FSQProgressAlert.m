@@ -262,9 +262,9 @@ static FSQProgressAlert *__instance = nil;
 			if (dismissDelay < 0) {
 				dismissDelay = 0;
 			}
-			int64_t delayInSeconds = dismissDelay;
-			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-			dispatch_after(popTime, dispatch_get_main_queue(), ^{
+			double delayInSeconds = dismissDelay;
+			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+			dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 				[self dismiss];
 				if (completionBlock) {
 					dispatch_async(dispatch_get_main_queue(), completionBlock);

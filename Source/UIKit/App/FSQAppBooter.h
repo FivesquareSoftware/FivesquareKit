@@ -20,6 +20,8 @@
 
 - (void) addOperation:(NSOperation *)operation; ///< Adds an operation and its dependents to the boot queue
 - (void) addBlock:(void (^)(void))block; ///< Adds a block to the boot queue
+/** Adds block to the boot Q, passing a semaphore with one lock as an argument. When the passed block is done with its work it must call dispatch_semaphore_signal() on the passed semaphore. This allows a block to perform work asynchronously but have the boot Q wait on its completion. */
+- (void) addWaitBlock:(void (^)(dispatch_semaphore_t wait_semaphore))block;
 
 /** Starts booting and returns immediately. The completion block will run on the main thread when booting is complete. */
 - (void) bootWithCompletionBlock:(void (^)(void))block;

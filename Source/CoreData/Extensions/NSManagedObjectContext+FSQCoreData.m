@@ -60,7 +60,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
         success = [self save:&saveError];
     }];
     if (success && self.parentContext) {
-        [self.parentContext performBlockAndWait:^{ success = [self.parentContext save:NULL]; }];
+        [self.parentContext performBlockAndWait:^{ success = [self.parentContext save:&saveError]; }];
     }
 	
 	if (error) {
@@ -89,9 +89,9 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 
 #pragma mark - Data Loading
 
-- (BOOL) loadDefaultDatafromPlistIfNeeded:(NSString *)plistName error:(NSError **)error {
+- (BOOL) loadDefaultData:(NSURL *)plistURL error:(NSError **)error {
 	
-	NSDictionary *defaultData = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:plistName ofType:@"plist"]];
+	NSDictionary *defaultData = [NSDictionary dictionaryWithContentsOfURL:plistURL];
 	
 	BOOL loaded = NO;
 	NSError *localError = nil;
@@ -124,23 +124,30 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 											 userInfo:info];
 				break;
 			}
-			NSUInteger count = [destinationClass countInContext:self];
 			NSUInteger mappedCount = 0;
-			if (count < 1) {
-				loaded = YES;
-				for (id data in objects) {
-					NSManagedObject *object = [destinationClass createInContext:self];
-					[object updateWithObject:data merge:NO];
-//					FLog(@"data: %@",data);
-//					FLog(@"object: %@",object);
+
+			for (id data in objects) {
+				NSManagedObject *object = nil;
+				NSString *predicateFormat = [data objectForKey:@"<predicate>"];
+				if (predicateFormat) {
+					NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat];
+					object = [destinationClass findOrCreateWithPredicate:predicate inContext:self];
+					if ([object isInserted]) {
+						[object updateWithObject:data merge:NO];
+						loaded = YES;
+						mappedCount++;
+					}
+				}
+				else {
+					object = [destinationClass createWithAttributes:data inContext:self];
+					loaded = YES;
 					mappedCount++;
 				}
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wformat"
-				FLog(@"Mapped %u %@s",mappedCount, entityClassName);
-				FLog(@"actual count: %u",[destinationClass countInContext:self]);
-#pragma clang diagnostic pop
+				//					FLog(@"data: %@",data);
+				//					FLog(@"object: %@",object);				
 			}
+			FLog(@"Mapped %@ %@s",@(mappedCount), entityClassName);
+			FLog(@"actual count: %@",@([destinationClass countInContext:self]));
 		}
 
 	}
@@ -159,6 +166,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 
 	return loaded;
 }
+
 
 
 @end

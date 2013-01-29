@@ -10,58 +10,110 @@
 
 #import <CoreData/CoreData.h>
 
-@interface FSQCoreDataStack : NSObject {
 
-}
+extern NSString *kFSQCoreDataStackErrorDomain;
+enum  {
+	kFSQCoreDataStackErrorCodeUbiquityNotAvailable			= 9000,
+	kFSQCoreDataStackErrorCodeFailedToLoadUbiquitousStore	= 9001,
+	kFSQCoreDataStackErrorCodeFailedToLoadAnyStore			= 9002
+};
+
+
+
+
+@interface FSQCoreDataStack : NSObject <NSFilePresenter>
+
+// Delegation
+
+@property (nonatomic, copy) void(^migrationHandler)(FSQCoreDataStack *stack, NSURL *sourceStore);
+
+
+// Base attributes
 
 @property (nonatomic, copy, readonly) NSString *modelName;
 @property (nonatomic, copy, readonly) NSString *storeName;
 
+/** Used to locate an initial data set in the main bundle. The data may be in either a sqlite store or a plist, with a store taking precedence. Defaults to #storeName. 
+ *  @see NSManagedObjectContext+
+ *
+ */
+@property (nonatomic, strong) NSString *seedStore;
+
+// Core Data options
+
+/** Takes effect the next time the receiver is reloaded. */
 @property (nonatomic, copy) NSString *configurationName;
+
+/** Takes effect the next time the receiver is reloaded. */
 @property (nonatomic, copy) NSDictionary *storeOptions;
+
+/** Effective for new managed object contexts. */
 @property (nonatomic, strong) id mergePolicy;
 
-/** If this is YES, and there is not yet a persistent store, and one exists in the 
- *  bundle with the same name, copies it into the database location first. The default
- *  is NO (because this will break with iCloud support). */
-@property (nonatomic, assign) BOOL copyDefaultDatabaseFromBundle;
- 
+// Ubiquity settings
 
-/** Creates a persistent instance of a managed obect context intialized with NSMainQueueConcurrencyType concurrency type. This context can be messaged directly from the main thread or via performBlock: on backround threads. */
-@property (readonly, strong) NSManagedObjectContext *mainContext;
+/** Whether to sync this stack with iCloud or not. When this is set to YES, the the locations for the store and transaction logs are determined internally and the correct persistent store options will be generated automatically. If you set these options in #storeOptions they will be overridden (this is necessary to ensure proper handling of account transitions, including between multiple iCloud accounts). Defaults to NO.  */
+@property (nonatomic, getter = isUbiquitous) BOOL ubiquitous;
 
-/** A model located using the value of #modelName or merged from all the models in the main bundle. */
-@property (strong, readonly) NSManagedObjectModel *managedObjectModel;
+
+// Locations
+
+/** By default, persistent stores are placed in ~/Application Support/CoreData. You can change this location by passing your own location to #initWithModelName:persistentStore:persistentStoresDirectory:. */
+@property (nonatomic, strong, readonly) NSURL *persistentStoresDirectoryURL;
+
+
+// Core Data stack objects
+
+
+/** A model located using the value of #modelName or merged from all the models in the main bundle when #modelName is nil. */
+@property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
+
 /** The common persistent store coordinator created with storeOptions. */
 @property (strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+/** @returns the currently in use store, which may be either ubiquitous or local-only, or nil if it has yet to be initialized. */
+@property (nonatomic, readonly) NSPersistentStore *persistentStore;
 
-/** Initializes the manager with a model and sets up a persisent store coordinator. 
- *  @param modelName is used to locate a suitable model file and to create a persistent store on disk.  If a model with modelName does not exist, a merged model is created from the bundle. 
- *  @param storeName will be used to create the database file on disk. storeName cannot be nil.
- */
+/** @returns the URL that the persistent store is or will be located at. This may be called before the stack has been initialized to allow you to perform file system operations as needed. */
+@property (nonatomic, readonly) NSURL *persistentStoreURL;
+
+/** @returns the metadata for the currently loaded persistent store or nil if it has yet to be initialized. */
+@property (nonatomic, readonly) NSDictionary *storeMetadata;
+
+/** Creates a persistent instance of a managed obect context intialized with NSMainQueueConcurrencyType concurrency type. This context can be messaged directly from the main thread or via performBlock: on backround threads. May return nil if the core stack has not been initialized, @see #initializeWithCompletionBlock:. */
+@property (strong, readonly) NSManagedObjectContext *mainContext;
+
+
+// State information
+
+@property (nonatomic, strong) NSError *lastError;
+
+
+// Creating Instances
+
+/** @see initWithModelName:persistentStore:persistentStoresDirectory:. */
 - (id) initWithModelName:(NSString *)modelName persistentStore:(NSString *)storeName;
 
-/** If a persitent store exists on disk and the current model version is not compatible with that store, will attempt to migrate the store either by running a mapping migration if one is found or attempting a lightweight migration. 
- * 
- *  @return YES if a migration was performed.
+/** Initializes the manager with a model and sets up a persisent store coordinator.
+ *  @param modelName is used to locate a suitable model file and to create a persistent store on disk.  If a model with modelName does not exist, a merged model is created from the bundle.
+ *  @param storeName will be used to create the database file on disk. storeName cannot be nil.
+ *  @param persistentStoresDirectoryURL will override the default location used to keep persistent stores.
  */
-- (BOOL) migrateIfNeeded:(NSError **)error;
+- (id) initWithModelName:(NSString *)modelName persistentStore:(NSString *)storeName persistentStoresDirectory:(NSURL *)persistentStoresDirectoryURL;
+
+/** This must be called once before the stack or any context created from it are used to do any work. Handles model migration and setting up the persistent store as either local or ubiquitous depending on the value of #isUbiquitous and the availability of an iCloud account. Calling this method more than once has no effect. Call #reloadWithCompletionBlock: if you want to re-initialize the receiver. */
+- (void) initializeWithCompletionBlock:(void(^)(NSError *error))completionBlock;
+
+/** Drops the persistent store and reinitializes the receiver, handling ubiquity (re)configuration and migration as needed. */
+- (void) reloadWithCompletionBlock:(void(^)(NSError *error))completionBlock;
 
 
-/** Generates a new context connected to the common persistent store and via a child relationship to the #mainContext. This conext  must be messaged by calling performBlock: and may be used from any thread.
+
+/** Generates a new context connected to the common persistent store and, via a parent-child relationship, to the #mainContext. This context uses NSPrivateQueueConcurrencyType and must be messaged by calling performBlock:. It may be used from any thread. May return nil if the stack has not completed initialization yet or is in the process of reloading, @see #initializeWithCompletionBlock:.
  *  @returns a child context of concurrency type NSPrivateQueueConcurrencyType
  */
 - (NSManagedObjectContext *) newChildContext;
-
-/** Generates a persistent coordinator store with the supplied options and using #storeName. */
-- (NSPersistentStoreCoordinator *) createPersistentStoreCoordinator:(NSDictionary *)someStoreOptions error:(NSError **)error;
-
-
-- (NSDictionary *) storeMetadata;
-+ (NSURL *) storeURLForStoreName:(NSString *)aStoreName;
-+ (NSString *) storePathForStoreName:(NSString *)aStoreName;
-+ (NSString *) databaseDirectory;
+- (NSManagedObjectContext *) newChildContextWithConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType;
 
 
 

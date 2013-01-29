@@ -11,7 +11,7 @@
 
 #import "FSQMacros.h"
 
-NS_ENUM(NSUInteger, FSQMapZoomLevel) {
+typedef NS_ENUM(NSUInteger, FSQMapZoomLevel) {
 	FSQMapZoomLevelMin = 0
 	, FSQMapZoomLevelMax = 20
 };

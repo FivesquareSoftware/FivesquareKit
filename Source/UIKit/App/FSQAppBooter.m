@@ -81,6 +81,18 @@
 	[self.bootQ addOperation:blockOp];
 }
 
+- (void) addWaitBlock:(void (^)(dispatch_semaphore_t wait_semaphore))block {
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+	NSBlockOperation *blockOp = [NSBlockOperation blockOperationWithBlock:^{
+//        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        block(semaphore);
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//        dispatch_semaphore_signal(semaphore);
+        dispatch_release(semaphore);
+    }];
+	[self.bootQ addOperation:blockOp];
+}
+
 - (void) bootWithCompletionBlock:(void (^)(void))block {
 	FSQAssert(_booted == NO, @"Already booted!");
 	if (_booted) return;

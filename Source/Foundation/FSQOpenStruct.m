@@ -39,6 +39,21 @@
 
 // ========================================================================== //
 
+#pragma mark - NSCoding
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    _attributes = [[aDecoder valueForKey:@"_attributes"] mutableCopy];
+    return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_attributes forKey:@"_attributes"];
+}
+
+
+
+// ========================================================================== //
+
 #pragma mark - KVC
 
 

@@ -10,6 +10,10 @@
 
 @interface NSError (FSQFoundation)
 
-+ (id) withException:(NSException *)exception;
++ (id) errorWithException:(NSException *)exception;
++ (id) errorWithError:(NSError *)underlyingError domain:(NSString *)errorDomain code:(NSInteger)errorCode userInfo:(NSDictionary *)userInfo;
+
++ (NSString *) bestErrorMessageForError:(NSError *)error;
++ (NSString *) bestErrorMessageForError:(NSError *)error defaultMessage:(NSString *)defaultMessage;
 
 @end

@@ -32,10 +32,9 @@
 	va_end(args);        
 
 #ifndef NS_BLOCK_ASSERTIONS
-	FLog(msg);
-	
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-security"
+	FLog(msg);	
 	[[NSAssertionHandler currentHandler] handleFailureInMethod:selector object:object file:@(fileName) lineNumber:lineNumber description:msg];
 #pragma clang diagnostic pop
 

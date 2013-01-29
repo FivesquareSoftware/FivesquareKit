@@ -14,7 +14,7 @@
 #define FSQ_SYNTHESIZE(property)
 #endif
 
-#define FSQWeakSelf() __weak typeof(self) _self = self
+#define FSQWeakSelf(var) __weak __typeof__((__typeof__(self))self) var = self
 
 #define i18n(string,comment) NSLocalizedString(string,comment)
 
@@ -43,8 +43,4 @@
 #else
 #define NS_RETURNS_AUTORELEASED
 #endif
-#endif
-
-#ifndef NS_ENUM
-#define NS_ENUM(_type, _name) _type _name; enum
 #endif

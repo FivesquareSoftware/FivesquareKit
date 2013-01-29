@@ -10,10 +10,14 @@
 
 #import "FSQLogging.h"
 #import "FSQAsserter.h"
+#import "NSObject+FSQFoundation.h"
+#import "NSFetchedResultsController+FSQUIKit.h"
+
 
 @interface FSQFetchedResultsMapViewController ()
 @property (nonatomic) BOOL initialized;
-
+@property (nonatomic, strong) id persistentStoresObserver;
+@property (nonatomic, strong) id ubiquitousChangesObserver;
 @end
 
 @implementation FSQFetchedResultsMapViewController
@@ -76,6 +80,18 @@
 		FSQAssert([self.view isKindOfClass:[MKMapView class]],@"View is not a map view");
 		self.mapView = (MKMapView *)self.view;
 	}
+	
+	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator;
+    
+    FSQWeakSelf(self_);
+    self.persistentStoresObserver = [notificationCenter addObserverForName:NSPersistentStoreCoordinatorStoresDidChangeNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self_.fetchedResultsController fetch];
+    }];
+    self.ubiquitousChangesObserver = [notificationCenter addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self_.fetchedResultsController fetch];
+    }];
+
 }
 
 - (void) viewWillAppear:(BOOL)animated {

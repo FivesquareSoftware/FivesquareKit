@@ -59,7 +59,7 @@
  *
  * @returns YES if any data was loaded.
  */
-- (BOOL) loadDefaultDatafromPlistIfNeeded:(NSString *)plistName error:(NSError **)error;
+- (BOOL) loadDefaultData:(NSURL *)plistURL error:(NSError **)error;
 
 
 @end

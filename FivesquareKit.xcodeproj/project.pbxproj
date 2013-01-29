@@ -158,12 +158,12 @@
 		A457EE4E16274E7F00240B7E /* FSQFoundationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFFE991607F398001C6D31 /* FSQFoundationUtils.m */; };
 		A4583292158BFC040022BE1A /* FSQAppKitConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A4583290158BFC040022BE1A /* FSQAppKitConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4583293158BFC040022BE1A /* FSQAppKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A4583291158BFC040022BE1A /* FSQAppKitConstants.m */; };
-		A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; };
+		A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A45FAF8916926EC50066B78C /* FSQKeyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8716926EC50066B78C /* FSQKeyObserver.m */; };
 		A45FAF8D16926ED30066B78C /* FSQKeyObservation.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8B16926ED30066B78C /* FSQKeyObservation.h */; };
 		A45FAF8E16926ED30066B78C /* FSQKeyObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */; };
 		A45FAF8F16926ED80066B78C /* FSQKeyObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */; };
-		A45FAF9016926EDE0066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; };
+		A45FAF9016926EDE0066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A45FAF9116926EDE0066B78C /* FSQKeyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8716926EC50066B78C /* FSQKeyObserver.m */; };
 		A45FAFD416938C4B0066B78C /* FSQProgressAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAFCE16938C4B0066B78C /* FSQProgressAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A45FAFD516938C4B0066B78C /* FSQProgressAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAFCF16938C4B0066B78C /* FSQProgressAlert.m */; };
@@ -1278,9 +1278,9 @@
 				A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */,
 				A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */,
 				A4E416221617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
-				A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */,
 				A45FAF8D16926ED30066B78C /* FSQKeyObservation.h in Headers */,
 				A45FAFD416938C4B0066B78C /* FSQProgressAlert.h in Headers */,
+				A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */,
 				A45FAFD616938C4B0066B78C /* FSQProgressPanel.h in Headers */,
 				A45FAFD816938C4B0066B78C /* FSQProgressView.h in Headers */,
 				A41625D3169508A1008499ED /* FSQUIKitConstants.h in Headers */,
@@ -1655,6 +1655,8 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DDEBUG=1";
 				OTHER_LDFLAGS = "-ObjC";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
