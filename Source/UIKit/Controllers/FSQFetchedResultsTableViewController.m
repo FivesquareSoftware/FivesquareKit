@@ -36,7 +36,7 @@
 
 - (NSManagedObjectContext *) managedObjectContext {
 	if (_managedObjectContext == nil) {
-		[FSQAsserter subclass:self responsibility:_cmd];
+		FSQSubclassResponsibility();
 	}
 	return _managedObjectContext;
 }
@@ -50,7 +50,7 @@
 
 - (NSFetchedResultsController *) fetchedResultsController {
 	if (_fetchedResultsController == nil) {
-		[FSQAsserter subclass:self responsibility:_cmd];
+		FSQSubclassResponsibility();
 	}
 	return _fetchedResultsController;
 }

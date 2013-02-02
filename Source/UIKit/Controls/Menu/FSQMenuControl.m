@@ -220,6 +220,7 @@
 #pragma mark - UIControl
 
 - (void) layoutSubviews {
+	_contentView.frame = self.bounds;
 	if (_direction == FSQMenuDirectionVertical) {
 		CGFloat offsetY = 0;
 		for (UIView *view in self.itemViews) {
