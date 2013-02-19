@@ -287,6 +287,8 @@
 		A4D02EF215252D4E00C16B67 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE915252C8A00C16B67 /* QuartzCore.framework */; };
 		A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D460D515D022A700F59A95 /* FSQCapsuleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */; };
+		A4DC742716CD990F0047E6B2 /* FSQSegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4DC742816CD990F0047E6B2 /* FSQSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */; };
 		A4E416091617AA2F00B3FADE /* FSQLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A40856D015BC9FE6002CCA20 /* FSQLabel.m */; };
 		A4E4160C1617AA3D00B3FADE /* FSQFetchedResultsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A466434F15A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.m */; };
 		A4E4160D1617AA4300B3FADE /* FSQFetchedResultsCollectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A466434E15A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -535,6 +537,8 @@
 		A4D4B31C152FBA7400B3A66E /* human.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
 		A4D4B31D152FBA7400B3A66E /* machine.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.h.motemplate; sourceTree = "<group>"; };
 		A4D4B31E152FBA7400B3A66E /* machine.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
+		A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQSegmentedControl.h; sourceTree = "<group>"; };
+		A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQSegmentedControl.m; sourceTree = "<group>"; };
 		A4E3C659130A2D6B00BF4C6E /* FSQFetchedResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQFetchedResultsViewController.h; sourceTree = "<group>"; };
 		A4E3C65A130A2D6B00BF4C6E /* FSQFetchedResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQFetchedResultsViewController.m; sourceTree = "<group>"; };
 		A4E416201617AD9400B3FADE /* NSSet+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+FSQFoundation.h"; sourceTree = "<group>"; };
@@ -933,6 +937,8 @@
 				A40856D015BC9FE6002CCA20 /* FSQLabel.m */,
 				A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */,
 				A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */,
+				A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */,
+				A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */,
 				A45FAFCD16938C4B0066B78C /* ProgressHUD */,
 				A4EA537215336789006BF354 /* Menu */,
 				A45F445E12748375005D9BF4 /* RatingIndicator */,
@@ -1285,6 +1291,7 @@
 				A45FAFD816938C4B0066B78C /* FSQProgressView.h in Headers */,
 				A41625D3169508A1008499ED /* FSQUIKitConstants.h in Headers */,
 				A4062E361697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
+				A4DC742716CD990F0047E6B2 /* FSQSegmentedControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1553,6 +1560,7 @@
 				A45FAFD916938C4B0066B78C /* FSQProgressView.m in Sources */,
 				A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */,
 				A4062E381697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
+				A4DC742816CD990F0047E6B2 /* FSQSegmentedControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
