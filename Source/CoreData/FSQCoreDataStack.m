@@ -31,6 +31,7 @@
 #endif
 
 NSString *kFSQCoreDataStackErrorDomain = @"FSQCoreDataStack Error Domain";
+static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 
 typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
     FSQCoreDataStackUbiquityTransitionNone					= 0,
@@ -167,7 +168,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 @dynamic ubiquitous;
 - (void) setUbiquitous:(BOOL)ubiquitous {
 	return;
-#warning Ignoring ubiquity setting for now
+//#warning Ignoring ubiquity setting for now
     if (_ubiquityState.ubiquitous != ubiquitous) {
 		if (self.suspended) {
 			_suspendedUbiquityState.ubiquitous = ubiquitous;
@@ -362,7 +363,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 //        _ubiquitousStoreURL = [self.persistentStoresDirectoryURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@-%@",self.storeName,self.ubiquityIdentifier]];
 //        CoreDataLog(self,@"Ubiquitous store name: %@",[_ubiquitousStoreURL lastPathComponent]);
 //    }
-	NSURL *ubiquitousStoreURL = [self.persistentStoresDirectoryURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@-%@",self.storeName,self.ubiquityIdentifier]];
+	NSURL *ubiquitousStoreURL = [[self.persistentStoresDirectoryURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@-%@",self.storeName,self.ubiquityIdentifier]] URLByAppendingPathExtension:kFSQCoreDataStackSqliteExtension];
 	CoreDataLog(self,@"Ubiquitous store name: %@",[ubiquitousStoreURL lastPathComponent]);
     return ubiquitousStoreURL;
 }
@@ -385,7 +386,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 
 - (NSURL *) localStoreURL {
     if (nil == _localStoreURL) {
-        _localStoreURL = [self.persistentStoresDirectoryURL URLByAppendingPathComponent:self.storeName];
+        _localStoreURL = [[self.persistentStoresDirectoryURL URLByAppendingPathComponent:self.storeName] URLByAppendingPathExtension:kFSQCoreDataStackSqliteExtension];
         CoreDataLog(self,@"Local store URL: %@",_localStoreURL);
     }
     return _localStoreURL;
@@ -504,14 +505,15 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 }
 
 - (void) initializeWithUbiquityTransition:(FSQCoreDataStackUbiquityTransition)transition completionBlock:(void(^)(NSError *error))completionBlock {
-    if (nil == _migrationHandler) {
-        FLogWarn(@"Initializing a stack without a migration handler in place! This can lead to data loss when ubiquity transitions occur.");
-    }
+//    if (nil == _migrationHandler) {
+//        FLogWarn(@"Initializing a stack without a migration handler in place! This can lead to data loss when ubiquity transitions occur.");
+//    }
     dispatch_async(_setupQueue, ^{
         [self _dropPersistentStore];
-		__strong NSError *loadError = nil;
-        NSError *error = loadError;
+		__strong NSError *loadError;
+        NSError *error = nil;
         [self _initializeStoresWithUbiquityTransition:transition error:&error];
+		loadError = error;
         CoreDataLog(self,@"Initialization complete");
         if (completionBlock) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -642,8 +644,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 			}
 			else {
 				CoreDataLog(self, @"Failed to load ubiquitous store, falling back to local store");
-				NSDictionary *info = @{ NSLocalizedDescriptionKey : @"Failure trying to load ubiquitous store" };
-				NSError *failedToLoadUbiquitousStoreError = [NSError errorWithError:error domain:kFSQCoreDataStackErrorDomain code:kFSQCoreDataStackErrorCodeFailedToLoadUbiquitousStore userInfo:info];
+				NSError *failedToLoadUbiquitousStoreError = [NSError errorWithError:error domain:kFSQCoreDataStackErrorDomain code:kFSQCoreDataStackErrorCodeFailedToLoadUbiquitousStore localizedDescription:@"Failure trying to load ubiquitous store"];
 				error = failedToLoadUbiquitousStoreError;
 			}
 		}
@@ -681,8 +682,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 		else {
 			// MAN, ARE WE IN TROUBLE ... this is a crash if it's not handled
 			NSString *msg = [NSString stringWithFormat:@"Unable to load any peristent store for %@",self];
-			NSDictionary *info = @{ NSLocalizedDescriptionKey : msg };
-			NSError *seriousError = [NSError errorWithError:error domain:kFSQCoreDataStackErrorDomain code:kFSQCoreDataStackErrorCodeFailedToLoadAnyStore userInfo:info];
+			NSError *seriousError = [NSError errorWithError:error domain:kFSQCoreDataStackErrorDomain code:kFSQCoreDataStackErrorCodeFailedToLoadAnyStore localizedDescription:msg];
 			error = seriousError;
 		}
 	}
@@ -731,7 +731,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
     }
     else {
         FLogError(error, @"Could not load local store!");
-        if (*errorPtr) {
+        if (errorPtr) {
             *errorPtr = error;
         }
     }
