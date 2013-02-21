@@ -18,9 +18,13 @@
 	return error;
 }
 
-+ (id) errorWithError:(NSError *)underlyingError domain:(NSString *)errorDomain code:(NSInteger)errorCode userInfo:(NSDictionary *)userInfo {
-	NSMutableDictionary *info = [NSMutableDictionary dictionaryWithDictionary:userInfo];
-	[info setObject:underlyingError forKey:NSUnderlyingErrorKey];
++ (id) errorWithError:(NSError *)underlyingError domain:(NSString *)errorDomain code:(NSInteger)errorCode localizedDescription:(NSString *)localizedDescription {
+	NSMutableDictionary *info = [NSMutableDictionary new];
+	if (underlyingError) {
+		[info addEntriesFromDictionary:underlyingError.userInfo];
+		info[NSUnderlyingErrorKey] = underlyingError;
+	}
+	info[NSLocalizedDescriptionKey] = localizedDescription;
 	NSError *error = [NSError errorWithDomain:errorDomain code:errorCode userInfo:info];
 	return error;
 }
