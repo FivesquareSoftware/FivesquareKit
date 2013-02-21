@@ -19,6 +19,10 @@
 #import "NSError+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
 
+#ifndef FSQCoreDataSupportUbiquity
+#define FSQCoreDataSupportUbiquity 0
+#endif
+
 
 #ifndef FSQCoreDataLogging
 #define FSQCoreDataLogging  DEBUG && 1
@@ -167,8 +171,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 
 @dynamic ubiquitous;
 - (void) setUbiquitous:(BOOL)ubiquitous {
-	return;
-//#warning Ignoring ubiquity setting for now
+#if FSQCoreDataSupportUbiquity
     if (_ubiquityState.ubiquitous != ubiquitous) {
 		if (self.suspended) {
 			_suspendedUbiquityState.ubiquitous = ubiquitous;
@@ -182,6 +185,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 			}];
 		}
     }
+#endif
 }
 
 - (BOOL) isUbiquitous {
@@ -438,6 +442,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
         _setupQueue = dispatch_queue_create("com.fivesquaresoftware.FSQCoreDataManager.steupQueue", NULL);
         
 		
+#if FSQCoreDataSupportUbiquity
 		// get a head start on initializing the ubiquity container if need be
 		if (_ubiquityState.ubiquityToken) {
 			dispatch_async(_setupQueue, ^{
@@ -453,7 +458,7 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
             self_.ubiquityToken = [[NSFileManager defaultManager] ubiquityIdentityToken];
         }];
         
-#if TARGET_OS_IPHONE
+	#if TARGET_OS_IPHONE
 		
 		self.applicationPausedObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             CoreDataLog(self_,@"UIApplicationDidEnterBackgroundNotification");
@@ -473,12 +478,13 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 				}];
 			}
         }];
-#endif
-        
+	#endif
         
         [[NSNotificationCenter defaultCenter] addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             CoreDataLog(self_,@"Imported ubiquitous content: %@",note);
         }];
+#endif
+
 	}
 	return self;
 }
