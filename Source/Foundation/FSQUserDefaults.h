@@ -90,6 +90,9 @@
 - (id) archivedObjectForKey:(NSString *)key;
 - (void) setArchivedObject:(id<NSCoding>)object forKey:(NSString *)key;
 
+- (void)setUnsignedInteger:(NSUInteger)value forKey:(NSString *)defaultName;
+- (NSUInteger)unsignedIntegerForKey:(NSString *)defaultName;
+
 
 @end
 
