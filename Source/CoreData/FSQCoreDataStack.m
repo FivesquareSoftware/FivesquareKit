@@ -433,7 +433,6 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
 		
 		_ubiquityState = [FSQCoreDataStackUbiquityState new];
 		_ubiquityState.ubiquitous = NO;
-		_ubiquityState.ubiquityToken = [[NSFileManager defaultManager] ubiquityIdentityToken];
 		
         _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
         _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
@@ -443,6 +442,8 @@ typedef NS_OPTIONS(NSUInteger, FSQCoreDataStackUbiquityTransition) {
         
 		
 #if FSQCoreDataSupportUbiquity
+		_ubiquityState.ubiquityToken = [[NSFileManager defaultManager] ubiquityIdentityToken];
+
 		// get a head start on initializing the ubiquity container if need be
 		if (_ubiquityState.ubiquityToken) {
 			dispatch_async(_setupQueue, ^{
