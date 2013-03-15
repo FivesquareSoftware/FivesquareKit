@@ -21,7 +21,7 @@ enum  {
 
 
 
-@interface FSQCoreDataStack : NSObject <NSFilePresenter>
+@interface FSQCoreDataStack : NSObject
 
 // Delegation
 
@@ -49,11 +49,6 @@ enum  {
 
 /** Effective for new managed object contexts. */
 @property (nonatomic, strong) id mergePolicy;
-
-// Ubiquity settings
-
-/** Whether to sync this stack with iCloud or not. When this is set to YES, the the locations for the store and transaction logs are determined internally and the correct persistent store options will be generated automatically. If you set these options in #storeOptions they will be overridden (this is necessary to ensure proper handling of account transitions, including between multiple iCloud accounts). Defaults to NO.  */
-@property (nonatomic, getter = isUbiquitous) BOOL ubiquitous;
 
 
 // Locations
