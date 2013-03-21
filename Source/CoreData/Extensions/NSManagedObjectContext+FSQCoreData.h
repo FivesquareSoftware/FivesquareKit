@@ -13,12 +13,12 @@
 
 /** Saves the receiver synchronously using performBlockAndWait:, failing with a generic error message if the save fails. */
 - (BOOL)save;
-/** Saves the receiver asynchronously using performBlock: and calls completionBlock when done. */
+/** Saves the receiver asynchronously using performBlock: and dispatches the completionBlock on the main thread. */
 - (void) saveWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
 
 /** Saves the receiver synchronously using performBlockAndWait:, failing with the provided error message if the save fails. */
 - (BOOL)saveWithErrorMessage:(NSString *)errorMessage;
-/** Saves the receiver asynchronously using performBlock:,logs the provided error message if the save fails and calls completionBlock. */
+/** Saves the receiver asynchronously using performBlock:,logs the provided error message if the save fails and dispatches the completionBlock on the main thread. */
 - (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
 
 /** Saves the receiver synchronously and, if it has a parent, synchronously saves the parent using performBlockAndWait:.
@@ -27,8 +27,14 @@
  */
 - (BOOL) saveWithParent:(NSError **)error;
 
-/** Saves the receiver asynchronously and, if it has a parent, asynchronously saves the parent using performBlock: calling completionBlock when done. */
+/** Saves the receiver asynchronously and, if it has a parent, asynchronously saves the parent using performBlock: dispatching the completionBlock on the main thread. */
 - (void) saveWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
+
+/** On the completion of some work saves the receiver and and dispatches the completionBlock on the main threa. */
+- (void) performBlock:(void (^)())block saveWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
+/** On the completion of some work saves the receiver and, if it has a parent, asynchronously saves the parent using performBlock:, then dispatches the completionBlock on the main threa. */
+- (void) performBlock:(void (^)())block saveWithParentCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
+
 
 /** @returns a child context of concurrency type NSPrivateQueueConcurrencyType. This context  must be messaged by calling performBlock: and may be used from any thread.  */
 - (NSManagedObjectContext *) newChildContext;
