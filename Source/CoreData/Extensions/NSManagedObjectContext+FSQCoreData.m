@@ -32,7 +32,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	return [self saveWithErrorMessage:@"Could not save context"];
 }
 
-- (void) saveWithCompletionBlock:(void(^)(NSError *error))completionBlock {
+- (void) saveWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
     [self saveWithErrorMessage:@"Could not save context" completionBlock:completionBlock];
 }
 
@@ -48,8 +48,17 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	return success;
 }
 
-- (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(NSError *error))completionBlock {
-    
+- (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
+	__block NSError *error = nil;
+	__block BOOL success = NO;
+    [self performBlockAndWait:^{
+        success = [self save:&error];
+    }];
+	if (completionBlock) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			completionBlock(success, error);
+		});
+	}
 }
 
 - (BOOL) saveWithParent:(NSError **)error {
@@ -69,8 +78,21 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	return success;
 }
 
-- (void) saveWithParentWithCompletionBlock:(void(^)(NSError *error))completionBlock {
-    
+- (void) saveWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
+	__block NSError *saveError = nil;
+	__block BOOL success = NO;
+	
+    [self performBlockAndWait:^{
+        success = [self save:&saveError];
+    }];
+    if (success && self.parentContext) {
+        [self.parentContext performBlockAndWait:^{ success = [self.parentContext save:&saveError]; }];
+    }
+	if (completionBlock) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			completionBlock(success, saveError);
+		});
+	}
 }
 
 - (NSManagedObjectContext *) newChildContext {

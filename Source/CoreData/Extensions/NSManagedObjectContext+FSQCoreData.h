@@ -14,12 +14,12 @@
 /** Saves the receiver synchronously using performBlockAndWait:, failing with a generic error message if the save fails. */
 - (BOOL)save;
 /** Saves the receiver asynchronously using performBlock: and calls completionBlock when done. */
-- (void) saveWithCompletionBlock:(void(^)(NSError *error))completionBlock;
+- (void) saveWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
 
 /** Saves the receiver synchronously using performBlockAndWait:, failing with the provided error message if the save fails. */
 - (BOOL)saveWithErrorMessage:(NSString *)errorMessage;
 /** Saves the receiver asynchronously using performBlock:,logs the provided error message if the save fails and calls completionBlock. */
-- (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(NSError *error))completionBlock;
+- (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
 
 /** Saves the receiver synchronously and, if it has a parent, synchronously saves the parent using performBlockAndWait:.
  *  @returns YES if the receiver and its parent if any were saved successfully. 
@@ -28,7 +28,7 @@
 - (BOOL) saveWithParent:(NSError **)error;
 
 /** Saves the receiver asynchronously and, if it has a parent, asynchronously saves the parent using performBlock: calling completionBlock when done. */
-- (void) saveWithParentWithCompletionBlock:(void(^)(NSError *error))completionBlock;
+- (void) saveWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
 
 /** @returns a child context of concurrency type NSPrivateQueueConcurrencyType. This context  must be messaged by calling performBlock: and may be used from any thread.  */
 - (NSManagedObjectContext *) newChildContext;
