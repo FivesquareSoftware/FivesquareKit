@@ -287,6 +287,8 @@
 		A4D02EF215252D4E00C16B67 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE915252C8A00C16B67 /* QuartzCore.framework */; };
 		A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D460D515D022A700F59A95 /* FSQCapsuleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */; };
+		A4D53512170240A300609EE2 /* FSQTransparentWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D53510170240A300609EE2 /* FSQTransparentWebView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4D53513170240A300609EE2 /* FSQTransparentWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D53511170240A300609EE2 /* FSQTransparentWebView.m */; };
 		A4DC742716CD990F0047E6B2 /* FSQSegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4DC742816CD990F0047E6B2 /* FSQSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */; };
 		A4E1D04D16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E1D04B16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -541,6 +543,8 @@
 		A4D4B31C152FBA7400B3A66E /* human.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
 		A4D4B31D152FBA7400B3A66E /* machine.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.h.motemplate; sourceTree = "<group>"; };
 		A4D4B31E152FBA7400B3A66E /* machine.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
+		A4D53510170240A300609EE2 /* FSQTransparentWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQTransparentWebView.h; sourceTree = "<group>"; };
+		A4D53511170240A300609EE2 /* FSQTransparentWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQTransparentWebView.m; sourceTree = "<group>"; };
 		A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQSegmentedControl.h; sourceTree = "<group>"; };
 		A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQSegmentedControl.m; sourceTree = "<group>"; };
 		A4E1D04B16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+FSQFoundation.h"; sourceTree = "<group>"; };
@@ -947,6 +951,8 @@
 				A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */,
 				A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */,
 				A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */,
+				A4D53510170240A300609EE2 /* FSQTransparentWebView.h */,
+				A4D53511170240A300609EE2 /* FSQTransparentWebView.m */,
 				A45FAFCD16938C4B0066B78C /* ProgressHUD */,
 				A4EA537215336789006BF354 /* Menu */,
 				A45F445E12748375005D9BF4 /* RatingIndicator */,
@@ -1301,6 +1307,7 @@
 				A4062E361697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
 				A4DC742716CD990F0047E6B2 /* FSQSegmentedControl.h in Headers */,
 				A4E1D04D16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h in Headers */,
+				A4D53512170240A300609EE2 /* FSQTransparentWebView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1572,6 +1579,7 @@
 				A4062E381697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
 				A4DC742816CD990F0047E6B2 /* FSQSegmentedControl.m in Sources */,
 				A4E1D04F16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m in Sources */,
+				A4D53513170240A300609EE2 /* FSQTransparentWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
