@@ -72,6 +72,7 @@
 #import "FSQLabel.h"
 #import "FSQCapsuleButton.h"
 #import "FSQProgressAlert.h"
+#import "FSQObjectButton.h"
 
 // Transformers
 

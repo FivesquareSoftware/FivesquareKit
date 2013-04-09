@@ -138,6 +138,8 @@
 		A43A66E5157D600500640591 /* FSQMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A66E3157D600500640591 /* FSQMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A43CC1B91538AC960013700F /* UIView+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43CC1BC1538AC960013700F /* UIView+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */; };
+		A4413F481713D3FF0078F827 /* FSQObjectButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A4413F461713D3FF0078F827 /* FSQObjectButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4413F491713D3FF0078F827 /* FSQObjectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4413F471713D3FF0078F827 /* FSQObjectButton.m */; };
 		A44624371558659200E25FFD /* FSQMenuPopover.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624321558659200E25FFD /* FSQMenuPopover.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A44624381558659200E25FFD /* FSQMenuPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = A44624331558659200E25FFD /* FSQMenuPopover.m */; };
 		A44624391558659200E25FFD /* FSQMenuViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624341558659200E25FFD /* FSQMenuViewController+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -376,6 +378,8 @@
 		A43A66E3157D600500640591 /* FSQMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMacros.h; sourceTree = "<group>"; };
 		A43CC1B91538AC960013700F /* UIView+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FSQUIKit.h"; sourceTree = "<group>"; };
 		A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FSQUIKit.m"; sourceTree = "<group>"; };
+		A4413F461713D3FF0078F827 /* FSQObjectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQObjectButton.h; sourceTree = "<group>"; };
+		A4413F471713D3FF0078F827 /* FSQObjectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQObjectButton.m; sourceTree = "<group>"; };
 		A44624321558659200E25FFD /* FSQMenuPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMenuPopover.h; sourceTree = "<group>"; };
 		A44624331558659200E25FFD /* FSQMenuPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQMenuPopover.m; sourceTree = "<group>"; };
 		A44624341558659200E25FFD /* FSQMenuViewController+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQMenuViewController+Protected.h"; sourceTree = "<group>"; };
@@ -933,6 +937,8 @@
 				A40856D015BC9FE6002CCA20 /* FSQLabel.m */,
 				A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */,
 				A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */,
+				A4413F461713D3FF0078F827 /* FSQObjectButton.h */,
+				A4413F471713D3FF0078F827 /* FSQObjectButton.m */,
 				A45FAFCD16938C4B0066B78C /* ProgressHUD */,
 				A4EA537215336789006BF354 /* Menu */,
 				A45F445E12748375005D9BF4 /* RatingIndicator */,
@@ -1285,6 +1291,7 @@
 				A45FAFD816938C4B0066B78C /* FSQProgressView.h in Headers */,
 				A41625D3169508A1008499ED /* FSQUIKitConstants.h in Headers */,
 				A4062E361697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
+				A4413F481713D3FF0078F827 /* FSQObjectButton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1553,6 +1560,7 @@
 				A45FAFD916938C4B0066B78C /* FSQProgressView.m in Sources */,
 				A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */,
 				A4062E381697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
+				A4413F491713D3FF0078F827 /* FSQObjectButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -32,7 +32,7 @@
 
 
 
-@interface FivesquareKit {
+@interface FivesquareKit : NSObject {
 	
 }
 

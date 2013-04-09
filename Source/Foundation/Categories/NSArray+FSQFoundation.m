@@ -98,7 +98,7 @@
 
 // ========================================================================== //
 
-#pragma mark - Queying
+#pragma mark - Querying
 
 
 
@@ -121,6 +121,20 @@
 	}
 	return [self objectAtIndex:0];
 }
+
+- (id) anyObject {
+	uint32_t rnd = arc4random_uniform((u_int32_t)[self count]);
+    return [self objectAtIndex:rnd];
+}
+
+- (NSArray *) anyArray:(NSUInteger)count {
+	NSMutableArray *array = [NSMutableArray new];
+	while ([array count] < count) {
+		[array addObject:[self anyObject]];
+	}
+	return array;
+}
+
 
 // ========================================================================== //
 

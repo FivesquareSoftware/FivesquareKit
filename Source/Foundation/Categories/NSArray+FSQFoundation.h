@@ -36,6 +36,8 @@
 - (id) objectPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate;
 
 - (id) firstObject; ///< @returns the first object if there is one, or nil.
+- (id) anyObject;
+- (NSArray *) anyArray:(NSUInteger)seed;
 
 // Enumeration
 
