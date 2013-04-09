@@ -423,7 +423,7 @@
 				}
 				NSMutableSet *newObjects = [NSMutableSet set];
 				for (id value in collection) {
-					id ref = [value valueForKeyPath:@"<ref>" error:NULL];
+					id ref = [value valueForKeyPath:@"<predicate>" error:NULL];
 					if (ref) {
 						NSPredicate *predicate = [NSPredicate predicateWithFormat:ref];
 						Class destinationClass = NSClassFromString([destinationEntity managedObjectClassName]);
@@ -451,7 +451,7 @@
 			else {
 				id value = [source valueForKeyPath:key error:NULL];
 				if (value) {
-					id ref = [value valueForKeyPath:@"<ref>" error:NULL];
+					id ref = [value valueForKeyPath:@"<predicate>" error:NULL];
 					if (ref) {
 						NSPredicate *predicate = [NSPredicate predicateWithFormat:ref];
 						Class destinationClass = NSClassFromString([destinationEntity managedObjectClassName]);

@@ -82,7 +82,7 @@
 	}
 	@catch (NSException *exception) {
 		if (error) {
-			*error = [NSError withException:exception];
+			*error = [NSError errorWithException:exception];
 		}
 	}
 	return value;

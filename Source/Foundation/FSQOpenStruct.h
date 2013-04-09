@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FSQOpenStruct : NSObject
+@interface FSQOpenStruct : NSObject <NSCoding>
 
 @property (strong, readonly) NSMutableDictionary *attributes;
+
+- (id)initWithAttributes:(NSDictionary *)attributes;
 
 @end

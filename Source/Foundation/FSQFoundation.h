@@ -32,5 +32,6 @@
 #import "NSValue+FSQFoundation.h"
 #import "NSSet+FSQFoundation.h"
 #import "NSIndexPath+FSQFoundation.h"
+#import "NSDateFormatter+FSQFoundation.h"
 
 

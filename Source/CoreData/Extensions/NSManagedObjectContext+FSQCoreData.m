@@ -32,7 +32,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	return [self saveWithErrorMessage:@"Could not save context"];
 }
 
-- (void) saveWithCompletionBlock:(void(^)(NSError *error))completionBlock {
+- (void) saveWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
     [self saveWithErrorMessage:@"Could not save context" completionBlock:completionBlock];
 }
 
@@ -48,8 +48,17 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	return success;
 }
 
-- (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(NSError *error))completionBlock {
-    
+- (void) saveWithErrorMessage:(NSString *)errorMessage completionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
+	__block NSError *error = nil;
+	__block BOOL success = NO;
+    [self performBlockAndWait:^{
+        success = [self save:&error];
+    }];
+	if (completionBlock) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			completionBlock(success, error);
+		});
+	}
 }
 
 - (BOOL) saveWithParent:(NSError **)error {
@@ -60,7 +69,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
         success = [self save:&saveError];
     }];
     if (success && self.parentContext) {
-        [self.parentContext performBlockAndWait:^{ success = [self.parentContext save:NULL]; }];
+        [self.parentContext performBlockAndWait:^{ success = [self.parentContext save:&saveError]; }];
     }
 	
 	if (error) {
@@ -69,8 +78,35 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	return success;
 }
 
-- (void) saveWithParentWithCompletionBlock:(void(^)(NSError *error))completionBlock {
-    
+- (void) saveWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
+	__block NSError *saveError = nil;
+	__block BOOL success = NO;
+	
+    [self performBlockAndWait:^{
+        success = [self save:&saveError];
+    }];
+    if (success && self.parentContext) {
+        [self.parentContext performBlockAndWait:^{ success = [self.parentContext save:&saveError]; }];
+    }
+	if (completionBlock) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			completionBlock(success, saveError);
+		});
+	}
+}
+
+- (void) performBlock:(void (^)())block saveWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[self performBlockAndWait:block];
+		[self saveWithCompletionBlock:completionBlock];
+	});
+}
+
+- (void) performBlock:(void (^)())block saveWithParentCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[self performBlockAndWait:block];
+		[self saveWithParentWithCompletionBlock:completionBlock];
+	});
 }
 
 - (NSManagedObjectContext *) newChildContext {
@@ -89,9 +125,9 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 
 #pragma mark - Data Loading
 
-- (BOOL) loadDefaultDatafromPlistIfNeeded:(NSString *)plistName error:(NSError **)error {
+- (BOOL) loadDefaultData:(NSURL *)plistURL error:(NSError **)error {
 	
-	NSDictionary *defaultData = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:plistName ofType:@"plist"]];
+	NSDictionary *defaultData = [NSDictionary dictionaryWithContentsOfURL:plistURL];
 	
 	BOOL loaded = NO;
 	NSError *localError = nil;
@@ -124,23 +160,30 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 											 userInfo:info];
 				break;
 			}
-			NSUInteger count = [destinationClass countInContext:self];
 			NSUInteger mappedCount = 0;
-			if (count < 1) {
-				loaded = YES;
-				for (id data in objects) {
-					NSManagedObject *object = [destinationClass createInContext:self];
-					[object updateWithObject:data merge:NO];
-//					FLog(@"data: %@",data);
-//					FLog(@"object: %@",object);
+
+			for (id data in objects) {
+				NSManagedObject *object = nil;
+				NSString *predicateFormat = [data objectForKey:@"<predicate>"];
+				if (predicateFormat) {
+					NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat];
+					object = [destinationClass findOrCreateWithPredicate:predicate inContext:self];
+					if ([object isInserted]) {
+						[object updateWithObject:data merge:NO];
+						loaded = YES;
+						mappedCount++;
+					}
+				}
+				else {
+					object = [destinationClass createWithAttributes:data inContext:self];
+					loaded = YES;
 					mappedCount++;
 				}
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wformat"
-				FLog(@"Mapped %u %@s",mappedCount, entityClassName);
-				FLog(@"actual count: %u",[destinationClass countInContext:self]);
-#pragma clang diagnostic pop
+				//					FLog(@"data: %@",data);
+				//					FLog(@"object: %@",object);				
 			}
+			FLog(@"Mapped %@ %@s",@(mappedCount), entityClassName);
+			FLog(@"actual count: %@",@([destinationClass countInContext:self]));
 		}
 
 	}
@@ -159,6 +202,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 
 	return loaded;
 }
+
 
 
 @end

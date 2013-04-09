@@ -53,6 +53,8 @@
 @interface FSQFetchedResultsCollectionViewController ()
 @property (nonatomic) BOOL initialized;
 @property (nonatomic, strong) NSMutableSet *pendingChanges;
+@property (nonatomic, strong) id persistentStoresObserver;
+@property (nonatomic, strong) id ubiquitousChangesObserver;
 
 @end
 
@@ -132,6 +134,20 @@
 - (void) viewDidLoad {
 	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
 	[super viewDidLoad];
+	
+	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator;
+    
+    FSQWeakSelf(self_);
+    self.persistentStoresObserver = [notificationCenter addObserverForName:NSPersistentStoreCoordinatorStoresDidChangeNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self_.fetchedResultsController fetch];
+		[self_.collectionView reloadData];
+    }];
+    self.ubiquitousChangesObserver = [notificationCenter addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self_.fetchedResultsController fetch];
+		[self_.collectionView reloadData];
+    }];
+
 }
 
 - (void) viewWillAppear:(BOOL)animated {

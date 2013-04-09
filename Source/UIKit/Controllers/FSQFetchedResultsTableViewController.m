@@ -19,6 +19,8 @@
 
 @interface FSQFetchedResultsTableViewController ()
 @property (nonatomic) BOOL initialized;
+@property (nonatomic, strong) id persistentStoresObserver;
+@property (nonatomic, strong) id ubiquitousChangesObserver;
 @end
 
 
@@ -34,7 +36,7 @@
 
 - (NSManagedObjectContext *) managedObjectContext {
 	if (_managedObjectContext == nil) {
-		[FSQAsserter subclass:self responsibility:_cmd];
+		FSQSubclassResponsibility();
 	}
 	return _managedObjectContext;
 }
@@ -48,7 +50,7 @@
 
 - (NSFetchedResultsController *) fetchedResultsController {
 	if (_fetchedResultsController == nil) {
-		[FSQAsserter subclass:self responsibility:_cmd];
+		FSQSubclassResponsibility();
 	}
 	return _fetchedResultsController;
 }
@@ -103,6 +105,20 @@
 - (void) viewDidLoad {
 	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
 	[super viewDidLoad];
+	
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator;
+    
+    FSQWeakSelf(self_);
+    self.persistentStoresObserver = [notificationCenter addObserverForName:NSPersistentStoreCoordinatorStoresDidChangeNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self_.fetchedResultsController fetch];
+		[self_.tableView reloadData];
+    }];
+    self.ubiquitousChangesObserver = [notificationCenter addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self_.fetchedResultsController fetch];
+		[self_.tableView reloadData];
+    }];
+
 }
 
 - (void) viewWillAppear:(BOOL)animated {

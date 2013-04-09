@@ -8,6 +8,8 @@
 
 #import "FSQFetchedResultsViewController.h"
 
+#import <Foundation/Foundation.h>
+
 
 #import "FSQAsserter.h"
 #import "NSObject+FSQFoundation.h"
@@ -17,6 +19,8 @@
 
 @interface FSQFetchedResultsViewController ()
 @property (nonatomic) BOOL initialized;
+@property (nonatomic, strong) id persistentStoresObserver;
+@property (nonatomic, strong) id ubiquitousChangesObserver;
 @end
 
 
@@ -29,7 +33,7 @@
 
 - (NSManagedObjectContext *) managedObjectContext {
 	if (_managedObjectContext == nil) {
-		[FSQAsserter subclass:self responsibility:_cmd];
+		FSQSubclassResponsibility();
 	}
 	return _managedObjectContext;
 }
@@ -43,7 +47,7 @@
 
 - (NSFetchedResultsController *) fetchedResultsController {
 	if (_fetchedResultsController == nil) {
-		[FSQAsserter subclass:self responsibility:_cmd];
+		FSQSubclassResponsibility();
 	}
 	return _fetchedResultsController;
 }
@@ -64,6 +68,9 @@
 
 - (void) dealloc {
 	_fetchedResultsController.delegate = nil;
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter removeObserver:self.persistentStoresObserver];
+    [notificationCenter removeObserver:self.ubiquitousChangesObserver];
 }
 
 - (void) initialize {
@@ -96,6 +103,18 @@
 - (void) viewDidLoad {
 	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
 	[super viewDidLoad];
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator;
+    
+    FSQWeakSelf(self_);
+    self.persistentStoresObserver = [notificationCenter addObserverForName:NSPersistentStoreCoordinatorStoresDidChangeNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self_.fetchedResultsController fetch];
+    }];
+    self.ubiquitousChangesObserver = [notificationCenter addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self_.fetchedResultsController fetch];
+    }];
+
 }
 
 - (void) viewDidUnload {

@@ -8,18 +8,79 @@
 
 #import "FSQKeyboardHandler.h"
 
+#import "FSQLogging.h"
+#import "FSQAsserter.h"
+
 
 @interface FSQKeyboardHandler ()
 @property (nonatomic,assign) BOOL keyboardUp;
-- (void) registerForKeyboardNotifications;
-- (void) animationsStopped:(NSString *)animationID finished:(BOOL)finished context:(void *)context;
+@property (nonatomic, readonly) UIView *view;
+@property (nonatomic, readonly) UIWindow *window;
+@property (nonatomic, readonly) CGRect bounds;
+@property (nonatomic) CGRect frame;
+@property (nonatomic, readonly) CGPoint center;
+@property (nonatomic, readonly) UIInterfaceOrientation interfaceOrientation;
+@property (nonatomic, readonly) BOOL isLandscape;
+@property (nonatomic, readonly) BOOL isUpsideDown;
 @end
 
 @implementation FSQKeyboardHandler
 
-@synthesize keyboardUp = _keyboardUp;
-@synthesize keepKeyboardUp = _keepKeyboardUp;
-@synthesize viewController = _viewController;
+// ========================================================================== //
+
+#pragma mark - Properties
+
+
+@dynamic interfaceOrientation;
+- (UIInterfaceOrientation) interfaceOrientation {
+	return _viewController.interfaceOrientation;
+}
+
+@dynamic isLandscape;
+- (BOOL) isLandscape {
+	return UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+}
+
+@dynamic isUpsideDown;
+- (BOOL) isUpsideDown {
+	return self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown;
+}
+
+@dynamic view;
+- (UIView *) view {
+	return _viewController.view;
+}
+
+@dynamic window;
+- (UIWindow *) window {
+	return _viewController.view.window;
+}
+
+@dynamic bounds;
+- (CGRect) bounds {
+	return _viewController.view.bounds;
+}
+
+@dynamic frame;
+- (CGRect) frame {
+	return _viewController.view.frame;
+}
+
+- (void) setFrame:(CGRect)frame {
+	_viewController.view.frame = frame;
+}
+
+@dynamic center;
+- (CGPoint) center {
+	return _viewController.view.center;
+}
+
+
+// ========================================================================== //
+
+#pragma mark - Object
+
+
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -71,42 +132,47 @@
 #pragma mark Keyboard Notifications
 
 
-- (void) keyboardDidShowNotification:(NSNotification *)notification {
+- (void) keyboardWillShowNotification:(NSNotification *)notification {
 	
 	if(_keyboardUp)
 		return;
-	
-	NSDictionary *userInfo = [notification userInfo];
-	CGRect keyboardBounds;
-	[(NSValue *)[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
-	
-	CGRect keyboardFrame = [_viewController.view.superview convertRect:keyboardBounds fromView:nil];
-	CGFloat deltaX = _viewController.view.frame.size.height - keyboardFrame.origin.y;
-	
-	CGRect newFrame = _viewController.view.frame;
-	newFrame.size.height -= deltaX;
-	
-	[UIView beginAnimations:@"ShowingKeyboard" context:nil];
-	
-	_viewController.view.frame = newFrame;
-	
-	[UIView commitAnimations];
-	
 	_keyboardUp = YES;
-}
-
-- (void) keyboardWillHideNotification:(NSNotification *)notification {
 	
-	if(self.keepKeyboardUp)
-		return;
 	
 	NSDictionary *userInfo = [notification userInfo];
+	CGRect keyboardFrame;
+	[(NSValue *)[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
+	keyboardFrame = [_viewController.view.superview convertRect:keyboardFrame fromView:nil];
+//	FLogDebug(@"keyboardFrame: %@", NSStringFromCGRect(keyboardFrame));
+//	FLogDebug(@"self.frame: %@",NSStringFromCGRect(self.frame));
 	
-	CGRect keyboardBounds;
-	[(NSValue *)[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
-	
-	CGRect keyboardFrame = [_viewController.view.superview convertRect:keyboardBounds fromView:nil];
-	CGFloat deltaX = _viewController.view.superview.frame.size.height - keyboardFrame.origin.y;
+	CGRect remainingSlice;
+	CGRect keyboardSlice;
+	CGFloat keyboardIntrusionDimension = self.isLandscape ? keyboardFrame.size.width : keyboardFrame.size.height;
+//	FLogDebug(@"keyboardIntrusionDimension: %@",@(keyboardIntrusionDimension));
+
+	CGRectEdge keyboardOriginEdge;
+	switch (self.interfaceOrientation) {
+		case UIDeviceOrientationPortraitUpsideDown:
+			keyboardOriginEdge = CGRectMinYEdge;
+			break;
+		case UIDeviceOrientationLandscapeLeft:
+			keyboardOriginEdge = CGRectMinXEdge;
+			break;
+		case UIDeviceOrientationLandscapeRight:
+			keyboardOriginEdge = CGRectMaxXEdge;
+			break;			
+		case UIDeviceOrientationPortrait:
+		default:
+			keyboardOriginEdge = CGRectMaxYEdge;
+			break;
+	}
+//	FLogDebug(@"keyboardOriginEdge: %@",@(keyboardOriginEdge));
+
+	CGRectDivide(self.frame, &keyboardSlice, &remainingSlice, keyboardIntrusionDimension, keyboardOriginEdge);	
+//	FLogDebug(@"remainingSlice: %@",NSStringFromCGRect(remainingSlice));
+//	FLogDebug(@"keyboardSlice: %@",NSStringFromCGRect(keyboardSlice));
+	FSQAssert(CGRectEqualToRect(keyboardSlice, keyboardFrame), @"Keyboard slice doesn't equal keyboard frame!");
 	
 	NSTimeInterval keyboardAnimationDuration;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&keyboardAnimationDuration];
@@ -114,31 +180,81 @@
 	UIViewAnimationCurve keyboardAnimationCurve;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&keyboardAnimationCurve];
 	
+	UIViewAnimationOptions options = 0;
+	switch (keyboardAnimationCurve) {
+		case UIViewAnimationCurveEaseIn:
+			options |= UIViewAnimationOptionCurveEaseIn;
+			break;
+		case UIViewAnimationCurveEaseOut:
+			options |= UIViewAnimationOptionCurveEaseOut;
+			break;
+		case UIViewAnimationCurveLinear:
+			options |= UIViewAnimationOptionCurveLinear;
+			break;			
+		default:
+			options |= UIViewAnimationOptionCurveEaseInOut;
+			break;
+	}
+	[UIView animateWithDuration:keyboardAnimationDuration delay:0 options:options animations:^{
+		self.frame = remainingSlice;
+		if (_transitionBlock) {
+			_transitionBlock(YES);
+		}
+	} completion:^(BOOL finished) {
+	}];
 	
-	CGRect newFrame = _viewController.view.frame;
-	newFrame.size.height += deltaX;//(keyboardBounds.size.height - self.tabBarController.tabBar.frame.size.height);
+}
+
+- (void) keyboardWillHideNotification:(NSNotification *)notification {
 	
-	[UIView beginAnimations:@"HidingKeyboard" context:nil];
-	[UIView setAnimationDelegate:self];
-	[UIView setAnimationDidStopSelector:@selector(animationsStopped:finished:context:)];
-	[UIView setAnimationDuration:keyboardAnimationDuration];
-	[UIView setAnimationCurve:keyboardAnimationCurve];
+	if(self.keepKeyboardUp)
+		return;
+	NSDictionary *userInfo = [notification userInfo];
+//	FLogDebug(@"userInfo: %@",userInfo);
 	
-	_viewController.view.frame = newFrame;
+	CGRect keyboardFrame;
+	[(NSValue *)[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardFrame];
+	keyboardFrame = [_viewController.view.superview convertRect:keyboardFrame fromView:nil];
+//	FLogDebug(@"keyboardFrame: %@", NSStringFromCGRect(keyboardFrame));
+//	FLogDebug(@"self.frame: %@",NSStringFromCGRect(self.frame));
+
+	NSTimeInterval keyboardAnimationDuration;
+	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&keyboardAnimationDuration];
 	
-	[UIView commitAnimations];		
+	UIViewAnimationCurve keyboardAnimationCurve;
+	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&keyboardAnimationCurve];
+
+	CGRect newFrame = CGRectUnion(self.frame, keyboardFrame);
+	FLogDebug(@"newFrame: %@", NSStringFromCGRect(newFrame));
 	
+	UIViewAnimationOptions options = 0;
+	switch (keyboardAnimationCurve) {
+		case UIViewAnimationCurveEaseIn:
+			options |= UIViewAnimationOptionCurveEaseIn;
+			break;
+		case UIViewAnimationCurveEaseOut:
+			options |= UIViewAnimationOptionCurveEaseOut;
+			break;
+		case UIViewAnimationCurveLinear:
+			options |= UIViewAnimationOptionCurveLinear;
+			break;
+		default:
+			options |= UIViewAnimationOptionCurveEaseInOut;
+			break;
+	}
+	[UIView animateWithDuration:keyboardAnimationDuration delay:0 options:options animations:^{
+		_viewController.view.frame = newFrame;
+		if (_transitionBlock) {
+			_transitionBlock(NO);
+		}
+	} completion:^(BOOL finished) {
+	}];
 	_keyboardUp = NO;
 }
 
-- (void) animationsStopped:(NSString *)animationID finished:(BOOL)finished context:(void *)context {
-    if([animationID isEqualToString:@"ShowingKeyboard"]) {
-    } else if([animationID isEqualToString:@"HidingKeyboard"]) {
-    }
-}
 
 - (void) registerForKeyboardNotifications {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShowNotification:) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
 }
 

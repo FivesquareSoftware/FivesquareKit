@@ -156,6 +156,22 @@
 	[self setValueSynchronized:[NSKeyedArchiver archivedDataWithRootObject:object] forKey:key];
 }
 
+- (void)setUnsignedInteger:(NSUInteger)value forKey:(NSString *)defaultName {
+	NSInteger integer = (NSInteger)value;
+	[self setInteger:integer forKey:defaultName];
+}
+
+- (NSUInteger)unsignedIntegerForKey:(NSString *)defaultName {
+	NSInteger integer = [self integerForKey:defaultName];
+	NSUInteger unsignedInteger;
+	if (integer < 0) {
+		unsignedInteger = 0;
+	}
+	else {
+		unsignedInteger = (NSUInteger)integer;
+	}
+	return unsignedInteger;
+}
 
 
 // ========================================================================== //

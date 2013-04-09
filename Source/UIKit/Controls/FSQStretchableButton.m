@@ -50,6 +50,14 @@
 	return CGPointMake(_capInsets.top, _capInsets.bottom);
 }
 
+- (CGRect) capInsetsAsRect {
+	return CGRectMake(_capInsets.left, _capInsets.top, _capInsets.right, _capInsets.bottom);
+}
+
+- (void) setCapInsetsAsRect:(CGRect)insetsAsRect {
+	UIEdgeInsets capInsets = UIEdgeInsetsMake(insetsAsRect.origin.y, insetsAsRect.origin.x, insetsAsRect.size.height, insetsAsRect.size.width);
+	self.capInsets = capInsets;
+}
 
 // ========================================================================== //
 

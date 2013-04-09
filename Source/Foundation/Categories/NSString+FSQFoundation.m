@@ -14,7 +14,7 @@
 #import "FSQAsserter.h"
 
 
-static NSString *kFSQ_NSStringPathWithOptionalScaleExpression = @"^(\\w+)(@([0-9.]+)x)?(\\.([^.]+))$";
+//static NSString *kFSQ_NSStringPathWithOptionalScaleExpression = @"^(\\w+)(@([0-9.]+)x)?(\\.([^.]+))$";
 
 @implementation NSString (FSQFoundation)
 

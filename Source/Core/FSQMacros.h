@@ -14,7 +14,7 @@
 #define FSQ_SYNTHESIZE(property)
 #endif
 
-#define FSQWeakSelf() __weak typeof(self) _self = self
+#define FSQWeakSelf(var) __weak __typeof__((__typeof__(self))self) var = self
 
 #define i18n(string,comment) NSLocalizedString(string,comment)
 
@@ -45,6 +45,8 @@
 #endif
 #endif
 
-#ifndef NS_ENUM
-#define NS_ENUM(_type, _name) _type _name; enum
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
+	#define ARC_SUPPORTS_DISPATCH_OBJECTS 0
+#else
+	#define ARC_SUPPORTS_DISPATCH_OBJECTS 1
 #endif

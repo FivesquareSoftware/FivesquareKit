@@ -160,12 +160,12 @@
 		A457EE4E16274E7F00240B7E /* FSQFoundationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFFE991607F398001C6D31 /* FSQFoundationUtils.m */; };
 		A4583292158BFC040022BE1A /* FSQAppKitConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A4583290158BFC040022BE1A /* FSQAppKitConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4583293158BFC040022BE1A /* FSQAppKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A4583291158BFC040022BE1A /* FSQAppKitConstants.m */; };
-		A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; };
+		A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A45FAF8916926EC50066B78C /* FSQKeyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8716926EC50066B78C /* FSQKeyObserver.m */; };
 		A45FAF8D16926ED30066B78C /* FSQKeyObservation.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8B16926ED30066B78C /* FSQKeyObservation.h */; };
 		A45FAF8E16926ED30066B78C /* FSQKeyObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */; };
 		A45FAF8F16926ED80066B78C /* FSQKeyObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */; };
-		A45FAF9016926EDE0066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; };
+		A45FAF9016926EDE0066B78C /* FSQKeyObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAF8616926EC50066B78C /* FSQKeyObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A45FAF9116926EDE0066B78C /* FSQKeyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAF8716926EC50066B78C /* FSQKeyObserver.m */; };
 		A45FAFD416938C4B0066B78C /* FSQProgressAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = A45FAFCE16938C4B0066B78C /* FSQProgressAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A45FAFD516938C4B0066B78C /* FSQProgressAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A45FAFCF16938C4B0066B78C /* FSQProgressAlert.m */; };
@@ -289,6 +289,14 @@
 		A4D02EF215252D4E00C16B67 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D02EE915252C8A00C16B67 /* QuartzCore.framework */; };
 		A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D460D215D022A700F59A95 /* FSQCapsuleButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D460D515D022A700F59A95 /* FSQCapsuleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */; };
+		A4D53512170240A300609EE2 /* FSQTransparentWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D53510170240A300609EE2 /* FSQTransparentWebView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4D53513170240A300609EE2 /* FSQTransparentWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D53511170240A300609EE2 /* FSQTransparentWebView.m */; };
+		A4DC742716CD990F0047E6B2 /* FSQSegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4DC742816CD990F0047E6B2 /* FSQSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */; };
+		A4E1D04D16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E1D04B16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4E1D04E16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E1D04B16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4E1D04F16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E1D04C16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m */; };
+		A4E1D05016F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E1D04C16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m */; };
 		A4E416091617AA2F00B3FADE /* FSQLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A40856D015BC9FE6002CCA20 /* FSQLabel.m */; };
 		A4E4160C1617AA3D00B3FADE /* FSQFetchedResultsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A466434F15A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.m */; };
 		A4E4160D1617AA4300B3FADE /* FSQFetchedResultsCollectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A466434E15A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -539,6 +547,12 @@
 		A4D4B31C152FBA7400B3A66E /* human.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
 		A4D4B31D152FBA7400B3A66E /* machine.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.h.motemplate; sourceTree = "<group>"; };
 		A4D4B31E152FBA7400B3A66E /* machine.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
+		A4D53510170240A300609EE2 /* FSQTransparentWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQTransparentWebView.h; sourceTree = "<group>"; };
+		A4D53511170240A300609EE2 /* FSQTransparentWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQTransparentWebView.m; sourceTree = "<group>"; };
+		A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQSegmentedControl.h; sourceTree = "<group>"; };
+		A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQSegmentedControl.m; sourceTree = "<group>"; };
+		A4E1D04B16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+FSQFoundation.h"; sourceTree = "<group>"; };
+		A4E1D04C16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+FSQFoundation.m"; sourceTree = "<group>"; };
 		A4E3C659130A2D6B00BF4C6E /* FSQFetchedResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQFetchedResultsViewController.h; sourceTree = "<group>"; };
 		A4E3C65A130A2D6B00BF4C6E /* FSQFetchedResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQFetchedResultsViewController.m; sourceTree = "<group>"; };
 		A4E416201617AD9400B3FADE /* NSSet+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+FSQFoundation.h"; sourceTree = "<group>"; };
@@ -819,6 +833,8 @@
 				A4E416211617AD9400B3FADE /* NSSet+FSQFoundation.m */,
 				A4062E341697A6D900F25E7D /* NSIndexPath+FSQFoundation.h */,
 				A4062E351697A6D900F25E7D /* NSIndexPath+FSQFoundation.m */,
+				A4E1D04B16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h */,
+				A4E1D04C16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -939,6 +955,10 @@
 				A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */,
 				A4413F461713D3FF0078F827 /* FSQObjectButton.h */,
 				A4413F471713D3FF0078F827 /* FSQObjectButton.m */,
+				A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */,
+				A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */,
+				A4D53510170240A300609EE2 /* FSQTransparentWebView.h */,
+				A4D53511170240A300609EE2 /* FSQTransparentWebView.m */,
 				A45FAFCD16938C4B0066B78C /* ProgressHUD */,
 				A4EA537215336789006BF354 /* Menu */,
 				A45F445E12748375005D9BF4 /* RatingIndicator */,
@@ -1284,14 +1304,17 @@
 				A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */,
 				A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */,
 				A4E416221617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
-				A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */,
 				A45FAF8D16926ED30066B78C /* FSQKeyObservation.h in Headers */,
 				A45FAFD416938C4B0066B78C /* FSQProgressAlert.h in Headers */,
+				A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */,
 				A45FAFD616938C4B0066B78C /* FSQProgressPanel.h in Headers */,
 				A45FAFD816938C4B0066B78C /* FSQProgressView.h in Headers */,
 				A41625D3169508A1008499ED /* FSQUIKitConstants.h in Headers */,
 				A4062E361697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
 				A4413F481713D3FF0078F827 /* FSQObjectButton.h in Headers */,
+				A4DC742716CD990F0047E6B2 /* FSQSegmentedControl.h in Headers */,
+				A4E1D04D16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h in Headers */,
+				A4D53512170240A300609EE2 /* FSQTransparentWebView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1355,6 +1378,7 @@
 				A457EE4B16274E7500240B7E /* FSQFoundationUtils.h in Headers */,
 				A45FAF9016926EDE0066B78C /* FSQKeyObserver.h in Headers */,
 				A4062E371697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
+				A4E1D04E16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1561,6 +1585,9 @@
 				A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */,
 				A4062E381697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
 				A4413F491713D3FF0078F827 /* FSQObjectButton.m in Sources */,
+				A4DC742816CD990F0047E6B2 /* FSQSegmentedControl.m in Sources */,
+				A4E1D04F16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m in Sources */,
+				A4D53513170240A300609EE2 /* FSQTransparentWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1614,6 +1641,7 @@
 				A45FAF8F16926ED80066B78C /* FSQKeyObservation.m in Sources */,
 				A45FAF9116926EDE0066B78C /* FSQKeyObserver.m in Sources */,
 				A4062E391697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
+				A4E1D05016F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1663,6 +1691,8 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DDEBUG=1";
 				OTHER_LDFLAGS = "-ObjC";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;

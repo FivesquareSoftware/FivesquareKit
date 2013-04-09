@@ -26,6 +26,8 @@
 /** The view controller to manage the keyboard for. */
 @property (nonatomic, weak) IBOutlet UIViewController *viewController;
 
+@property (nonatomic, copy) void(^transitionBlock)(BOOL keyboardUp);
+
 - (id) initWithViewController:(UIViewController *)aViewController;
 
 @end
