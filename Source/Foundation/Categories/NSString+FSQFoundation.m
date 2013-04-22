@@ -32,7 +32,7 @@
 	
 	CC_MD5( cStr, (CC_LONG)strlen(cStr), result );
 	
-	NSMutableString *hash = [[NSMutableString alloc] initWithCapacity:33];
+	NSMutableString *hash = [[NSMutableString alloc] initWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
 	for (int i = 0; i < 16; i++) {
 		[hash appendFormat: @"%02x", result[i]];
 	}
