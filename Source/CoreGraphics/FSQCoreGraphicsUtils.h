@@ -47,6 +47,7 @@ CGContextRef CreateBitmapRenderingContext(
 float RadiansForDegrees(float degrees);
 
 CGFloat CGPointDistanceFromPoint(CGPoint firstPoint, CGPoint secondPoint);
+CGPoint CGPointDeltaPoint(CGPoint firstPoint, CGPoint secondPoint);
 
 CGRect CGRectFlipInBounds(CGRect rect, CGRect bounds);
 CGPoint CGPointFlipInBounds(CGPoint point, CGRect bounds);

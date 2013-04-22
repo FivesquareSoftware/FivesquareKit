@@ -217,6 +217,14 @@ CGFloat CGPointDistanceFromPoint(CGPoint firstPoint, CGPoint secondPoint) {
 	return fabsf(c);
 }
 
+CGPoint CGPointDeltaPoint(CGPoint firstPoint, CGPoint secondPoint) {
+	CGFloat dX = firstPoint.x-secondPoint.x;
+	CGFloat dY = firstPoint.y-secondPoint.y;
+	
+	CGPoint velocity = CGPointMake(dX, dY);
+	return velocity;
+}
+
 CGRect CGRectFlipInBounds(CGRect rect, CGRect bounds) {
 	rect = CGRectApplyAffineTransform(rect, CGAffineTransformMakeTranslation(0, -CGRectGetMaxY(bounds)));
 	rect = CGRectApplyAffineTransform(rect, CGAffineTransformMakeScale(1.f, -1.f));

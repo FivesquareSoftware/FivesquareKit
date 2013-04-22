@@ -10,4 +10,12 @@
 
 @interface NSSet (FSQFoundation)
 
+- (id) randomObject;
+- (id) popObject;
+
+@end
+
+@interface NSMutableSet (FSQFoundation)
+- (id) popObject;
+- (NSSet *) popObjects:(NSUInteger)count;
 @end

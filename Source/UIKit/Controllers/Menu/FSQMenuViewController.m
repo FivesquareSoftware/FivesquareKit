@@ -164,6 +164,7 @@
 
     FSQMenuItem *itemAtIndex = [self itemAtIndex:(NSUInteger)indexPath.row];
 	cell.textLabel.text = itemAtIndex.displayName;
+	cell.imageView.image = itemAtIndex.image;
 	
 	[self configureCell:cell atIndexPath:indexPath];
     return cell;

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) id representedObject;
 @property (nonatomic, strong) NSString *displayNameKeyPath;
 @property (nonatomic, readonly) NSString *displayName;
+@property (nonatomic, strong) UIImage *image;
 
 @property (nonatomic, weak) id menu;
 

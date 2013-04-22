@@ -11,3 +11,5 @@
 
 #define kFSQUIKitDefaultAnimationDuration (NSTimeInterval)[CATransaction animationDuration]
 
+typedef void (^FSQEventHandler)(id sender);
+

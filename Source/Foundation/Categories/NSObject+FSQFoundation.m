@@ -12,6 +12,7 @@
 #import "FSQPropertyMapper.h"
 #import "NSError+FSQFoundation.h"
 
+#import <objc/runtime.h>
 
 @implementation NSObject (FSQFoundation)
 
@@ -52,7 +53,10 @@
 
 #pragma mark - KVO
 
-
+- (BOOL) hasKey:(NSString *)key {
+	BOOL hasKey = ([self valueForKeyPath:key error:NULL] != nil);
+	return hasKey;
+}
 
 - (BOOL) setValue:(id)value forKeyPath:(NSString *)keyPath error:(NSError **)error {
 	@try {
