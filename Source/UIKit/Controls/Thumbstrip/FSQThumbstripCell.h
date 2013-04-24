@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FSQThumbstripCell : UIView
+@interface FSQThumbstripCell : UIControl
 @property (nonatomic, strong, readonly) NSString *reuseIdentifier;
 @property (nonatomic, weak, readonly) UIView *contentView;
 

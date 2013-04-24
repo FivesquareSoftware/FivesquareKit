@@ -197,6 +197,7 @@
 	}
 	[UIView animateWithDuration:keyboardAnimationDuration delay:0 options:options animations:^{
 		self.frame = remainingSlice;
+		[_viewController.view layoutIfNeeded];
 		if (_transitionBlock) {
 			_transitionBlock(YES);
 		}
@@ -244,6 +245,7 @@
 	}
 	[UIView animateWithDuration:keyboardAnimationDuration delay:0 options:options animations:^{
 		_viewController.view.frame = newFrame;
+		[_viewController.view layoutIfNeeded];
 		if (_transitionBlock) {
 			_transitionBlock(NO);
 		}
