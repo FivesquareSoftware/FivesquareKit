@@ -54,6 +54,10 @@
 
 #pragma mark - Public Interface
 
+- (void) fetch {
+	[self.fetchedResultsController fetch];
+}
+
 - (id) objectAtIndex:(NSInteger)index {
 	return [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
 }
@@ -88,19 +92,27 @@
 #pragma mark - NSFetchedResultsControllerDelegate
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-	FSQSubclassWarn();
+	if ([self.fetchDelegate respondsToSelector:_cmd]) {
+		[self.fetchDelegate controller:controller didChangeObject:anObject atIndexPath:indexPath forChangeType:type newIndexPath:newIndexPath];
+	}
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-	FSQSubclassWarn();
+	if ([self.fetchDelegate respondsToSelector:_cmd]) {
+		[self.fetchDelegate controller:controller didChangeSection:sectionInfo atIndex:sectionIndex forChangeType:type];
+	}
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-	FSQSubclassWarn();
+	if ([self.fetchDelegate respondsToSelector:_cmd]) {
+		[self.fetchDelegate controllerWillChangeContent:controller];
+	}
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-	FSQSubclassWarn();
+	if ([self.fetchDelegate respondsToSelector:_cmd]) {
+		[self.fetchDelegate controllerDidChangeContent:controller];
+	}	
 }
 
 

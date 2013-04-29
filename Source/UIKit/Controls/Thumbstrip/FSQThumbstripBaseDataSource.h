@@ -13,6 +13,9 @@
 
 @interface FSQThumbstripBaseDataSource : NSObject <FSQThumbstripDataSource, NSFetchedResultsControllerDelegate>
 
+@property (nonatomic, weak) id<NSObject,NSFetchedResultsControllerDelegate>fetchDelegate;
+
+- (void) fetch;
 - (id)initWithFetchRequest:(NSFetchRequest *)fetchRequest;
 - (id) objectAtIndex:(NSInteger)index;
 
