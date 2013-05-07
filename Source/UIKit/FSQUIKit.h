@@ -34,6 +34,11 @@
 
 #import "FSQKeyboardHandler.h"
 
+// Views
+
+#import "FSQGradientView.h"
+
+
 // Cells
 
 #import "FSQBaseTableViewCell.h"
@@ -94,5 +99,6 @@
 #import "UIView+FSQUIKit.h"
 #import "UIImageView+FSQUIKit.h"
 #import "UIDevice+FSQUIKit.h"
+#import "UILabel+FSQFoundation.h"
 
 
