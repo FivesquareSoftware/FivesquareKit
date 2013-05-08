@@ -9,10 +9,11 @@
 #import "FSQAlertView.h"
 
 
+@interface FSQAlertView ()
+@property (nonatomic, copy) void(^dismissHandler)(FSQAlertView *alertView, NSInteger buttonIndex);
+@end
+
 @implementation FSQAlertView
-
-
-
 
 
 + (FSQAlertView *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage {
@@ -65,6 +66,21 @@
 	alertView.delegate = aDelegate;
 	
 	return alertView;
+}
+
+- (void) showWithDismissHandler:(void(^)(FSQAlertView *alertView, NSInteger buttonIndex))dismissHandler {
+	self.delegate = self;
+	self.dismissHandler = dismissHandler;
+	[self show];
+}
+
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	if (self.dismissHandler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.dismissHandler(self,buttonIndex);
+			self.dismissHandler = nil;
+		});
+	}
 }
 
 @end
