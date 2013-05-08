@@ -9,10 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface NSSet (FSQFoundation)
-
 - (id) randomObject;
-- (id) popObject;
-
 @end
 
 @interface NSMutableSet (FSQFoundation)
