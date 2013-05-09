@@ -126,6 +126,25 @@
 	[super viewWillAppear:animated];
 }
 
+// ========================================================================== //
+
+#pragma mark - NSFetchedResultsController
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+	FSQSubclassWarn();
+}
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+	FSQSubclassWarn();
+}
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+	FSQSubclassWarn();
+}
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	FSQSubclassWarn();
+}
+
+
 
 
 @end
