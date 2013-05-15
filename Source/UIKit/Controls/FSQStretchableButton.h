@@ -18,6 +18,6 @@
 
 - (void) initialize; ///< Subclasses can override to share common init
 
-- (void) setBackgroundImage:(UIImage *)image forState:(UIControlState)state capInsets:(UIEdgeInsets)capInsets;
+- (void) setBackgroundImage:(UIImage *)image forState:(UIControlState)state capInsets:(UIEdgeInsets)capInsets UI_APPEARANCE_SELECTOR;
 
 @end
