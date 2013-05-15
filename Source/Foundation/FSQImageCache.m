@@ -223,6 +223,24 @@
 			if (image) {
 				[self dispatchCompletionHandlersForKey:key withImage:image error:nil];
 			}
+			// if the URL points to a file on disk, just load it up and store it
+			else if([key isFileURL]) {
+				id localImage = nil;
+#if TARGET_OS_IPHONE
+				localImage = [UIImage imageWithContentsOfFile:[unscaledKey path]];
+#else
+				//TODO: load image from disk for mac os
+#endif
+				if (localImage) {
+					[self storeImage:localImage forKey:key storageKey:storageKey];
+					[self dispatchCompletionHandlersForKey:key withImage:localImage error:nil];
+				}
+				else {
+					// generate a load error
+					[self dispatchCompletionHandlersForKey:key withImage:nil error:nil];
+				}
+
+			}
 			// begin downloading it if noone else is
 			else if ([self beginDownload:key]) {
 				_downloadHandler(key,^(id downloadedImage, NSError *downloadError){
@@ -237,7 +255,8 @@
 #endif
 						[self storeImage:downloadedImage forKey:key storageKey:storageKey];
 						[self dispatchCompletionHandlersForKey:key withImage:downloadedImage error:nil];
-					} else {
+					}
+					else {
 						[self dispatchCompletionHandlersForKey:key withImage:nil error:downloadError];
 					}
 					[_currentDownloads removeObject:key];
