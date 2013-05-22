@@ -13,7 +13,7 @@
 
 
 @interface FSQKeyboardHandler ()
-@property (nonatomic,assign) BOOL keyboardUp;
+@property (nonatomic, getter = isKeyboardUp) BOOL keyboardUp;
 @property (nonatomic, readonly) UIView *view;
 @property (nonatomic, readonly) UIWindow *window;
 @property (nonatomic, readonly) CGRect bounds;
@@ -73,6 +73,11 @@
 @dynamic center;
 - (CGPoint) center {
 	return _viewController.view.center;
+}
+
+@dynamic viewFrame;
+- (CGRect) viewFrame {
+	return self.frame;
 }
 
 
@@ -173,6 +178,7 @@
 //	FLogDebug(@"remainingSlice: %@",NSStringFromCGRect(remainingSlice));
 //	FLogDebug(@"keyboardSlice: %@",NSStringFromCGRect(keyboardSlice));
 	FSQAssert(CGRectEqualToRect(keyboardSlice, keyboardFrame), @"Keyboard slice doesn't equal keyboard frame!");
+	_keyboardFrame = keyboardFrame;
 	
 	NSTimeInterval keyboardAnimationDuration;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&keyboardAnimationDuration];
@@ -227,6 +233,7 @@
 
 	CGRect newFrame = CGRectUnion(self.frame, keyboardFrame);
 	FLogDebug(@"newFrame: %@", NSStringFromCGRect(newFrame));
+	_keyboardFrame = CGRectZero;
 	
 	UIViewAnimationOptions options = 0;
 	switch (keyboardAnimationCurve) {
@@ -254,9 +261,13 @@
 	_keyboardUp = NO;
 }
 
+- (void) keyboardDidShowNotification:(NSNotification *)notification {
+	NSDictionary *userInfo = [notification userInfo];
+}
 
 - (void) registerForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShowNotification:) name:UIKeyboardDidShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
 }
 
