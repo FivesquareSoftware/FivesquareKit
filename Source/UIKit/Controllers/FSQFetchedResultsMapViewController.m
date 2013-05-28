@@ -8,6 +8,7 @@
 
 #import "FSQFetchedResultsMapViewController.h"
 
+#import "FSQMacros.h"
 #import "FSQLogging.h"
 #import "FSQAsserter.h"
 #import "NSObject+FSQFoundation.h"

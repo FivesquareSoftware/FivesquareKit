@@ -15,6 +15,7 @@ NSString *kFSQLocationResolverKeyLocation = @"Location";
 NSString *kFSQLocationResolverKeyError = @"Error";
 NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 
+NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 #define kFSQLocationResolverAccuracyBest 5
 
@@ -95,6 +96,10 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 	return [self resolveLocationAccurateTo:accuracy givingUpAfter:timeout completionHandler:nil];
 }
 
+- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverCompletionHandler)handler {
+	[self resolveLocationAccurateTo:accuracy givingUpAfter:kFSQLocationResolverInfiniteTimeInterval completionHandler:handler];
+}
+
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverCompletionHandler)handler {
 	
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
@@ -109,13 +114,16 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 	
 	self.locationUpdatesStartedOn = [NSDate date];
     self.locationManager.desiredAccuracy = accuracy;
+	self.locationManager.pausesLocationUpdatesAutomatically = (timeout == kFSQLocationResolverInfiniteTimeInterval);
     [self.locationManager startUpdatingLocation];
 	
 	if (self.locationServicesAbortTimer) {
 		[self.locationServicesAbortTimer invalidate];
 		self.locationServicesAbortTimer = nil;
 	}
-    self.locationServicesAbortTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(locationSearchTimeLimitReached:) userInfo:nil repeats:NO];
+	if (timeout != kFSQLocationResolverInfiniteTimeInterval) {
+		self.locationServicesAbortTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(locationSearchTimeLimitReached:) userInfo:nil repeats:NO];
+	}
 
 	// experimenting with getting a cached location
 	//	self.currentLocation = self.locationManager.location;
@@ -162,11 +170,16 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 		
 		// When caller has set desired accuracy to one of the "best" values, they will actually be negative, which in a location update would indicate invalid, so just check for <= the kFSQLocationResolverAccuracyBest, which seems to be the best possible accuracy we get
         if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy <= kFSQLocationResolverAccuracyBest) ) {
-			FLog(@"Got a good enough location, stopping updates");
-			FLog(@"newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
-			[self.locationManager stopUpdatingLocation];
+			FLog(@"Got a good enough location: newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
 			self.currentLocation = newLocation;
-			[self handleResolutionCompletion];
+			if (self.locationManager.pausesLocationUpdatesAutomatically) {
+				[self handleResolutionUpdate];
+			}
+			else {
+				FLog(@"Stopping updates");
+				[self.locationManager stopUpdatingLocation];
+				[self handleResolutionCompletion];
+			}
         }
     }
 }
@@ -232,7 +245,22 @@ NSString *kFSQLocationResolverKeyAborted = @"Aborted";
 	self.resolving = NO;
 }
 
-
-
+- (void) handleResolutionUpdate {
+	NSMutableDictionary *info = [NSMutableDictionary new];
+	if (self.currentLocation) {
+		[info setObject:self.currentLocation forKey:kFSQLocationResolverKeyLocation];
+	}
+	if (self.error) {
+		[info setObject:self.error forKey:kFSQLocationResolverKeyError];
+	}
+	[info setObject:@(self.aborted) forKey:kFSQLocationResolverKeyAborted];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:kFSQLocationResolverCompletedResolutionNotification object:self userInfo:info];
+	[_completionHandlers enumerateObjectsUsingBlock:^(FSQLocationResolverCompletionHandler handler, BOOL *stop) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			handler(self.currentLocation,self.error);
+		});
+	}];
+}
 
 @end

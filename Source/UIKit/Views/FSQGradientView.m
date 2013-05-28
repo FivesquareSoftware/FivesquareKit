@@ -33,6 +33,7 @@
 		_gradientComponents = gradientComponents;
 		self.gradientLayer.colors = [_gradientComponents valueForKey:@"color"];
 		self.gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
+		[self setNeedsDisplay];
 	}
 }
 
@@ -66,7 +67,8 @@
 }
 
 - (void) ready {
-	
+	self.gradientLayer.colors = [_gradientComponents valueForKey:@"color"];
+	self.gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
 }
 
 - (id)initWithFrame:(CGRect)frame {
