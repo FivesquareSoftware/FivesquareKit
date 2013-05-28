@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface FSQAlertView : UIAlertView {
+@interface FSQAlertView : UIAlertView <UIAlertViewDelegate> {
 }
 
 @property (nonatomic, strong) id userInfo;
@@ -39,5 +39,7 @@
 /** Returns an alert with a button derived from the supplied button string and a "Cancel" button. */
 + (FSQAlertView *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage button:(NSString *)aButton userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate;
 
+
+- (void) showWithDismissHandler:(void(^)(FSQAlertView *alertView, NSInteger buttonIndex))dismissHandler;
 
 @end
