@@ -10,7 +10,7 @@
 
 #import "FSQLogging.h"
 #import "FSQAsserter.h"
-
+#import <QuartzCore/QuartzCore.h>
 
 @interface FSQKeyboardHandler ()
 @property (nonatomic, getter = isKeyboardUp) BOOL keyboardUp;
@@ -148,7 +148,7 @@
 	CGRect keyboardFrame;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
 	keyboardFrame = [_viewController.view.superview convertRect:keyboardFrame fromView:nil];
-//	FLogDebug(@"keyboardFrame: %@", NSStringFromCGRect(keyboardFrame));
+	FLogDebug(@"keyboardFrame: %@", NSStringFromCGRect(keyboardFrame));
 //	FLogDebug(@"self.frame: %@",NSStringFromCGRect(self.frame));
 	
 	CGRect remainingSlice;
@@ -186,30 +186,20 @@
 	UIViewAnimationCurve keyboardAnimationCurve;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&keyboardAnimationCurve];
 	
-	UIViewAnimationOptions options = 0;
-	switch (keyboardAnimationCurve) {
-		case UIViewAnimationCurveEaseIn:
-			options |= UIViewAnimationOptionCurveEaseIn;
-			break;
-		case UIViewAnimationCurveEaseOut:
-			options |= UIViewAnimationOptionCurveEaseOut;
-			break;
-		case UIViewAnimationCurveLinear:
-			options |= UIViewAnimationOptionCurveLinear;
-			break;			
-		default:
-			options |= UIViewAnimationOptionCurveEaseInOut;
-			break;
-	}
-	[UIView animateWithDuration:keyboardAnimationDuration delay:0 options:options animations:^{
+//	[CATransaction begin];
+//	[CATransaction setAnimationDuration:keyboardAnimationDuration];
+//	[CATransaction setAnimationTimingFunction:[self mediaTimingFunctionForAnimationCurve:keyboardAnimationCurve]];
+	
+	
+//	[UIView animateWithDuration:keyboardAnimationDuration delay:0 options:[self animationOptionsForAnimationCurve:keyboardAnimationCurve] animations:^{
 		self.frame = remainingSlice;
-		[_viewController.view layoutIfNeeded];
+//		[_viewController.view layoutIfNeeded];
 		if (_transitionBlock) {
 			_transitionBlock(YES);
 		}
-	} completion:^(BOOL finished) {
-	}];
-	
+//	} completion:^(BOOL finished) {
+//	}];
+//	[CATransaction commit];
 }
 
 - (void) keyboardWillHideNotification:(NSNotification *)notification {
@@ -235,13 +225,65 @@
 	FLogDebug(@"newFrame: %@", NSStringFromCGRect(newFrame));
 	_keyboardFrame = CGRectZero;
 	
+//	[CATransaction begin];
+//	[CATransaction setAnimationDuration:keyboardAnimationDuration];
+//	[CATransaction setAnimationTimingFunction:[self mediaTimingFunctionForAnimationCurve:keyboardAnimationCurve]];
+	
+	
+//	[UIView animateWithDuration:keyboardAnimationDuration delay:0 options:[self animationOptionsForAnimationCurve:keyboardAnimationCurve] animations:^{
+		self.frame = newFrame;
+//		[_viewController.view layoutIfNeeded];
+		if (_transitionBlock) {
+			_transitionBlock(NO);
+		}
+//	} completion:^(BOOL finished) {
+//	}];
+//	[CATransaction commit];
+	_keyboardUp = NO;
+}
+
+- (void) keyboardDidShowNotification:(NSNotification *)notification {
+}
+
+- (CAMediaTimingFunction *) mediaTimingFunctionForAnimationCurve:(UIViewAnimationCurve)animationCurve {
+	//	UIViewAnimationOptions options = 0;
+	CAMediaTimingFunction *timingFunction;
+	switch (animationCurve) {
+		case UIViewAnimationCurveEaseIn:
+			//			options |= UIViewAnimationOptionCurveEaseIn;
+			timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+			break;
+		case UIViewAnimationCurveEaseOut:
+//			options |= UIViewAnimationOptionCurveEaseOut;
+			timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+			break;
+		case UIViewAnimationCurveEaseInOut:
+			//			options |= UIViewAnimationOptionCurveEaseOut;
+			timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+			break;
+		case UIViewAnimationCurveLinear:
+//			options |= UIViewAnimationOptionCurveLinear;
+			timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+			break;
+		default:
+//			options |= UIViewAnimationOptionCurveEaseInOut;
+			timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+			break;
+	}
+	return timingFunction;
+}
+
+- (UIViewAnimationOptions) animationOptionsForAnimationCurve:(UIViewAnimationCurve)animationCurve {
 	UIViewAnimationOptions options = 0;
-	switch (keyboardAnimationCurve) {
+	switch (animationCurve) {
 		case UIViewAnimationCurveEaseIn:
 			options |= UIViewAnimationOptionCurveEaseIn;
 			break;
 		case UIViewAnimationCurveEaseOut:
 			options |= UIViewAnimationOptionCurveEaseOut;
+			break;
+		case UIViewAnimationCurveEaseInOut:
+			options |= UIViewAnimationOptionCurveEaseInOut;
 			break;
 		case UIViewAnimationCurveLinear:
 			options |= UIViewAnimationOptionCurveLinear;
@@ -250,24 +292,13 @@
 			options |= UIViewAnimationOptionCurveEaseInOut;
 			break;
 	}
-	[UIView animateWithDuration:keyboardAnimationDuration delay:0 options:options animations:^{
-		_viewController.view.frame = newFrame;
-		[_viewController.view layoutIfNeeded];
-		if (_transitionBlock) {
-			_transitionBlock(NO);
-		}
-	} completion:^(BOOL finished) {
-	}];
-	_keyboardUp = NO;
+	return options;
 }
 
-- (void) keyboardDidShowNotification:(NSNotification *)notification {
-	NSDictionary *userInfo = [notification userInfo];
-}
 
 - (void) registerForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShowNotification:) name:UIKeyboardDidShowNotification object:nil];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShowNotification:) name:UIKeyboardDidShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
 }
 
