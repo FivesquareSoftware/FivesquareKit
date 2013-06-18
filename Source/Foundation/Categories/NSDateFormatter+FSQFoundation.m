@@ -16,8 +16,11 @@
 	if (seconds >= 60*60) {
 		timeFormatter.dateFormat = @"HH:mm:ss";
 	}
-	else {
+	else if (seconds > 60) {
 		timeFormatter.dateFormat = @"mm:ss";
+	}
+	else {
+		timeFormatter.dateFormat = @"00:ss";
 	}
 	return [timeFormatter stringFromDate:timeDate];
 }
