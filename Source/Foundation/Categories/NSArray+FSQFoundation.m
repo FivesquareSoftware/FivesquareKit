@@ -135,6 +135,15 @@
 	return array;
 }
 
+- (id) objectAtIndexPath:(NSIndexPath *)indexPath {
+	id object = self;
+	NSUInteger length = [indexPath length];
+	for (NSUInteger i = 0; i < length; i++) {
+		NSUInteger index = [indexPath indexAtPosition:i];
+		object = [object objectAtIndex:index];
+	}
+	return object;
+}
 
 // ========================================================================== //
 

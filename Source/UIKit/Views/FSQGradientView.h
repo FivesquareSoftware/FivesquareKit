@@ -9,13 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+#import "FSQGradientComponent.h"
+
 
 @interface FSQGradientView : UIView
 
-/** An array of dictionaries each withe the keys "color" and "location". Color is a CGColorRef and location is a float represented as an NSNumber. 
+/** An array of objects conforming to <FSQGradientComponent>. Color is a CGColorRef and location is a float represented as an NSNumber. 
  *  @see [CAGradientLayer colors] and [CAGradientLayer locations]
  */
-@property (nonatomic, strong) NSArray *gradientComponents;
+@property (nonatomic, strong) NSArray *gradientComponents UI_APPEARANCE_SELECTOR;
 
 /** @see [CALayer cornerRadius] */
 @property (nonatomic) CGFloat cornerRadius;

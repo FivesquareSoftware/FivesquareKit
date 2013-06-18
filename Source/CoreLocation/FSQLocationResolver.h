@@ -18,6 +18,8 @@ extern NSString *kFSQLocationResolverKeyLocation;
 extern NSString *kFSQLocationResolverKeyError;
 extern NSString *kFSQLocationResolverKeyAborted; ///< Whether the resolution timed out or not
 
+extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
+
 
 @interface FSQLocationResolver : NSObject <CLLocationManagerDelegate> 
 
@@ -40,6 +42,8 @@ extern NSString *kFSQLocationResolverKeyAborted; ///< Whether the resolution tim
  *  @note Notifications are also sent in addition to the handler blocks being invoked. 
  */
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverCompletionHandler)handler;
+
+- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverCompletionHandler)handler;
 
 /** Stops location updates and removes all completion handlers. */
 - (void) stopResolving;

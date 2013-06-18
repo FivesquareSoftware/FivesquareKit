@@ -16,5 +16,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "FSQCoreAnimationUtils.h"
 #import "FSQCoreGraphicsUtils.h"
 #import "CALayer+FSQQuartz.h"

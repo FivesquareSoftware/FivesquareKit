@@ -39,6 +39,9 @@
 - (id) anyObject;
 - (NSArray *) anyArray:(NSUInteger)seed;
 
+/** Accesses objects in multidimensional arrays by index path. */
+- (id) objectAtIndexPath:(NSIndexPath *)indexPath;
+
 // Enumeration
 
 

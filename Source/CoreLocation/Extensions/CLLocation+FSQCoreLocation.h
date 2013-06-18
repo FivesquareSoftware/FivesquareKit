@@ -10,7 +10,11 @@
 
 @interface CLLocation (FSQCoreLocation)
 
-- (NSString *) coordinateDescription;
++ (id) withGPSDictionary:(NSDictionary *)GPSDictionary;
+
+@property (nonatomic, readonly) NSString *coordinateDescription;
+@property (nonatomic, readonly) NSDictionary *GPSDictionary;
+
 - (NSString *) toQueryFormat;
 
 
