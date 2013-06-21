@@ -8,24 +8,35 @@
 
 #import "FSQGradientView.h"
 
+#import "FSQRadialGradientLayer.h"
+
+
+NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 
 @interface FSQGradientView ()
-@property (nonatomic, readonly) CAGradientLayer *gradientLayer;
+@property (nonatomic, weak) CAGradientLayer *gradientLayer;
 @end
 
 @implementation FSQGradientView
 
-+ (Class) layerClass {
-	return [CAGradientLayer class];
-}
+//+ (Class) layerClass {
+//	return [CAGradientLayer class];
+//}
 
 // ========================================================================== //
 
 #pragma mark - Properties
 
-@dynamic gradientLayer;
-- (CAGradientLayer *) gradientLayer {
-	return (CAGradientLayer *)self.layer;
+- (void) setGradientLayer:(CAGradientLayer *)gradientLayer {
+	if (_gradientLayer != gradientLayer) {
+		if (_gradientLayer) {
+			[_gradientLayer removeFromSuperlayer];
+		}
+		gradientLayer.frame = self.bounds;
+		[self.layer insertSublayer:gradientLayer atIndex:0];
+		_gradientLayer = gradientLayer;
+		[self setNeedsDisplay];
+	}
 }
 
 - (void) setGradientComponents:(NSArray *)gradientComponents {
@@ -37,22 +48,27 @@
 	}
 }
 
-@dynamic startPoint;
-- (CGPoint) startPoint {
-	return self.gradientLayer.startPoint;
-}
-
 - (void) setStartPoint:(CGPoint)startPoint {
-	self.gradientLayer.startPoint = startPoint;
-}
-
-@dynamic endPoint;
-- (CGPoint) endPoint {
-	return self.gradientLayer.endPoint;
+	if (NO == CGPointEqualToPoint(_startPoint, startPoint)) {
+		_startPoint = startPoint;
+		self.gradientLayer.startPoint = _startPoint;
+		[self setNeedsDisplay];
+	}
 }
 
 - (void) setEndPoint:(CGPoint)endPoint {
-	self.gradientLayer.endPoint = endPoint;
+	if (NO == CGPointEqualToPoint(_endPoint, endPoint)) {
+		_endPoint = endPoint;
+		self.gradientLayer.endPoint = _endPoint;
+		[self setNeedsDisplay];
+	}
+}
+
+- (void) setType:(NSString *)type {
+	if (_type != type) {
+		_type = type;
+		[self configureGradientLayer];
+	}
 }
 
 
@@ -64,11 +80,12 @@
 
 - (void) initialize {
 	self.translatesAutoresizingMaskIntoConstraints = NO;
+	self.layer.masksToBounds = YES;
 }
 
 - (void) ready {
-	self.gradientLayer.colors = [_gradientComponents valueForKey:@"color"];
-	self.gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
+	_type = kCAGradientLayerAxial;
+	[self configureGradientLayer];
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -93,6 +110,46 @@
 	[super awakeFromNib];
 	[self ready];
 }
+
+- (void) layoutSubviews {
+	_gradientLayer.frame = self.bounds;
+	_gradientLayer.cornerRadius = self.layer.cornerRadius;
+}
+
+
+// ========================================================================== //
+
+#pragma mark - Helpers
+
+
+- (void) configureGradientLayer {
+	CAGradientLayer *newLayer = [self newGradientLayer];
+	self.gradientLayer = newLayer;
+}
+
+- (CAGradientLayer *) newGradientLayer {
+	CAGradientLayer *gradientLayer = nil;
+	if ([_type isEqualToString:kCAGradientLayerAxial]) {
+		gradientLayer = [CAGradientLayer layer];
+	}
+	else if ([_type isEqualToString:kFSQGradientViewRadial]) {
+		gradientLayer = [FSQRadialGradientLayer layer];
+	}
+	
+	gradientLayer.contentsScale = [[UIScreen mainScreen] scale];
+	gradientLayer.shouldRasterize = YES;
+
+	gradientLayer.needsDisplayOnBoundsChange = YES;
+	gradientLayer.masksToBounds = YES;
+	
+	gradientLayer.colors = [_gradientComponents valueForKey:@"color"];
+	gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
+	gradientLayer.startPoint = self.startPoint;
+	gradientLayer.endPoint = self.endPoint;
+
+	return gradientLayer;
+}
+
 
 
 @end

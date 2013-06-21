@@ -183,6 +183,14 @@
 		A4713EB913509EED00FA1402 /* RatingIndicatorOn.png in Resources */ = {isa = PBXBuildFile; fileRef = A45F446212748375005D9BF4 /* RatingIndicatorOn.png */; };
 		A472564B1739B6F9001AD18C /* UILabel+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A47256491739B6F9001AD18C /* UILabel+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A472564C1739B6F9001AD18C /* UILabel+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A472564A1739B6F9001AD18C /* UILabel+FSQFoundation.m */; };
+		A47A94961773DEA20028EE9F /* FSQBadgedButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94941773DEA20028EE9F /* FSQBadgedButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A47A94971773DEA20028EE9F /* FSQBadgedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94951773DEA20028EE9F /* FSQBadgedButton.m */; };
+		A47A949A1773DEEB0028EE9F /* FSQBadgeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94981773DEEA0028EE9F /* FSQBadgeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A47A949B1773DEEB0028EE9F /* FSQBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94991773DEEB0028EE9F /* FSQBadgeView.m */; };
+		A47A94A61774D0ED0028EE9F /* FSQRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */; };
+		A47A94A71774D0ED0028EE9F /* FSQRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */; };
+		A47A94A81774D0ED0028EE9F /* FSQRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */; };
+		A47A94A91774D0ED0028EE9F /* FSQRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */; };
 		A47E2EE6152B662800F7EDB1 /* FSQStretchableButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A47E2EE7152B662800F7EDB1 /* FSQStretchableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */; };
 		A487DF2315C5D6CA00CB0C76 /* NSError+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A487DF2115C5D6CA00CB0C76 /* NSError+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -499,6 +507,12 @@
 		A4713EAE13509E3A00FA1402 /* FSQUIKit-Resources-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FSQUIKit-Resources-Info.plist"; sourceTree = "<group>"; };
 		A47256491739B6F9001AD18C /* UILabel+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+FSQFoundation.h"; sourceTree = "<group>"; };
 		A472564A1739B6F9001AD18C /* UILabel+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+FSQFoundation.m"; sourceTree = "<group>"; };
+		A47A94941773DEA20028EE9F /* FSQBadgedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQBadgedButton.h; sourceTree = "<group>"; };
+		A47A94951773DEA20028EE9F /* FSQBadgedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQBadgedButton.m; sourceTree = "<group>"; };
+		A47A94981773DEEA0028EE9F /* FSQBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQBadgeView.h; sourceTree = "<group>"; };
+		A47A94991773DEEB0028EE9F /* FSQBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQBadgeView.m; sourceTree = "<group>"; };
+		A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQRadialGradientLayer.h; sourceTree = "<group>"; };
+		A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQRadialGradientLayer.m; sourceTree = "<group>"; };
 		A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQStretchableButton.h; sourceTree = "<group>"; };
 		A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQStretchableButton.m; sourceTree = "<group>"; };
 		A487175F12F5C76D000D9411 /* FSQUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUserDefaults.h; sourceTree = "<group>"; };
@@ -764,6 +778,8 @@
 				A4053C0B17418D8000C62548 /* FSQCoreAnimationUtils.m */,
 				A45F43F212748374005D9BF4 /* FSQCoreGraphicsUtils.h */,
 				A45F43F312748374005D9BF4 /* FSQCoreGraphicsUtils.m */,
+				A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */,
+				A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */,
 				A40D3E8015E7E3DD00C2063E /* Extensions */,
 			);
 			name = Quartz;
@@ -982,6 +998,10 @@
 				A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */,
 				A4D53510170240A300609EE2 /* FSQTransparentWebView.h */,
 				A4D53511170240A300609EE2 /* FSQTransparentWebView.m */,
+				A47A94941773DEA20028EE9F /* FSQBadgedButton.h */,
+				A47A94951773DEA20028EE9F /* FSQBadgedButton.m */,
+				A47A94981773DEEA0028EE9F /* FSQBadgeView.h */,
+				A47A94991773DEEB0028EE9F /* FSQBadgeView.m */,
 				A45FAFCD16938C4B0066B78C /* ProgressHUD */,
 				A4EA537215336789006BF354 /* Menu */,
 				A45F445E12748375005D9BF4 /* RatingIndicator */,
@@ -1353,6 +1373,9 @@
 				A472564B1739B6F9001AD18C /* UILabel+FSQFoundation.h in Headers */,
 				A4053C0C17418D8000C62548 /* FSQCoreAnimationUtils.h in Headers */,
 				A453647B17528DF400ABA166 /* FSQGradientComponent.h in Headers */,
+				A47A94961773DEA20028EE9F /* FSQBadgedButton.h in Headers */,
+				A47A949A1773DEEB0028EE9F /* FSQBadgeView.h in Headers */,
+				A47A94A61774D0ED0028EE9F /* FSQRadialGradientLayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1418,6 +1441,7 @@
 				A4062E371697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
 				A4E1D04E16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h in Headers */,
 				A4053C0D17418D8000C62548 /* FSQCoreAnimationUtils.h in Headers */,
+				A47A94A71774D0ED0028EE9F /* FSQRadialGradientLayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1631,6 +1655,9 @@
 				A472564C1739B6F9001AD18C /* UILabel+FSQFoundation.m in Sources */,
 				A4053C0E17418D8000C62548 /* FSQCoreAnimationUtils.m in Sources */,
 				A453647C17528DF400ABA166 /* FSQGradientComponent.m in Sources */,
+				A47A94971773DEA20028EE9F /* FSQBadgedButton.m in Sources */,
+				A47A949B1773DEEB0028EE9F /* FSQBadgeView.m in Sources */,
+				A47A94A81774D0ED0028EE9F /* FSQRadialGradientLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1686,6 +1713,7 @@
 				A4062E391697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
 				A4E1D05016F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m in Sources */,
 				A4053C0F17418D8000C62548 /* FSQCoreAnimationUtils.m in Sources */,
+				A47A94A91774D0ED0028EE9F /* FSQRadialGradientLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

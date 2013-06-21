@@ -11,6 +11,7 @@
 
 #import "FSQGradientComponent.h"
 
+extern NSString *kFSQGradientViewRadial;
 
 @interface FSQGradientView : UIView
 
@@ -27,6 +28,9 @@
 
 /** @see [CAGradientLayer endPoint] */
 @property (nonatomic) CGPoint endPoint;
+
+/** @see [CAGradientLayer type]. Though CAGradientLayer only supports axial gradients, FSQGradientView can also draw radial gradients via kFSQGradientViewRadial. */
+@property(nonatomic,copy) NSString *type;
 
 /** Subclasses can override to implement common configuration. Must call #super. */
 - (void) initialize;

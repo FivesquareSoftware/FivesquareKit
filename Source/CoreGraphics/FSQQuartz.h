@@ -18,4 +18,6 @@
 
 #import "FSQCoreAnimationUtils.h"
 #import "FSQCoreGraphicsUtils.h"
+#import "FSQRadialGradientLayer.h"
+
 #import "CALayer+FSQQuartz.h"
