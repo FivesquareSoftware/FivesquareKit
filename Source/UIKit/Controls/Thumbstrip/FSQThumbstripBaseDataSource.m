@@ -44,7 +44,7 @@
 - (id)initWithFetchRequest:(NSFetchRequest *)fetchRequest  {
     self = [super init];
     if (self) {
-        _fetchRequest = fetchRequest;
+        _fetchRequest = [fetchRequest copy];
     }
     return self;
 }
