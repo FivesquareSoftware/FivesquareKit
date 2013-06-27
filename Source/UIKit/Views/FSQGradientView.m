@@ -79,7 +79,10 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 
 
 - (void) initialize {
-	self.translatesAutoresizingMaskIntoConstraints = NO;
+	if ([self respondsToSelector:@selector(translatesAutoresizingMaskIntoConstraints)]) {
+		self.translatesAutoresizingMaskIntoConstraints = NO;
+	}
+
 	self.layer.masksToBounds = YES;
 }
 

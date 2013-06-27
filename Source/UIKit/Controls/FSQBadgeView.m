@@ -155,7 +155,10 @@
 	
 	
 	UILabel *badgeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-	badgeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+	if ([self respondsToSelector:@selector(translatesAutoresizingMaskIntoConstraints)]) {
+		self.translatesAutoresizingMaskIntoConstraints = NO;
+	}
+	
 	badgeLabel.backgroundColor = [UIColor clearColor];
 	badgeLabel.font = _titleTextAttributes[UITextAttributeFont];
 	badgeLabel.textColor = _titleTextAttributes[UITextAttributeTextColor];
@@ -165,7 +168,7 @@
 	badgeLabel.shadowColor = _titleTextAttributes[UITextAttributeTextShadowColor];
 	badgeLabel.shadowOffset = [_titleTextAttributes[UITextAttributeTextShadowOffset] CGSizeValue];
 	badgeLabel.adjustsFontSizeToFitWidth = NO;
-	badgeLabel.adjustsLetterSpacingToFitWidth = NO;
+//	badgeLabel.adjustsLetterSpacingToFitWidth = NO;
 	badgeLabel.textAlignment = NSTextAlignmentCenter;
 	badgeLabel.text = @"0";
 	[badgeLabel sizeToFit];
@@ -248,7 +251,9 @@
 	else {
 		backgroundView = [[UIView alloc] initWithFrame:self.bounds];
 		backgroundView.backgroundColor = self.badgeColor;
-		backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+		if ([self respondsToSelector:@selector(translatesAutoresizingMaskIntoConstraints)]) {
+			self.translatesAutoresizingMaskIntoConstraints = NO;
+		}
 	}
 	backgroundView.clipsToBounds = YES;
 

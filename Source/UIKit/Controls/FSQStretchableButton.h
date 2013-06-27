@@ -10,7 +10,7 @@
 
 @interface FSQStretchableButton : UIButton
 
-@property (nonatomic) UIEdgeInsets capInsets; ///< Defaults to {0,2,0,2}
+@property (nonatomic) UIEdgeInsets capInsets UI_APPEARANCE_SELECTOR; ///< Defaults to {0,2,0,2}
 @property (nonatomic) CGPoint horizontalCapInsets; ///< Sets just the left and right insets, x = left, y = right
 @property (nonatomic) CGPoint verticalCapInsets; ///< Sets just the top and bottom insets, x = top, y = bottom
 
