@@ -87,6 +87,7 @@
 		_badgeLabel.text = _stringValue;
 //		[self invalidateIntrinsicContentSize];
 		[self sizeToFit];
+		[self.superview setNeedsLayout];
 	}
 }
 
