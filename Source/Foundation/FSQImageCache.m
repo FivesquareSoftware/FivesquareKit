@@ -103,6 +103,7 @@
 		self = nil;
 	}
 	if (self) {
+		_usesMemoryCache = YES;
 		_memoryCapacity = memoryCapacity;
 		_diskCapacity = diskCapacity;
 		_diskPath = diskPath;
@@ -402,7 +403,7 @@
 		NSUInteger imageSize = [imageData length];
 		
 		__block NSUInteger newMemoryUsage = _currentMemoryUsage + imageSize;
-		if (_memoryCapacity != 0 && newMemoryUsage > _memoryCapacity) {
+		if (_usesMemoryCache && _memoryCapacity != 0 && newMemoryUsage > _memoryCapacity) {
 			FLog(@"%@ - ** Memory capacity (%@) exceeded, purging cache",self,@(_currentMemoryUsage));
 			NSArray *sortedCacheKeys = [_cache keysSortedByValueUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
 				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
@@ -421,9 +422,11 @@
 			}];
 		}
 		
-		// store in memory cache
-		[_cache setObject:[FSQImageCacheEntry withImage:image] forKey:key];
-		_currentMemoryUsage = newMemoryUsage;
+		if (_usesMemoryCache) {
+			// store in memory cache
+			[_cache setObject:[FSQImageCacheEntry withImage:image] forKey:key];
+			_currentMemoryUsage = newMemoryUsage;
+		}
 		
 		// trim disk cache if over size
 		__block NSUInteger newDiskUsage = _currentDiskUsage + imageSize;
