@@ -9,17 +9,19 @@
 #import "FSQBadgeView.h"
 #import "FSQGradientView.h"
 #import "CALayer+FSQQuartz.h"
+#import "FSQLogging.h"
 
 #define kFSQBadgeDimension 20.f
 #define kFSQBadgeBorderWidth 2.f
-#define kFSQBadgeEdgePadding 3.f
+//#define kFSQBadgeEdgePadding 0.f
 
 
 @interface FSQBadgeView ()
 @property (nonatomic, weak) UILabel *badgeLabel;
 @property (nonatomic, weak) UIView *backgroundView;
 //@property (nonatomic, strong) NSArray *layoutConstraints;
-@property (nonatomic) CGFloat intrinsicWidth;
+@property (nonatomic) CGFloat intrinsicLabelWidth;
+@property (nonatomic) CGFloat intrinsicLabelPadding;
 @property (nonatomic, strong) NSDictionary *titleTextAttributes;
 @end
 
@@ -87,7 +89,11 @@
 		_badgeLabel.text = _stringValue;
 //		[self invalidateIntrinsicContentSize];
 		[self sizeToFit];
-		[self.superview setNeedsLayout];
+		if (_badgeGradient) {
+			FSQGradientView *backgroundView = (FSQGradientView *)_backgroundView;
+			backgroundView.startPoint = CGPointMake(.5,(self.bounds.size.height-self.bounds.size.width)/self.bounds.size.width);
+		}
+
 	}
 }
 
@@ -106,12 +112,28 @@
  */
 
 - (CGSize) intrinsicContentSize {
+	FLog(@"_stringValue: %@",_stringValue);
 	CGSize labelFitSize = [_badgeLabel.text sizeWithFont:_badgeLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, _badgeLabel.bounds.size.height) lineBreakMode:_badgeLabel.lineBreakMode];
-	if (labelFitSize.width > _intrinsicWidth) {
-		_intrinsicWidth = labelFitSize.width;
+	FLogDebug(@"labelFitSize: %@",NSStringFromCGSize(labelFitSize));
+//	if (labelFitSize.width > _intrinsicLabelWidth) {
+		_intrinsicLabelWidth = labelFitSize.width;
+//		FLogDebug(@"_intrinsicLabelWidth: %@",@(_intrinsicLabelWidth));
+//	}
+
+		FLogDebug(@"_intrinsicLabelPadding: %@",@(_intrinsicLabelPadding));
+	
+	
+	CGFloat width = _intrinsicLabelWidth+(_intrinsicLabelPadding);//+(kFSQBadgeBorderWidth*2.f);
+	FLogDebug(@"width: %@",@(width));
+	if (width < kFSQBadgeDimension) {
+		width = kFSQBadgeDimension;
+		FLogDebug(@" min width: %@",@(width));
 	}
-//	CGSize intrinsicContentSize = CGSizeMake(_intrinsicWidth+(kFSQBadgeEdgePadding*2.f)+(kFSQBadgeBorderWidth*2.f), kFSQBadgeDimension);
-	CGSize intrinsicContentSize = CGSizeMake(kFSQBadgeDimension, kFSQBadgeDimension);
+	
+//	CGSize intrinsicContentSize = CGSizeMake(_intrinsicLabelWidth+(kFSQBadgeEdgePadding*2.f)+(kFSQBadgeBorderWidth*2.f), kFSQBadgeDimension);
+//	CGSize intrinsicContentSize = CGSizeMake(_intrinsicLabelWidth, kFSQBadgeDimension);
+	CGSize intrinsicContentSize = CGSizeMake(width, kFSQBadgeDimension);
+	FLogDebug(@"intrinsicContentSize: %@",NSStringFromCGSize(intrinsicContentSize));
 	return intrinsicContentSize;
 }
 
@@ -144,7 +166,6 @@
 }
 
 - (void) ready {
-	_intrinsicWidth = kFSQBadgeDimension;
 	
 	UIView *backgroundView = [self newBackgroundView];
 	[self addSubview:backgroundView];
@@ -156,8 +177,9 @@
 	
 	
 	UILabel *badgeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+	badgeLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	if ([self respondsToSelector:@selector(translatesAutoresizingMaskIntoConstraints)]) {
-		self.translatesAutoresizingMaskIntoConstraints = NO;
+		self.translatesAutoresizingMaskIntoConstraints = YES;
 	}
 	
 	badgeLabel.backgroundColor = [UIColor clearColor];
@@ -176,7 +198,15 @@
 	[self addSubview:badgeLabel];
 	_badgeLabel = badgeLabel;
 	
-	[self sizeToFit];
+	_intrinsicLabelWidth = _badgeLabel.bounds.size.width;
+
+	_intrinsicLabelPadding = kFSQBadgeDimension-_intrinsicLabelWidth;
+	[self sizeToFit];	
+//	_intrinsicLabelPadding = (self.bounds.size.width-_badgeLabel.bounds.size.width);
+
+//	CGRect bounds = self.bounds;
+//	bounds.size.width = self.intrinsicContentSize.width;
+//	self.bounds = bounds;
 }
 
 - (id)initWithFrame:(CGRect)frame {

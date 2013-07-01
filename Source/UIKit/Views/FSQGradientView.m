@@ -140,7 +140,7 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 	}
 	
 	gradientLayer.contentsScale = [[UIScreen mainScreen] scale];
-	gradientLayer.shouldRasterize = YES;
+//	gradientLayer.shouldRasterize = YES;
 
 	gradientLayer.needsDisplayOnBoundsChange = YES;
 	gradientLayer.masksToBounds = YES;

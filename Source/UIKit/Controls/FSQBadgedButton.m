@@ -80,20 +80,21 @@
 //	CGFloat quarterBadgeDimension = halfBadgeDimension/2.f;
 //	CGFloat oneThirdWidth = badgeBounds.size.width/3.f;
 	
-	CGFloat offset = badgeBounds.size.width/2.f;
+	CGFloat horizontalOffset = badgeBounds.size.width/2.f;
+	CGFloat verticalOffset = badgeBounds.size.height/2.f;
 	
 	switch (_badgePosition) {
 		case FSQBadgeButtonBadgePositionTopLeft:
-			_badgeView.center = CGPointMake(offset, offset);
+			_badgeView.center = CGPointMake(horizontalOffset, verticalOffset);
 			break;
 		case FSQBadgeButtonBadgePositionTopRight:
-			_badgeView.center = CGPointMake(CGRectGetMaxX(self.bounds)-offset, offset);
+			_badgeView.center = CGPointMake(CGRectGetMaxX(self.bounds)-horizontalOffset, verticalOffset);
 			break;
 		case FSQBadgeButtonBadgePositionBottomRight:
-			_badgeView.center = CGPointMake(CGRectGetMaxX(self.bounds)-offset, CGRectGetMaxY(self.bounds)-offset);
+			_badgeView.center = CGPointMake(CGRectGetMaxX(self.bounds)-horizontalOffset, CGRectGetMaxY(self.bounds)-verticalOffset);
 			break;
 		case FSQBadgeButtonBadgePositionBottomLeft:
-			_badgeView.center = CGPointMake(offset, CGRectGetMaxY(self.bounds)-offset);
+			_badgeView.center = CGPointMake(horizontalOffset, CGRectGetMaxY(self.bounds)-verticalOffset);
 			break;
 			
 		default:
