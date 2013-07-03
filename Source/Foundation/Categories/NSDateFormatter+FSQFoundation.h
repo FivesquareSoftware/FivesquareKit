@@ -11,5 +11,6 @@
 @interface NSDateFormatter (FSQFoundation)
 
 + (NSString *) mediaTimeStringFromTimeInterval:(NSTimeInterval)seconds;
++ (NSString *) timeStringFromTimeInterval:(NSTimeInterval)seconds;
 
 @end
