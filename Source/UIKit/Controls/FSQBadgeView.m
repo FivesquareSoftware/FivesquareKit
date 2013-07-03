@@ -112,28 +112,28 @@
  */
 
 - (CGSize) intrinsicContentSize {
-	FLog(@"_stringValue: %@",_stringValue);
+//	FLog(@"_stringValue: %@",_stringValue);
 	CGSize labelFitSize = [_badgeLabel.text sizeWithFont:_badgeLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, _badgeLabel.bounds.size.height) lineBreakMode:_badgeLabel.lineBreakMode];
-	FLogDebug(@"labelFitSize: %@",NSStringFromCGSize(labelFitSize));
+//	FLogDebug(@"labelFitSize: %@",NSStringFromCGSize(labelFitSize));
 //	if (labelFitSize.width > _intrinsicLabelWidth) {
 		_intrinsicLabelWidth = labelFitSize.width;
 //		FLogDebug(@"_intrinsicLabelWidth: %@",@(_intrinsicLabelWidth));
 //	}
 
-		FLogDebug(@"_intrinsicLabelPadding: %@",@(_intrinsicLabelPadding));
+//		FLogDebug(@"_intrinsicLabelPadding: %@",@(_intrinsicLabelPadding));
 	
 	
 	CGFloat width = _intrinsicLabelWidth+(_intrinsicLabelPadding);//+(kFSQBadgeBorderWidth*2.f);
-	FLogDebug(@"width: %@",@(width));
+//	FLogDebug(@"width: %@",@(width));
 	if (width < kFSQBadgeDimension) {
 		width = kFSQBadgeDimension;
-		FLogDebug(@" min width: %@",@(width));
+//		FLogDebug(@" min width: %@",@(width));
 	}
 	
 //	CGSize intrinsicContentSize = CGSizeMake(_intrinsicLabelWidth+(kFSQBadgeEdgePadding*2.f)+(kFSQBadgeBorderWidth*2.f), kFSQBadgeDimension);
 //	CGSize intrinsicContentSize = CGSizeMake(_intrinsicLabelWidth, kFSQBadgeDimension);
 	CGSize intrinsicContentSize = CGSizeMake(width, kFSQBadgeDimension);
-	FLogDebug(@"intrinsicContentSize: %@",NSStringFromCGSize(intrinsicContentSize));
+//	FLogDebug(@"intrinsicContentSize: %@",NSStringFromCGSize(intrinsicContentSize));
 	return intrinsicContentSize;
 }
 
