@@ -70,4 +70,17 @@
 	return created;
 }
 
++ (unsigned long long) freeSpaceForDirectoryInUserSearchPath:(NSUInteger)directoryIdentifier {
+	unsigned long long space = 0;
+	NSString *directory = [self directoryInUserSearchPath:directoryIdentifier];
+	NSFileManager *fm = [NSFileManager new];
+	NSError *error = nil;
+	NSDictionary *attributes = [fm attributesOfFileSystemForPath:directory error:&error];
+	FSQAssert(attributes, @"Could not get file system attributes! %@ (%@)",[error localizedDescription],[error userInfo]);
+	if (attributes) {
+		space = [[attributes objectForKey:NSFileSystemFreeSize] unsignedLongLongValue];
+	}
+	return space;
+}
+
 @end
