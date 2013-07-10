@@ -187,8 +187,8 @@
 		A47A94971773DEA20028EE9F /* FSQBadgedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94951773DEA20028EE9F /* FSQBadgedButton.m */; };
 		A47A949A1773DEEB0028EE9F /* FSQBadgeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94981773DEEA0028EE9F /* FSQBadgeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A47A949B1773DEEB0028EE9F /* FSQBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94991773DEEB0028EE9F /* FSQBadgeView.m */; };
-		A47A94A61774D0ED0028EE9F /* FSQRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */; };
-		A47A94A71774D0ED0028EE9F /* FSQRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */; };
+		A47A94A61774D0ED0028EE9F /* FSQRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A47A94A71774D0ED0028EE9F /* FSQRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A47A94A81774D0ED0028EE9F /* FSQRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */; };
 		A47A94A91774D0ED0028EE9F /* FSQRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */; };
 		A47E2EE6152B662800F7EDB1 /* FSQStretchableButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
