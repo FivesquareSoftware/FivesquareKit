@@ -13,6 +13,7 @@
 + (NSString *) mediaTimeStringFromTimeInterval:(NSTimeInterval)seconds {
 	NSDate *timeDate = [NSDate dateWithTimeIntervalSince1970:seconds];
 	NSDateFormatter *timeFormatter = [NSDateFormatter new];
+	timeFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
 	if (seconds >= 60*60) {
 		timeFormatter.dateFormat = @"HH:mm:ss";
 	}
@@ -28,6 +29,7 @@
 + (NSString *) timeStringFromTimeInterval:(NSTimeInterval)seconds {
 	NSDate *timeDate = [NSDate dateWithTimeIntervalSince1970:seconds];
 	NSDateFormatter *timeFormatter = [NSDateFormatter new];
+	timeFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
 	if (seconds >= (60*60*10)) {
 		timeFormatter.dateFormat = @"HH:mm:ss";
 	}
