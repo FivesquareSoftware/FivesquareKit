@@ -242,15 +242,30 @@
 	return [self allWithPredicate:nil inContext:context];
 }
 
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch inContext:(NSManagedObjectContext *)context {
+	return [self allValuesForProperties:propertiesToFetch withPredicate:nil sortDescriptors:nil requestOptions:nil inContext:context];
+}
+
 + (id) allWithPredicate:(NSPredicate *)predicate 
 			  inContext:(NSManagedObjectContext *)context {
 	return [self allWithPredicate:predicate sortDescriptors:nil inContext:context];
+}
+
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
+					inContext:(NSManagedObjectContext *)context {
+	return [self allValuesForProperties:propertiesToFetch withPredicate:predicate sortDescriptors:nil requestOptions:nil inContext:context];
 }
 
 + (id) allWithPredicate:(NSPredicate *)predicate 
 		sortDescriptors:(NSArray *)sortDescriptors
 			  inContext:(NSManagedObjectContext *)context {
 	return [self allWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
+}
+
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
+			  sortDescriptors:(NSArray *)sortDescriptors
+					inContext:(NSManagedObjectContext *)context {
+	return [self allValuesForProperties:propertiesToFetch withPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
 }
 
 + (id) allWithPredicate:(NSPredicate *)predicate 
@@ -283,6 +298,27 @@
 	FSQAssert(error == nil, @"Error fetching all for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
 	return results;
 }
+
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
+			  sortDescriptors:(NSArray *)sortDescriptors
+			   requestOptions:(NSDictionary *)options
+					inContext:(NSManagedObjectContext *)context {
+	NSMutableArray *propertyDescriptions = [NSMutableArray new];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
+	NSDictionary *attributes = [entity propertiesByName];
+	for (NSString *key in propertiesToFetch) {
+		NSPropertyDescription *propertyDescription = attributes[key];
+		if (propertyDescription) {
+			[propertyDescriptions addObject:propertyDescription];
+		}
+	}
+	
+	NSDictionary *propertyOptions = @{ @"propertiesToFetch" : propertyDescriptions, @"resultType" : @(NSDictionaryResultType) };
+	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionaryWithDictionary:options];
+	[requestOptions addEntriesFromDictionary:propertyOptions];
+	return [self allWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:requestOptions inContext:context];
+}
+
 
 
 // ========================================================================== //
