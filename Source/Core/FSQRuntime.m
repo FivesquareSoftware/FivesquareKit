@@ -79,7 +79,16 @@
 	}
 
 	if(shouldAlias) {
-		NSString *aliasMethodName = [NSString stringWithFormat:@"%@_original",NSStringFromSelector(originalMethod_sel)];
+		NSString *originalMethodName = NSStringFromSelector(originalMethod_sel);
+		NSMutableString *aliasMethodName = [[NSMutableString alloc] initWithString:originalMethodName];
+		NSRange colonRange = [aliasMethodName rangeOfString:@":" options:NSBackwardsSearch];
+		if (colonRange.location == [aliasMethodName length]-1) {
+			[aliasMethodName insertString:@"_original" atIndex:colonRange.location];
+		}
+		else {
+			[aliasMethodName appendString:@"_original"];
+		}
+//		NSString *aliasMethodName = [NSString stringWithFormat:@"%@_original",NSStringFromSelector(originalMethod_sel)];
 		[self aliasInstanceMethod:originalMethod_sel to:NSSelectorFromString(aliasMethodName) inClass:target];
 	}
 	

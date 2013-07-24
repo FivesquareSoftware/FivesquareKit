@@ -25,11 +25,13 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface FSQFetchedResultsCollectionViewController
 /** @} */
 
 - (void) initialize; //< subclasses can override to share initialization
+- (void) configureCollectionView; //< subclasses can override to share collection view configuration, after which reloadData is called
 
-
+@property (nonatomic) BOOL animatesCollectionViewUpdates;
 
 /** Override this in your subclass to configure a cell with a fetched object. */
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)configureSupplementaryView:(UICollectionReusableView *)supplementaryView atIndexPath:(NSIndexPath *)indexPath;
 
 
 @end
