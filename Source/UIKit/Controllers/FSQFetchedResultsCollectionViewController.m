@@ -18,50 +18,6 @@
 
 
 
-//@interface FSQCollectionViewChange : NSObject
-//@property (nonatomic) NSFetchedResultsChangeType type;
-//@property (nonatomic, strong) NSIndexPath *indexPath;
-//@property (nonatomic, strong) NSIndexSet *indexSet;
-//@property (nonatomic, strong) NSIndexPath *newIndexPath NS_RETURNS_NOT_RETAINED;
-//+ (id) withType:(NSFetchedResultsChangeType)type indexPath:(NSIndexPath *)indexPath newIndexPath:(NSIndexPath *)newIndexPath;
-//+ (id) withType:(NSFetchedResultsChangeType)type indexSet:(NSIndexSet *)indexSet;
-//@end
-//@implementation FSQCollectionViewChange
-//- (NSString *) toString {
-//    NSString *string = [NSString stringWithFormat:@"type: %@, indexPath: %@, newIndexPath: %@",@(_type),[_indexPath toString],[_newIndexPath toString]];
-////	FLogDebug(@"string: %@",string);
-//	return string;
-//}
-//- (NSString *)description {
-//    return [NSString stringWithFormat:@"%@ %@",[super description],[self toString]];
-//}
-//- (NSUInteger) hash {
-//	NSUInteger hash = [[self toString] hash];
-//	return hash;
-//}
-//- (BOOL) isEqual:(id)object {
-//	if (NO == [object isKindOfClass:[FSQCollectionViewChange class]]) {
-//		return NO;
-//	}
-//	BOOL isEqual = [[self toString] isEqualToString:[object toString]];
-//	return isEqual;
-//}
-//+ (id) withType:(NSFetchedResultsChangeType)type indexPath:(NSIndexPath *)indexPath newIndexPath:(NSIndexPath *)newIndexPath {
-//	FSQCollectionViewChange *change = [[self alloc] init];
-//	change.type = type;
-//	change.indexPath = indexPath;
-//	change.newIndexPath = newIndexPath;
-//	return change;
-//}
-//+ (id) withType:(NSFetchedResultsChangeType)type indexSet:(NSIndexSet *)indexSet {
-//	FSQCollectionViewChange *change = [[self alloc] init];
-//	change.type = type;
-//	change.indexSet = indexSet;
-//	return change;
-//}
-//@end
-//
-
 @interface FSQFetchedResultsCollectionViewController ()
 @property (nonatomic) BOOL initialized;
 @property (nonatomic) BOOL shouldReloadCollectionView;
@@ -373,13 +329,17 @@
 			else {
 				FLogDebug(@"** QUEUE UPDATE CELL ** : %@",indexPath);
 				[_collectionUpdateOperation addExecutionBlock:^{
+					[UIView setAnimationsEnabled:NO];
 					[self_.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+					[UIView setAnimationsEnabled:YES];
 				}];
 			}
 #else
 			FLogDebug(@"** QUEUE UPDATE CELL ** : %@",indexPath);
 			[_collectionUpdateOperation addExecutionBlock:^{
+				[UIView setAnimationsEnabled:NO];
 				[self_.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+				[UIView setAnimationsEnabled:YES];
 			}];
 #endif
 			break;
