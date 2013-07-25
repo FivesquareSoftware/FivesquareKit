@@ -328,19 +328,27 @@
 			}
 			else {
 				FLogDebug(@"** QUEUE UPDATE CELL ** : %@",indexPath);
-				[_collectionUpdateOperation addExecutionBlock:^{
-					[UIView setAnimationsEnabled:NO];
-					[self_.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-					[UIView setAnimationsEnabled:YES];
-				}];
+				if (_animatesItemReloads) {
+					[_collectionUpdateOperation addExecutionBlock:^{
+//						dispatch_async(dispatch_get_main_queue(), ^{
+//							[UIView setAnimationsEnabled:NO];
+							[self_.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+//							[UIView setAnimationsEnabled:YES];
+//						});
+					}];
+				}
 			}
 #else
 			FLogDebug(@"** QUEUE UPDATE CELL ** : %@",indexPath);
-			[_collectionUpdateOperation addExecutionBlock:^{
-				[UIView setAnimationsEnabled:NO];
-				[self_.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-				[UIView setAnimationsEnabled:YES];
-			}];
+			if (_animatesItemReloads) {
+				[_collectionUpdateOperation addExecutionBlock:^{
+//					dispatch_async(dispatch_get_main_queue(), ^{
+//						[UIView setAnimationsEnabled:NO];
+						[self_.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+//						[UIView setAnimationsEnabled:YES];
+//					});
+				}];
+			}
 #endif
 			break;
 		}

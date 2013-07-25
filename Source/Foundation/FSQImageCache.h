@@ -52,6 +52,9 @@ typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 
 - (id)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)diskPath;
 
+- (BOOL) hasImageForURL:(id)URLOrString;
+- (BOOL) hasImageForURL:(id)URLOrString scale:(CGFloat)scale;
+
 /** @see fetchImageForURL:scale:completionHandler: 
  *  If scale is not embedded in the URL, scale = 1 will be assumed.
  */

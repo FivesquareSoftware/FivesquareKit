@@ -18,6 +18,7 @@
 #import "FSQMacros.h"
 #import "NSString+FSQFoundation.h"
 #import "NSURL+FSQFoundation.h"
+#import "NSDictionary+FSQFoundation.h"
 
 
 
@@ -164,7 +165,51 @@
 #pragma mark - Public
 
 
+- (BOOL) hasImageForURL:(id)URLOrString {
+	return [self hasImageForURL:URLOrString scale:0];
+}
 
+- (BOOL) hasImageForURL:(id)URLOrString scale:(CGFloat)scaleOverride {
+	NSURL *key = [self keyForKeyObject:URLOrString];
+	
+	if (key == nil || [NSString isEmpty:[key description]]) {
+		FLog(@"'%@' is not a valid URL-like object",[URLOrString description]);
+		return NO;
+	}
+	
+	
+	NSURL *unscaledKey = nil;
+	NSURL *storageKey = nil;
+	float scale FSQ_MAYBE_UNUSED = 1;
+	if (_automaticallyDetectsScale) {
+		scale = [self scaleForKey:key descaledKey:&unscaledKey];
+	}
+	else {
+		unscaledKey = key;
+	}
+	
+	if (scaleOverride > 0) {
+		scale = scaleOverride;
+		storageKey = [key URLBySettingScale:scale];
+	}
+	else {
+		storageKey = key;
+	}
+	
+	__block BOOL hasImage = NO;
+	
+	dispatch_sync(_cacheQueue, ^{
+		// check the memory cache for the image
+		hasImage = [_cache hasKey:key];
+		
+		if (NO == hasImage) { // check the disk cache for the image			
+			NSString *imagePath = [self cachePathForKey:storageKey]; // use the scaled path because we are checking the disk directly
+			NSFileManager *fm = [NSFileManager new];
+			hasImage = [fm fileExistsAtPath:imagePath];
+		}
+	});
+	return hasImage;
+}
 
 - (id) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
 	return [self fetchImageForURL:URLOrString scale:0 completionHandler:completionHandler];
