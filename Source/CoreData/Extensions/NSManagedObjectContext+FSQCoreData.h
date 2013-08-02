@@ -31,9 +31,9 @@
 - (void) saveWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
 
 /** On the completion of some work saves the receiver and and dispatches the completionBlock on the main threa. */
-- (void) performBlock:(void (^)())block saveWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
+- (void) performBlock:(void (^)())block savingWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
 /** On the completion of some work saves the receiver and, if it has a parent, asynchronously saves the parent using performBlock:, then dispatches the completionBlock on the main threa. */
-- (void) performBlock:(void (^)())block saveWithParentCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
+- (void) performBlock:(void (^)())block savingWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
 
 
 /** @returns a child context of concurrency type NSPrivateQueueConcurrencyType. This context  must be messaged by calling performBlock: and may be used from any thread.  */
