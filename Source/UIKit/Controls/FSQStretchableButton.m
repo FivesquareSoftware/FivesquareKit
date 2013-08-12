@@ -64,10 +64,19 @@
 #pragma mark -  Button
 
 
+- (void) initialize {
+	self.capInsets = UIEdgeInsetsMake(0, 2, 0, 2);
+}
+
+- (void) ready {
+	[self generateStretchableImages];
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self initialize];
+		[self ready];
     }
     return self;
 }
@@ -80,9 +89,10 @@
     return self;
 }
 
-- (void) initialize {
-	self.capInsets = UIEdgeInsetsMake(0, 2, 0, 2);
+- (void) awakeFromNib {
+	[self ready];
 }
+
 
 /*
  UIControlStateNormal       = 0,                       
@@ -96,6 +106,7 @@
 		resizableImage = [image resizableImageWithCapInsets:self.capInsets];
 	}
 	[super setBackgroundImage:resizableImage forState:state];
+	[self setNeedsDisplay];
 }
 
 - (void) setBackgroundImage:(UIImage *)image forState:(UIControlState)state capInsets:(UIEdgeInsets)capInsets {

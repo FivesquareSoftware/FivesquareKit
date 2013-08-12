@@ -114,7 +114,11 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	
 	self.locationUpdatesStartedOn = [NSDate date];
     self.locationManager.desiredAccuracy = accuracy;
-	self.locationManager.pausesLocationUpdatesAutomatically = (timeout == kFSQLocationResolverInfiniteTimeInterval);
+#ifdef __IPHONE_6
+	if ([self.locationManager respondsToSelector:@selector(pausesLocationUpdatesAutomatically)]) {
+		self.locationManager.pausesLocationUpdatesAutomatically = (timeout == kFSQLocationResolverInfiniteTimeInterval);
+	}
+#endif
     [self.locationManager startUpdatingLocation];
 	
 	if (self.locationServicesAbortTimer) {
@@ -172,14 +176,15 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
         if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy <= kFSQLocationResolverAccuracyBest) ) {
 			FLog(@"Got a good enough location: newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
 			self.currentLocation = newLocation;
+#ifdef __IPHONE_6
 			if (self.locationManager.pausesLocationUpdatesAutomatically) {
 				[self handleResolutionUpdate];
+				return;
 			}
-			else {
-				FLog(@"Stopping updates");
-				[self.locationManager stopUpdatingLocation];
-				[self handleResolutionCompletion];
-			}
+#endif
+			FLog(@"Stopping updates");
+			[self.locationManager stopUpdatingLocation];
+			[self handleResolutionCompletion];
         }
     }
 }

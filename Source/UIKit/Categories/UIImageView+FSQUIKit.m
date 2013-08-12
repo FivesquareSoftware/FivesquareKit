@@ -99,12 +99,12 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:nil];
 }
 
-- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)())block {
+- (void) setImageWithContentsOfURL:(id)URL completionBlock:(void(^)(BOOL success))block {
 	FSQAssert(self.cache != nil, @"Tried to load an image from a non-existent cache!");
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:block];
 }
 
-- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)())block {
+- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)(BOOL success))block {
 
 	// Cancel/reject any completion handlers that might be out there already
 	if (self.URL && self.completionTicket) {
@@ -149,15 +149,22 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 	// Set up a completion handler that checks if our URL is still the same as what was fetched
 	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
 		id fetchedURL = URLWithScale; // capture the URL we're fetching here
+
 		if (error) {
 			FLogError(error, @"Could not load image");
 		}
-		else {
-			if ([fetchedURL isEqual:self.URL]) {
-				self.image = image;
-				if (block) {
-					block();
-				}
+		if ([fetchedURL isEqual:self.URL]) { // check if the image view is no longer interested
+			BOOL success = image != nil;
+			
+			if (success) {
+				[UIView animateWithDuration:.265 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+					self.image = image;
+				} completion:^(BOOL finished) {
+					
+				}];
+			}
+			if (block) {
+				block(success);
 			}
 		}
 		self.completionTicket = nil;

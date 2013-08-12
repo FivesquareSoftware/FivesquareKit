@@ -81,6 +81,9 @@
 #import "FSQObjectButton.h"
 #import "FSQSegmentedControl.h"
 #import "FSQTransparentWebView.h"
+#import "FSQBadgedButton.h"
+#import "FSQBadgeView.h"
+
 
 // Transformers
 

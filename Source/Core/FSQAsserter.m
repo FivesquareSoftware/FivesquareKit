@@ -31,19 +31,20 @@
 	NSString *msg = [[NSString alloc] initWithFormat:aFormat arguments:args];
 	va_end(args);        
 
-#ifndef NS_BLOCK_ASSERTIONS
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-security"
-	FLog(msg);	
-	[[NSAssertionHandler currentHandler] handleFailureInMethod:selector object:object file:@(fileName) lineNumber:lineNumber description:msg];
-#pragma clang diagnostic pop
 
-	
+#if !defined(NS_BLOCK_ASSERTIONS) || NS_BLOCK_ASSERTIONS == 0
+	FLog(msg);
+	[[NSAssertionHandler currentHandler] handleFailureInMethod:selector object:object file:@(fileName) lineNumber:lineNumber description:msg];
 #else
-	NSLog(@" *** Assertion Failed *** ");
+	NSLog(@" *** Assertion Failed (But continuing) *** ");
 	NSLog(msg);
 #endif
-	
+
+#pragma clang diagnostic pop
+
 }
 
 @end

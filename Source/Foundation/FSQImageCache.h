@@ -11,6 +11,7 @@
 typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 
 
+
 /** A simple disk-backed, in-memory image fetcher/cache inspired by NSURLCache, but keyed 
  *  by URLs instead of NSURLRequests and which—via the #downloadHandler block—allows 
  *  any networking library to be plugged in to the cache to satisfy download requests. 
@@ -24,8 +25,15 @@ typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 
 @property (nonatomic, strong) NSString *name;
 
-@property (nonatomic, readonly) NSUInteger memoryCapacity; ///< In bytes, defaults to 0, which means no limit. However, on iOS memory warnings will cause the in-memory cache to be dumped
-@property (nonatomic, readonly) NSUInteger diskCapacity; ///< In bytes, defaults to 0, which means no limit
+
+/// Setting this to NO means images will only be stored on disk. Defaults to YES. 
+@property (nonatomic) BOOL usesMemoryCache;
+/** In bytes, defaults to 0, which means no limit. Setting usesMemoryCache to NO will cause this value to be ignored.
+ *  @note On iOS memory warnings will cause the in-memory cache to be dumped 
+ */
+@property (nonatomic, readonly) NSUInteger memoryCapacity;
+/// In bytes, defaults to 0, which means no limit
+@property (nonatomic, readonly) NSUInteger diskCapacity;
 @property (nonatomic, strong, readonly) NSString *diskPath; ///< On iOS a subdirectory in the caches directory, on Mac OS a full path
 @property (nonatomic) BOOL useICloud;
 /**
@@ -43,6 +51,9 @@ typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
 @property (nonatomic, copy) void(^cancelationHandler)(NSURL *imageURL);
 
 - (id)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)diskPath;
+
+- (BOOL) hasImageForURL:(id)URLOrString;
+- (BOOL) hasImageForURL:(id)URLOrString scale:(CGFloat)scale;
 
 /** @see fetchImageForURL:scale:completionHandler: 
  *  If scale is not embedded in the URL, scale = 1 will be assumed.

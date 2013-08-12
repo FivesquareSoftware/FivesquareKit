@@ -63,25 +63,31 @@
 				   requestOptions:(NSDictionary *)options
 						inContext:(NSManagedObjectContext *)context {
 	
-	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
-	if(predicate) {
-		[requestOptions setObject:predicate forKey:@"predicate"];
-	}
-	[requestOptions addEntriesFromDictionary:options];
-	
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
-	
+	NSFetchRequest *fetchRequest = nil;
 	__block NSError *error = nil;
 	__block NSUInteger count = 0;
-	
-	[context performBlockAndWait:^{
-		__autoreleasing NSError *localError = nil;
-		count = [context countForFetchRequest:fetchRequest error:&localError];
-		if (localError) {
-			error = localError;
+
+	@try {
+		NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
+		if(predicate) {
+			[requestOptions setObject:predicate forKey:@"predicate"];
 		}
-	}];
-	
+		[requestOptions addEntriesFromDictionary:options];
+		
+		fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
+		
+		
+		[context performBlockAndWait:^{
+			__autoreleasing NSError *localError = nil;
+			count = [context countForFetchRequest:fetchRequest error:&localError];
+			if (localError) {
+				error = localError;
+			}
+		}];		
+	}
+	@catch (NSException *exception) {
+		FSQAssert(exception == nil, @"Exception counting for fetchRequest %@ (%@)", fetchRequest, exception);
+	}
 	FSQAssert(error == nil, @"Error counting for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
 	return count;
 }
@@ -111,27 +117,34 @@
 					 sortDescriptors:(NSArray *)sortDescriptors 
 						   inContext:(NSManagedObjectContext *)context {
 	
-	NSDictionary *requestOptions = @{@"fetchBatchSize": @1};
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:requestOptions inContext:context];
-										
+	NSFetchRequest *fetchRequest = nil;
 	id found = nil;
 	
 	__block NSError *error = nil;
 	__block NSArray *results = nil;
-	
-	[context performBlockAndWait:^{
-		__autoreleasing NSError *localError = nil;
-		results = [context executeFetchRequest:fetchRequest error:&localError];
-		if (localError) {
-			error = localError;
-		}
-	}];
-	
-	if([results count] > 0) {
-		found = [results objectAtIndex:0];
-	}
-	FSQAssert(error == nil, @"Error fetching first for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
 
+	@try {
+		NSDictionary *requestOptions = @{@"fetchBatchSize": @1};
+		fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:requestOptions inContext:context];
+		
+		
+		[context performBlockAndWait:^{
+			__autoreleasing NSError *localError = nil;
+			results = [context executeFetchRequest:fetchRequest error:&localError];
+			if (localError) {
+				error = localError;
+			}
+		}];
+		
+		if([results count] > 0) {
+			found = [results objectAtIndex:0];
+		}
+	}
+	@catch (NSException *exception) {
+		FSQAssert(exception == nil, @"Exception fetching first for fetchRequest %@ (%@)", fetchRequest, exception);
+	}
+
+	FSQAssert(error == nil, @"Error fetching first for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
 	return found;
 }
 
@@ -154,23 +167,27 @@
 				   sortDescriptors:(NSArray *)sortDescriptors 
 						 inContext:(NSManagedObjectContext *)context {
 	
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:nil inContext:context];
-
+	NSFetchRequest *fetchRequest = nil;
 	
 	__block NSError *error = nil;
 	__block NSArray *results = nil;
 	
-	[context performBlockAndWait:^{
-		__autoreleasing NSError *localError = nil;
-		results = [context executeFetchRequest:fetchRequest error:&localError];
-		if (localError) {
-			error = localError;
-		}
-	}];
+	@try {
+		fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:nil inContext:context];
+		[context performBlockAndWait:^{
+			__autoreleasing NSError *localError = nil;
+			results = [context executeFetchRequest:fetchRequest error:&localError];
+			if (localError) {
+				error = localError;
+			}
+		}];
+	}
+	@catch (NSException *exception) {
+		FSQAssert(exception == nil, @"Exception fetching all for fetchRequest %@ (%@)", fetchRequest, exception);
+	}
+	
 	FSQAssert(error == nil, @"Error fetching all for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
 	return results;
-	
-
 }
 
 
@@ -202,36 +219,41 @@
 		   requestOptions:(NSDictionary *)options
 				inContext:(NSManagedObjectContext *)context {
 	
-	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
-	if(predicate) {
-		[requestOptions setObject:predicate forKey:@"predicate"];
-	}
-	if(sortDescriptors) {
-		[requestOptions setObject:sortDescriptors forKey:@"sortDescriptors"];
-	}
-	[requestOptions setObject:@1 forKey:@"fetchBatchSize"];
-	[requestOptions addEntriesFromDictionary:options];
-
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
-
-	
+	NSFetchRequest *fetchRequest = nil;
 	id found = nil;
 	
 	__block NSError *error = nil;
 	__block NSArray *results = nil;
-	
-	[context performBlockAndWait:^{
-		__autoreleasing NSError *localError = nil;
-		results = [context executeFetchRequest:fetchRequest error:&localError];
-		if (localError) {
-			error = localError;
+
+	@try {
+		NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
+		if(predicate) {
+			[requestOptions setObject:predicate forKey:@"predicate"];
 		}
-	}];
-	if([results count] > 0) {
-		found = [results objectAtIndex:0];
+		if(sortDescriptors) {
+			[requestOptions setObject:sortDescriptors forKey:@"sortDescriptors"];
+		}
+		[requestOptions setObject:@1 forKey:@"fetchBatchSize"];
+		[requestOptions addEntriesFromDictionary:options];
+		
+		fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
+		
+		[context performBlockAndWait:^{
+			__autoreleasing NSError *localError = nil;
+			results = [context executeFetchRequest:fetchRequest error:&localError];
+			if (localError) {
+				error = localError;
+			}
+		}];
+		if([results count] > 0) {
+			found = [results objectAtIndex:0];
+		}
 	}
-	FSQAssert(error == nil, @"Error fetching first for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
+	@catch (NSException *exception) {
+		FSQAssert(exception == nil, @"Exception fetching first for fetchRequest %@ (%@)", fetchRequest, exception);
+	}
 	
+	FSQAssert(error == nil, @"Error fetching first for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
 	return found;
 }
 
@@ -242,9 +264,18 @@
 	return [self allWithPredicate:nil inContext:context];
 }
 
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch inContext:(NSManagedObjectContext *)context {
+	return [self allValuesForProperties:propertiesToFetch withPredicate:nil sortDescriptors:nil requestOptions:nil inContext:context];
+}
+
 + (id) allWithPredicate:(NSPredicate *)predicate 
 			  inContext:(NSManagedObjectContext *)context {
 	return [self allWithPredicate:predicate sortDescriptors:nil inContext:context];
+}
+
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
+					inContext:(NSManagedObjectContext *)context {
+	return [self allValuesForProperties:propertiesToFetch withPredicate:predicate sortDescriptors:nil requestOptions:nil inContext:context];
 }
 
 + (id) allWithPredicate:(NSPredicate *)predicate 
@@ -253,36 +284,80 @@
 	return [self allWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
 }
 
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
+			  sortDescriptors:(NSArray *)sortDescriptors
+					inContext:(NSManagedObjectContext *)context {
+	return [self allValuesForProperties:propertiesToFetch withPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
+}
+
 + (id) allWithPredicate:(NSPredicate *)predicate 
 		sortDescriptors:(NSArray *)sortDescriptors
 		 requestOptions:(NSDictionary *)options
 						inContext:(NSManagedObjectContext *)context {
 	
-	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
-	if(predicate) {
-		[requestOptions setObject:predicate forKey:@"predicate"];
-	}
-	if(sortDescriptors) {
-		[requestOptions setObject:sortDescriptors forKey:@"sortDescriptors"];
-	}
-	[requestOptions addEntriesFromDictionary:options];
-	
-	NSFetchRequest *fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
-	
+	NSFetchRequest *fetchRequest = nil;
 	
 	__block NSError *error = nil;
 	__block NSArray *results = nil;
-	
-	[context performBlockAndWait:^{
-		__autoreleasing NSError *localError = nil;
-		results = [context executeFetchRequest:fetchRequest error:&localError];
-		if (localError) {
-			error = localError;
+
+	@try {
+		NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
+		if(predicate) {
+			[requestOptions setObject:predicate forKey:@"predicate"];
 		}
-	}];
+		if(sortDescriptors) {
+			[requestOptions setObject:sortDescriptors forKey:@"sortDescriptors"];
+		}
+		[requestOptions addEntriesFromDictionary:options];
+		
+		fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
+		
+		
+		[context performBlockAndWait:^{
+			__autoreleasing NSError *localError = nil;
+			results = [context executeFetchRequest:fetchRequest error:&localError];
+			if (localError) {
+				error = localError;
+			}
+		}];
+	}
+	@catch (NSException *exception) {
+		FSQAssert(exception == nil, @"Exception fetching all for fetchRequest %@ (%@)", fetchRequest, exception);
+	}
+
 	FSQAssert(error == nil, @"Error fetching all for fetchRequest %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
 	return results;
 }
+
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
+			  sortDescriptors:(NSArray *)sortDescriptors
+			   requestOptions:(NSDictionary *)options
+					inContext:(NSManagedObjectContext *)context {
+	id results = nil;
+	
+	@try { // mostly just to catch dumb errors, Core Data stuff is caught in allWithPredicate
+		NSMutableArray *propertyDescriptions = [NSMutableArray new];
+		NSEntityDescription *entity = [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
+		NSDictionary *attributes = [entity propertiesByName];
+		for (NSString *key in propertiesToFetch) {
+			NSPropertyDescription *propertyDescription = attributes[key];
+			if (propertyDescription) {
+				[propertyDescriptions addObject:propertyDescription];
+			}
+		}
+		
+		NSDictionary *propertyOptions = @{ @"propertiesToFetch" : propertyDescriptions, @"resultType" : @(NSDictionaryResultType) };
+		NSMutableDictionary *requestOptions = [NSMutableDictionary dictionaryWithDictionary:options];
+		[requestOptions addEntriesFromDictionary:propertyOptions];
+		results = [self allWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:requestOptions inContext:context];
+	}
+	@catch (NSException *exception) {
+		FSQAssert(exception == nil, @"Exception fetching all values for properties %@ %@", [exception reason],propertiesToFetch);
+	}
+	
+	return results;
+}
+
 
 
 // ========================================================================== //
@@ -357,27 +432,39 @@
 }
 
 + (BOOL) deleteAllWithPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context {
-	NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
-	[requestOptions setObject:@(NO) forKey:@"includesPropertyValues"];
-	if(predicate) {
-		[requestOptions setObject:predicate forKey:@"predicate"];
-	}
-
-	NSFetchRequest *fetchRequest= [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
 	
+	NSFetchRequest *fetchRequest = nil;
+
 	__block NSError *error = nil;
 	__block NSArray *results = nil;
-	[context performBlockAndWait:^{
-		__autoreleasing NSError *localError = nil;
-		results = [context executeFetchRequest:fetchRequest error:&localError];
-		if (localError) {
-			error = localError;
+
+	@try {
+		NSMutableDictionary *requestOptions = [NSMutableDictionary dictionary];
+		[requestOptions setObject:@(NO) forKey:@"includesPropertyValues"];
+		if(predicate) {
+			[requestOptions setObject:predicate forKey:@"predicate"];
 		}
-	}];
+		
+		fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
+		
+		[context performBlockAndWait:^{
+			__autoreleasing NSError *localError = nil;
+			results = [context executeFetchRequest:fetchRequest error:&localError];
+			if (localError) {
+				error = localError;
+			}
+		}];
+	}
+	@catch (NSException *exception) {
+		FSQAssert(exception == nil, @"Exception fetching for deletion %@ (%@)", fetchRequest, exception);
+		return NO;
+	}
+
 	FSQAssert(error == nil, @"Error fetching for deletion %@ %@ (%@)",fetchRequest, [error localizedDescription], [error userInfo]);
 	if (error) {
 		return NO;
 	}
+	
 	[context performBlockAndWait:^{
 		for (NSManagedObject *found in results) {
 			[context deleteObject:found];

@@ -86,17 +86,28 @@
 
 
 + (id) allInContext:(NSManagedObjectContext *)context;
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch inContext:(NSManagedObjectContext *)context;
 
-+ (id) allWithPredicate:(NSPredicate *)predicate 
+
++ (id) allWithPredicate:(NSPredicate *)predicate
+			  inContext:(NSManagedObjectContext *)context;
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
 			  inContext:(NSManagedObjectContext *)context;
 
-+ (id) allWithPredicate:(NSPredicate *)predicate 
++ (id) allWithPredicate:(NSPredicate *)predicate
+		sortDescriptors:(NSArray *)sortDescriptors
+			  inContext:(NSManagedObjectContext *)context;
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
 		sortDescriptors:(NSArray *)sortDescriptors
 			  inContext:(NSManagedObjectContext *)context;
 
-+ (id) allWithPredicate:(NSPredicate *)predicate 
++ (id) allWithPredicate:(NSPredicate *)predicate
 		sortDescriptors:(NSArray *)sortDescriptors
 				requestOptions:(NSDictionary *)options
+			  inContext:(NSManagedObjectContext *)context;
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
+		sortDescriptors:(NSArray *)sortDescriptors
+		 requestOptions:(NSDictionary *)options
 			  inContext:(NSManagedObjectContext *)context;
 
 /** @} */

@@ -25,7 +25,9 @@
 /** Return the string representing any directory in the user search domain given its constant, e.g.,  NSCachesDirectory. */
 + (NSString *) directoryInUserSearchPath:(NSUInteger)directoryIdentifier;
 
-/** Create any direcotry in the user domain given the directory constant, e.g.,  NSCachesDirectory.  */
+/** Create any directory in the user domain given the directory constant, e.g.,  NSCachesDirectory.  */
 + (BOOL) createDirectoryInUserSearchPath:(NSUInteger)directoryIdentifier error:(NSError **)error;
+
++ (unsigned long long) freeSpaceForDirectoryInUserSearchPath:(NSUInteger)directoryIdentifier;
 
 @end
