@@ -22,7 +22,7 @@
 	}
 	if ([NSNull null] == obj) {
 		return YES;
-	}	
+	}
 	
 	return NO;
 }

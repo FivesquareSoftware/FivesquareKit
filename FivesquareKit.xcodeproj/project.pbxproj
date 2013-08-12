@@ -27,6 +27,8 @@
 		A40FA7721542115E0013D6EF /* FSQThumbstripBaseDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A40FA7731542115E0013D6EF /* FSQThumbstripBaseDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A40FA7711542115E0013D6EF /* FSQThumbstripBaseDataSource.m */; };
 		A40FA7761542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4128BC21763F0350053885B /* FSQImageCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A4128BC01763F0350053885B /* FSQImageCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4128BC31763F0350053885B /* FSQImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4128BC11763F0350053885B /* FSQImageCollectionViewCell.m */; };
 		A41625D3169508A1008499ED /* FSQUIKitConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A41625D1169508A1008499ED /* FSQUIKitConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A41625D2169508A1008499ED /* FSQUIKitConstants.m */; };
 		A41E2C40152F84F7005554B9 /* FSQTransparentSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -359,6 +361,8 @@
 		A40FA7701542115E0013D6EF /* FSQThumbstripBaseDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQThumbstripBaseDataSource.h; sourceTree = "<group>"; };
 		A40FA7711542115E0013D6EF /* FSQThumbstripBaseDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQThumbstripBaseDataSource.m; sourceTree = "<group>"; };
 		A40FA7751542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQThumbstripBaseDataSource+Protected.h"; sourceTree = "<group>"; };
+		A4128BC01763F0350053885B /* FSQImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQImageCollectionViewCell.h; sourceTree = "<group>"; };
+		A4128BC11763F0350053885B /* FSQImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQImageCollectionViewCell.m; sourceTree = "<group>"; };
 		A41625D1169508A1008499ED /* FSQUIKitConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIKitConstants.h; sourceTree = "<group>"; };
 		A41625D2169508A1008499ED /* FSQUIKitConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIKitConstants.m; sourceTree = "<group>"; };
 		A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQTransparentSearchBar.h; sourceTree = "<group>"; };
@@ -901,6 +905,8 @@
 				A45F442312748374005D9BF4 /* FSQTextFieldCell.m */,
 				A45F442412748374005D9BF4 /* FSQTextViewCell.h */,
 				A45F442512748374005D9BF4 /* FSQTextViewCell.m */,
+				A4128BC01763F0350053885B /* FSQImageCollectionViewCell.h */,
+				A4128BC11763F0350053885B /* FSQImageCollectionViewCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1353,6 +1359,7 @@
 				A472564B1739B6F9001AD18C /* UILabel+FSQFoundation.h in Headers */,
 				A4053C0C17418D8000C62548 /* FSQCoreAnimationUtils.h in Headers */,
 				A453647B17528DF400ABA166 /* FSQGradientComponent.h in Headers */,
+				A4128BC21763F0350053885B /* FSQImageCollectionViewCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1631,6 +1638,7 @@
 				A472564C1739B6F9001AD18C /* UILabel+FSQFoundation.m in Sources */,
 				A4053C0E17418D8000C62548 /* FSQCoreAnimationUtils.m in Sources */,
 				A453647C17528DF400ABA166 /* FSQGradientComponent.m in Sources */,
+				A4128BC31763F0350053885B /* FSQImageCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

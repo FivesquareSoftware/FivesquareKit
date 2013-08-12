@@ -7,6 +7,7 @@
 //
 
 #import <CoreLocation/CLLocation.h>
+#import <ImageIO/ImageIO.h>
 
 @interface CLLocation (FSQCoreLocation)
 

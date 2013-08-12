@@ -8,27 +8,38 @@
 
 #import "FSQTransparentSearchBar.h"
 
-@interface FSQTransparentSearchBar ()
-- (void) removeBackground;
-@end
-
 
 @implementation FSQTransparentSearchBar
 
+- (void) initialize {
+//	self.translatesAutoresizingMaskIntoConstraints = NO;
+}
+
+- (void) ready {
+	[self removeBackground];
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self != nil) {
-		[self removeBackground];
+    if (self) {
+        // Initialization code
+        [self initialize];
+		[self ready];
     }
     return self;
 }
 
-- (id) initWithCoder:(NSCoder *)aDecoder {
-	self = [super initWithCoder:aDecoder];
-	if (self) {
-		[self removeBackground];
-	}
-	return self;
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void) awakeFromNib {
+	[super awakeFromNib];
+	[self ready];
 }
 
 - (void) removeBackground {

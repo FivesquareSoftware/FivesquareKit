@@ -46,6 +46,7 @@
 #import "FSQTextFieldCell.h"
 #import "FSQTextViewCell.h"
 #import "FSQLeftDetailCell.h"
+#import "FSQImageCollectionViewCell.h"
 
 // Controllers
 

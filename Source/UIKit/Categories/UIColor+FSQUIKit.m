@@ -8,10 +8,24 @@
 
 #import "UIColor+FSQUIKit.h"
 
+#import <CoreImage/CoreImage.h>
+
 @implementation UIColor (FSQUIKit)
 
 + (UIColor *) colorWithDescription:(NSString *)colorDescription {
 	return nil;
+}
+
++ (UIColor *) colorWithStringRepresentation:(NSString *)stringRepresentation {
+	CIColor *coreImageColor = [CIColor colorWithString:stringRepresentation];
+	UIColor *color = [UIColor colorWithCIColor:coreImageColor];
+	return color;
+}
+
+- (NSString *) stringRepresentation {
+	CGColorRef colorRef = self.CGColor;
+	CIColor *coreImageColor = [CIColor colorWithCGColor:colorRef];
+	return coreImageColor.stringRepresentation;
 }
 
 - (UIColor *) colorWithBrightnessAdjustment:(CGFloat)brightnessAdjustment {

@@ -8,23 +8,28 @@
 
 #import "CLLocation+FSQCoreLocation.h"
 
-#import <ImageIO/ImageIO.h>
-
 #import "NSString+FSQFoundation.h"
 
 @implementation CLLocation (FSQCoreLocation)
 
 + (id) withGPSDictionary:(NSDictionary *)GPSDictionary {
+	if (nil == GPSDictionary) {
+		return nil;
+	}
 	
-	NSString *latitudeString = GPSDictionary[(id)kCGImagePropertyGPSLatitude];
-	NSString *longitudeString = GPSDictionary[(id)kCGImagePropertyGPSLongitude];
+	NSNumber *latitudeNumber = GPSDictionary[(id)kCGImagePropertyGPSLatitude];
+	NSNumber *longitudeNumber = GPSDictionary[(id)kCGImagePropertyGPSLongitude];
 	NSString *latitudeRef = GPSDictionary[(id)kCGImagePropertyGPSLatitudeRef];
 	NSString *longitudeRef = GPSDictionary[(id)kCGImagePropertyGPSLongitudeRef];
 	
-	double absLatitude = [latitudeString doubleValue];
+	if (nil == latitudeNumber || nil == longitudeNumber || [NSString isEmpty:latitudeRef] || [NSString isEmpty:longitudeRef]) {
+		return nil;
+	}
+	
+	double absLatitude = [latitudeNumber doubleValue];
 	double latitude = [latitudeRef isEqualToString:@"N"] ? absLatitude : -absLatitude;
 	
-	double absLongitude = [longitudeString doubleValue];
+	double absLongitude = [longitudeNumber doubleValue];
 	double longitude = [longitudeRef isEqualToString:@"E"] ? absLongitude : -absLongitude;
 
 	
@@ -53,6 +58,10 @@
 	else if ([NSString isNotEmpty:datestamp]) {
 		datetimeStamp = datestamp;
 		[timestampDateFormatter setDateFormat:@"yyyy:MM:dd"];
+	}
+	else if ([NSString isNotEmpty:timestamp]) {
+		datetimeStamp = timestamp;
+		[timestampDateFormatter setDateFormat:@"HH:mm:ss.SSSSSS"];
 	}
 	
 	if (datetimeStamp) {
@@ -105,7 +114,10 @@
 		longitudeRef = @"W";
 	}
 
-	double speed = self.speed*1000.;
+	double speed = self.speed;
+	if (speed > 0) {
+		speed*= 1000.;
+	}
 	
 	
 	GPSDictionary[(id)kCGImagePropertyGPSAltitude] = @(self.altitude);

@@ -11,4 +11,6 @@
 
 @interface FSQTransparentSearchBar : UISearchBar
 
+- (void) initialize;
+
 @end

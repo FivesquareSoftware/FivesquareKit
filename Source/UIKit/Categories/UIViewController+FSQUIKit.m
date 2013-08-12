@@ -59,7 +59,16 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 	CGAffineTransform onDeckTransform = [self onDeckTransformForTransition:transitionType];
 	CGAffineTransform resigningTransform = [self resigningTransformForTransition:transitionType];
 
+
+	//HACK: to work around a bug in extended top bars where they don't redraw under the status bar when you move the view into view
+	toViewController.view.hidden = YES;
+	[self.view addSubview:toViewController.view];
 	toViewController.view.transform = onDeckTransform;
+	toViewController.view.hidden = NO;
+
+//	toViewController.view.transform = onDeckTransform;
+
+	
 	[self transitionFromViewController:fromViewController toViewController:toViewController duration:duration options:options animations:^{
 		fromViewController.view.transform = resigningTransform;
 		toViewController.view.transform = CGAffineTransformIdentity;		

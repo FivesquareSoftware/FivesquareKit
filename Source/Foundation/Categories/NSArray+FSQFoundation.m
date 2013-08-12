@@ -7,7 +7,7 @@
 //
 
 #import "NSArray+FSQFoundation.h"
-
+#import "NSObject+FSQFoundation.h"
 
 
 
@@ -15,11 +15,9 @@
 
 
 + (BOOL) isEmpty:(id)obj {
-	if (nil == obj) {
-		return YES;
-	}
-	if ([NSNull null] == obj) {
-		return YES;
+	BOOL isEmpty = [NSObject isEmpty:obj];
+	if (isEmpty) {
+		return isEmpty;
 	}
 	
 	return [obj count] == 0;

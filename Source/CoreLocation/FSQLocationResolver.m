@@ -97,7 +97,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 }
 
 - (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverCompletionHandler)handler {
-	[self resolveLocationAccurateTo:accuracy givingUpAfter:kFSQLocationResolverInfiniteTimeInterval completionHandler:handler];
+	return [self resolveLocationAccurateTo:accuracy givingUpAfter:kFSQLocationResolverInfiniteTimeInterval completionHandler:handler];
 }
 
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverCompletionHandler)handler {
