@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @protocol FSQGradientComponent <NSObject>
-@property (nonatomic, strong) CGColorRef color __attribute__((NSObject));
+@property (nonatomic, readonly) CGColorRef CGColor;
+@property (nonatomic, strong) UIColor *color;
 @property (nonatomic, strong) NSNumber *location;
 @end
 

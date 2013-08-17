@@ -42,7 +42,7 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 - (void) setGradientComponents:(NSArray *)gradientComponents {
 	if (_gradientComponents != gradientComponents) {
 		_gradientComponents = gradientComponents;
-		self.gradientLayer.colors = [_gradientComponents valueForKey:@"color"];
+		self.gradientLayer.colors = [_gradientComponents valueForKey:@"CGColor"];
 		self.gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
 		[self setNeedsDisplay];
 	}
@@ -84,10 +84,11 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 	}
 
 	self.layer.masksToBounds = YES;
+	_type = kCAGradientLayerAxial;
+	_endPoint = CGPointMake(1, 1);
 }
 
 - (void) ready {
-	_type = kCAGradientLayerAxial;
 	[self configureGradientLayer];
 }
 
@@ -145,7 +146,7 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 	gradientLayer.needsDisplayOnBoundsChange = YES;
 	gradientLayer.masksToBounds = YES;
 	
-	gradientLayer.colors = [_gradientComponents valueForKey:@"color"];
+	gradientLayer.colors = [_gradientComponents valueForKey:@"CGColor"];
 	gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
 	gradientLayer.startPoint = self.startPoint;
 	gradientLayer.endPoint = self.endPoint;
