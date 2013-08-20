@@ -39,4 +39,26 @@
 	return ancestor;
 }
 
+- (CGAffineTransform) offscreenLeftTransform {
+	CGAffineTransform offscreenLeftTransform = CGAffineTransformMakeTranslation(-self.bounds.size.width,0);
+	return offscreenLeftTransform;
+}
+
+- (CGAffineTransform) offscreenRightTransform {
+	CGAffineTransform offscreenRightTransform = CGAffineTransformMakeTranslation(self.bounds.size.width,0);
+	return offscreenRightTransform;
+}
+
+- (CGAffineTransform) offscreenTopTransform {
+	CGAffineTransform offscreenTopTransform = CGAffineTransformMakeTranslation(0, -self.bounds.size.height);
+	return offscreenTopTransform;
+}
+
+- (CGAffineTransform) offscreenBottomTransform {
+	CGAffineTransform offscreenBottomTransform = CGAffineTransformMakeTranslation(0, self.bounds.size.height);
+	return offscreenBottomTransform;
+}
+
+
+
 @end

@@ -15,4 +15,10 @@
 /** Looks up the view hierarchy, starting with the receiver, and returns the first view that is of the supplied class. */
 - (id) firstAncestorOfClass:(Class)aClass;
 
+- (CGAffineTransform) offscreenLeftTransform;
+- (CGAffineTransform) offscreenRightTransform;
+- (CGAffineTransform) offscreenTopTransform;
+- (CGAffineTransform) offscreenBottomTransform;
+
+
 @end
