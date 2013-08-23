@@ -85,7 +85,8 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 
 	self.layer.masksToBounds = YES;
 	_type = kCAGradientLayerAxial;
-	_endPoint = CGPointMake(1, 1);
+	_startPoint = CGPointMake(.5, 0);
+	_endPoint = CGPointMake(.5, 1);
 }
 
 - (void) ready {

@@ -37,6 +37,9 @@
 // Views
 
 #import "FSQGradientView.h"
+#import "FSQBadgeView.h"
+#import "FSQTransparentWebView.h"
+#import "FSQLabel.h"
 
 
 // Cells
@@ -75,14 +78,11 @@
 #import "FSQThumbstripCell.h"
 #import "FSQThumbstripBaseDataSource.h"
 #import "FSQThumbstripBaseDataSource+Protected.h"
-#import "FSQLabel.h"
 #import "FSQCapsuleButton.h"
 #import "FSQProgressAlert.h"
 #import "FSQObjectButton.h"
 #import "FSQSegmentedControl.h"
-#import "FSQTransparentWebView.h"
 #import "FSQBadgedButton.h"
-#import "FSQBadgeView.h"
 
 
 // Transformers

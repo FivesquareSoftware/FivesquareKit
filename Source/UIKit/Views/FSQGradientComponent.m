@@ -36,4 +36,8 @@
 	return [super valueForUndefinedKey:key];
 }
 
+- (NSString *) description {
+	return [NSString stringWithFormat:@"%@ color: %@, location: %@",[super description],_color,_location];
+}
+
 @end
