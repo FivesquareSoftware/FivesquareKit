@@ -18,6 +18,7 @@
 	if (nil == _imageView) {
 		UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
 		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+		imageView.contentMode = UIViewContentModeScaleAspectFit;
 		[self addSubview:imageView];
 		_imageView = imageView;
 	}

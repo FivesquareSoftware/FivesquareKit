@@ -23,8 +23,14 @@
 }
 
 - (UITextField *) textField {
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		subviews = [firstSubview subviews];
+	}
+
 	UITextField *textField = nil;
-	for (id subview in [self subviews]) {
+	for (id subview in subviews) {
 		if ([subview isKindOfClass:[UITextField class]]) {
 			textField = (UITextField *)subview;
 			break;
@@ -34,8 +40,16 @@
 }
 
 - (UIView *) backgroundView {
+	
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		subviews = [firstSubview subviews];
+	}
+	
+	NSString *backgroundViewClassName = @"UISearchBarBackground";
 	UIView *backgroundView = nil;
-	for (id subview in [self subviews]) {
+	for (id subview in subviews) {
 		NSString *subviewClassName = NSStringFromClass([subview class]);
 		if ([subviewClassName isEqualToString:@"UISearchBarBackground"]) {
 			backgroundView = (UIView *)subview;
@@ -46,8 +60,14 @@
 }
 
 - (UIButton *) cancelButton {
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		subviews = [firstSubview subviews];
+	}
+
 	UIButton *cancelButton = nil;
-	for (id subview in [self subviews]) {
+	for (id subview in subviews) {
 		NSString *subviewClassName = NSStringFromClass([subview class]);
 		if ([subviewClassName isEqualToString:@"UINavigationButton"]) {
 			if([[(NSObject *)subview performSelector:@selector(title)] isEqualToString:@"Cancel"]) {
