@@ -71,7 +71,9 @@
 - (void) initialize {
 	self.initialized = YES;
 	_animateTableUpdates = YES;
-	_tableRowAnimationType = UITableViewRowAnimationNone;
+	_insertRowAnimationType = UITableViewRowAnimationRight;
+	_deleteRowAnimationType = UITableViewRowAnimationLeft;
+	_moveRowAnimationType = UITableViewRowAnimationFade;
 }
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -123,6 +125,9 @@
 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	if (self.fetchedResultsController.delegate != self) {
+		self.fetchedResultsController.delegate = self;
+	}
 	[self.fetchedResultsController fetch];
 	[self.tableView reloadData];
 }
@@ -273,12 +278,12 @@
         case NSFetchedResultsChangeInsert:
 			if(newIndexPath.section == self.mutatingSectionIndex) break;
             [self.tableView insertRowsAtIndexPaths:@[newTableIndexPath]
-								  withRowAnimation:UITableViewRowAnimationFade];
+								  withRowAnimation:_insertRowAnimationType];
             break;
 			
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteRowsAtIndexPaths:@[tableIndexPath]
-								  withRowAnimation:UITableViewRowAnimationFade];
+								  withRowAnimation:_deleteRowAnimationType];
             break;
 			
         case NSFetchedResultsChangeUpdate:
@@ -288,9 +293,9 @@
 			
         case NSFetchedResultsChangeMove:
             [self.tableView deleteRowsAtIndexPaths:@[tableIndexPath]
-								  withRowAnimation:UITableViewRowAnimationFade];
+								  withRowAnimation:_moveRowAnimationType];
             [self.tableView insertRowsAtIndexPaths:@[newTableIndexPath]
-								  withRowAnimation:UITableViewRowAnimationTop];
+								  withRowAnimation:_moveRowAnimationType];
 			break;
     }
 }

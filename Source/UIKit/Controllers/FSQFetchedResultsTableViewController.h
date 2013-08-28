@@ -34,8 +34,10 @@
 @property (nonatomic) NSUInteger fetchedResultsTableSection;
 @property (nonatomic) BOOL showsPlaceholderRow;
 @property (nonatomic) BOOL animateTableUpdates;
-/** Right now does nothing. */
-@property (nonatomic, assign) UITableViewRowAnimation tableRowAnimationType;
+
+@property (nonatomic, assign) UITableViewRowAnimation insertRowAnimationType;
+@property (nonatomic, assign) UITableViewRowAnimation deleteRowAnimationType;
+@property (nonatomic, assign) UITableViewRowAnimation moveRowAnimationType;
 
 
 - (void) initialize; //< subclasses can override to share initialization
