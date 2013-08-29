@@ -79,5 +79,27 @@
 	return cancelButton;
 }
 
+- (UISegmentedControl *) scopeBar {
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		subviews = [firstSubview subviews];
+	}
+	
+	UISegmentedControl *scopeBar = nil;
+	for (UIView *subview in subviews) {
+		for (UIView *containedView in subview.subviews) {
+			if ([containedView isKindOfClass:[UISegmentedControl class]]) {
+				scopeBar = (UISegmentedControl *)containedView;
+				break;
+			}
+		}
+		if (scopeBar) {
+			break;
+		}
+	}
+	return scopeBar;
+}
+
 
 @end

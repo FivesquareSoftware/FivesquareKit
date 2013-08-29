@@ -47,4 +47,14 @@
 	[self ready];
 }
 
+- (void) setSelected:(BOOL)selected {
+	[super setSelected:selected];
+	self.highlighted = selected;
+}
+
+- (void) setHighlighted:(BOOL)highlighted {
+	[super setHighlighted:highlighted];
+	_imageView.highlighted = highlighted;
+}
+
 @end
