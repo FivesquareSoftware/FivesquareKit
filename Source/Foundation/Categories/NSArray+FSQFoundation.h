@@ -62,5 +62,9 @@
 
 - (void)sortUsingKey:(NSString *)sortKey ascending:(BOOL)ascending;
 
+- (id) shift;
+- (id) pop;
+- (void) insert:(id)object;
+
 
 @end

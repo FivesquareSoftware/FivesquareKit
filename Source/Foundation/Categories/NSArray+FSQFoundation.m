@@ -227,6 +227,26 @@
     [self sortUsingDescriptors:@[descriptor]];
 }
 
+- (id) shift {
+	id firstObject = [self firstObject];
+	if (firstObject) {
+		[self removeObject:firstObject];
+	}
+	return firstObject;
+}
+
+- (id) pop {
+	id lastObject = [self lastObject];
+	if (lastObject) {
+		[self removeObject:lastObject];
+	}
+	return lastObject;
+}
+
+- (void) insert:(id)object {
+	[self insertObject:object atIndex:0];
+}
+
 @end
 
 
