@@ -122,6 +122,12 @@
 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	if (self.fetchedResultsController.delegate != self) {
+		self.fetchedResultsController.delegate = self;
+	}
+	[self.fetchedResultsController fetch];
+	[self.collectionView reloadData];
+
 }
 
 - (void) viewDidAppear:(BOOL)animated {
