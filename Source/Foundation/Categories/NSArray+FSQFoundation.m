@@ -113,12 +113,15 @@
 	return object;
 }
 
-- (id) firstObject {
-	if (self.count < 1) {
-		return nil;
-	}
-	return [self objectAtIndex:0];
-}
+
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 40000
+//- (id) firstObject {
+//	if (self.count < 1) {
+//		return nil;
+//	}
+//	return [self objectAtIndex:0];
+//}
+//#endif
 
 - (id) anyObject {
 	uint32_t rnd = arc4random_uniform((u_int32_t)[self count]);
@@ -131,6 +134,15 @@
 		[array addObject:[self anyObject]];
 	}
 	return array;
+}
+
+- (id) meanObject {
+	if (self.count > 2) {
+		NSUInteger meanIndex = self.count/2;
+		id meanObject = self[meanIndex];
+		return meanObject;
+	}
+	return [self firstObject];
 }
 
 - (id) objectAtIndexPath:(NSIndexPath *)indexPath {

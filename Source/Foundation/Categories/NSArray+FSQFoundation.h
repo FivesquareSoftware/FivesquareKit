@@ -35,9 +35,14 @@
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 - (id) objectPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate;
 
-- (id) firstObject; ///< @returns the first object if there is one, or nil.
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 40000
+//- (id) firstObject; ///< @returns the first object if there is one, or nil.
+//#endif
+
 - (id) anyObject;
 - (NSArray *) anyArray:(NSUInteger)seed;
+
+- (id) meanObject;
 
 /** Accesses objects in multidimensional arrays by index path. */
 - (id) objectAtIndexPath:(NSIndexPath *)indexPath;
