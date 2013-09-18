@@ -47,7 +47,7 @@
 //#if TARGET_OS_IPHONE && !defined(__IPHONE_6_0)
 //@property (nonatomic, assign) dispatch_queue_t cacheQueue;
 //#else
-@property (nonatomic, strong) dispatch_queue_t cacheQueue __attribute__((NSObject));
+@property (nonatomic, strong) dispatch_queue_t cacheQueue;
 //#endif
 @property (nonatomic, strong) NSMutableDictionary *completionHandlersByKey;
 @property (nonatomic, strong) NSMutableSet *currentDownloads;
