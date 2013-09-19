@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UILabel (FSQFoundation)
+@interface UILabel (FSQUIKit)
 
 - (void) setFontName:(NSString *)fontName;
 

@@ -8,6 +8,7 @@
 
 #import "NSDictionary+FSQFoundation.h"
 #import "NSObject+FSQFoundation.h"
+#import "NSArray+FSQFoundation.h"
 
 @implementation NSDictionary (FSQFoundation)
 
@@ -57,6 +58,27 @@
 - (id) objectMatchingPredicate:(NSPredicate *)predicate {
 	return [[[self allValues] filteredArrayUsingPredicate:predicate] lastObject];
 }
+
+- (NSArray *) valuesForKeysSortedByKey:(NSString *)sortKey ascending:(BOOL)ascending {
+	NSArray *sortedKeys = [[self allKeys] sortedArrayUsingKey:sortKey ascending:ascending];
+	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
+}
+
+- (NSArray *) valuesForKeysSortedByValueUsingSelector:(SEL)comparator {
+	NSArray *sortedKeys = [[self allKeys] sortedArrayUsingSelector:comparator];
+	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
+}
+
+- (NSArray *) valuesForKeysSortedByValueWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr {
+	NSArray *sortedKeys = [[self allKeys] sortedArrayWithOptions:opts usingComparator:cmptr];
+	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
+}
+
+- (NSArray *) valuesForKeysSortedByValueUsingComparator:(NSComparator)cmptr {
+	NSArray *sortedKeys = [[self allKeys] sortedArrayUsingComparator:cmptr];
+	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
+}
+
 
 @end
 

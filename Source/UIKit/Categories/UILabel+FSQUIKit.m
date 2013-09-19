@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Fivesquare Software, LLC. All rights reserved.
 //
 
-#import "UILabel+FSQFoundation.h"
+#import "UILabel+FSQUIKit.h"
 
-@implementation UILabel (FSQFoundation)
+@implementation UILabel (FSQUIKit)
 
 - (void) setFontName:(NSString *)fontName {
 	UIFont *fontNamed = [UIFont fontWithName:fontName size:self.font.pointSize];

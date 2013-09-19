@@ -103,6 +103,7 @@
 #import "UIView+FSQUIKit.h"
 #import "UIImageView+FSQUIKit.h"
 #import "UIDevice+FSQUIKit.h"
-#import "UILabel+FSQFoundation.h"
+#import "UILabel+FSQUIKit.h"
+#import "UITabBarController+FSQUIKit.h"
 
 

@@ -22,6 +22,11 @@
 
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 
+- (NSArray *) valuesForKeysSortedByKey:(NSString *)sortKey ascending:(BOOL)ascending;
+- (NSArray *) valuesForKeysSortedByValueUsingSelector:(SEL)comparator;
+- (NSArray *) valuesForKeysSortedByValueWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr;
+- (NSArray *) valuesForKeysSortedByValueUsingComparator:(NSComparator)cmptr;
+
 @end
 
 @interface NSMutableDictionary (FSQFoundation)
