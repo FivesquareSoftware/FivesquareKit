@@ -36,7 +36,9 @@
 
 - (id) popObject {
 	id object = [self anyObject];
-	[self removeObject:object];
+	if (object) {
+		[self removeObject:object];
+	}
 	return object;
 }
 
