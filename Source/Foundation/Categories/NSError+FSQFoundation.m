@@ -18,6 +18,10 @@
 	return error;
 }
 
++ (id) errorWithError:(NSError *)underlyingError localizedDescription:(NSString *)localizedDescription {
+	return [self errorWithError:underlyingError domain:underlyingError.domain code:underlyingError.code localizedDescription:localizedDescription];
+}
+
 + (id) errorWithError:(NSError *)underlyingError domain:(NSString *)errorDomain code:(NSInteger)errorCode localizedDescription:(NSString *)localizedDescription {
 	NSMutableDictionary *info = [NSMutableDictionary new];
 	if (underlyingError) {

@@ -41,7 +41,8 @@
 }
 
 + (FSQAlertView *) errorAlertWithError:(NSError *)error userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate {
-	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"Error Alert Title")  message:[error localizedDescription] delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button Title") otherButtonTitles:nil];
+	NSString *message = [NSString stringWithFormat:@"%@ (%@)",[error localizedDescription],@(error.code)];
+	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"Error Alert Title")  message:message delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button Title") otherButtonTitles:nil];
 	alertView.userInfo = aUserInfo;
 	alertView.delegate = aDelegate;
 	

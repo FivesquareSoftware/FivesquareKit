@@ -11,6 +11,7 @@
 @interface NSError (FSQFoundation)
 
 + (id) errorWithException:(NSException *)exception;
++ (id) errorWithError:(NSError *)underlyingError localizedDescription:(NSString *)localizedDescription;
 + (id) errorWithError:(NSError *)underlyingError domain:(NSString *)errorDomain code:(NSInteger)errorCode localizedDescription:(NSString *)localizedDescription;
 + (NSString *) bestErrorMessageForError:(NSError *)error;
 + (NSString *) bestErrorMessageForError:(NSError *)error defaultMessage:(NSString *)defaultMessage;
