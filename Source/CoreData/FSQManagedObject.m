@@ -8,6 +8,13 @@
 
 #import "FSQManagedObject.h"
 
+#import "NSString+FSQFoundation.h"
+
+NSString *kFSQManagedObjectCreatedAtKey			= @"createdAt";
+NSString *kFSQManagedObjectUpdatedAtKey			= @"updatedAt";
+NSString *kFSQManagedObjectDeletedAtKey			= @"deletedAt";
+NSString *kFSQManagedObjectUniqueIdentifierKey	= @"uniqueIdentifier";
+
 
 @implementation FSQManagedObject
 
@@ -17,24 +24,36 @@
 - (void) awakeFromInsert {
 	NSDate *at = [NSDate date];
 	if ([self respondsToSelector:@selector(setCreatedAt:)]) {
-		[self setPrimitiveValue:at forKey:@"createdAt"];
+		[self setPrimitiveValue:at forKey:kFSQManagedObjectCreatedAtKey];
 	}
 	if ([self respondsToSelector:@selector(setUpdatedAt:)]) {
-		[self setPrimitiveValue:at forKey:@"updatedAt"];
+		[self setPrimitiveValue:at forKey:kFSQManagedObjectUpdatedAtKey];
 	}
+	if ([self respondsToSelector:@selector(setUniqueIdentifier:)]) {
+		NSUUID *UUID = [NSUUID new];
+		[self setPrimitiveValue:[UUID UUIDString] forKey:kFSQManagedObjectUniqueIdentifierKey];
+	}
+
 }
 
 - (void) willSave {
 	if(NO == [self isDeleted]) {
 		if ([self respondsToSelector:@selector(setUpdatedAt:)]) {
-			[self setPrimitiveValue:[NSDate date] forKey:@"updatedAt"];
+			[self setPrimitiveValue:[NSDate date] forKey:kFSQManagedObjectUpdatedAtKey];
+		}
+		if ([self respondsToSelector:@selector(setUniqueIdentifier:)]) {
+			NSString *uniqueIdentifier = [self primitiveValueForKey:kFSQManagedObjectUniqueIdentifierKey];
+			if ([NSString isEmpty:uniqueIdentifier]) {
+				NSUUID *UUID = [NSUUID new];
+				[self setPrimitiveValue:[UUID UUIDString] forKey:kFSQManagedObjectUniqueIdentifierKey];
+			}
 		}
 	}
 }
 
 - (void) markForDeletion {
 	if ([self respondsToSelector:@selector(setDeletedAt:)]) {
-		[self setPrimitiveValue:[NSDate date] forKey:@"deletedAt"];
+		[self setPrimitiveValue:[NSDate date] forKey:kFSQManagedObjectDeletedAtKey];
 	}
 }
 

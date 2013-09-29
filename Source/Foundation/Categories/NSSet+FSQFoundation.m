@@ -30,6 +30,27 @@
 	return [[self allObjects] anyObject];
 }
 
+- (NSArray *) sortedArrayUsingKey:(NSString *)sortKey ascending:(BOOL)ascending {
+	NSArray *array = [self allObjects];
+	return [array sortedArrayUsingKey:sortKey ascending:ascending];
+}
+
+- (NSArray *)sortedArrayUsingSelector:(SEL)comparator {
+	NSArray *array = [self allObjects];
+	return [array sortedArrayUsingSelector:comparator];
+}
+
+- (NSArray *)sortedArrayUsingComparator:(NSComparator)cmptr {
+	NSArray *array = [self allObjects];
+	return [array sortedArrayUsingComparator:cmptr];
+}
+
+- (NSArray *)sortedArrayWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr {
+	NSArray *array = [self allObjects];
+	return [array sortedArrayWithOptions:opts usingComparator:cmptr];
+}
+
+
 @end
 
 @implementation NSMutableSet (FSQFoundation)
