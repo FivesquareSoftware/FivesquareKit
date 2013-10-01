@@ -25,4 +25,6 @@
 - (NSInteger) numberOfObjectsInSection:(NSInteger)section;
 - (NSArray *) objectsInSection:(NSInteger)section;
 
+- (NSArray *) objectsForIndexPaths:(NSArray *)indexPaths;
+
 @end

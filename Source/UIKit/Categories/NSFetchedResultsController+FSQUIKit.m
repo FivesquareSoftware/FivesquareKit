@@ -55,4 +55,15 @@
 	return [(id<NSFetchedResultsSectionInfo>)[self sectionAtIndex:section] objects];
 }
 
+- (NSArray *) objectsForIndexPaths:(NSArray *)indexPaths {
+	NSMutableArray *objects = [NSMutableArray new];
+	for (NSIndexPath *indexPath in indexPaths) {
+		id object = [self objectAtIndexPath:indexPath];
+		if (object) {
+			[objects addObject:object];
+		}
+	}
+	return objects;
+}
+
 @end
