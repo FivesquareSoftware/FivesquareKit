@@ -55,6 +55,9 @@
 - (NSArray *) flatten;
 - (NSArray *) flatten:(id(^)(id obj))enumerationBlock;
 
+- (NSArray *) objectsToIndex:(NSUInteger)index;
+- (NSArray *) firstObjects:(NSUInteger)length;
+
 @end
 
 @interface NSMutableArray (FSQFoundation)

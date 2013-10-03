@@ -198,6 +198,20 @@
 	return newArray;
 }
 
+- (NSArray *) objectsToIndex:(NSUInteger)index {
+	return [self firstObjects:index+1];
+}
+
+- (NSArray *) firstObjects:(NSUInteger)length {
+	NSUInteger count = [self count];
+	NSRange sliceRange = NSMakeRange(0, length);
+	if (NSMaxRange(sliceRange) > count) {
+		sliceRange.length = count;
+	}
+	NSArray *array = [self subarrayWithRange:sliceRange];
+	return array;
+}
+
 @end
 
 
