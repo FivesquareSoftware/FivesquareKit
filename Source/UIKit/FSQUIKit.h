@@ -105,5 +105,6 @@
 #import "UIDevice+FSQUIKit.h"
 #import "UILabel+FSQUIKit.h"
 #import "UITabBarController+FSQUIKit.h"
+#import "UIScreen+FSQUIKit.h"
 
 

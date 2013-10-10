@@ -18,7 +18,7 @@ enum  {
 	kFSQCoreDataStackErrorCodeFailedToLoadAnyStore			= 9002
 };
 
-
+typedef void(^FSQCoreDataStackReadyBlock)(NSManagedObjectContext *mainContext);
 
 
 @interface FSQCoreDataStack : NSObject
@@ -101,6 +101,9 @@ enum  {
 
 /** Drops the persistent store and reinitializes the receiver, handling ubiquity (re)configuration and migration as needed. */
 - (void) reloadWithCompletionBlock:(void(^)(NSError *error))completionBlock;
+
+
+- (void) performOnMainContextWhenReady:(FSQCoreDataStackReadyBlock)block;
 
 
 

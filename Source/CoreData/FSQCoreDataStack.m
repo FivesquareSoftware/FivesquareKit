@@ -44,11 +44,14 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 
 // Private
 
+@property BOOL isInitializing;
 @property (getter = wasInitialized) BOOL initialized;
 
 @property (nonatomic, strong) NSURL *modelURL;
 @property (nonatomic, strong) NSURL *localStoreURL;
 @property (nonatomic, strong) NSPersistentStore *localStore;
+
+@property (nonatomic, strong) NSMutableSet *readyBlocks;
 
 @end
 
@@ -136,6 +139,14 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 	return storeMetadata;
 }
 
+@synthesize mainContext = _mainContext;
+- (NSManagedObjectContext *) mainContext {
+	if (nil == _mainContext && self.wasInitialized) {
+		_mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+		_mainContext.persistentStoreCoordinator = _persistentStoreCoordinator;
+	}
+	return _mainContext;
+}
 
 
 #pragma mark - -- Private
@@ -195,11 +206,11 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 		self.persistentStoresDirectoryURL = persistentStoresDirectoryURL;
 		
         _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
-        _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        _mainContext.persistentStoreCoordinator = _persistentStoreCoordinator;		
+//        _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+//        _mainContext.persistentStoreCoordinator = _persistentStoreCoordinator;		
         _storeOptions = @{};
-        _setupQueue = dispatch_queue_create("com.fivesquaresoftware.FSQCoreDataManager.steupQueue", NULL);        
-
+        _setupQueue = dispatch_queue_create("com.fivesquaresoftware.FSQCoreDataManager.steupQueue", NULL);
+		_readyBlocks = [NSMutableSet new];
 	}
 	return self;
 }
@@ -214,10 +225,25 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 
 #pragma mark - Stack Setup
 
+
 - (void) initializeWithCompletionBlock:(void(^)(NSError *error))completionBlock {
-    if (NO == self.wasInitialized) {
-        self.initialized = YES;
-		[self _initializeWithCompletionBlock:completionBlock];
+    if (NO == self.wasInitialized && NO == self.isInitializing) {
+		self.isInitializing = YES;
+		[self _initializeWithCompletionBlock:^(NSError *error) {
+			if (nil == error) {
+				self.initialized = YES;
+			}
+			self.isInitializing = NO;
+			if (completionBlock) {
+				completionBlock(error);
+			}
+			for (FSQCoreDataStackReadyBlock readyBlock in _readyBlocks) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					readyBlock(self.mainContext);
+				});
+			}
+			[_readyBlocks removeAllObjects];
+		}];
     }
 }
 
@@ -241,6 +267,9 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
     });
 }
 
+- (void) performOnMainContextWhenReady:(FSQCoreDataStackReadyBlock)block {
+	[_readyBlocks addObject:block];
+}
 
 
 // ========================================================================== //

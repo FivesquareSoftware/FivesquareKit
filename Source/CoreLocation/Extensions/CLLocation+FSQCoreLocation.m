@@ -108,10 +108,10 @@
 	NSString *longitudeRef;
 	if (longitude < 0) {
 		longitude = -longitude;
-		longitudeRef = @"E";
+		longitudeRef = @"W";
 	}
 	else {
-		longitudeRef = @"W";
+		longitudeRef = @"E";
 	}
 
 	double speed = self.speed;

@@ -140,6 +140,8 @@
 		A42A2EDB1525252D0032AB39 /* CLLocation+FSQCoreLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43F712748374005D9BF4 /* CLLocation+FSQCoreLocation.m */; };
 		A42A2EDC1525252D0032AB39 /* FSQCoreGraphicsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43F312748374005D9BF4 /* FSQCoreGraphicsUtils.m */; };
 		A42A2F211525285D0032AB39 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A42A2F1F1525285D0032AB39 /* InfoPlist.strings */; };
+		A43901E91804A3FA00C94D88 /* UIScreen+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A43901E71804A3FA00C94D88 /* UIScreen+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A43901EA1804A3FA00C94D88 /* UIScreen+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A43901E81804A3FA00C94D88 /* UIScreen+FSQUIKit.m */; };
 		A43A66E4157D600500640591 /* FSQMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A66E3157D600500640591 /* FSQMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43A66E5157D600500640591 /* FSQMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A66E3157D600500640591 /* FSQMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A43CC1B91538AC960013700F /* UIView+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -407,6 +409,8 @@
 		A435127814AFE82B00BE02A8 /* FSQUIImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIImageToDataTransformer.m; sourceTree = "<group>"; };
 		A43512D514B0F8E200BE02A8 /* FSQManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQManagedObject.h; sourceTree = "<group>"; };
 		A43512D614B0F8E200BE02A8 /* FSQManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQManagedObject.m; sourceTree = "<group>"; };
+		A43901E71804A3FA00C94D88 /* UIScreen+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+FSQUIKit.h"; sourceTree = "<group>"; };
+		A43901E81804A3FA00C94D88 /* UIScreen+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+FSQUIKit.m"; sourceTree = "<group>"; };
 		A43A48D014F559B000A722E9 /* FSQPropertyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQPropertyMapper.h; sourceTree = "<group>"; };
 		A43A48D114F559B000A722E9 /* FSQPropertyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQPropertyMapper.m; sourceTree = "<group>"; };
 		A43A492314F5717E00A722E9 /* FSQFoundationConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQFoundationConstants.h; sourceTree = "<group>"; };
@@ -968,6 +972,8 @@
 				A472564A1739B6F9001AD18C /* UILabel+FSQUIKit.m */,
 				A4D6D04017EA51C4002F9865 /* UITabBarController+FSQUIKit.h */,
 				A4D6D04117EA51C4002F9865 /* UITabBarController+FSQUIKit.m */,
+				A43901E71804A3FA00C94D88 /* UIScreen+FSQUIKit.h */,
+				A43901E81804A3FA00C94D88 /* UIScreen+FSQUIKit.m */,
 			);
 			name = Extensions;
 			path = Categories;
@@ -1382,6 +1388,7 @@
 				A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */,
 				A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */,
 				A4E416221617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
+				A43901E91804A3FA00C94D88 /* UIScreen+FSQUIKit.h in Headers */,
 				A45FAF8D16926ED30066B78C /* FSQKeyObservation.h in Headers */,
 				A45FAFD416938C4B0066B78C /* FSQProgressAlert.h in Headers */,
 				A45FAF8816926EC50066B78C /* FSQKeyObserver.h in Headers */,
@@ -1675,6 +1682,7 @@
 				A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */,
 				A4062E381697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
 				A4413F491713D3FF0078F827 /* FSQObjectButton.m in Sources */,
+				A43901EA1804A3FA00C94D88 /* UIScreen+FSQUIKit.m in Sources */,
 				A4DC742816CD990F0047E6B2 /* FSQSegmentedControl.m in Sources */,
 				A4E1D04F16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m in Sources */,
 				A4DDC4C31738BE9B005FC42D /* FSQGradientView.m in Sources */,

@@ -26,6 +26,8 @@
 /** Starts booting and returns immediately. The completion block will run on the main thread when booting is complete. */
 - (void) bootWithCompletionBlock:(void (^)(void))block;
 
+- (void) runWhenComplete:(void (^)(void))block;
+
 - (void) addError:(NSError *)error;
 
 @end
