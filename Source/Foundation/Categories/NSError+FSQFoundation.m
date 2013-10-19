@@ -9,11 +9,22 @@
 #import "NSError+FSQFoundation.h"
 
 #import "NSString+FSQFoundation.h"
+#import "NSDictionary+FSQFoundation.h"
+
 
 @implementation NSError (FSQFoundation)
 
 + (id) errorWithException:(NSException *)exception {
-	NSDictionary *info = @{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"An exception occurred: %@",[exception name]], @"exception" : exception, @"reason" : [exception reason] , @"callStackSymbols" : [exception callStackSymbols], @"userInfo" : [exception userInfo] };
+	if (nil == exception) {
+		return nil;
+	}
+	NSMutableDictionary *info = [NSMutableDictionary new];
+	info[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"An exception occurred: %@",[exception name]];
+	[info setObjectIfNotNil:exception forKey:@"exception"];
+	[info setObjectIfNotNil:[exception reason] forKey:@"reason"];
+	[info setObjectIfNotNil:[exception callStackSymbols] forKey:@"callStackSymbols"];
+	[info setObjectIfNotNil:[exception userInfo] forKey:@"userInfo"];
+	
 	NSError *error = [NSError errorWithDomain:@"Exception Error Domain" code:-999 userInfo:info];
 	return error;
 }

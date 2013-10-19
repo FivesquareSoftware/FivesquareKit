@@ -11,3 +11,6 @@
 
 /** Converts a coordinate to a new coordinate offset by meters lat and long. */
 CLLocationCoordinate2D FSQCoordinateOffsetFromCoordinate(CLLocationCoordinate2D coordinate, CLLocationDistance distanceLong, CLLocationDistance distanceLat);
+
+CLLocationCoordinate2D FSQGetMinCoordinateForRegion(MKCoordinateRegion region);
+CLLocationCoordinate2D FSQGetMaxCoordinateForRegion(MKCoordinateRegion region);

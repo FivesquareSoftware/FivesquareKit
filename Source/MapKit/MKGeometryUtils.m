@@ -32,3 +32,27 @@ CLLocationCoordinate2D FSQCoordinateOffsetFromCoordinate(CLLocationCoordinate2D 
 //
 //MK_EXTERN CLLocationDistance MKMetersBetweenMapPoints(MKMapPoint a, MKMapPoint b) NS_AVAILABLE(NA, 4_0);
 
+
+CLLocationCoordinate2D FSQGetMinCoordinateForRegion(MKCoordinateRegion region) {
+	CLLocationCoordinate2D center = region.center;
+	
+	MKCoordinateSpan span = region.span;
+	CLLocationDegrees latitudeSpan = span.latitudeDelta;
+	CLLocationDegrees longitudeSpan = span.longitudeDelta;
+	
+	CLLocationCoordinate2D minCoordinate = CLLocationCoordinate2DMake(center.latitude - latitudeSpan, center.longitude - longitudeSpan);
+
+	return minCoordinate;
+}
+
+CLLocationCoordinate2D FSQGetMaxCoordinateForRegion(MKCoordinateRegion region) {
+	CLLocationCoordinate2D center = region.center;
+	
+	MKCoordinateSpan span = region.span;
+	CLLocationDegrees latitudeSpan = span.latitudeDelta;
+	CLLocationDegrees longitudeSpan = span.longitudeDelta;
+	
+	CLLocationCoordinate2D maxCoordinate = CLLocationCoordinate2DMake(center.latitude + latitudeSpan, center.longitude + longitudeSpan);
+	
+	return maxCoordinate;
+}
