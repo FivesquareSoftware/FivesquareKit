@@ -14,7 +14,7 @@
 typedef void (^FSQLocationResolverLocationUpdateHandler)(CLLocation *location, NSError *error);
 typedef void (^FSQLocationResolverRegionUpdateHandler)(CLRegion *region, NSError *error);
 
-extern NSString *kFSQLocationResolverCompletedResolutionNotification;
+extern NSString *kFSQLocationResolverStoppedUpdatingNotification;
 extern NSString *kFSQLocationResolverKeyLocation;
 extern NSString *kFSQLocationResolverKeyError;
 extern NSString *kFSQLocationResolverKeyAborted; ///< Whether the resolution timed out or not
@@ -23,6 +23,8 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 
 
 @interface FSQLocationResolver : NSObject <CLLocationManagerDelegate> 
+
+@property (nonatomic, strong) id identifier;
 
 @property (getter = isResolving) BOOL resolving;
 @property BOOL aborted; ///< YES when the timeout occurs before accuracy was achieved
