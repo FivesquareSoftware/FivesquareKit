@@ -11,7 +11,8 @@
 
 
 @class FSQLocationResolver;
-typedef void (^FSQLocationResolverCompletionHandler)(CLLocation *location, NSError *error);
+typedef void (^FSQLocationResolverLocationUpdateHandler)(CLLocation *location, NSError *error);
+typedef void (^FSQLocationResolverRegionUpdateHandler)(CLRegion *region, NSError *error);
 
 extern NSString *kFSQLocationResolverCompletedResolutionNotification;
 extern NSString *kFSQLocationResolverKeyLocation;
@@ -25,6 +26,9 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 
 @property (getter = isResolving) BOOL resolving;
 @property BOOL aborted; ///< YES when the timeout occurs before accuracy was achieved
+@property (getter = isMonitoringSignificantChanges) BOOL monitoringSignificantChanges;
+
+
 @property (strong) CLLocation *currentLocation; ///< The best effort location
 @property (strong) NSError *error; ///< The error that occurred during last resolution
 
@@ -41,11 +45,21 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
  *  @see resolveLocationAccurateTo:givingUpAfter: for a discussion of return values.
  *  @note Notifications are also sent in addition to the handler blocks being invoked. 
  */
-- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverCompletionHandler)handler;
+- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverLocationUpdateHandler)handler;
 
-- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverCompletionHandler)handler;
+- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverLocationUpdateHandler)handler;
 
 /** Stops location updates and removes all completion handlers. */
 - (void) stopResolving;
+
+
+- (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange;
+- (void) stopMonitoringSignificantLocationChange;
+
+- (BOOL) onEnterRegion:(CLRegion *)region do:(FSQLocationResolverRegionUpdateHandler)onEnter onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure;
+- (BOOL) onExitRegion:(CLRegion *)region do:(FSQLocationResolverRegionUpdateHandler)onExit onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure;
+- (BOOL) startMonitoringForRegion:(CLRegion *)region onBegin:(FSQLocationResolverRegionUpdateHandler)onBegin onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onExit:(FSQLocationResolverRegionUpdateHandler)onExit  onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure;
+
+- (void) stopMonitoringRegion:(CLRegion *)region;
 
 @end

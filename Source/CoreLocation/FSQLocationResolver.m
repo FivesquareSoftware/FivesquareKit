@@ -25,12 +25,16 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 @property (nonatomic, strong) NSDate *locationUpdatesStartedOn;
 @property (nonatomic, strong) NSTimer *locationServicesAbortTimer;
 //@property (nonatomic, copy) FSQLocationResolverCompletionHandler completionHandler;
-@property (nonatomic, strong) NSMutableSet *completionHandlers;
+@property (nonatomic, strong) NSMutableSet *locationUpdateHandlers;
 @property (strong) CLLocation *lastUpdatedLocation; ///< The last location we got from the location manager. May or may/not be better than the best effort location.
 
+@property (nonatomic, strong) NSMutableDictionary *regionBeginHandlersByIdentifier;
+@property (nonatomic, strong) NSMutableDictionary *regionEnterHandlersByIdentifier;
+@property (nonatomic, strong) NSMutableDictionary *regionExitHandlersByIdentifier;
+@property (nonatomic, strong) NSMutableDictionary *regionFailureHandlersByIdentifier;
 
 - (void) locationSearchTimeLimitReached:(NSTimer *)timer;
-- (void) handleResolutionCompletion;
+
 @end
 
 
@@ -70,7 +74,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 
 - (void)dealloc {
-	[_completionHandlers removeAllObjects];
+	[_locationUpdateHandlers removeAllObjects];
 	if([self.locationServicesAbortTimer isValid]) {
 		[self.locationServicesAbortTimer invalidate];
 	}
@@ -79,7 +83,11 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 - (id)init {
     self = [super init];
     if (self) {
-        _completionHandlers = [NSMutableSet new];
+        _locationUpdateHandlers = [NSMutableSet new];
+		_regionBeginHandlersByIdentifier = [NSMutableDictionary new];
+		_regionEnterHandlersByIdentifier = [NSMutableDictionary new];
+		_regionExitHandlersByIdentifier = [NSMutableDictionary new];
+		_regionFailureHandlersByIdentifier = [NSMutableDictionary new];
     }
     return self;
 }
@@ -96,15 +104,15 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	return [self resolveLocationAccurateTo:accuracy givingUpAfter:timeout completionHandler:nil];
 }
 
-- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverCompletionHandler)handler {
+- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverLocationUpdateHandler)handler {
 	return [self resolveLocationAccurateTo:accuracy givingUpAfter:kFSQLocationResolverInfiniteTimeInterval completionHandler:handler];
 }
 
-- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverCompletionHandler)handler {
+- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverLocationUpdateHandler)handler {
 	
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
 	
-	[_completionHandlers addObject:[handler copy]];
+	[_locationUpdateHandlers addObject:[handler copy]];
 	if (self.isResolving) return YES;
 	
 	self.resolving = YES;
@@ -143,17 +151,78 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 		self.locationServicesAbortTimer = nil;
 	}
 	
-	[_completionHandlers removeAllObjects];
+	[_locationUpdateHandlers removeAllObjects];
 	
 	self.resolving = NO;
 }
+
+- (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange {
+	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
+	if (self.isMonitoringSignificantChanges) {
+		[_locationUpdateHandlers addObject:[onLocationChange copy]];
+	}
+	if (self.isResolving) {
+		[self stopResolving];
+	}
+	self.locationUpdatesStartedOn = [NSDate date];
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+	[self.locationManager startMonitoringSignificantLocationChanges];
+	self.monitoringSignificantChanges = YES;
+	return YES;
+}
+
+- (void) stopMonitoringSignificantLocationChange {
+	[self.locationManager stopMonitoringSignificantLocationChanges];
+	[_locationUpdateHandlers removeAllObjects];
+	self.monitoringSignificantChanges = NO;
+}
+
+- (BOOL) onEnterRegion:(CLRegion *)region do:(FSQLocationResolverRegionUpdateHandler)onEnter onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
+	return [self startMonitoringForRegion:region onBegin:nil onEnter:onEnter onExit:nil onFailure:onFailure];
+}
+
+- (BOOL) onExitRegion:(CLRegion *)region do:(FSQLocationResolverRegionUpdateHandler)onExit onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
+	return [self startMonitoringForRegion:region onBegin:nil onEnter:nil onExit:onExit onFailure:onFailure];
+}
+
+- (BOOL) startMonitoringForRegion:(CLRegion *)region onBegin:(FSQLocationResolverRegionUpdateHandler)onBegin onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onExit:(FSQLocationResolverRegionUpdateHandler)onExit  onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
+	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
+	if (onEnter) {
+		_regionEnterHandlersByIdentifier[region.identifier] = [onEnter copy];
+	}
+	if (onExit) {
+		_regionExitHandlersByIdentifier[region.identifier] = [onExit copy];
+	}
+	return YES;
+}
+
+- (void) stopMonitoringRegion:(CLRegion *)region {
+	[self.locationManager stopMonitoringForRegion:region];
+	[_regionBeginHandlersByIdentifier removeObjectForKey:region.identifier];
+	[_regionEnterHandlersByIdentifier removeObjectForKey:region.identifier];
+	[_regionExitHandlersByIdentifier removeObjectForKey:region.identifier];
+	[_regionFailureHandlersByIdentifier removeObjectForKey:region.identifier];
+}
+
+
 
 // ========================================================================== //
 
 #pragma mark - CLLocationManagerDelegate
 
-- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    FLog(@"didUpdateToLocation:%@ fromLocation:%@",newLocation,oldLocation);
+//- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+
+- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+//    FLog(@"didUpdateToLocation:%@ fromLocation:%@",newLocation,oldLocation);
+    FLog(@"didUpdateLocations:%@",locations);
+	
+	if (self.isMonitoringSignificantChanges) {
+		[self handleLocationUpdate];
+		return;
+	}
+	
+	CLLocation *newLocation = [locations lastObject];
+	
 	NSDate *eventDate = newLocation.timestamp;
     NSTimeInterval fromWhenUpdatesStarted = [eventDate timeIntervalSinceDate:self.locationUpdatesStartedOn];
 //	FLog(@"fromWhenUpdatesStarted: %@",@(fromWhenUpdatesStarted));
@@ -178,7 +247,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 			self.currentLocation = newLocation;
 #ifdef __IPHONE_6
 			if (self.locationManager.pausesLocationUpdatesAutomatically) {
-				[self handleResolutionUpdate];
+				[self handleLocationUpdate];
 				return;
 			}
 #endif
@@ -198,6 +267,45 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	}
 }
 
+- (void) locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+	FLogDebug(@"didEnterRegion:%@",region);
+	FSQLocationResolverRegionUpdateHandler handler = _regionEnterHandlersByIdentifier[region.identifier];
+	if (handler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			handler(region,nil);
+		});
+	}
+}
+
+- (void) locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+	FLogDebug(@"didExitRegion:%@",region);
+	FSQLocationResolverRegionUpdateHandler handler = _regionExitHandlersByIdentifier[region.identifier];
+	if (handler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			handler(region,nil);
+		});
+	}
+}
+
+- (void) locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
+	FLogDebug(@"didStartMonitoringForRegion:%@",region);
+	FSQLocationResolverRegionUpdateHandler handler = _regionBeginHandlersByIdentifier[region.identifier];
+	if (handler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			handler(region,nil);
+		});
+	}
+}
+
+- (void) locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
+	FLogDebug(@"monitoringDidFailForRegion:%@ withError: %@",region,error);
+	FSQLocationResolverRegionUpdateHandler handler = _regionFailureHandlersByIdentifier[region.identifier];
+	if (handler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			handler(region,error);
+		});
+	}
+}
 
 // ========================================================================== //
 
@@ -240,17 +348,17 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	[info setObject:@(self.aborted) forKey:kFSQLocationResolverKeyAborted];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kFSQLocationResolverCompletedResolutionNotification object:self userInfo:info];
-	[_completionHandlers enumerateObjectsUsingBlock:^(FSQLocationResolverCompletionHandler handler, BOOL *stop) {
+	[_locationUpdateHandlers enumerateObjectsUsingBlock:^(FSQLocationResolverLocationUpdateHandler handler, BOOL *stop) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			handler(self.currentLocation,self.error);
 		});
 	}];
-	[_completionHandlers removeAllObjects];
+	[_locationUpdateHandlers removeAllObjects];
 	
 	self.resolving = NO;
 }
 
-- (void) handleResolutionUpdate {
+- (void) handleLocationUpdate {
 	NSMutableDictionary *info = [NSMutableDictionary new];
 	if (self.currentLocation) {
 		[info setObject:self.currentLocation forKey:kFSQLocationResolverKeyLocation];
@@ -261,7 +369,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	[info setObject:@(self.aborted) forKey:kFSQLocationResolverKeyAborted];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kFSQLocationResolverCompletedResolutionNotification object:self userInfo:info];
-	[_completionHandlers enumerateObjectsUsingBlock:^(FSQLocationResolverCompletionHandler handler, BOOL *stop) {
+	[_locationUpdateHandlers enumerateObjectsUsingBlock:^(FSQLocationResolverLocationUpdateHandler handler, BOOL *stop) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			handler(self.currentLocation,self.error);
 		});

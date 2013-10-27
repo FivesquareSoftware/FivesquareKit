@@ -39,6 +39,25 @@
 	return ancestor;
 }
 
+- (id) firstRespondingSubview {
+	if ([self isFirstResponder]) {
+		return self;
+	}
+	id firstResponder = nil;
+	for (UIView *subview in self.subviews) {
+		if (firstResponder) {
+			break;
+		}
+		if ([subview isFirstResponder]) {
+			firstResponder = subview;
+		}
+		if (nil == firstResponder) {
+			firstResponder = [subview firstRespondingSubview];
+		}
+	}
+	return firstResponder;
+}
+
 - (CGAffineTransform) offscreenLeftTransform {
 	CGAffineTransform offscreenLeftTransform = CGAffineTransformMakeTranslation(-self.bounds.size.width,0);
 	return offscreenLeftTransform;

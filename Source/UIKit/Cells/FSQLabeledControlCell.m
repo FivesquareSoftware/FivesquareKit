@@ -15,6 +15,10 @@
 	return [self.control becomeFirstResponder];
 }
 
+- (BOOL) resignFirstResponder {
+	return [self.control resignFirstResponder];
+}
+
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
 	[self.control setEnabled:editing];
 }
