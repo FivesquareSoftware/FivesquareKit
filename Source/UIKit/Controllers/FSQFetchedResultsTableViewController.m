@@ -173,12 +173,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	[FSQAsserter subclass:self responsibility:_cmd];
+	FSQSubclassResponsibility();
 	return nil;
 }
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-	[FSQAsserter subclass:self warn:_cmd];
+	FSQSubclassWarn();
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
