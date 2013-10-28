@@ -150,7 +150,12 @@
 	NSUInteger length = [indexPath length];
 	for (NSUInteger i = 0; i < length; i++) {
 		NSUInteger index = [indexPath indexAtPosition:i];
-		object = [object objectAtIndex:index];
+		if (index < [object count]) {
+			object = [object objectAtIndex:index];
+		}
+		else {
+			object = nil;
+		}
 	}
 	return object;
 }

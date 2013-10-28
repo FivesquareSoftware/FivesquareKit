@@ -162,7 +162,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 }
 
 - (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange {
-	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
+	if (NO == [CLLocationManager significantLocationChangeMonitoringAvailable]) return NO;
 	[_locationUpdateHandlers addObject:[onLocationChange copy]];
 	if (self.isMonitoringSignificantChanges) {
 		return YES;
@@ -184,22 +184,32 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	self.monitoringSignificantChanges = NO;
 }
 
-- (BOOL) onEnterRegion:(CLRegion *)region do:(FSQLocationResolverRegionUpdateHandler)onEnter onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
+- (BOOL) startMonitoringForRegion:(CLRegion *)region onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
 	return [self startMonitoringForRegion:region onBegin:nil onEnter:onEnter onExit:nil onFailure:onFailure];
 }
 
-- (BOOL) onExitRegion:(CLRegion *)region do:(FSQLocationResolverRegionUpdateHandler)onExit onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
+- (BOOL) startMonitoringForRegion:(CLRegion *)region onExit:(FSQLocationResolverRegionUpdateHandler)onExit onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
 	return [self startMonitoringForRegion:region onBegin:nil onEnter:nil onExit:onExit onFailure:onFailure];
 }
 
 - (BOOL) startMonitoringForRegion:(CLRegion *)region onBegin:(FSQLocationResolverRegionUpdateHandler)onBegin onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onExit:(FSQLocationResolverRegionUpdateHandler)onExit  onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
+	NSParameterAssert(region != nil);
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
+	if (nil == region) return NO;
+	
+	if (onBegin) {
+		_regionBeginHandlersByIdentifier[region.identifier] = [onBegin copy];
+	}
 	if (onEnter) {
 		_regionEnterHandlersByIdentifier[region.identifier] = [onEnter copy];
 	}
 	if (onExit) {
 		_regionExitHandlersByIdentifier[region.identifier] = [onExit copy];
 	}
+	if (onFailure) {
+		_regionFailureHandlersByIdentifier[region.identifier] = [onFailure copy];
+	}
+	[self.locationManager startMonitoringForRegion:region];
 	return YES;
 }
 
