@@ -58,6 +58,14 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 #pragma mark - Properties
 
+@dynamic activityType;
+- (void) setActivityType:(CLActivityType)activityType {
+	self.locationManager.activityType = activityType;
+}
+
+- (CLActivityType) activityType {
+	return self.locationManager.activityType;
+}
 
 - (CLLocationManager *) locationManager {
     if(_locationManager == nil) {
@@ -68,6 +76,10 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
     return _locationManager;
 }
 
+- (BOOL) resolvingContinuously {
+	BOOL resolvingContinuously = (_currentTimeout == kFSQLocationResolverInfiniteTimeInterval);
+	return resolvingContinuously;
+}
 
 
 // ========================================================================== //
@@ -105,15 +117,15 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 
 
-- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout {
-	return [self resolveLocationAccurateTo:accuracy givingUpAfter:timeout completionHandler:nil];
+- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout {
+	return [self resolveLocationAccurateTo:accuracy within:timeout completionHandler:nil];
 }
 
 - (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverLocationUpdateHandler)handler {
-	return [self resolveLocationAccurateTo:accuracy givingUpAfter:kFSQLocationResolverInfiniteTimeInterval completionHandler:handler];
+	return [self resolveLocationAccurateTo:accuracy within:kFSQLocationResolverInfiniteTimeInterval completionHandler:handler];
 }
 
-- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy givingUpAfter:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverLocationUpdateHandler)handler {
+- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverLocationUpdateHandler)handler {
 	
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
 	
@@ -127,12 +139,14 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	
 	self.locationUpdatesStartedOn = [NSDate date];
     self.locationManager.desiredAccuracy = accuracy;
-#ifdef __IPHONE_6
-	if ([self.locationManager respondsToSelector:@selector(pausesLocationUpdatesAutomatically)]) {
-		self.locationManager.pausesLocationUpdatesAutomatically = (timeout == kFSQLocationResolverInfiniteTimeInterval);
-	}
+	self.currentTimeout = timeout;
+	
+#ifdef TARGET_OS_IPHONE
+	self.locationManager.pausesLocationUpdatesAutomatically = self.resolvingContinuously;
 #endif
-    [self.locationManager startUpdatingLocation];
+
+//	LocLog(@"locationManager.pausesLocationUpdatesAutomatically: %@",@(self.locationManager.pausesLocationUpdatesAutomatically));
+	[self.locationManager startUpdatingLocation];
 	
 	if (self.locationServicesAbortTimer) {
 		[self.locationServicesAbortTimer invalidate];
@@ -194,7 +208,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 - (BOOL) startMonitoringForRegion:(CLRegion *)region onBegin:(FSQLocationResolverRegionUpdateHandler)onBegin onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onExit:(FSQLocationResolverRegionUpdateHandler)onExit  onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
 	NSParameterAssert(region != nil);
-	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
+	if (NO == [CLLocationManager isMonitoringAvailableForClass:[region class]]) return NO;
 	if (nil == region) return NO;
 	
 	if (onBegin) {
@@ -256,6 +270,9 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	LocLog(@"currentLocation.horizontalAccuracy:%f",self.currentLocation.horizontalAccuracy);
 	LocLog(@"locationManager.desiredAccuracy:%f",self.locationManager.desiredAccuracy);
 
+	CLLocationDistance locationDelta = [self.currentLocation distanceFromLocation:newLocation];
+	LocLog(@"locationDelta: %@",@(locationDelta));
+	
 	if (self.currentLocation == nil || self.currentLocation.horizontalAccuracy >= newLocation.horizontalAccuracy) {
 		LocLog(@"Got decent location, setting it to best effort location");
         self.currentLocation = newLocation;
@@ -267,9 +284,10 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
         if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy <= kFSQLocationResolverAccuracyBest) ) {
 			LocLog(@"Got a good enough location: newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
 			self.currentLocation = newLocation;
-#ifdef __IPHONE_6
-			if (self.locationManager.pausesLocationUpdatesAutomatically) {
-				LocLog(@"Handling location change, running continuously");
+#ifdef TARGET_OS_IPHONE
+			if (self.resolvingContinuously) {
+				LocLog(@"locationManager.pausesLocationUpdatesAutomatically: %@",@(self.locationManager.pausesLocationUpdatesAutomatically));
+				LocLog(@"Running continuously, handling location change");
 				[self handleLocationUpdate];
 				return;
 			}
@@ -278,7 +296,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 				LocLog(@"Handling significant location change");
 				[self handleLocationUpdate];
 			}
-			if (self.isResolving) {
+			else if (self.isResolving) {
 				LocLog(@"Stopping updates");
 				[self.locationManager stopUpdatingLocation];
 				[self handleFailureOrCompletion];
