@@ -63,6 +63,7 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 
 
 - (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange;
+- (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange initialFixWithin:(NSTimeInterval)initialTimeout;
 - (void) stopMonitoringSignificantLocationChange;
 
 - (BOOL) startMonitoringForRegion:(CLRegion *)region onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure;

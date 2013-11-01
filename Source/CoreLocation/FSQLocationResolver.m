@@ -36,8 +36,8 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSDate *locationUpdatesStartedOn;
-@property (nonatomic, strong) NSTimer *locationServicesAbortTimer;
-//@property (nonatomic, copy) FSQLocationResolverCompletionHandler completionHandler;
+@property (nonatomic, strong) NSTimer *timedResolutionAbortTimer;
+@property (nonatomic, strong) NSTimer *initialFixTimer;
 @property (nonatomic, strong) NSMutableSet *locationUpdateHandlers;
 @property (strong) CLLocation *lastUpdatedLocation; ///< The last location we got from the location manager. May or may/not be better than the best effort location.
 
@@ -46,7 +46,8 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 @property (nonatomic, strong) NSMutableDictionary *regionExitHandlersByIdentifier;
 @property (nonatomic, strong) NSMutableDictionary *regionFailureHandlersByIdentifier;
 
-- (void) locationResolutionTimeLimitReached:(NSTimer *)timer;
+- (void) timedResolutionTimeLimitReached:(NSTimer *)timer;
+- (void) initialFixTimeLimitReached:(NSTimer *)timer;
 
 @end
 
@@ -90,8 +91,8 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 - (void)dealloc {
 	[_locationUpdateHandlers removeAllObjects];
-	if([self.locationServicesAbortTimer isValid]) {
-		[self.locationServicesAbortTimer invalidate];
+	if([self.timedResolutionAbortTimer isValid]) {
+		[self.timedResolutionAbortTimer invalidate];
 	}
 }
 
@@ -148,12 +149,12 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 //	LocLog(@"locationManager.pausesLocationUpdatesAutomatically: %@",@(self.locationManager.pausesLocationUpdatesAutomatically));
 	[self.locationManager startUpdatingLocation];
 	
-	if (self.locationServicesAbortTimer) {
-		[self.locationServicesAbortTimer invalidate];
-		self.locationServicesAbortTimer = nil;
+	if (self.timedResolutionAbortTimer) {
+		[self.timedResolutionAbortTimer invalidate];
+		self.timedResolutionAbortTimer = nil;
 	}
 	if (timeout != kFSQLocationResolverInfiniteTimeInterval) {
-		self.locationServicesAbortTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(locationResolutionTimeLimitReached:) userInfo:nil repeats:NO];
+		self.timedResolutionAbortTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(timedResolutionTimeLimitReached:) userInfo:nil repeats:NO];
 	}
 
 	// experimenting with getting a cached location
@@ -165,9 +166,9 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 - (void) stopResolving {
 	[self.locationManager stopUpdatingLocation];
 
-	if (self.locationServicesAbortTimer) {
-		[self.locationServicesAbortTimer invalidate];
-		self.locationServicesAbortTimer = nil;
+	if (self.timedResolutionAbortTimer) {
+		[self.timedResolutionAbortTimer invalidate];
+		self.timedResolutionAbortTimer = nil;
 	}
 	
 	[_locationUpdateHandlers removeAllObjects];
@@ -176,19 +177,35 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 }
 
 - (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange {
+	return [self onSignificantLocationChange:onLocationChange initialFixWithin:kFSQLocationResolverInfiniteTimeInterval];
+}
+
+- (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange initialFixWithin:(NSTimeInterval)initialTimeout {
 	if (NO == [CLLocationManager significantLocationChangeMonitoringAvailable]) return NO;
 	[_locationUpdateHandlers addObject:[onLocationChange copy]];
 	if (self.isMonitoringSignificantChanges) {
 		return YES;
 	}
 	self.monitoringSignificantChanges = YES;
-
+	
 	if (self.isResolving) {
 		[self stopResolving];
 	}
+
+	self.currentTimeout = initialTimeout;
+	
 	self.locationUpdatesStartedOn = [NSDate date];
 	self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
 	[self.locationManager startMonitoringSignificantLocationChanges];
+	
+	if (self.initialFixTimer) {
+		[self.initialFixTimer invalidate];
+		self.initialFixTimer = nil;
+	}
+	if (initialTimeout != kFSQLocationResolverInfiniteTimeInterval) {
+		self.initialFixTimer = [NSTimer scheduledTimerWithTimeInterval:initialTimeout target:self selector:@selector(initialFixTimeLimitReached:) userInfo:nil repeats:NO];
+	}
+	
 	return YES;
 }
 
@@ -359,29 +376,38 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 // ========================================================================== //
 
-#pragma mark - Timeout
+#pragma mark - Timeouts
 
 
-- (void) locationResolutionTimeLimitReached:(NSTimer *)timer {
+- (void) timedResolutionTimeLimitReached:(NSTimer *)timer {
 	self.aborted = YES;
+	self.currentTimeout = 0;
+	
 	[self.locationManager stopUpdatingLocation];	
 	self.currentLocation = self.locationManager.location; // get the best location we can
 	
 	NSError *abortError = [NSError errorWithDomain:kCLErrorDomain code:kCLErrorLocationUnknown userInfo:@{ NSLocalizedDescriptionKey : NSLocalizedString(@"Timed out resolving location, using best effort location.", @"FSQLocationResolver timeout error description") }];
 	self.error = abortError;
 	
+	LocLog(@"Timed resolution timeout reached, sending update with best effort location: %@",self.currentLocation);
 	[self handleFailureOrCompletion];
 }
 
+- (void) initialFixTimeLimitReached:(NSTimer *)timer {
+	self.currentTimeout = 0;
+	self.currentLocation = self.locationManager.location; // get the best location we can
+	LocLog(@"Initial fix timeout reached, sending update with best effort location: %@",self.currentLocation);
+	[self handleLocationUpdate];
+}
 
 // ========================================================================== //
 
 #pragma mark - Handlers
 
 - (void) handleFailureOrCompletion {
-	if (self.locationServicesAbortTimer) {
-		[self.locationServicesAbortTimer invalidate];
-		self.locationServicesAbortTimer = nil;
+	if (self.timedResolutionAbortTimer) {
+		[self.timedResolutionAbortTimer invalidate];
+		self.timedResolutionAbortTimer = nil;
 	}
 			
 	NSMutableDictionary *info = [NSMutableDictionary new];
