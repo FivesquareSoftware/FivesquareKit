@@ -26,6 +26,9 @@ typedef NS_ENUM(NSUInteger, FSQUIViewControllerTransition) {
 
 @interface UIViewController (FSQUIKit)
 
+// Are we going back in the nav controller's stack
+@property (nonatomic, readonly) BOOL isDisappearingBackwards;
+
 /** For cases where you might have several view stacks layered on top of each other,
  *  will return the controller managing the topmost view stack.
  */
