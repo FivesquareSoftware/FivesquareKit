@@ -8,6 +8,8 @@
 
 #import "FSQImageCollectionViewCell.h"
 
+#import "FSQLogging.h"
+
 @implementation FSQImageCollectionViewCell
 
 - (void) initialize {
@@ -19,7 +21,7 @@
 		UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
 		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 		imageView.contentMode = UIViewContentModeScaleAspectFit;
-		[self addSubview:imageView];
+		[self.contentView addSubview:imageView];
 		_imageView = imageView;
 	}
 }
@@ -45,6 +47,16 @@
 - (void) awakeFromNib {
 	[super awakeFromNib];
 	[self ready];
+}
+
+- (void) layoutSubviews {
+	[super layoutSubviews];
+//	FLogDebug(@"%@",self);
+}
+
+- (void) prepareForReuse {
+	[super prepareForReuse];
+	_imageView.image = nil;
 }
 
 - (void) setSelected:(BOOL)selected {
