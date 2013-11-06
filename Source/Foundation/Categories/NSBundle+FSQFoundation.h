@@ -11,7 +11,13 @@
 
 @interface NSBundle (FSQFoundation)
 
-/** Returns kCFBundleVersionKey as an integer. */ 
-- (NSInteger) versionNumber;
+@property (nonatomic, readonly) NSString *releaseVersionString;
+@property (nonatomic, readonly) NSString *versionNumberString;
+
+/** Returns kCFBundleVersionKey as an integer. */
+@property (nonatomic, readonly) NSInteger versionNumber;
+
+
+@property (nonatomic, readonly) NSString *bundleDisplayName;
 
 @end

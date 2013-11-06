@@ -18,6 +18,21 @@ NSString *kFSQManagedObjectUniqueIdentifierKey	= @"uniqueIdentifier";
 
 @implementation FSQManagedObject
 
+
+@dynamic allAttributes;
+- (NSDictionary *) allAttributes {
+	NSArray *keys = [[[self entity] attributesByName] allKeys];
+	NSDictionary *allAttributes = [self dictionaryWithValuesForKeys:keys];
+	return allAttributes;
+}
+
+- (void) markForDeletion {
+	if ([self respondsToSelector:@selector(setDeletedAt:)]) {
+		[self setPrimitiveValue:[NSDate date] forKey:kFSQManagedObjectDeletedAtKey];
+	}
+}
+
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
@@ -48,12 +63,6 @@ NSString *kFSQManagedObjectUniqueIdentifierKey	= @"uniqueIdentifier";
 				[self setPrimitiveValue:[UUID UUIDString] forKey:kFSQManagedObjectUniqueIdentifierKey];
 			}
 		}
-	}
-}
-
-- (void) markForDeletion {
-	if ([self respondsToSelector:@selector(setDeletedAt:)]) {
-		[self setPrimitiveValue:[NSDate date] forKey:kFSQManagedObjectDeletedAtKey];
 	}
 }
 
