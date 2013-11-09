@@ -73,6 +73,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
         CLLocationManager *locationManager = [CLLocationManager new];
         locationManager.delegate = self;
         _locationManager = locationManager;
+		self.currentLocation = _locationManager.location;
     }
     return _locationManager;
 }
@@ -93,6 +94,9 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	[_locationUpdateHandlers removeAllObjects];
 	if([self.timedResolutionAbortTimer isValid]) {
 		[self.timedResolutionAbortTimer invalidate];
+	}
+	if([self.initialFixTimer isValid]) {
+		[self.initialFixTimer invalidate];
 	}
 }
 
@@ -146,6 +150,9 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	self.locationManager.pausesLocationUpdatesAutomatically = self.resolvingContinuously;
 #endif
 
+	// Let's at least see make sure there is a value, even if bogus
+	self.currentLocation = self.locationManager.location;
+
 //	LocLog(@"locationManager.pausesLocationUpdatesAutomatically: %@",@(self.locationManager.pausesLocationUpdatesAutomatically));
 	[self.locationManager startUpdatingLocation];
 	
@@ -196,6 +203,9 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	
 	self.locationUpdatesStartedOn = [NSDate date];
 	self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+	// Let's at least see make sure there is a value, even if bogus
+	self.currentLocation = self.locationManager.location;
+
 	[self.locationManager startMonitoringSignificantLocationChanges];
 	
 	if (self.initialFixTimer) {

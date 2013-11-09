@@ -78,21 +78,29 @@
 	[self.bootQ addOperationRecursively:operation];
 }
 
-- (void) addBlock:(void (^)(void))block {
-	NSBlockOperation *blockOp = [NSBlockOperation blockOperationWithBlock:block];
+- (void) addBlock:(FSQBootBlock)block {
+	void(^opBlock)(void) = ^{
+		block(self);
+	};
+	
+	NSBlockOperation *blockOp = [NSBlockOperation blockOperationWithBlock:opBlock];
 	[self.bootQ addOperation:blockOp];
 }
 
-- (void) addWaitBlock:(void (^)(dispatch_semaphore_t wait_semaphore))block {
+- (void) addWaitBlock:(FSQBootWaitBlock)block {
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	NSBlockOperation *blockOp = [NSBlockOperation blockOperationWithBlock:^{
-        block(semaphore);
+        block(semaphore,self);
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     }];
 	[self.bootQ addOperation:blockOp];
 }
 
-- (void) bootWithCompletionBlock:(void (^)(void))block {
+- (void) boot {
+	[self bootWithCompletionBlock:nil];
+}
+
+- (void) bootWithCompletionBlock:(FSQBootBlock)block {
 	FSQAssert(_booted == NO, @"Already booted!");
 	if (_isBooting || _booted) return;
 	_isBooting = YES;
@@ -107,9 +115,11 @@
 	[self.errorsInternal addObject:error];
 }
 
-- (void) runWhenComplete:(void (^)(void))block {
+- (void) onComplete:(FSQBootBlock)block {
 	if (_booted) {
-		dispatch_async(dispatch_get_main_queue(), block);
+		dispatch_async(dispatch_get_main_queue(), ^{
+			block(self);
+		});
 	}
 	else {
 		[_completionBlocks addObject:block];
@@ -131,10 +141,11 @@
 		_booted = YES;
 		_isBooting = NO;
 
-		for (id block in _completionBlocks) {
-			dispatch_async(dispatch_get_main_queue(), block);
-		}
-		
+		for (FSQBootBlock block in _completionBlocks) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				block(self);
+			});
+		}		
 	}
 }
 
