@@ -300,7 +300,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	CLLocationDistance locationDelta = [self.currentLocation distanceFromLocation:newLocation];
 	LocLog(@"locationDelta: %@",@(locationDelta));
 	
-	if (self.currentLocation == nil || self.currentLocation.horizontalAccuracy >= newLocation.horizontalAccuracy) {
+	if (self.currentLocation == nil/* || self.currentLocation.horizontalAccuracy >= newLocation.horizontalAccuracy*/) {
 		LocLog(@"Got decent location, setting it to best effort location");
         self.currentLocation = newLocation;
 

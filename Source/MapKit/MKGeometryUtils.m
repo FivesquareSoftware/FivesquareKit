@@ -56,3 +56,19 @@ CLLocationCoordinate2D FSQGetMaxCoordinateForRegion(MKCoordinateRegion region) {
 	
 	return maxCoordinate;
 }
+
+
+BOOL isMKCoordinateRegionZero(MKCoordinateRegion region) {
+	return region.center.latitude == 0. && region.center.longitude == 0. && region.span.latitudeDelta == 0. && region.span.longitudeDelta == 0.;
+}
+
+BOOL MKCoordinareRegionEquals(MKCoordinateRegion region,MKCoordinateRegion otherRegion) {
+	return	region.center.latitude			== otherRegion.center.latitude
+	&& region.center.longitude		== otherRegion.center.longitude
+	&& region.span.latitudeDelta	== otherRegion.span.latitudeDelta
+	&& region.span.longitudeDelta	== otherRegion.span.longitudeDelta;
+}
+
+NSString *NSStringFromMKCoordinateRegion(MKCoordinateRegion region) {
+	return [NSString stringWithFormat:@"{{%f,%f},{%f,%f}}",region.center.latitude,region.center.longitude, region.span.latitudeDelta,region.span.longitudeDelta];
+}
