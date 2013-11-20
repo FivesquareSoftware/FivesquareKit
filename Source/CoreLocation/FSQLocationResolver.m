@@ -134,9 +134,13 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
 	
+	if (self.timedResolutionAbortTimer) {
+		[self.timedResolutionAbortTimer invalidate];
+		self.timedResolutionAbortTimer = nil;
+	}
+
 	[_locationUpdateHandlers addObject:[handler copy]];
-	if (self.isResolving) return YES;
-	
+
 	self.resolving = YES;
 	self.aborted = NO;
 	
