@@ -173,6 +173,36 @@
 	return unsignedInteger;
 }
 
+- (NSUInteger) incrementUnsignedIntegerForKey:(NSString *)defaultName {
+	NSUInteger value = [self unsignedIntegerForKey:defaultName];
+	value += 1;
+	[self setUnsignedInteger:value forKey:defaultName];
+	return value;
+}
+
+- (NSUInteger) decrementUnsignedIntegerForKey:(NSString *)defaultName {
+	NSUInteger value = [self unsignedIntegerForKey:defaultName];\
+	if (value > 0) {
+		value -= 1;
+	}
+	[self setUnsignedInteger:value forKey:defaultName];
+	return value;
+}
+
+- (NSInteger) incrementIntegerForKey:(NSString *)defaultName {
+	NSInteger value = [self integerForKey:defaultName];
+	value += 1;
+	[self setInteger:value forKey:defaultName];
+	return value;
+}
+
+- (NSInteger) decrementIntegerForKey:(NSString *)defaultName {
+	NSInteger value = [self integerForKey:defaultName];
+	value -= 1;
+	[self setInteger:value forKey:defaultName];
+	return value;
+}
+
 
 // ========================================================================== //
 
