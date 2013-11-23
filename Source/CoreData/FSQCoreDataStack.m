@@ -226,7 +226,7 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 #pragma mark - Stack Setup
 
 
-- (void) initializeWithCompletionBlock:(void(^)(NSError *error))completionBlock {
+- (void) initializeWithCompletionBlock:(void(^)(FSQCoreDataStack *stack,NSError *error))completionBlock {
     if (NO == self.wasInitialized && NO == self.isInitializing) {
 		self.isInitializing = YES;
 		[self _initializeWithCompletionBlock:^(NSError *error) {
@@ -235,7 +235,7 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 			}
 			self.isInitializing = NO;
 			if (completionBlock) {
-				completionBlock(error);
+				completionBlock(self,error);
 			}
 			for (FSQCoreDataStackReadyBlock readyBlock in _readyBlocks) {
 				dispatch_async(dispatch_get_main_queue(), ^{

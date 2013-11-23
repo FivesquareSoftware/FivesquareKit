@@ -37,12 +37,17 @@
 }
 
 + (FSQAlertView *) errorAlertWithError:(NSError *)error {
-	return  [self errorAlertWithError:error userInfo:nil delegate:nil];
+	return  [self errorAlertWithTitle:NSLocalizedString(@"Error", @"Error Alert Title") error:error userInfo:nil delegate:nil];
 }
 
-+ (FSQAlertView *) errorAlertWithError:(NSError *)error userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate {
++ (FSQAlertView *) errorAlertWithTitle:(NSString *)title error:(NSError *)error {
+	return [self errorAlertWithTitle:title error:error userInfo:nil delegate:nil];
+}
+
+/** Returns a simple alert view with an "OK" button with the title and message derived from the supplied error object. */
++ (FSQAlertView *) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate  {
 	NSString *message = [NSString stringWithFormat:@"%@ (%@)",[error localizedDescription],@(error.code)];
-	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"Error Alert Title")  message:message delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button Title") otherButtonTitles:nil];
+	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:title  message:message delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button Title") otherButtonTitles:nil];
 	alertView.userInfo = aUserInfo;
 	alertView.delegate = aDelegate;
 	

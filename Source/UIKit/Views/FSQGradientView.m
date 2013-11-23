@@ -117,6 +117,7 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 }
 
 - (void) layoutSubviews {
+	[super layoutSubviews];
 	_gradientLayer.frame = self.bounds;
 	_gradientLayer.cornerRadius = self.layer.cornerRadius;
 }

@@ -97,7 +97,7 @@ typedef void(^FSQCoreDataStackReadyBlock)(NSManagedObjectContext *mainContext);
 - (id) initWithModelName:(NSString *)modelName persistentStore:(NSString *)storeName persistentStoresDirectory:(NSURL *)persistentStoresDirectoryURL;
 
 /** This must be called once before the stack or any context created from it are used to do any work. Handles model migration and setting up the persistent store as either local or ubiquitous depending on the value of #isUbiquitous and the availability of an iCloud account. Calling this method more than once has no effect. Call #reloadWithCompletionBlock: if you want to re-initialize the receiver. */
-- (void) initializeWithCompletionBlock:(void(^)(NSError *error))completionBlock;
+- (void) initializeWithCompletionBlock:(void(^)(FSQCoreDataStack *stack,NSError *error))completionBlock;
 
 /** Drops the persistent store and reinitializes the receiver, handling ubiquity (re)configuration and migration as needed. */
 - (void) reloadWithCompletionBlock:(void(^)(NSError *error))completionBlock;

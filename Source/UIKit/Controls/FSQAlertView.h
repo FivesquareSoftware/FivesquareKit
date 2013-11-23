@@ -27,8 +27,10 @@
 /** @see  errorAlertWithError:userInfo:delegate: */
 + (FSQAlertView *) errorAlertWithError:(NSError *)error;
 
++ (FSQAlertView *) errorAlertWithTitle:(NSString *)title error:(NSError *)error;
+
 /** Returns a simple alert view with an "OK" button with the title and message derived from the supplied error object. */
-+ (FSQAlertView *) errorAlertWithError:(NSError *)error userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate;
++ (FSQAlertView *) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(NSDictionary *)aUserInfo delegate:(id<UIAlertViewDelegate>)aDelegate;
 
 /** @see confirmationAlertWithTitle:message:userInfo:delegate:. */
 + (FSQAlertView *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage;
