@@ -73,11 +73,16 @@
 	[self setTextColor:_placeholderColor];
 }
 
+- (void) ready {
+	
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         [self initialize];
+		[self ready];
     }
     return self;
 }
@@ -88,6 +93,10 @@
         [self initialize];
     }
     return self;
+}
+
+- (void) awakeFromNib {
+	[self ready];
 }
 
 @end

@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 
 
-NS_CLASS_AVAILABLE_IOS(6_0) @interface FSQLabel : UILabel
+@interface FSQLabel : UILabel
 
 @property (nonatomic, strong) NSString *placeholderText;
 @property (nonatomic, strong) UIColor *placeholderColor;
 
 @property (nonatomic) BOOL collapseWhenEmpty;
+
+- (void) initialize;
+- (void) ready;
 
 @end

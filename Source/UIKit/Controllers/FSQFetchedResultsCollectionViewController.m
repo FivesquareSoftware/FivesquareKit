@@ -72,6 +72,7 @@
 - (void) initialize {
 	// Initialization code
 	self.initialized = YES;
+	_animatesCollectionViewUpdates = YES;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
