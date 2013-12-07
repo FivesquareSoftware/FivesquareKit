@@ -160,6 +160,30 @@
 	return object;
 }
 
+- (NSIndexPath *) indexPathForObject:(id)object {
+	__block NSIndexPath *indexPath = [NSIndexPath new];
+	[self enumerateObjectsUsingBlock:^(id child, NSUInteger idx, BOOL *stop) {
+		if (object == child) {
+			indexPath = [indexPath indexPathByAddingIndex:idx];
+			*stop = YES;
+		}
+		else if ([child isKindOfClass:[NSArray class]]) {
+			NSIndexPath *childIndexPath = [child indexPathForObject:child];
+			NSUInteger length = [childIndexPath length];
+			if (length > 0) {
+				NSUInteger *indexes = malloc(sizeof(NSUInteger)*length);
+				[childIndexPath getIndexes:indexes];
+				for (NSUInteger i = 0; i < length; i++) {
+					indexPath = [indexPath indexPathByAddingIndex:indexes[i]];
+				}
+				free(indexes);
+				*stop = YES;
+			}
+		}
+	}];
+	return indexPath;
+}
+
 // ========================================================================== //
 
 #pragma mark - Enumeration

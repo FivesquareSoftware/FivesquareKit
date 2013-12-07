@@ -56,6 +56,7 @@
 - (NSArray *) flatten:(id(^)(id obj))enumerationBlock;
 
 - (NSArray *) objectsToIndex:(NSUInteger)index;
+- (NSIndexPath *) indexPathForObject:(id)object;
 - (NSArray *) firstObjects:(NSUInteger)length;
 
 @end
