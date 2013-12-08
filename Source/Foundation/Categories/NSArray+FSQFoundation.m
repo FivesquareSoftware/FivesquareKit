@@ -168,9 +168,10 @@
 			*stop = YES;
 		}
 		else if ([child isKindOfClass:[NSArray class]]) {
-			NSIndexPath *childIndexPath = [child indexPathForObject:child];
+			NSIndexPath *childIndexPath = [child indexPathForObject:object];
 			NSUInteger length = [childIndexPath length];
 			if (length > 0) {
+				indexPath = [indexPath indexPathByAddingIndex:idx];
 				NSUInteger *indexes = malloc(sizeof(NSUInteger)*length);
 				[childIndexPath getIndexes:indexes];
 				for (NSUInteger i = 0; i < length; i++) {
