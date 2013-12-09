@@ -225,6 +225,14 @@
 		A4ACA5C8158BEE090078196E /* NSWindow+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5C6158BEE090078196E /* NSWindow+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4ACA5C9158BEE090078196E /* NSWindow+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ACA5C7158BEE090078196E /* NSWindow+FSQAppKit.m */; };
 		A4ACA5CB158BEEDB0078196E /* FSQAppKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A4ACA5CA158BEEDB0078196E /* FSQAppKitTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4AEA77B185648D500289AFE /* NSDate+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AEA779185648D500289AFE /* NSDate+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4AEA77C185648D500289AFE /* NSDate+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AEA779185648D500289AFE /* NSDate+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4AEA77D185648D500289AFE /* NSDate+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AEA77A185648D500289AFE /* NSDate+FSQFoundation.m */; };
+		A4AEA77E185648D500289AFE /* NSDate+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AEA77A185648D500289AFE /* NSDate+FSQFoundation.m */; };
+		A4AEA781185649D400289AFE /* NSCalendar+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AEA77F185649D400289AFE /* NSCalendar+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4AEA782185649D400289AFE /* NSCalendar+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AEA77F185649D400289AFE /* NSCalendar+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4AEA783185649D400289AFE /* NSCalendar+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AEA780185649D400289AFE /* NSCalendar+FSQFoundation.m */; };
+		A4AEA784185649D400289AFE /* NSCalendar+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AEA780185649D400289AFE /* NSCalendar+FSQFoundation.m */; };
 		A4AFFE9A1607F398001C6D31 /* FSQFoundationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFFE981607F398001C6D31 /* FSQFoundationUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B8ACAB15991E140062CE8C /* FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACA915991E140062CE8C /* FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B8ACB015991E610062CE8C /* WebView+FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACAD15991E610062CE8C /* WebView+FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -549,6 +557,10 @@
 		A4ACA5C6158BEE090078196E /* NSWindow+FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+FSQAppKit.h"; sourceTree = "<group>"; };
 		A4ACA5C7158BEE090078196E /* NSWindow+FSQAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+FSQAppKit.m"; sourceTree = "<group>"; };
 		A4ACA5CA158BEEDB0078196E /* FSQAppKitTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAppKitTypes.h; sourceTree = "<group>"; };
+		A4AEA779185648D500289AFE /* NSDate+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+FSQFoundation.h"; sourceTree = "<group>"; };
+		A4AEA77A185648D500289AFE /* NSDate+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+FSQFoundation.m"; sourceTree = "<group>"; };
+		A4AEA77F185649D400289AFE /* NSCalendar+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCalendar+FSQFoundation.h"; sourceTree = "<group>"; };
+		A4AEA780185649D400289AFE /* NSCalendar+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCalendar+FSQFoundation.m"; sourceTree = "<group>"; };
 		A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4AFECE215213F9700645412 /* FSQUIColorToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIColorToDataTransformer.h; sourceTree = "<group>"; };
@@ -889,6 +901,10 @@
 				A4062E351697A6D900F25E7D /* NSIndexPath+FSQFoundation.m */,
 				A4E1D04B16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h */,
 				A4E1D04C16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m */,
+				A4AEA779185648D500289AFE /* NSDate+FSQFoundation.h */,
+				A4AEA77A185648D500289AFE /* NSDate+FSQFoundation.m */,
+				A4AEA77F185649D400289AFE /* NSCalendar+FSQFoundation.h */,
+				A4AEA780185649D400289AFE /* NSCalendar+FSQFoundation.m */,
 				A46D909217F4ED3100914512 /* NSNumber+FSQFoundation.h */,
 				A46D909317F4ED3100914512 /* NSNumber+FSQFoundation.m */,
 			);
@@ -1323,6 +1339,7 @@
 				A42A2E951525250C0032AB39 /* FSQTextFieldCell.h in Headers */,
 				A42A2E961525250C0032AB39 /* FSQTextViewCell.h in Headers */,
 				A42A2E971525250C0032AB39 /* FSQFetchedResultsViewController.h in Headers */,
+				A4AEA77B185648D500289AFE /* NSDate+FSQFoundation.h in Headers */,
 				A42A2E981525250C0032AB39 /* FSQFetchedResultsTableViewController.h in Headers */,
 				A42A2E991525250C0032AB39 /* FSQFetchedResultsMapViewController.h in Headers */,
 				A42A2E9A1525250C0032AB39 /* FSQAlertView.h in Headers */,
@@ -1356,6 +1373,7 @@
 				A408F4EA1534D549009B589D /* FSQMenuControl+Protected.h in Headers */,
 				A4F69F641540CAE6006DAF85 /* FSQThumbstripView.h in Headers */,
 				A4D6D04217EA51C4002F9865 /* UITabBarController+FSQUIKit.h in Headers */,
+				A4AEA781185649D400289AFE /* NSCalendar+FSQFoundation.h in Headers */,
 				A4F69F681540CB43006DAF85 /* FSQThumbstripCell.h in Headers */,
 				A43CC1BB1538AC960013700F /* UIView+FSQUIKit.h in Headers */,
 				A40FA7721542115E0013D6EF /* FSQThumbstripBaseDataSource.h in Headers */,
@@ -1420,6 +1438,7 @@
 				A46D909517F4ED3100914512 /* NSNumber+FSQFoundation.h in Headers */,
 				A4D02EB21525295600C16B67 /* FSQSandbox.h in Headers */,
 				A4D02EB41525295600C16B67 /* FSQFoundation.h in Headers */,
+				A4AEA77C185648D500289AFE /* NSDate+FSQFoundation.h in Headers */,
 				A4D02EB51525295600C16B67 /* FSQFoundationConstants.h in Headers */,
 				A4D02EB61525295600C16B67 /* FSQBindingsMapper.h in Headers */,
 				A4D02EB71525295600C16B67 /* FSQPropertyMapper.h in Headers */,
@@ -1469,6 +1488,7 @@
 				A4E416231617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
 				A457EE4B16274E7500240B7E /* FSQFoundationUtils.h in Headers */,
 				A45FAF9016926EDE0066B78C /* FSQKeyObserver.h in Headers */,
+				A4AEA782185649D400289AFE /* NSCalendar+FSQFoundation.h in Headers */,
 				A4062E371697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
 				A4E1D04E16F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.h in Headers */,
 				A4053C0D17418D8000C62548 /* FSQCoreAnimationUtils.h in Headers */,
@@ -1591,6 +1611,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A429665A12F4D42800AEAA83 /* FivesquareKit.m in Sources */,
+				A4AEA783185649D400289AFE /* NSCalendar+FSQFoundation.m in Sources */,
 				A42A2EAE1525252D0032AB39 /* FSQAsserter.m in Sources */,
 				A42A2EAF1525252D0032AB39 /* FSQSandbox.m in Sources */,
 				A42A2EB11525252D0032AB39 /* FSQFoundationConstants.m in Sources */,
@@ -1626,6 +1647,7 @@
 				A42A2ECD1525252D0032AB39 /* FSQModalImageView.m in Sources */,
 				A42A2ECE1525252D0032AB39 /* FSQRatingIndicatorView.m in Sources */,
 				A42A2ECF1525252D0032AB39 /* FSQUIImageToDataTransformer.m in Sources */,
+				A4AEA77D185648D500289AFE /* NSDate+FSQFoundation.m in Sources */,
 				A42A2ED01525252D0032AB39 /* FSQUIColorToDataTransformer.m in Sources */,
 				A42A2ED11525252D0032AB39 /* NSObject+FSQUIKit.m in Sources */,
 				A42A2ED21525252D0032AB39 /* NSFetchedResultsController+FSQUIKit.m in Sources */,
@@ -1748,7 +1770,9 @@
 				A45FAF9116926EDE0066B78C /* FSQKeyObserver.m in Sources */,
 				A4062E391697A6D900F25E7D /* NSIndexPath+FSQFoundation.m in Sources */,
 				A4E1D05016F2A9BE00A6D150 /* NSDateFormatter+FSQFoundation.m in Sources */,
+				A4AEA784185649D400289AFE /* NSCalendar+FSQFoundation.m in Sources */,
 				A4053C0F17418D8000C62548 /* FSQCoreAnimationUtils.m in Sources */,
+				A4AEA77E185648D500289AFE /* NSDate+FSQFoundation.m in Sources */,
 				A47A94A91774D0ED0028EE9F /* FSQRadialGradientLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

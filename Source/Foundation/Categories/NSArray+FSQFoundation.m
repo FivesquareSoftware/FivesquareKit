@@ -161,6 +161,7 @@
 }
 
 - (NSIndexPath *) indexPathForObject:(id)object {
+	NSIndexPath *indexPathForObject = nil;
 	__block NSIndexPath *indexPath = [NSIndexPath new];
 	[self enumerateObjectsUsingBlock:^(id child, NSUInteger idx, BOOL *stop) {
 		if (object == child) {
@@ -182,7 +183,10 @@
 			}
 		}
 	}];
-	return indexPath;
+	if (indexPath.length) {
+		indexPathForObject = indexPath;
+	}
+	return indexPathForObject;
 }
 
 // ========================================================================== //

@@ -33,6 +33,8 @@
 #import "NSSet+FSQFoundation.h"
 #import "NSIndexPath+FSQFoundation.h"
 #import "NSDateFormatter+FSQFoundation.h"
+#import "NSDate+FSQFoundation.h"
+#import "NSCalendar+FSQFoundation.h"
 #import "NSNumber+FSQFoundation.h"
 
 
