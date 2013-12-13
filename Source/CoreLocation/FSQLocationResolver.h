@@ -56,7 +56,7 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
  */
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverLocationUpdateHandler)handler;
 
-- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy updateHandler:(FSQLocationResolverLocationUpdateHandler)handler;
+- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy distanceFilter:(CLLocationDistance)distanceFilter updateHandler:(FSQLocationResolverLocationUpdateHandler)handler;
 
 /** Stops location updates and removes all completion handlers. */
 - (void) stopResolving;

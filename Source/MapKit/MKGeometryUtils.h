@@ -19,5 +19,5 @@ CLLocationCoordinate2D FSQGetMinCoordinateForRegion(MKCoordinateRegion region);
 CLLocationCoordinate2D FSQGetMaxCoordinateForRegion(MKCoordinateRegion region);
 
 BOOL isMKCoordinateRegionZero(MKCoordinateRegion region);
-BOOL MKCoordinareRegionEquals(MKCoordinateRegion region,MKCoordinateRegion otherRegion);
+BOOL MKCoordinateRegionEquals(MKCoordinateRegion region,MKCoordinateRegion otherRegion);
 NSString *NSStringFromMKCoordinateRegion(MKCoordinateRegion region);

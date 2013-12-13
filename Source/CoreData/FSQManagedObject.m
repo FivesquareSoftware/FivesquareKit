@@ -26,15 +26,14 @@ NSString *kFSQManagedObjectUniqueIdentifierKey	= @"uniqueIdentifier";
 	return allAttributes;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
 - (void) markForDeletion {
 	if ([self respondsToSelector:@selector(setDeletedAt:)]) {
 		[self setPrimitiveValue:[NSDate date] forKey:kFSQManagedObjectDeletedAtKey];
 	}
 }
-
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
 
 - (void) awakeFromInsert {
 	NSDate *at = [NSDate date];
