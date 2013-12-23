@@ -549,6 +549,14 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
     return [_mainContext newChildContextWithConcurrencyType:concurrencyType];
 }
 
+- (NSManagedObjectContext *) newConcurrentContext {
+	if (NO ==self.wasInitialized) {
+		return nil;
+	}
+	NSManagedObjectContext *concurrentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+	concurrentContext.persistentStoreCoordinator = _persistentStoreCoordinator;
+	return concurrentContext;
+}
 
 
 // ========================================================================== //

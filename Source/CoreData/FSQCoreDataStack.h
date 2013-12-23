@@ -112,7 +112,7 @@ typedef void(^FSQCoreDataStackReadyBlock)(NSManagedObjectContext *mainContext);
  */
 - (NSManagedObjectContext *) newChildContext;
 - (NSManagedObjectContext *) newChildContextWithConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType;
-
+- (NSManagedObjectContext *) newConcurrentContext;
 
 
 @end
