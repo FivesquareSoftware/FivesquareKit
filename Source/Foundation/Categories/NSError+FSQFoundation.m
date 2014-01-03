@@ -30,6 +30,7 @@
 }
 
 + (id) errorWithError:(NSError *)underlyingError localizedDescription:(NSString *)localizedDescription {
+#warning Not checking if unserlyingError is nil
 	return [self errorWithError:underlyingError domain:underlyingError.domain code:underlyingError.code localizedDescription:localizedDescription];
 }
 
