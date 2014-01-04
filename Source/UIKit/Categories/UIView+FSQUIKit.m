@@ -58,6 +58,15 @@
 	return firstResponder;
 }
 
+- (NSArray *) descendants {
+	NSMutableArray *descendants = [NSMutableArray new];
+	[descendants addObjectsFromArray:self.subviews];
+	for (UIView *descendant in self.subviews) {
+		[descendants addObjectsFromArray:[descendant descendants]];
+	}
+	return descendants;
+}
+
 - (CGAffineTransform) offscreenLeftTransform {
 	CGAffineTransform offscreenLeftTransform = CGAffineTransformMakeTranslation(-self.bounds.size.width,0);
 	return offscreenLeftTransform;

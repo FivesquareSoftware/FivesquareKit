@@ -17,6 +17,8 @@
 
 - (id) firstRespondingSubview;
 
+- (NSArray *) descendants;
+
 - (CGAffineTransform) offscreenLeftTransform;
 - (CGAffineTransform) offscreenRightTransform;
 - (CGAffineTransform) offscreenTopTransform;

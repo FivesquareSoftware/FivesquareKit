@@ -43,7 +43,9 @@
 		}
 	}
 	else {
+		self.collapseConstraint = nil;
 		[super setTextColor:_textColorInternal];
+		[self setNeedsLayout];
 	}
 	[super setText:text];
 }
