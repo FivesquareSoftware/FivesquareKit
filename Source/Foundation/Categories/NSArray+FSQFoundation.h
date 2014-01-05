@@ -75,5 +75,8 @@
 - (id) pop;
 - (void) insert:(id)object;
 
+- (void) safeAddObject:(id)obj;
+
+
 
 @end

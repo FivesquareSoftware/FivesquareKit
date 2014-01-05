@@ -307,6 +307,13 @@
 	[self insertObject:object atIndex:0];
 }
 
+- (void) safeAddObject:(id)obj {
+	if (obj) {
+		[self addObject:obj];
+	}
+}
+
+
 @end
 
 

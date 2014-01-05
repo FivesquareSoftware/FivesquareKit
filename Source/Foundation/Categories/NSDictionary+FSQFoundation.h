@@ -31,6 +31,7 @@
 
 @interface NSMutableDictionary (FSQFoundation)
 
+- (void) safeSetObject:(id)obj forKey:(id<NSCopying>)key;
 - (void) setObjectIfNotNil:(id)obj forKey:(id<NSCopying>)key;
 
 @end

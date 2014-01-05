@@ -84,10 +84,14 @@
 
 @implementation NSMutableDictionary (FSQFoundation)
 
-- (void) setObjectIfNotNil:(id)obj forKey:(id<NSCopying>)key {
+- (void) safeSetObject:(id)obj forKey:(id<NSCopying>)key {
 	if (obj) {
 		[self setObject:obj forKey:key];
 	}
+}
+
+- (void) setObjectIfNotNil:(id)obj forKey:(id<NSCopying>)key {
+	[self safeSetObject:obj forKey:key];
 }
 
 @end
