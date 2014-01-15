@@ -66,6 +66,7 @@
 // Controls
 
 #import "FSQAlertView.h"
+#import "FSQActionSheet.h"
 #import "FSQModalImageView.h"
 #import "FSQDetailImageView.h"
 #import "FSQStretchableButton.h"

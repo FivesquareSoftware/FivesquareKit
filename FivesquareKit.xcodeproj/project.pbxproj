@@ -33,6 +33,8 @@
 		A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A41625D2169508A1008499ED /* FSQUIKitConstants.m */; };
 		A41E2C40152F84F7005554B9 /* FSQTransparentSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A41E2C41152F84F7005554B9 /* FSQTransparentSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */; };
+		A41E30BF188608F400914376 /* FSQActionSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = A41E30BD188608F400914376 /* FSQActionSheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A41E30C0188608F400914376 /* FSQActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E30BE188608F400914376 /* FSQActionSheet.m */; };
 		A421B03415D441BB00811143 /* FSQZlib.h in Headers */ = {isa = PBXBuildFile; fileRef = A421B03215D441BB00811143 /* FSQZlib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A421B03515D441BB00811143 /* FSQZlib.h in Headers */ = {isa = PBXBuildFile; fileRef = A421B03215D441BB00811143 /* FSQZlib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A421B03615D441BB00811143 /* FSQZlib.m in Sources */ = {isa = PBXBuildFile; fileRef = A421B03315D441BB00811143 /* FSQZlib.m */; };
@@ -393,6 +395,8 @@
 		A41625D2169508A1008499ED /* FSQUIKitConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIKitConstants.m; sourceTree = "<group>"; };
 		A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQTransparentSearchBar.h; sourceTree = "<group>"; };
 		A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQTransparentSearchBar.m; sourceTree = "<group>"; };
+		A41E30BD188608F400914376 /* FSQActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQActionSheet.h; sourceTree = "<group>"; };
+		A41E30BE188608F400914376 /* FSQActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQActionSheet.m; sourceTree = "<group>"; };
 		A421B03215D441BB00811143 /* FSQZlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQZlib.h; sourceTree = "<group>"; };
 		A421B03315D441BB00811143 /* FSQZlib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQZlib.m; sourceTree = "<group>"; };
 		A42961C412F4738200AEAA83 /* FSQCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCore.h; sourceTree = "<group>"; };
@@ -1028,6 +1032,8 @@
 			children = (
 				A4C094421303AC4800CE8BB3 /* FSQAlertView.h */,
 				A4C094431303AC4800CE8BB3 /* FSQAlertView.m */,
+				A41E30BD188608F400914376 /* FSQActionSheet.h */,
+				A41E30BE188608F400914376 /* FSQActionSheet.m */,
 				A45F445A12748375005D9BF4 /* FSQDetailImageView.h */,
 				A45F445B12748375005D9BF4 /* FSQDetailImageView.m */,
 				A464DA4113D390C0006B6C59 /* FSQModalImageView.h */,
@@ -1353,6 +1359,7 @@
 				A42A2E9A1525250C0032AB39 /* FSQAlertView.h in Headers */,
 				A42A2E9B1525250C0032AB39 /* FSQDetailImageView.h in Headers */,
 				A42A2E9C1525250C0032AB39 /* FSQModalImageView.h in Headers */,
+				A41E30BF188608F400914376 /* FSQActionSheet.h in Headers */,
 				A42A2E9D1525250C0032AB39 /* FSQRatingIndicatorView.h in Headers */,
 				A42A2E9E1525250C0032AB39 /* FSQUIImageToDataTransformer.h in Headers */,
 				A42A2E9F1525250C0032AB39 /* FSQUIColorToDataTransformer.h in Headers */,
@@ -1625,6 +1632,7 @@
 				A42A2EAE1525252D0032AB39 /* FSQAsserter.m in Sources */,
 				A42A2EAF1525252D0032AB39 /* FSQSandbox.m in Sources */,
 				A42A2EB11525252D0032AB39 /* FSQFoundationConstants.m in Sources */,
+				A41E30C0188608F400914376 /* FSQActionSheet.m in Sources */,
 				A42A2EB21525252D0032AB39 /* FSQBindingsMapper.m in Sources */,
 				A42A2EB31525252D0032AB39 /* FSQPropertyMapper.m in Sources */,
 				A42A2EB41525252D0032AB39 /* FSQProxy.m in Sources */,

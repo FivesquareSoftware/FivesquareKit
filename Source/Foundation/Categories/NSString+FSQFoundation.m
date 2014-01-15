@@ -129,5 +129,20 @@
 	return newString;
 }
 
+- (NSDictionary *) dictionaryWithEntriesSeparatedBy:(NSString *)entryDelimiter keysAndValuesSeparatedBy:(NSString *)keyValueSeparator {
+	NSMutableDictionary *dictionary = [NSMutableDictionary new];
+	NSArray *entries = [self componentsSeparatedByString:entryDelimiter];
+	for (NSString *entry in entries) {
+		NSArray *keyValuePair = [entry componentsSeparatedByString:keyValueSeparator];
+		if ([keyValuePair count] == 2) {
+			dictionary[keyValuePair[0]] = keyValuePair[1];
+		}
+	}
+	return dictionary;
+}
+
+- (NSDictionary *) dictionaryWithURLEncoding {
+	return [self dictionaryWithEntriesSeparatedBy:@"&" keysAndValuesSeparatedBy:@"="];
+}
 
 @end

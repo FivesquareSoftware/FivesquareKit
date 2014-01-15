@@ -37,6 +37,7 @@
 	NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
 	if(defaults) {
 		[StandardDefaults() registerDefaults:defaults];
+		[StandardDefaults() synchronize];
 		_defaultKeysAndValues = defaults;
 	}
 	_changedKeys = [NSMutableSet new];
