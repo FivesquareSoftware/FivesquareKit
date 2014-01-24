@@ -72,3 +72,26 @@ BOOL MKCoordinateRegionEquals(MKCoordinateRegion region,MKCoordinateRegion other
 NSString *NSStringFromMKCoordinateRegion(MKCoordinateRegion region) {
 	return [NSString stringWithFormat:@"{{%f,%f},{%f,%f}}",region.center.latitude,region.center.longitude, region.span.latitudeDelta,region.span.longitudeDelta];
 }
+
+CLLocationDistance FSQDiagonalSpanForRegion(MKCoordinateRegion region) {
+	CLLocationCoordinate2D minCoordinate = FSQGetMinCoordinateForRegion(region);
+	CLLocationCoordinate2D maxCoordinate = FSQGetMaxCoordinateForRegion(region);
+	
+	CLLocation *minLocation = [[CLLocation alloc] initWithLatitude:minCoordinate.latitude longitude:minCoordinate.longitude];
+	CLLocation *maxLocation = [[CLLocation alloc] initWithLatitude:maxCoordinate.latitude longitude:maxCoordinate.longitude];
+	CLLocationDistance distance = [maxLocation distanceFromLocation:minLocation];
+
+	return distance;
+}
+
+CLLocationDistance FSQLatitudeSpanForRegion(MKCoordinateRegion region) {
+	CLLocationCoordinate2D minCoordinate = FSQGetMinCoordinateForRegion(region);
+	CLLocationCoordinate2D maxCoordinate = FSQGetMaxCoordinateForRegion(region);
+	
+	CLLocation *minLocation = [[CLLocation alloc] initWithLatitude:minCoordinate.latitude longitude:minCoordinate.longitude];
+	CLLocation *maxLocation = [[CLLocation alloc] initWithLatitude:maxCoordinate.latitude longitude:minCoordinate.longitude];
+	CLLocationDistance distance = [maxLocation distanceFromLocation:minLocation];
+	
+	return distance;
+}
+

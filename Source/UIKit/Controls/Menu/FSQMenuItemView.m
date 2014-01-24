@@ -167,7 +167,7 @@
 						
 		UILabel *newLabel = [[UILabel alloc] initWithFrame:self.bounds];
 		newLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		newLabel.lineBreakMode = UILineBreakModeTailTruncation;
+		newLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 		newLabel.backgroundColor = [UIColor clearColor];
 		newLabel.font = [UIFont boldSystemFontOfSize:17];
 		newLabel.textColor = [UIColor darkTextColor];
@@ -197,7 +197,10 @@
 	CGFloat horizontalInsets = _edgeInsets.left + _edgeInsets.top;
 	CGFloat verticalInsets = _edgeInsets.top + _edgeInsets.bottom;
 	CGSize fitSize = size;
-	CGSize labelSize = [self.textLabel.text sizeWithFont:self.textLabel.font constrainedToSize:size lineBreakMode:self.textLabel.lineBreakMode];
+//	CGSize labelSize = [self.textLabel.text sizeWithFont:self.textLabel.font constrainedToSize:size lineBreakMode:self.textLabel.lineBreakMode];
+
+	CGRect boundingRect = [self.textLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName : self.textLabel.font} context:[NSStringDrawingContext new]];
+	CGSize labelSize = boundingRect.size;
 	if ((labelSize.width + horizontalInsets) < fitSize.width) {
 		fitSize.width = (labelSize.width + horizontalInsets);
 	}

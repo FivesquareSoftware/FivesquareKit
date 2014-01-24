@@ -17,6 +17,9 @@
 #import "FSQLogging.h"
 
 
+#define kDebugCollectionController DEBUG && 1
+#define CollectionLog(frmt, ...) FLogMarkIf(kDebugCollectionController, ([NSString stringWithFormat:@"F-COLLECTION.%@",self.title]) , frmt, ##__VA_ARGS__)
+
 
 @interface FSQFetchedResultsCollectionViewController ()
 @property (nonatomic) BOOL initialized;
@@ -73,6 +76,7 @@
 	// Initialization code
 	self.initialized = YES;
 	_animatesCollectionViewUpdates = YES;
+	_animatesItemReloads = YES;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -196,7 +200,7 @@
 
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-	FLogMethod();
+	CollectionLog(@"%@",NSStringFromSelector(_cmd));
 	if (_animatesCollectionViewUpdates) {
 		_shouldReloadCollectionView = NO;
 		_collectionUpdateOperation = [NSBlockOperation new];		
@@ -207,10 +211,10 @@
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-//	FLog(@"controller.fetchRequest:%@",controller.fetchRequest);
-//	FLog(@"sectionInfo:%@",sectionInfo);
-//	FLog(@"sectionIndex:%@",@(sectionIndex));
-//	FLog(@"type:%@",@(type));
+//	CollectionLog(@"controller.fetchRequest:%@",controller.fetchRequest);
+//	CollectionLog(@"sectionInfo:%@",sectionInfo);
+//	CollectionLog(@"sectionIndex:%@",@(sectionIndex));
+//	CollectionLog(@"type:%@",@(type));
 
 	if (_shouldReloadCollectionView) {
 		return;
@@ -219,7 +223,7 @@
 	FSQWeakSelf(self_);
 	switch(type) {
 		case NSFetchedResultsChangeInsert: {
-			FLogDebug(@"** QUEUE INSERT SECTION ** : %@",@(sectionIndex));
+			CollectionLog(@"** QUEUE INSERT SECTION ** : %@",@(sectionIndex));
 			[_collectionUpdateOperation addExecutionBlock:^{
 				[self_.collectionView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
 			}];
@@ -227,7 +231,7 @@
 		}
 			
 		case NSFetchedResultsChangeDelete: {
-			FLogDebug(@"** QUEUE DELETE SECTION ** : %@",@(sectionIndex));
+			CollectionLog(@"** QUEUE DELETE SECTION ** : %@",@(sectionIndex));
 			[_collectionUpdateOperation addExecutionBlock:^{
 				[self_.collectionView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
 			}];
@@ -235,7 +239,7 @@
 		}
 			
 		case NSFetchedResultsChangeUpdate: {
-			FLogDebug(@"** QUEUE UPDATE SECTION ** : %@",@(sectionIndex));
+			CollectionLog(@"** QUEUE UPDATE SECTION ** : %@",@(sectionIndex));
 			[_collectionUpdateOperation addExecutionBlock:^{
 				[self_.collectionView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
 			}];
@@ -243,7 +247,7 @@
 		}
 			
 		case NSFetchedResultsChangeMove:
-			FLogDebug(@"** ??? QUEUE MOVE SECTION ** : %@",@(sectionIndex));
+			CollectionLog(@"** ??? QUEUE MOVE SECTION ** : %@",@(sectionIndex));
 			break;
 	}
 }
@@ -259,14 +263,14 @@
 		return;
 	}
 	
-	//	FLog(@"controller.fetchRequest:%@",controller.fetchRequest);
-//	FLog(@"object:%@",anObject);
-//	FLog(@"indexPath:%@",indexPath);
-//	FLog(@"type:%@",@(type));
-//	FLog(@"newIndexPath:%@",newIndexPath);
+	//	CollectionLog(@"controller.fetchRequest:%@",controller.fetchRequest);
+//	CollectionLog(@"object:%@",anObject);
+//	CollectionLog(@"indexPath:%@",indexPath);
+//	CollectionLog(@"type:%@",@(type));
+//	CollectionLog(@"newIndexPath:%@",newIndexPath);
     
-//    FLog(@"changedValues: %@",[anObject changedValues]);
-//    FLog(@"changedValuesForCurrentEvent: %@",[anObject changedValuesForCurrentEvent]);
+//    CollectionLog(@"changedValues: %@",[anObject changedValues]);
+//    CollectionLog(@"changedValuesForCurrentEvent: %@",[anObject changedValuesForCurrentEvent]);
 
 	
 	FSQWeakSelf(self_);
@@ -279,22 +283,22 @@
 			if (numberOfSectionsInCollectionViewNow > 0) {
 				NSInteger numberOfItemsInCollectionViewSectionNow = [self.collectionView numberOfItemsInSection:indexPath.section];
 				if (numberOfItemsInCollectionViewSectionNow == 0) {
-					FLogDebug(@"**** RELOAD REQUIRED (NO ITEMS IN SECTION) ****");
+					CollectionLog(@"**** RELOAD REQUIRED (NO ITEMS IN SECTION) ****");
 					_shouldReloadCollectionView = YES;
 				}
 				else {
-					FLogDebug(@"** QUEUE INSERT CELL ** : %@",newIndexPath);
+					CollectionLog(@"** QUEUE INSERT CELL ** : %@",newIndexPath);
 					[_collectionUpdateOperation addExecutionBlock:^{
 						[self_.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
 					}];
 				}
 			}
 			else {
-				FLogDebug(@"**** RELOAD REQUIRED (NO SECTIONS) ****");
+				CollectionLog(@"**** RELOAD REQUIRED (NO SECTIONS) ****");
 				_shouldReloadCollectionView = YES;
 			}
 #else
-			FLogDebug(@"** QUEUE INSERT CELL ** : %@",newIndexPath);
+			CollectionLog(@"** QUEUE INSERT CELL ** : %@",newIndexPath);
 			[_collectionUpdateOperation addExecutionBlock:^{
 				[self_.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
 			}];
@@ -306,18 +310,18 @@
 #if kFSQFetchedResultsCollectionViewControllerEmptySectionBug
 			NSInteger numberOfItemsInCollectionViewSectionNow = [self.collectionView numberOfItemsInSection:indexPath.section];
 			if (numberOfItemsInCollectionViewSectionNow == 1) {
-				FLogDebug(@"**** RELOAD REQUIRED (NO ITEMS IN SECTION ON UPDATE) ****");
+				CollectionLog(@"**** RELOAD REQUIRED (NO ITEMS IN SECTION ON UPDATE) ****");
 				_shouldReloadCollectionView = YES;
 			}
 			else {
-				FLogDebug(@"** QUEUE DELETE CELL ** : %@",indexPath);
+				CollectionLog(@"** QUEUE DELETE CELL ** : %@",indexPath);
 				[_collectionUpdateOperation addExecutionBlock:^{
 					[self_.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 				}];
 
 			}
 #else
-			FLogDebug(@"** QUEUE DELETE CELL ** : %@",indexPath);
+			CollectionLog(@"** QUEUE DELETE CELL ** : %@",indexPath);
 			[_collectionUpdateOperation addExecutionBlock:^{
 				[self_.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 			}];
@@ -330,11 +334,11 @@
 			// It seems the controller is sending us an update for the first insertion .. wtf?
 			NSInteger numberOfItemsInCollectionViewSectionNow = [self.collectionView numberOfItemsInSection:indexPath.section];
 			if (numberOfItemsInCollectionViewSectionNow == 0) {
-				FLogDebug(@"**** RELOAD REQUIRED (NO ITEMS IN SECTION) ****");
+				CollectionLog(@"**** RELOAD REQUIRED (NO ITEMS IN SECTION) ****");
 				_shouldReloadCollectionView = YES;
 			}
 			else {
-				FLogDebug(@"** QUEUE UPDATE CELL ** : %@",indexPath);
+				CollectionLog(@"** QUEUE UPDATE CELL ** : %@",indexPath);
 				if (_animatesItemReloads) {
 					[_collectionUpdateOperation addExecutionBlock:^{
 //						dispatch_async(dispatch_get_main_queue(), ^{
@@ -346,7 +350,7 @@
 				}
 			}
 #else
-			FLogDebug(@"** QUEUE UPDATE CELL ** : %@",indexPath);
+			CollectionLog(@"** QUEUE UPDATE CELL ** : %@",indexPath);
 			if (_animatesItemReloads) {
 				[_collectionUpdateOperation addExecutionBlock:^{
 //					dispatch_async(dispatch_get_main_queue(), ^{
@@ -362,7 +366,7 @@
 			
 			
 		case NSFetchedResultsChangeMove:
-			FLogDebug(@"** QUEUE MOVE CELL ** : %@ -> %@",indexPath,newIndexPath);
+			CollectionLog(@"** QUEUE MOVE CELL ** : %@ -> %@",indexPath,newIndexPath);
 			[_collectionUpdateOperation addExecutionBlock:^{
 				[self_.collectionView moveItemAtIndexPath:indexPath toIndexPath:newIndexPath];
 			}];
@@ -374,7 +378,7 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
 	if (_shouldReloadCollectionView) {
 		[self.collectionView reloadData];
-		FLog(@"Reloaded collection view data");
+		CollectionLog(@"Reloaded collection view data");
 		return;
 	}
 	NSUInteger numberOfUpdates = [_collectionUpdateOperation.executionBlocks count];
@@ -383,10 +387,10 @@
 	} completion:^(BOOL finished) {
 		_collectionUpdateOperation = nil;
 		if (finished) {
-			FLog(@"Completed %@ updates",@(numberOfUpdates));
+			CollectionLog(@"Completed %@ updates",@(numberOfUpdates));
 		}
 		else {
-			FLog(@"Failed to complete %@ updates",@(numberOfUpdates));
+			CollectionLog(@"Failed to complete %@ updates",@(numberOfUpdates));
 		}
 	}];
 }

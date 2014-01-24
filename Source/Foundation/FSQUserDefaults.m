@@ -293,7 +293,7 @@
 
 
 - (id) valueForKeySynchronized:(NSString *)key {
-	[StandardDefaults() synchronize];
+//	[StandardDefaults() synchronize];
 	return [StandardDefaults() valueForKey:key];
 }
 
@@ -301,7 +301,7 @@
 	[self willChangeValueForKey:key];
 	[_changedKeys addObject:key];
 	[StandardDefaults() setValue:value forKey:key];
-	[StandardDefaults() synchronize];
+//	BOOL synchronized = [StandardDefaults() synchronize];
 	[self didChangeValueForKey:key];
 }
 

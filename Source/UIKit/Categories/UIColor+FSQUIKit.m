@@ -17,8 +17,12 @@
 }
 
 + (UIColor *) colorWithStringRepresentation:(NSString *)stringRepresentation {
-	CIColor *coreImageColor = [CIColor colorWithString:stringRepresentation];
-	UIColor *color = [UIColor colorWithCIColor:coreImageColor];
+	UIColor *color = nil;
+//	CIColor *coreImageColor = [CIColor colorWithString:stringRepresentation];
+	NSArray *components = [stringRepresentation componentsSeparatedByString:@" "];
+	if ([components count] == 4) {
+		color = [UIColor colorWithRed:[(NSString *)components[0] floatValue] green:[(NSString *)components[1] floatValue] blue:[(NSString *)components[2] floatValue] alpha:[(NSString *)components[3] floatValue]];
+	}
 	return color;
 }
 

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *kFSQUnknownErrorDomain;
+
 @interface NSError (FSQFoundation)
 
 + (id) errorWithException:(NSException *)exception;

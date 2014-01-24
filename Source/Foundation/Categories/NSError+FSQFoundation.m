@@ -11,6 +11,7 @@
 #import "NSString+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
 
+NSString *kFSQUnknownErrorDomain = @"Unknown Error Domain";
 
 @implementation NSError (FSQFoundation)
 
@@ -30,8 +31,14 @@
 }
 
 + (id) errorWithError:(NSError *)underlyingError localizedDescription:(NSString *)localizedDescription {
-#warning Not checking if unserlyingError is nil
-	return [self errorWithError:underlyingError domain:underlyingError.domain code:underlyingError.code localizedDescription:localizedDescription];
+	NSError *error;
+	if (underlyingError) {
+		[self errorWithError:underlyingError domain:underlyingError.domain code:underlyingError.code localizedDescription:localizedDescription];
+	}
+	else {
+		error = [self errorWithDomain:kFSQUnknownErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey : localizedDescription}];
+	}
+	return error;
 }
 
 + (id) errorWithError:(NSError *)underlyingError domain:(NSString *)errorDomain code:(NSInteger)errorCode localizedDescription:(NSString *)localizedDescription {

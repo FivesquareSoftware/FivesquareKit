@@ -11,15 +11,8 @@
 #import "FSQLogging.h"
 
 
-#ifndef kSPLocationLoggingEnabled
-	#define kSPLocationLoggingEnabled DEBUG && 1
-#endif
-
-#if kSPLocationLoggingEnabled
-	#define LocLog(frmt, ...) FLogMark( ([NSString stringWithFormat:@"LOCATION.%@",_identifier]) , frmt, ##__VA_ARGS__)
-#else
-	#define LocLog(frmt, ...)
-#endif
+#define kLocationLoggingEnabled DEBUG && 0
+#define LocLog(frmt, ...) FLogMarkIf(kLocationLoggingEnabled, ([NSString stringWithFormat:@"LOCATION.%@",_identifier]) , frmt, ##__VA_ARGS__)
 
 
 
@@ -309,7 +302,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 	LocLog(@"currentLocation:%@",self.currentLocation);
 
-	CLLocationDistance locationDelta = [self.currentLocation distanceFromLocation:newLocation];
+	CLLocationDistance locationDelta FSQ_MAYBE_UNUSED = [self.currentLocation distanceFromLocation:newLocation];
 	LocLog(@"locationDelta: %@",@(locationDelta));
 	
 //	if (self.currentLocation == nil) {

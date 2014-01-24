@@ -17,6 +17,8 @@ CLLocationCoordinate2D FSQCoordinateOffsetFromCoordinate(CLLocationCoordinate2D 
 
 CLLocationCoordinate2D FSQGetMinCoordinateForRegion(MKCoordinateRegion region);
 CLLocationCoordinate2D FSQGetMaxCoordinateForRegion(MKCoordinateRegion region);
+CLLocationDistance FSQDiagonalSpanForRegion(MKCoordinateRegion region);
+CLLocationDistance FSQLatitudeSpanForRegion(MKCoordinateRegion region);
 
 BOOL isMKCoordinateRegionZero(MKCoordinateRegion region);
 BOOL MKCoordinateRegionEquals(MKCoordinateRegion region,MKCoordinateRegion otherRegion);
