@@ -34,6 +34,7 @@
 
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 - (id) objectPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate;
+- (NSArray *) objectsPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate;
 
 //#if __IPHONE_OS_VERSION_MIN_REQUIRED < 40000
 //- (id) firstObject; ///< @returns the first object if there is one, or nil.

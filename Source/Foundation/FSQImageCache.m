@@ -19,7 +19,7 @@
 #import "NSDictionary+FSQFoundation.h"
 
 
-#define kDebugImageCache DEBUG && 1
+#define kDebugImageCache DEBUG && 0
 #define CacheLog(frmt,...) FLogMarkIf(kDebugImageCache, ([NSString stringWithFormat:@"IMG-CACHE.%@",self.name]) ,frmt, ##__VA_ARGS__)
 
 

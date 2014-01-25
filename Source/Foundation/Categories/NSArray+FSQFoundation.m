@@ -113,6 +113,13 @@
 	return object;
 }
 
+- (NSArray *) objectsPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate {
+	NSArray *objects = nil;
+	NSIndexSet *indexes  = [self indexesOfObjectsPassingTest:predicate];
+	objects = [self objectsAtIndexes:indexes];
+	return objects;
+}
+
 
 //#if __IPHONE_OS_VERSION_MIN_REQUIRED < 40000
 //- (id) firstObject {
