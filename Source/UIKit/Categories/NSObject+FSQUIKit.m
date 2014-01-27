@@ -38,4 +38,22 @@
 	return nil;
 }
 
++ (id) withNibOwner:(id)owner {
+	return [self withNib:[UINib nibWithNibName:NSStringFromClass([self class]) bundle:nil] owner:owner];
+}
+
++ (id) withNib:(UINib *)nib owner:(id)owner {
+	NSArray *objects = [nib instantiateWithOwner:owner options:nil];
+	id object = nil;
+	Class myClass = [self class];
+	for (id obj in objects) {
+		if ([obj isKindOfClass:myClass]) {
+			object = obj;
+			break;
+		}
+	}
+	return object;
+}
+
+
 @end

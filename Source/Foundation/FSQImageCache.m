@@ -17,10 +17,41 @@
 #import "NSString+FSQFoundation.h"
 #import "NSURL+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
+#import "FSQRuntime.h"
 
 
-#define kDebugImageCache DEBUG && 0
+#define kDebugImageCache DEBUG && 1
 #define CacheLog(frmt,...) FLogMarkIf(kDebugImageCache, ([NSString stringWithFormat:@"IMG-CACHE.%@",self.name]) ,frmt, ##__VA_ARGS__)
+
+@interface FSQImage : UIImage
+@end
+
+@implementation FSQImage
++ (id) imageWithCGImage:(CGImageRef)imageRef {
+	__autoreleasing FSQImage *img =  [[super alloc] initWithCGImage:imageRef];
+	FLogMarkIf(kDebugImageCache, @"IMG-CACHE",@"initWithCGImage: %@",self);
+	return img;
+}
++ (id) imageWithContentsOfFile:(NSString *)file {
+	__autoreleasing FSQImage *img =  [[super alloc] initWithContentsOfFile:file];
+	FLogMarkIf(kDebugImageCache, @"IMG-CACHE",@"imageWithContentsOfFile: %@",self);
+	return img;
+}
++ (id) imageWithData:(NSData *)data {
+	__autoreleasing FSQImage *img =  [[super alloc] initWithData:data];
+	FLogMarkIf(kDebugImageCache, @"IMG-CACHE",@"imageWithData: %@",self);
+	return img;
+}
+- (void) dealloc {
+	FLogMarkIf(kDebugImageCache, @"IMG-CACHE",@"IMG->DEALLOC: %@",self);
+}
+- (NSString *) description {
+	return [NSString stringWithFormat:@"<FSQImage:%p>",self];
+}
+//- (id)copyWithZone:(NSZone *)zone {
+//	return [self copyWithZone:zone];
+//}
+@end
 
 
 
@@ -87,6 +118,12 @@
 
 #pragma mark - Object
 
+- (void)dealloc
+{
+	if (_memoryWarningObserver) {
+		[[NSNotificationCenter defaultCenter] removeObserver:_memoryWarningObserver];
+	}
+}
 
 - (id) init {
 	return [self initWithMemoryCapacity:0 diskPath:[[NSUUID UUID] UUIDString]];
@@ -154,9 +191,7 @@
 - (void) setImage:(id)image forKey:(id)key {
 	CacheLog(@"setImage:%@ forKey:%@",image,key);
 	dispatch_barrier_sync(_cacheQueue, ^{
-		@autoreleasepool {
-			[self _storeImage:image forKey:key];
-		}
+		[self _storeImage:image forKey:key];
 	});
 }
 
@@ -164,9 +199,7 @@
 	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
 	__block id fetchedImage = nil;
 	dispatch_sync(_cacheQueue, ^{
-		@autoreleasepool {
-			fetchedImage = [self _getImageForKey:key transient:NO];
-		}
+		fetchedImage = [self _getImageForKey:key transient:NO];
 	});
 	return fetchedImage;
 }
@@ -175,9 +208,7 @@
 	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
 	__block id fetchedImage = nil;
 	dispatch_sync(_cacheQueue, ^{
-		@autoreleasepool {
-			fetchedImage = [self _getImageForKey:key transient:YES];
-		}
+		fetchedImage = [self _getImageForKey:key transient:YES];
 	});
 	return fetchedImage;
 }
@@ -191,13 +222,12 @@
 	CacheLog(@"getImageForKey:%@ transient:%@",key,@(transient));
 	__block id image = nil;
 	dispatch_async(_cacheQueue, ^{
-		@autoreleasepool {
-			image = [self _getImageForKey:key transient:transient];
-			if (completion) {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					completion(image,nil);
-				});
-			}
+		image = [self _getImageForKey:key transient:transient];
+		if (completion) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completion(image,nil);
+				image = nil;
+			});
 		}
 	});
 }
@@ -288,7 +318,7 @@
 	CacheLog(@"%@",NSStringFromSelector(_cmd));
 
 	NSString *storageKey = [self storageKeyForKey:key];
-	__autoreleasing id image = nil;
+	id image = nil;
 	if (_usingMemoryCache) {
 		image = [_cache objectForKey:storageKey];
 	}
@@ -296,33 +326,34 @@
 		if (_usingMemoryCache) {
 			CacheLog(@"** IMAGE MEMORY FAULT **");
 		}
-#if TARGET_OS_IPHONE
+		
 		NSString *imagePath = [self cachePathForKey:storageKey];
+#if TARGET_OS_IPHONE
 		image = [UIImage imageWithContentsOfFile:imagePath];
+//		CacheLog(@"IMG->ALLOC: %@",image);
 #else
-		//TODO: load image from disk for mac os
+//		//TODO: load image from disk for mac os
 #endif
 		if (nil == image) {
 			CacheLog(@"** IMAGE DISK FAULT **");
 		}
 		if (NO == transient && _usingMemoryCache && image) {
-			id localImage = image;
+			__block id localImage = image;
 			dispatch_barrier_async(_cacheQueue, ^{
-				@autoreleasepool {
-					NSURL *imageURL = [NSURL URLWithString:imagePath];
-					NSNumber *fileSize;
-					NSUInteger size = 0;
-					NSError *error = nil;
-					if ([imageURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error]) {
-						size = [fileSize unsignedIntegerValue];
-					}
-					else {
-						FLogError(error, @"Failed to get file size for re-inflated image: %@",imageURL);
-					}
-					[_cache setObject:localImage forKey:storageKey cost:size];
+				NSURL *imageURL = [NSURL fileURLWithPath:imagePath];
+				FSQAssert(imageURL, @"Couldn't get image URL from image path: %@", imagePath);
+				NSNumber *fileSize;
+				NSUInteger size = 0;
+				NSError *error = nil;
+				if ([imageURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error]) {
+					size = [fileSize unsignedIntegerValue];
 				}
+				else {
+					FLogError(error, @"Failed to get file size for re-inflated image: %@",imageURL);
+				}
+				[_cache setObject:localImage forKey:storageKey cost:size];
+				localImage = nil;
 			});
-			localImage = nil;
 		}
 	}
 	return image;

@@ -143,9 +143,7 @@
 		A42A2EDC1525252D0032AB39 /* FSQCoreGraphicsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43F312748374005D9BF4 /* FSQCoreGraphicsUtils.m */; };
 		A42A2F211525285D0032AB39 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A42A2F1F1525285D0032AB39 /* InfoPlist.strings */; };
 		A43711F21889B99900A04E4D /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A43711F01889B99900A04E4D /* FSQImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A43711F31889B99900A04E4D /* FSQImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A43711F01889B99900A04E4D /* FSQImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43711F41889B99900A04E4D /* FSQImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A43711F11889B99900A04E4D /* FSQImageCache.m */; };
-		A43711F51889B99900A04E4D /* FSQImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A43711F11889B99900A04E4D /* FSQImageCache.m */; };
 		A43901E91804A3FA00C94D88 /* UIScreen+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A43901E71804A3FA00C94D88 /* UIScreen+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A43901EA1804A3FA00C94D88 /* UIScreen+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A43901E81804A3FA00C94D88 /* UIScreen+FSQUIKit.m */; };
 		A43A66E4157D600500640591 /* FSQMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A43A66E3157D600500640591 /* FSQMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1470,7 +1468,6 @@
 				A4D02EB11525295600C16B67 /* FSQAsserter.h in Headers */,
 				A46D909517F4ED3100914512 /* NSNumber+FSQFoundation.h in Headers */,
 				A4D02EB21525295600C16B67 /* FSQSandbox.h in Headers */,
-				A43711F31889B99900A04E4D /* FSQImageCache.h in Headers */,
 				A4D02EB41525295600C16B67 /* FSQFoundation.h in Headers */,
 				A4AEA77C185648D500289AFE /* NSDate+FSQFoundation.h in Headers */,
 				A4D02EB51525295600C16B67 /* FSQFoundationConstants.h in Headers */,
@@ -1801,7 +1798,6 @@
 				A4A5C91015C99B9B001759F1 /* NSAttributedString+FSQFoundation.m in Sources */,
 				A421B03715D441BB00811143 /* FSQZlib.m in Sources */,
 				A40D3E8615E7E3FB00C2063E /* CALayer+FSQQuartz.m in Sources */,
-				A43711F51889B99900A04E4D /* FSQImageCache.m in Sources */,
 				A447AFEF160BD98200DD56BC /* NSValue+FSQFoundation.m in Sources */,
 				A4C4B2E3161E6241004256F3 /* NSData+FSQFoundation_Base64.m in Sources */,
 				A4E416251617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */,
