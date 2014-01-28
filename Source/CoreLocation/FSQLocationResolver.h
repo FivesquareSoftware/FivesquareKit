@@ -29,14 +29,17 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 
 @property (getter = isResolving) BOOL resolving;
 @property BOOL aborted; ///< YES when the timeout occurs before accuracy was achieved
+@property BOOL initialFixFailed; ///< YES when the initial fix timeout occurs before an update occurred
 @property (getter = isMonitoringSignificantChanges) BOOL monitoringSignificantChanges;
 
 
 @property (strong) CLLocation *currentLocation; ///< The best effort location
+@property (strong) CLLocation *lastGoodLocation; ///< The best effort location
 @property (strong) NSError *error; ///< The error that occurred during last resolution
 
 
-@property (nonatomic) NSTimeInterval currentTimeout;
+@property (nonatomic) NSTimeInterval resolutionTimeout;
+@property (nonatomic) NSTimeInterval initialFixTimeout;
 
 // If the location resolver is resolving without a timeout. If the hardware supports it, the receiver will pause locastion updates automatically depending on conditions when this is YES. Otherwise, updates are never paused until the timeout is reached.
 @property (nonatomic,readonly) BOOL resolvingContinuously;
@@ -55,8 +58,7 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
  *  @note Notifications are also sent in addition to the handler blocks being invoked. 
  */
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverLocationUpdateHandler)handler;
-
-- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy distanceFilter:(CLLocationDistance)distanceFilter updateHandler:(FSQLocationResolverLocationUpdateHandler)handler;
+- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy initialFixWithin:(NSTimeInterval)initialTimeout distanceFilter:(CLLocationDistance)distanceFilter updateHandler:(FSQLocationResolverLocationUpdateHandler)handler;
 
 /** Stops location updates and removes all completion handlers. */
 - (void) stopResolving;

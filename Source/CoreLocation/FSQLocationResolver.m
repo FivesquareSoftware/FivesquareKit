@@ -11,7 +11,7 @@
 #import "FSQLogging.h"
 
 
-#define kLocationLoggingEnabled DEBUG && 0
+#define kLocationLoggingEnabled DEBUG && 1
 #define LocLog(frmt, ...) FLogMarkIf(kLocationLoggingEnabled, ([NSString stringWithFormat:@"LOCATION.%@",_identifier]) , frmt, ##__VA_ARGS__)
 
 
@@ -67,12 +67,13 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
         locationManager.delegate = self;
         _locationManager = locationManager;
 		self.currentLocation = _locationManager.location;
+		self.lastGoodLocation = _currentLocation;
     }
     return _locationManager;
 }
 
 - (BOOL) resolvingContinuously {
-	BOOL resolvingContinuously = (_currentTimeout == kFSQLocationResolverInfiniteTimeInterval);
+	BOOL resolvingContinuously = (_resolutionTimeout == kFSQLocationResolverInfiniteTimeInterval);
 	return resolvingContinuously;
 }
 
@@ -119,16 +120,17 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	return [self resolveLocationAccurateTo:accuracy within:timeout completionHandler:nil];
 }
 
-- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy distanceFilter:(CLLocationDistance)distanceFilter updateHandler:(FSQLocationResolverLocationUpdateHandler)handler {
-	return [self resolveLocationAccurateTo:accuracy within:kFSQLocationResolverInfiniteTimeInterval distanceFilter:distanceFilter completionHandler:handler];
-}
-
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout completionHandler:(FSQLocationResolverLocationUpdateHandler)handler {
-	return [self resolveLocationAccurateTo:accuracy within:timeout distanceFilter:kCLDistanceFilterNone completionHandler:handler];
+	return [self resolveLocationAccurateTo:accuracy within:timeout initialFixWithin:kFSQLocationResolverInfiniteTimeInterval distanceFilter:kCLDistanceFilterNone completionHandler:handler];
 }
 
-- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout distanceFilter:(CLLocationDistance)distanceFilter completionHandler:(FSQLocationResolverLocationUpdateHandler)handler {
+- (BOOL) resolveLocationContinuouslyPausingAutomaticallyAccurateTo:(CLLocationAccuracy)accuracy initialFixWithin:(NSTimeInterval)initialTimeout distanceFilter:(CLLocationDistance)distanceFilter updateHandler:(FSQLocationResolverLocationUpdateHandler)handler {
+	return [self resolveLocationAccurateTo:accuracy within:kFSQLocationResolverInfiniteTimeInterval initialFixWithin:initialTimeout distanceFilter:distanceFilter completionHandler:handler];
+}
 
+- (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout initialFixWithin:(NSTimeInterval)initialTimeout distanceFilter:(CLLocationDistance)distanceFilter completionHandler:(FSQLocationResolverLocationUpdateHandler)handler {
+
+	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
 	
 	if (self.timedResolutionAbortTimer) {
@@ -146,7 +148,8 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	self.locationUpdatesStartedOn = [NSDate date];
     self.locationManager.desiredAccuracy = accuracy;
 	self.locationManager.distanceFilter = distanceFilter;
-	self.currentTimeout = timeout;
+	self.resolutionTimeout = timeout;
+	self.initialFixTimeout = initialTimeout;
 	
 #ifdef TARGET_OS_IPHONE
 	self.locationManager.pausesLocationUpdatesAutomatically = self.resolvingContinuously;
@@ -164,6 +167,14 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	}
 	if (timeout != kFSQLocationResolverInfiniteTimeInterval) {
 		self.timedResolutionAbortTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(timedResolutionTimeLimitReached:) userInfo:nil repeats:NO];
+	}
+	
+	if (self.initialFixTimer) {
+		[self.initialFixTimer invalidate];
+		self.initialFixTimer = nil;
+	}
+	if (initialTimeout != kFSQLocationResolverInfiniteTimeInterval) {
+		self.initialFixTimer = [NSTimer scheduledTimerWithTimeInterval:initialTimeout target:self selector:@selector(initialFixTimeLimitReached:) userInfo:nil repeats:NO];
 	}
 
 	// experimenting with getting a cached location
@@ -201,7 +212,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 		[self stopResolving];
 	}
 
-	self.currentTimeout = initialTimeout;
+	self.initialFixTimeout = initialTimeout;
 	
 	self.locationUpdatesStartedOn = [NSDate date];
 	self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
@@ -308,6 +319,12 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 //	if (self.currentLocation == nil) {
 		LocLog(@"Got decent location, setting it to best effort location");
         self.currentLocation = newLocation;
+	
+		if (self.initialFixTimer) {
+			[self.initialFixTimer invalidate];
+			self.initialFixTimer = nil;
+		}
+
 
 		LocLog(@"kCLLocationAccuracyBestForNavigation:%f",kCLLocationAccuracyBestForNavigation);
 		LocLog(@"kCLLocationAccuracyBest:%f",kCLLocationAccuracyBest);
@@ -396,7 +413,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 - (void) timedResolutionTimeLimitReached:(NSTimer *)timer {
 	self.aborted = YES;
-	self.currentTimeout = 0;
+	self.resolutionTimeout = 0;
 	
 	[self.locationManager stopUpdatingLocation];	
 	self.currentLocation = self.locationManager.location; // get the best location we can
@@ -409,7 +426,8 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 }
 
 - (void) initialFixTimeLimitReached:(NSTimer *)timer {
-	self.currentTimeout = 0;
+	self.initialFixFailed = YES;
+	self.initialFixTimeout = 0;
 	self.currentLocation = self.locationManager.location; // get the best location we can
 	LocLog(@"Initial fix timeout reached, sending update with best effort location: %@",self.currentLocation);
 	[self handleLocationUpdate];
@@ -449,6 +467,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	NSMutableDictionary *info = [NSMutableDictionary new];
 	if (self.currentLocation) {
 		[info setObject:self.currentLocation forKey:kFSQLocationResolverKeyLocation];
+		self.lastGoodLocation = self.currentLocation;
 	}
 	if (self.error) {
 		[info setObject:self.error forKey:kFSQLocationResolverKeyError];
