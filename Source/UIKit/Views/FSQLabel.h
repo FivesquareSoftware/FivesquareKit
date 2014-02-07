@@ -12,7 +12,7 @@
 @interface FSQLabel : UILabel
 
 @property (nonatomic, strong) NSString *placeholderText;
-@property (nonatomic, strong) UIColor *placeholderColor;
+@property (nonatomic, strong) NSDictionary *placeholderAttributes;
 
 @property (nonatomic) BOOL collapseWhenEmpty;
 

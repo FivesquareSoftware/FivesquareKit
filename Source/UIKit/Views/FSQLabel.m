@@ -20,10 +20,21 @@
 
 - (void) setPlaceholderText:(NSString *)placeholderText {
 	if (_placeholderText != placeholderText) {
+		if (nil == placeholderText) {
+			placeholderText = @"";
+		}
 		_placeholderText = placeholderText;
-		[super setTextColor:_placeholderColor];
-		[super setText:_placeholderText];
+//		[super setTextColor:_placeholderColor];
+//		[super setText:_placeholderText];
+		if ([NSString isEmpty:self.text]) {
+			[self applyPlaceholderText];
+		}
 	}
+}
+
+- (void) applyPlaceholderText {
+	NSAttributedString *placeholderString = [[NSAttributedString alloc] initWithString:_placeholderText attributes:_placeholderAttributes];
+	self.attributedText = placeholderString;
 }
 
 - (void) setText:(NSString *)text {
@@ -31,23 +42,19 @@
 		if (_collapseWhenEmpty) {
 			NSLayoutConstraint *collapseConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0];
 			self.collapseConstraint = collapseConstraint;
-			[self setNeedsLayout];
 		}
 		else {
-			text = _placeholderText;
-			[super setTextColor:_placeholderColor];
-			if (_collapseWhenEmpty) {
-				self.collapseConstraint = nil;
-				[self setNeedsLayout];
-			}
+//			text = _placeholderText;
+//			[super setTextColor:_placeholderColor];
+			[self applyPlaceholderText];
+			self.collapseConstraint = nil;
 		}
 	}
 	else {
 		self.collapseConstraint = nil;
-		[super setTextColor:_textColorInternal];
-		[self setNeedsLayout];
+		[super setText:text];
 	}
-	[super setText:text];
+	[self setNeedsLayout];
 }
 
 - (void) setTextColor:(UIColor *)textColor {
@@ -71,8 +78,8 @@
 
 - (void) initialize {
 	self.translatesAutoresizingMaskIntoConstraints = NO;
-	_placeholderColor = [UIColor lightTextColor];
-	[self setTextColor:_placeholderColor];
+	_placeholderAttributes = @{NSForegroundColorAttributeName : [UIColor lightTextColor], NSObliquenessAttributeName : @(.1)};
+	_placeholderText = @"";
 }
 
 - (void) ready {

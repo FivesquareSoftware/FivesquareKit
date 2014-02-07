@@ -20,7 +20,7 @@
 #import "FSQRuntime.h"
 
 
-#define kDebugImageCache DEBUG && 1
+#define kDebugImageCache DEBUG && 0
 #define CacheLog(frmt,...) FLogMarkIf(kDebugImageCache, ([NSString stringWithFormat:@"IMG-CACHE.%@",self.name]) ,frmt, ##__VA_ARGS__)
 
 @interface FSQImage : UIImage
@@ -301,7 +301,7 @@
 
 
 - (void)cache:(NSCache *)cache willEvictObject:(id)obj {
-	CacheLog(@"willEvictObject:%@",obj);
+	CacheLog(@"** EVICTING OBJECT ** : %@",obj);
 }
 
 
