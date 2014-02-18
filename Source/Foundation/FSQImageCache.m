@@ -19,6 +19,8 @@
 #import "NSDictionary+FSQFoundation.h"
 #import "FSQRuntime.h"
 
+#define kImageCacheScaleNoScale -1.
+
 
 #define kDebugImageCache DEBUG && 0
 #define CacheLog(frmt,...) FLogMarkIf(kDebugImageCache, ([NSString stringWithFormat:@"IMG-CACHE.%@",self.name]) ,frmt, ##__VA_ARGS__)
@@ -196,33 +198,27 @@
 }
 
 - (id) imageForKey:(id)key {
-	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
-	__block id fetchedImage = nil;
-	dispatch_sync(_cacheQueue, ^{
-		fetchedImage = [self _getImageForKey:key transient:NO];
-	});
-	return fetchedImage;
+	return [self imageForKey:key scale:kImageCacheScaleNoScale];
 }
 
-- (id) transientImageForKey:(id)key {
+- (id) imageForKey:(id)key scale:(CGFloat)scaleOverride {
 	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
 	__block id fetchedImage = nil;
 	dispatch_sync(_cacheQueue, ^{
-		fetchedImage = [self _getImageForKey:key transient:YES];
+		fetchedImage = [self _getImageForKey:key scale:scaleOverride];
 	});
 	return fetchedImage;
 }
 
 - (void) getImageForKey:(id)key completion:(FSQImageCacheCompletionHandler)completion {
-	CacheLog(@"getImageForKey:%@ completion:%@",key,completion);
-	[self getImageForKey:key transient:NO completion:completion];
+	[self getImageForKey:key scale:kImageCacheScaleNoScale completion:completion];
 }
 
-- (void) getImageForKey:(id)key transient:(BOOL)transient completion:(FSQImageCacheCompletionHandler)completion {
-	CacheLog(@"getImageForKey:%@ transient:%@",key,@(transient));
+- (void) getImageForKey:(id)key scale:(CGFloat)scale completion:(FSQImageCacheCompletionHandler)completion {
+	CacheLog(@"getImageForKey:%@ scale:%@",key,@(scale));
 	__block id image = nil;
 	dispatch_async(_cacheQueue, ^{
-		image = [self _getImageForKey:key transient:transient];
+		image = [self _getImageForKey:key scale:scale];
 		if (completion) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				completion(image,nil);
@@ -258,7 +254,7 @@
 #pragma mark - Helpers
 
 
-- (id) storageKeyForKey:(id)key {
+- (id) storageKeyForKey:(id)key scale:(CGFloat)scale {
 	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
 	NSString *keyString;
 	NSString *storageKey;
@@ -268,32 +264,43 @@
 	else {
 		keyString = [key description];
 	}
-	storageKey = [keyString stringByDeletingPathExtension];
+	keyString = [keyString stringByDeletingPathExtension];
+	keyString = [keyString stringByDeletingScaleModifier];
+	
+
+	if (scale != 1) {
+		storageKey = [NSString stringWithFormat:@"%@@%@x.%@",keyString,@(scale),[self storageExtensionForStorageType]];
+	}
+	else {
+		storageKey = [NSString stringWithFormat:@"%@.%@",keyString,[self storageExtensionForStorageType]];
+	}
+
+	
 	CacheLog(@"<= %@",storageKey);
 	return storageKey;
 }
 
 - (id) newKeyForImage:(id)image {
-	NSString *UUIDString = [[NSUUID UUID] UUIDString];
-	NSString *key;
-#if TARGET_OS_IPHONE
-	CGFloat scale = [(UIImage *)image scale];
-	if (scale != 1) {
-		key = [NSString stringWithFormat:@"%@@%@x",UUIDString,@(scale)];
-	}
-	else {
-		key = UUIDString;
-	}
-#else
-	key = UUIDString;
-#endif
+	NSString *key = [[NSUUID UUID] UUIDString];
 	return key;
 }
 
-- (NSString *) cachePathForKey:(NSString *)key {
-	NSString *cachePath = [self.cachePath stringByAppendingPathComponent:key];
+- (NSString *) cachePathForStorageKey:(NSString *)storageKey {
+	NSString *cachePath = [self.cachePath stringByAppendingPathComponent:storageKey];
 	return cachePath;
 }
+
+- (NSString *) storageExtensionForStorageType {
+	NSString *extension = @"";
+	if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypeJPEG]) {
+		extension = @"jpg";
+	}
+	else if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypePNG]) {
+		extension = @"png";
+	}
+	return extension;
+}
+
 
 // ========================================================================== //
 
@@ -314,10 +321,19 @@
 #pragma mark - Model Access - Must run on cache Q
 
 
-- (id) _getImageForKey:(id)key transient:(BOOL)transient {
+- (id) _getImageForKey:(id)key scale:(CGFloat)scaleOverride {
 	CacheLog(@"%@",NSStringFromSelector(_cmd));
-
-	NSString *storageKey = [self storageKeyForKey:key];
+	CGFloat scale = 1;
+	if (scaleOverride > 0.) {
+		scale = scaleOverride;
+	}
+	else {
+#if TARGET_OS_IPHONE
+		scale = [[UIScreen mainScreen] scale];
+#endif
+	}
+	
+	NSString *storageKey = [self storageKeyForKey:key scale:scale];
 	id image = nil;
 	if (_usingMemoryCache) {
 		image = [_cache objectForKey:storageKey];
@@ -327,7 +343,7 @@
 			CacheLog(@"** IMAGE MEMORY FAULT **");
 		}
 		
-		NSString *imagePath = [self cachePathForKey:storageKey];
+		NSString *imagePath = [self cachePathForStorageKey:storageKey];
 #if TARGET_OS_IPHONE
 		image = [UIImage imageWithContentsOfFile:imagePath];
 //		CacheLog(@"IMG->ALLOC: %@",image);
@@ -337,7 +353,7 @@
 		if (nil == image) {
 			CacheLog(@"** IMAGE DISK FAULT **");
 		}
-		if (NO == transient && _usingMemoryCache && image) {
+		if (_usingMemoryCache && image) {
 			__block id localImage = image;
 			dispatch_barrier_async(_cacheQueue, ^{
 				NSURL *imageURL = [NSURL fileURLWithPath:imagePath];
@@ -362,10 +378,14 @@
 - (void) _storeImage:(id)image forKey:(NSString *)key {
 	CacheLog(@"%@ => %@",NSStringFromSelector(_cmd),key);
 	@autoreleasepool {
-		NSString *storageKey = [self storageKeyForKey:key];
+		CGFloat scale = 1;
+#if TARGET_OS_IPHONE
+		scale = [(UIImage *)image scale];
+#endif
+		NSString *storageKey = [self storageKeyForKey:key scale:scale];
 		NSData *imageData = [self _dataForImage:image];
 		NSError *writeError = nil;
-		if (NO == [imageData writeToFile:[self cachePathForKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
+		if (NO == [imageData writeToFile:[self cachePathForStorageKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
 			FLogError(writeError, @"Could not write image to disk");
 		}
 		if (_usingMemoryCache) {
@@ -379,12 +399,16 @@
 
 - (void) _removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk {
 	CacheLog(@"%@ => %@",NSStringFromSelector(_cmd),key);
-	NSString *storageKey = [self storageKeyForKey:key];
+	CGFloat scale = 1;
+#if TARGET_OS_IPHONE
+	scale = [[UIScreen mainScreen] scale];
+#endif
+	NSString *storageKey = [self storageKeyForKey:key scale:scale];
 	[_cache removeObjectForKey:storageKey]; // let's just always remove it in case memory limits got changed after it went in
 	if (removeOnDisk) {
 		NSFileManager *fm = [NSFileManager new];
 		NSError *error = nil;
-		if (NO == [fm removeItemAtPath:[self cachePathForKey:storageKey] error:&error]) {
+		if (NO == [fm removeItemAtPath:[self cachePathForStorageKey:storageKey] error:&error]) {
 			FLogError(error, @"Could not remove entry for %@",storageKey);
 		};
 	}

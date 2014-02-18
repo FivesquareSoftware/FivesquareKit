@@ -11,7 +11,7 @@
 #import "FSQLogging.h"
 
 
-#define kLocationLoggingEnabled DEBUG && 1
+#define kLocationLoggingEnabled DEBUG && 0
 #define LocLog(frmt, ...) FLogMarkIf(kLocationLoggingEnabled, ([NSString stringWithFormat:@"LOCATION.%@",_identifier]) , frmt, ##__VA_ARGS__)
 
 

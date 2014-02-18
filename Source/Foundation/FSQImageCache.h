@@ -38,9 +38,9 @@ typedef NS_ENUM(NSInteger, FSQImageCacheMemoryLimit) {
 - (void) setImage:(id)image forKey:(id)key;
 
 - (id) imageForKey:(id)key;
-- (id) transientImageForKey:(id)key;
+- (id) imageForKey:(id)key scale:(CGFloat)scale;
 - (void) getImageForKey:(id)key completion:(FSQImageCacheCompletionHandler)completion;
-- (void) getImageForKey:(id)key transient:(BOOL)transient completion:(FSQImageCacheCompletionHandler)completion;
+- (void) getImageForKey:(id)key scale:(CGFloat)scale completion:(FSQImageCacheCompletionHandler)completion;
 
 - (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk;
 - (void) removeAllImagesIncludingDisk:(BOOL)removeOnDisk;
