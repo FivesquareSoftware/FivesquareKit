@@ -79,14 +79,25 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 
 #pragma mark - Object
 
-
 //FIXME: do not like putting a dealloc in a category ... even considering the new ARC behavior
-- (void)dealloc {
-	if (self.cache && self.URL && self.completionTicket) {
-		[self.cache removeHandler:self.completionTicket forURL:self.URL];
-		self.completionTicket = nil;
+//!!!: This caused endless memory leaks
+//- (void)dealloc {
+//	if (self.cache && self.URL && self.completionTicket) {
+//		[self.cache removeHandler:self.completionTicket forURL:self.URL];
+//		self.completionTicket = nil;
+//	}
+//}
+
+- (void) willMoveToSuperview:(UIView *)newSuperview {
+	if (nil == newSuperview) {
+		if (self.cache && self.URL && self.completionTicket) {
+			[self.cache removeHandler:self.completionTicket forURL:self.URL];
+			self.completionTicket = nil;
+		}
 	}
 }
+
+
 
 // ========================================================================== //
 

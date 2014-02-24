@@ -9,32 +9,57 @@
 #import "FSQTransparentSearchBar.h"
 
 @interface FSQTransparentSearchBar ()
-- (void) removeBackground;
 @end
 
 
 @implementation FSQTransparentSearchBar
 
+- (void) initialize {
+	//	self.translatesAutoresizingMaskIntoConstraints = NO;
+}
+
+- (void) ready {
+	[self removeBackground];
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self != nil) {
-		[self removeBackground];
+    if (self) {
+        // Initialization code
+        [self initialize];
+		[self ready];
     }
     return self;
 }
 
-- (id) initWithCoder:(NSCoder *)aDecoder {
-	self = [super initWithCoder:aDecoder];
-	if (self) {
-		[self removeBackground];
-	}
-	return self;
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void) awakeFromNib {
+	[super awakeFromNib];
+	[self ready];
 }
 
 - (void) removeBackground {
-	for (id subview in [self subviews]) {
+	NSString *backgroundViewClassName = @"UISearchBarBackground";
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		NSString *firstViewClassName = NSStringFromClass([firstSubview class]);
+		if (NO == [firstViewClassName isEqualToString:backgroundViewClassName]) {
+			subviews = [firstSubview subviews];
+			_usesContentView = YES;
+		}
+	}
+	
+	for (id subview in subviews) {
 		NSString *subviewClassName = NSStringFromClass([subview class]);
-		if ([subviewClassName isEqualToString:@"UISearchBarBackground"]) {
+		if ([subviewClassName isEqualToString:backgroundViewClassName]) {
 			[subview removeFromSuperview];
 			break;
 		}

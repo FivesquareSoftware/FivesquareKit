@@ -11,4 +11,6 @@
 
 @interface FSQTransparentSearchBar : UISearchBar
 
+@property (nonatomic) BOOL usesContentView;
+
 @end
