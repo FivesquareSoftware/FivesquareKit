@@ -58,6 +58,8 @@
 - (id) initWithDefaults:(NSString *)fileName;
 
 - (void) resetDefaults;
+- (BOOL) synchronize;
+- (NSDictionary *) dictionaryRepresentation;
 - (BOOL) valueWasSetForKey:(NSString *)key;
 - (id) valueForKey:(NSString *)defaultsKey defaultValue:(id)defaultValue wasChanged:(BOOL *)wasChanged;
 

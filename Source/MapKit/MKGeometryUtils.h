@@ -22,4 +22,5 @@ CLLocationDistance FSQLatitudeSpanForRegion(MKCoordinateRegion region);
 
 BOOL isMKCoordinateRegionZero(MKCoordinateRegion region);
 BOOL MKCoordinateRegionEquals(MKCoordinateRegion region,MKCoordinateRegion otherRegion);
+BOOL MKCoordinateRegionContainsCoordinate(MKCoordinateRegion region,CLLocationCoordinate2D coordinate);
 NSString *NSStringFromMKCoordinateRegion(MKCoordinateRegion region);

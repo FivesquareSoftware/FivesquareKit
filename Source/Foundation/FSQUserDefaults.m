@@ -67,6 +67,14 @@
 	[self initialize];
 }
 
+- (BOOL) synchronize {
+	return [StandardDefaults() synchronize];
+}
+
+- (NSDictionary *) dictionaryRepresentation {
+	return [StandardDefaults() dictionaryRepresentation];
+}
+
 - (BOOL) valueWasSetForKey:(NSString *)key {
 	return [_changedKeys containsObject:key];
 }
