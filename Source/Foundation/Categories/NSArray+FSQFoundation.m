@@ -157,11 +157,12 @@
 	NSUInteger length = [indexPath length];
 	for (NSUInteger i = 0; i < length; i++) {
 		NSUInteger index = [indexPath indexAtPosition:i];
-		if (index < [object count]) {
+		if ([object respondsToSelector:@selector(count)] && index < [object count] && [object respondsToSelector:@selector(objectAtIndex:)]) {
 			object = [object objectAtIndex:index];
 		}
 		else {
 			object = nil;
+            break;
 		}
 	}
 	return object;
@@ -175,7 +176,7 @@
 			indexPath = [indexPath indexPathByAddingIndex:idx];
 			*stop = YES;
 		}
-		else if ([child isKindOfClass:[NSArray class]]) {
+		else if ([child respondsToSelector:_cmd]) {
 			NSIndexPath *childIndexPath = [child indexPathForObject:object];
 			NSUInteger length = [childIndexPath length];
 			if (length > 0) {
@@ -195,6 +196,8 @@
 	}
 	return indexPathForObject;
 }
+
+
 
 // ========================================================================== //
 

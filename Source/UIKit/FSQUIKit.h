@@ -100,6 +100,7 @@
 #import "UITableView+FSQUIKit.h"
 #import "UIViewController+FSQUIKit.h"
 #import "UIPopoverController+FSQUIKit.h"
+#import "UINavigationController+FSQUIKit.h"
 #import "UIColor+FSQUIKit.h"
 #import "UIView+FSQUIKit.h"
 #import "UIImageView+FSQUIKit.h"
