@@ -15,6 +15,7 @@
 
 #import "FSQMacros.h"
 #import "FSQLogging.h"
+#import "NSError+FSQFoundation.h"
 
 
 #define kDebugCollectionController DEBUG && 1
@@ -382,17 +383,26 @@
 		return;
 	}
 	NSUInteger numberOfUpdates = [_collectionUpdateOperation.executionBlocks count];
-	[self.collectionView performBatchUpdates:^{
-		[_collectionUpdateOperation start];
-	} completion:^(BOOL finished) {
-		_collectionUpdateOperation = nil;
-		if (finished) {
-			CollectionLog(@"Completed %@ updates",@(numberOfUpdates));
-		}
-		else {
-			CollectionLog(@"Failed to complete %@ updates",@(numberOfUpdates));
-		}
-	}];
+	@try {
+		[self.collectionView performBatchUpdates:^{
+			[_collectionUpdateOperation start];
+		} completion:^(BOOL finished) {
+			_collectionUpdateOperation = nil;
+			if (finished) {
+				CollectionLog(@"Completed %@ updates",@(numberOfUpdates));
+			}
+			else {
+				CollectionLog(@"Failed to complete %@ updates",@(numberOfUpdates));
+			}
+		}];
+	}
+	@catch (NSException *exception) {
+		FLogError([NSError errorWithException:exception], @"Failed while trying to animate collection view updates, ** RELOADING **");
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.collectionViewLayout invalidateLayout];
+			[self.collectionView reloadData];
+		});
+	}
 }
 
 @end
