@@ -10,6 +10,7 @@
 
 @interface UINavigationController (FSQUIKit)
 
-- (UIViewController *) backViewController;
+@property (nonatomic, readonly) UIViewController *backViewController;
+@property (nonatomic, readonly) UIViewController *rootViewController;
 
 @end

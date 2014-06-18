@@ -13,6 +13,8 @@
 }
 
 @property (nonatomic, strong) id userInfo;
+@property (nonatomic, strong) NSError *error;
+
 
 
 /** @see infoAlertWithTitle:message:userInfo:delegate:. */

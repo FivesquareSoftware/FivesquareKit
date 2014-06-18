@@ -27,6 +27,11 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 	return isDisappearingBackwards;
 }
 
+@dynamic isNavRootController;
+- (BOOL) isNavRootController {
+	return [self.navigationController.viewControllers firstObject] == self;
+}
+
 @dynamic topmostController;
 @dynamic popoverController;
 

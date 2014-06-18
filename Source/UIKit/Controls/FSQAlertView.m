@@ -49,14 +49,23 @@
 	NSError *underlyingError = [error userInfo][NSUnderlyingErrorKey];
 	NSString *message;
 	if (underlyingError) {
+#if !defined(NS_BLOCK_ASSERTIONS) || NS_BLOCK_ASSERTIONS == 0
 		message = [NSString stringWithFormat:@"%@ (%@ %@)",[error localizedDescription],@(underlyingError.code),underlyingError.localizedDescription];
+#else
+		message = [error localizedDescription];
+#endif
 	}
 	else {
+#if !defined(NS_BLOCK_ASSERTIONS) || NS_BLOCK_ASSERTIONS == 0
 		message = [NSString stringWithFormat:@"%@ (%@)",[error localizedDescription],@(error.code)];
+#else
+		message = [error localizedDescription];
+#endif
 	}
 	FSQAlertView *alertView = [[FSQAlertView alloc] initWithTitle:title  message:message delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button Title") otherButtonTitles:nil];
 	alertView.userInfo = aUserInfo;
 	alertView.delegate = aDelegate;
+	alertView.error = error;
 	
 	return alertView;
 }

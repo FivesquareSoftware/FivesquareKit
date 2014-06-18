@@ -10,9 +10,13 @@
 
 
 #import "FSQMacros.h"
+#import "FSQLogging.h"
 
 
 #define StandardDefaults() [NSUserDefaults standardUserDefaults]
+
+#define kDebugDefaults DEBUG && 1
+#define DefLog(frmt, ...) FLogMarkIf(kDebugDefaults,@"DEFAULTS",frmt, ##__VA_ARGS__)
 
 
 @interface FSQUserDefaults ()
@@ -33,8 +37,10 @@
 }
 
 - (void) initialize {
+	DefLog(@"Initializing defaults..");
 	NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:_fileName ofType:@"plist"];
 	NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+	DefLog(@"Existing defaults: %@",[StandardDefaults() dictionaryRepresentation]);
 	if(defaults) {
 		[StandardDefaults() registerDefaults:defaults];
 		[StandardDefaults() synchronize];
@@ -62,12 +68,14 @@
 
 
 - (void) resetDefaults {
+	DefLog(@"Resetting defaults!");
 	[NSUserDefaults resetStandardUserDefaults];
 	[StandardDefaults() removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
 	[self initialize];
 }
 
 - (BOOL) synchronize {
+	DefLog(@"synchronize()");
 	return [StandardDefaults() synchronize];
 }
 

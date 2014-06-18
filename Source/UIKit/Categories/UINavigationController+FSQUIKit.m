@@ -10,6 +10,7 @@
 
 @implementation UINavigationController (FSQUIKit)
 
+@dynamic backViewController;
 - (UIViewController *) backViewController {
 	if (self.viewControllers.count < 2) {
 		return nil;
@@ -23,5 +24,9 @@
 	return backViewController;
 }
 
+@dynamic rootViewController;
+- (UIViewController *) rootViewController {
+	return [self.viewControllers firstObject];
+}
 
 @end
