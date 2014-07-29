@@ -22,10 +22,13 @@
 
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 
+- (NSArray *) keysSortedByValueUsingSortDescriptors:(NSArray *)sortDescriptors;
+
 - (NSArray *) valuesForKeysSortedByKey:(NSString *)sortKey ascending:(BOOL)ascending;
-- (NSArray *) valuesForKeysSortedByValueUsingSelector:(SEL)comparator;
-- (NSArray *) valuesForKeysSortedByValueWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr;
-- (NSArray *) valuesForKeysSortedByValueUsingComparator:(NSComparator)cmptr;
+- (NSArray *) valuesSortedByKeysUsingSortDescriptors:(NSArray *)sortDescriptors;
+- (NSArray *) valuesSortedByKeysUsingSelector:(SEL)comparator;
+- (NSArray *) valuesSortedByKeyWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr;
+- (NSArray *) valuesSortedByKeyUsingComparator:(NSComparator)cmptr;
 
 @end
 

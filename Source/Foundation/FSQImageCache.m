@@ -141,6 +141,7 @@
 		_cache = [[NSCache alloc] init];
 		_cacheQueue = dispatch_queue_create("com.fivesquaresoftware.FSQImageCache.cacheQueue", DISPATCH_QUEUE_CONCURRENT);
 		_keys = [NSMutableSet new];
+		_compressionQuality = .8;
 
 		self.memoryCapacity = memoryCapacity;
 		
@@ -419,7 +420,7 @@
 	__autoreleasing NSData *imageData = nil;
 #if TARGET_OS_IPHONE
 	if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypeJPEG]) {
-		imageData = UIImageJPEGRepresentation(image, 1);
+		imageData = UIImageJPEGRepresentation(image, _compressionQuality);
 	}
 	else if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypePNG]) {
 		imageData = UIImagePNGRepresentation(image);

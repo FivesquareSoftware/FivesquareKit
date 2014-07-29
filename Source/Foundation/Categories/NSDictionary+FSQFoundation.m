@@ -59,22 +59,36 @@
 	return [[[self allValues] filteredArrayUsingPredicate:predicate] lastObject];
 }
 
+- (NSArray *) keysSortedByValueUsingSortDescriptors:(NSArray *)sortDescriptors {
+	NSArray *sortedValues = [[self allValues] sortedArrayUsingDescriptors:sortDescriptors];
+	NSMutableArray *sortedKeys = [NSMutableArray new];
+	for (id value in sortedValues) {
+		[sortedKeys addObjectsFromArray:[self allKeysForObject:value]];
+	}
+	return sortedKeys;
+}
+
 - (NSArray *) valuesForKeysSortedByKey:(NSString *)sortKey ascending:(BOOL)ascending {
 	NSArray *sortedKeys = [[self allKeys] sortedArrayUsingKey:sortKey ascending:ascending];
 	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
 }
 
-- (NSArray *) valuesForKeysSortedByValueUsingSelector:(SEL)comparator {
+- (NSArray *) valuesSortedByKeysUsingSortDescriptors:(NSArray *)sortDescriptors {
+	NSArray *sortedKeys = [[self allKeys] sortedArrayUsingDescriptors:sortDescriptors];
+	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
+}
+
+- (NSArray *) valuesSortedByKeysUsingSelector:(SEL)comparator {
 	NSArray *sortedKeys = [[self allKeys] sortedArrayUsingSelector:comparator];
 	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
 }
 
-- (NSArray *) valuesForKeysSortedByValueWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr {
+- (NSArray *) valuesSortedByKeyWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr {
 	NSArray *sortedKeys = [[self allKeys] sortedArrayWithOptions:opts usingComparator:cmptr];
 	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
 }
 
-- (NSArray *) valuesForKeysSortedByValueUsingComparator:(NSComparator)cmptr {
+- (NSArray *) valuesSortedByKeyUsingComparator:(NSComparator)cmptr {
 	NSArray *sortedKeys = [[self allKeys] sortedArrayUsingComparator:cmptr];
 	return [self objectsForKeys:sortedKeys notFoundMarker:[NSNull null]];
 }

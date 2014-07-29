@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSString *placeholderText;
 @property (nonatomic, strong) NSDictionary *placeholderAttributes;
 
-@property (nonatomic) BOOL collapseWhenEmpty;
+@property (nonatomic) BOOL collapseWhenEmpty; // Default is NO
 
 - (void) initialize;
 - (void) ready;

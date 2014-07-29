@@ -44,6 +44,12 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 // If the location resolver is resolving without a timeout. If the hardware supports it, the receiver will pause locastion updates automatically depending on conditions when this is YES. Otherwise, updates are never paused until the timeout is reached.
 @property (nonatomic,readonly) BOOL resolvingContinuously;
 
+@property (nonatomic, readonly) CLAuthorizationStatus authorizationStatus;
+
+
+- (BOOL) requestAuthorizationWithCompletionHandler:(void(^)(BOOL authorized))handler;
+- (BOOL) requestAuthorizationWhenInUseWithCompletionHandler:(void(^)(BOOL authorized))handler;
+
 
 /** Starts updating the current location, accurate to the provided accuracy, and stops even if the desired accuracy has not been achieved if #timeout has been reached. Callers should subscribe to the receiver's kFSQLocationResolverCompletedResolutionNotification notification to learn about the results of the update. The notification's user info will contain the value of the receiver's current location, any error that occurred and whether or not the resolution timed out before the desired accuracy was acheived.
  *

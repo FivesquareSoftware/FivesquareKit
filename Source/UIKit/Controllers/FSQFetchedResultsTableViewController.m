@@ -204,13 +204,13 @@
 	return [self.fetchedResultsController nameOfSectionAtIndex:section - (NSInteger)_fetchedResultsTableSection];
 }
 
-- (CGFloat)tableView:(UITableView *)inTableView heightForHeaderInSection:(NSInteger)section {
-	NSString *title = [self tableView:inTableView titleForHeaderInSection:section];
-	if(title) {
-		return inTableView.sectionHeaderHeight;
-	}
-	return 0;
-}
+//- (CGFloat)tableView:(UITableView *)inTableView heightForHeaderInSection:(NSInteger)section {
+//	NSString *title = [self tableView:inTableView titleForHeaderInSection:section];
+//	if(title) {
+//		return inTableView.sectionHeaderHeight;
+//	}
+//	return 0;
+//}
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
 	return [self.fetchedResultsController sectionIndexTitles];

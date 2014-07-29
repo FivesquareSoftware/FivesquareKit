@@ -109,5 +109,7 @@
 #import "UITabBarController+FSQUIKit.h"
 #import "UIScreen+FSQUIKit.h"
 #import "UICollectionView+FSQUIKit.h"
+#import "UITableViewCell+FSQUIKit.h"
+#import "UICollectionViewCell+FSQUIKit.h"
 
 

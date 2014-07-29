@@ -28,6 +28,10 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 @interface FSQLocationResolver()
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
+
+@property (nonatomic, copy) void(^authorizationAlwaysCompletionHandler)(BOOL authorized);
+@property (nonatomic, copy) void(^authorizationWhenInUseCompletionHandler)(BOOL authorized);
+
 @property (nonatomic, strong) NSDate *locationUpdatesStartedOn;
 @property (nonatomic, strong) NSTimer *timedResolutionAbortTimer;
 @property (nonatomic, strong) NSTimer *initialFixTimer;
@@ -77,6 +81,13 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	return resolvingContinuously;
 }
 
+@dynamic authorizationStatus;
+- (CLAuthorizationStatus) authorizationStatus {
+	return [CLLocationManager authorizationStatus];
+}
+
+
+
 
 // ========================================================================== //
 
@@ -114,6 +125,36 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 #pragma mark - Public
 
+
+- (BOOL) requestAuthorizationWithCompletionHandler:(void(^)(BOOL authorized))handler {
+	CLAuthorizationStatus status = self.authorizationStatus;
+	BOOL authorizing = (status == kCLAuthorizationStatusNotDetermined);
+	if (authorizing) {
+		_authorizationAlwaysCompletionHandler = handler;
+		[self.locationManager requestAlwaysAuthorization];
+	}
+	else if (handler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			handler(status == kCLAuthorizationStatusAuthorizedAlways);
+		});
+	}
+	return authorizing;
+}
+
+- (BOOL) requestAuthorizationWhenInUseWithCompletionHandler:(void(^)(BOOL authorized))handler {
+	CLAuthorizationStatus status = self.authorizationStatus;
+	BOOL authorizing = (status == kCLAuthorizationStatusNotDetermined);
+	if (authorizing) {
+		_authorizationWhenInUseCompletionHandler = handler;
+		[self.locationManager requestWhenInUseAuthorization];
+	}
+	else if (handler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			handler(status == kCLAuthorizationStatusAuthorizedWhenInUse);
+		});
+	}
+	return authorizing;
+}
 
 
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout {
@@ -201,6 +242,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 }
 
 - (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange initialFixWithin:(NSTimeInterval)initialTimeout {
+	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
 	if (NO == [CLLocationManager significantLocationChangeMonitoringAvailable]) return NO;
 	[_locationUpdateHandlers addObject:[onLocationChange copy]];
 	if (self.isMonitoringSignificantChanges) {
@@ -248,6 +290,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 - (BOOL) startMonitoringForRegion:(CLRegion *)region onBegin:(FSQLocationResolverRegionUpdateHandler)onBegin onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onExit:(FSQLocationResolverRegionUpdateHandler)onExit  onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
 	NSParameterAssert(region != nil);
+	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
 	if (NO == [CLLocationManager isMonitoringAvailableForClass:[region class]]) return NO;
 	if (nil == region) return NO;
 	
@@ -405,6 +448,25 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 		});
 	}
 }
+
+- (void) locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+	if (status == kCLAuthorizationStatusNotDetermined) {
+		return;
+	}
+	if (_authorizationAlwaysCompletionHandler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			_authorizationAlwaysCompletionHandler(status == kCLAuthorizationStatusAuthorizedAlways);
+			_authorizationAlwaysCompletionHandler = nil;
+		});
+	}
+	if (_authorizationWhenInUseCompletionHandler) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			_authorizationWhenInUseCompletionHandler(status == kCLAuthorizationStatusAuthorizedWhenInUse);
+			_authorizationWhenInUseCompletionHandler = nil;
+		});
+	}
+}
+
 
 // ========================================================================== //
 

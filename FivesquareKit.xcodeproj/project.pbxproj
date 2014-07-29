@@ -339,6 +339,10 @@
 		A4D460D515D022A700F59A95 /* FSQCapsuleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */; };
 		A4D6D04217EA51C4002F9865 /* UITabBarController+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D6D04017EA51C4002F9865 /* UITabBarController+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4D6D04317EA51C4002F9865 /* UITabBarController+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D6D04117EA51C4002F9865 /* UITabBarController+FSQUIKit.m */; };
+		A4DB73161986F78D00B7F49B /* UITableViewCell+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4DB73141986F78D00B7F49B /* UITableViewCell+FSQUIKit.h */; };
+		A4DB73171986F78D00B7F49B /* UITableViewCell+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DB73151986F78D00B7F49B /* UITableViewCell+FSQUIKit.m */; };
+		A4DB731A1986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4DB73181986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.h */; };
+		A4DB731B1986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DB73191986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.m */; };
 		A4DC742716CD990F0047E6B2 /* FSQSegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4DC742816CD990F0047E6B2 /* FSQSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */; };
 		A4DDC4C21738BE9B005FC42D /* FSQGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4DDC4C01738BE9B005FC42D /* FSQGradientView.h */; };
@@ -631,6 +635,10 @@
 		A4D4B31E152FBA7400B3A66E /* machine.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
 		A4D6D04017EA51C4002F9865 /* UITabBarController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4D6D04117EA51C4002F9865 /* UITabBarController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+FSQUIKit.m"; sourceTree = "<group>"; };
+		A4DB73141986F78D00B7F49B /* UITableViewCell+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+FSQUIKit.h"; sourceTree = "<group>"; };
+		A4DB73151986F78D00B7F49B /* UITableViewCell+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+FSQUIKit.m"; sourceTree = "<group>"; };
+		A4DB73181986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewCell+FSQUIKit.h"; sourceTree = "<group>"; };
+		A4DB73191986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewCell+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4DC742516CD990F0047E6B2 /* FSQSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQSegmentedControl.h; sourceTree = "<group>"; };
 		A4DC742616CD990F0047E6B2 /* FSQSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQSegmentedControl.m; sourceTree = "<group>"; };
 		A4DDC4C01738BE9B005FC42D /* FSQGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQGradientView.h; sourceTree = "<group>"; };
@@ -1028,6 +1036,10 @@
 				A43901E81804A3FA00C94D88 /* UIScreen+FSQUIKit.m */,
 				A45E2AAB193111D200A7F888 /* UICollectionView+FSQUIKit.h */,
 				A45E2AAC193111D200A7F888 /* UICollectionView+FSQUIKit.m */,
+				A4DB73141986F78D00B7F49B /* UITableViewCell+FSQUIKit.h */,
+				A4DB73151986F78D00B7F49B /* UITableViewCell+FSQUIKit.m */,
+				A4DB73181986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.h */,
+				A4DB73191986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.m */,
 			);
 			name = Extensions;
 			path = Categories;
@@ -1390,6 +1402,7 @@
 				A42A2E9E1525250C0032AB39 /* FSQUIImageToDataTransformer.h in Headers */,
 				A42A2E9F1525250C0032AB39 /* FSQUIColorToDataTransformer.h in Headers */,
 				A42A2EA01525250C0032AB39 /* NSObject+FSQUIKit.h in Headers */,
+				A4DB73161986F78D00B7F49B /* UITableViewCell+FSQUIKit.h in Headers */,
 				A42A2EA11525250C0032AB39 /* NSFetchedResultsController+FSQUIKit.h in Headers */,
 				A42A2EA21525250C0032AB39 /* UIBarButtonItem+FSQUIKit.h in Headers */,
 				A42A2EA31525250C0032AB39 /* UISearchBar+FSQUIKit.h in Headers */,
@@ -1428,6 +1441,7 @@
 				A40017371565C581004765ED /* NSURL+FSQFoundation.h in Headers */,
 				A43A66E4157D600500640591 /* FSQMacros.h in Headers */,
 				A4BBEFB9156C4834003BBDE1 /* FSQProgressBar.h in Headers */,
+				A4DB731A1986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.h in Headers */,
 				A4A8251915B4974D003485B8 /* MKMapView+FSQMapKit.h in Headers */,
 				A4CD08F715BB14C400E698C0 /* MKGeometryUtils.h in Headers */,
 				A4858C7717C6B3DE004A8B49 /* FSQLabel.h in Headers */,
@@ -1664,6 +1678,7 @@
 				A41E30C0188608F400914376 /* FSQActionSheet.m in Sources */,
 				A42A2EB21525252D0032AB39 /* FSQBindingsMapper.m in Sources */,
 				A42A2EB31525252D0032AB39 /* FSQPropertyMapper.m in Sources */,
+				A4DB73171986F78D00B7F49B /* UITableViewCell+FSQUIKit.m in Sources */,
 				A42A2EB41525252D0032AB39 /* FSQProxy.m in Sources */,
 				A42A2EB51525252D0032AB39 /* FSQUserDefaults.m in Sources */,
 				A42A2EB61525252D0032AB39 /* FSQOpenStruct.m in Sources */,
@@ -1729,6 +1744,7 @@
 				A40017391565C581004765ED /* NSURL+FSQFoundation.m in Sources */,
 				A4BBEFBA156C4834003BBDE1 /* FSQProgressBar.m in Sources */,
 				A4A8251A15B4974D003485B8 /* MKMapView+FSQMapKit.m in Sources */,
+				A4DB731B1986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.m in Sources */,
 				A4CD08F815BB14C400E698C0 /* MKGeometryUtils.m in Sources */,
 				A487DF2515C5D6CA00CB0C76 /* NSError+FSQFoundation.m in Sources */,
 				A4541F5915C5F156008F085E /* FSQFetchedResultsDataSource.m in Sources */,
