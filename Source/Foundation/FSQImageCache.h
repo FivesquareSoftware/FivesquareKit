@@ -15,6 +15,8 @@
 #import <CoreServices/CoreServices.h>
 #endif
 
+#import <CoreImage/CoreImage.h>
+
 #import "FSQFoundationConstants.h"
 
 typedef NS_ENUM(NSInteger, FSQImageCacheMemoryLimit) {
@@ -26,12 +28,13 @@ typedef NS_ENUM(NSInteger, FSQImageCacheMemoryLimit) {
 
 @property (nonatomic, strong) NSString *name;
 
-@property (nonatomic) BOOL diskCacheIsVolatile; // When YES, disk cache is placed in a location that the system is allowed to purge. NO by default.
+@property (nonatomic) BOOL diskCacheIsVolatile; // When YES, disk cache is placed in a location that the system is allowed to purge. NO by default. Ignored on Mac OS.
 @property (nonatomic, strong, readonly) NSString *diskPath; ///< On iOS a subdirectory in the caches directory, on Mac OS a full path
 @property (nonatomic) NSInteger memoryCapacity;
 @property (nonatomic, readonly) BOOL usingMemoryCache;
 @property (nonatomic) NSString *storageTypeIdentifier; //kUTTypeJPEG or kUTTypePNG, Default is kUTTypeJPEG;
 @property (nonatomic) CGFloat compressionQuality;
+@property (nonatomic) CIFilter *filter;
 
 - (id)initWithMemoryCapacity:(NSInteger)memoryCapacity diskPath:(NSString *)diskPath;
 
@@ -43,7 +46,11 @@ typedef NS_ENUM(NSInteger, FSQImageCacheMemoryLimit) {
 - (void) getImageForKey:(id)key completion:(FSQImageCacheCompletionHandler)completion;
 - (void) getImageForKey:(id)key scale:(CGFloat)scale completion:(FSQImageCacheCompletionHandler)completion;
 
+- (NSURL *) fileURLForKey:(id)key;
+- (NSURL *) fileURLForKey:(id)key scale:(CGFloat)scale;
+
 - (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk;
+- (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk scale:(CGFloat)scale;
 - (void) removeAllImagesIncludingDisk:(BOOL)removeOnDisk;
 
 @end

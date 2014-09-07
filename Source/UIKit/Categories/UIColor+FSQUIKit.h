@@ -21,4 +21,6 @@
 /** @returns a new color created by altering the brightness of the receiver. */
 - (UIColor *) colorWithBrightnessAdjustment:(CGFloat)brightnessAdjustment;
 
++ (UIColor *) randomColor;
+
 @end

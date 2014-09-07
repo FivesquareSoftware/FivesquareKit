@@ -15,7 +15,7 @@
 
 #define StandardDefaults() [NSUserDefaults standardUserDefaults]
 
-#define kDebugDefaults DEBUG && 1
+#define kDebugDefaults DEBUG && 0
 #define DefLog(frmt, ...) FLogMarkIf(kDebugDefaults,@"DEFAULTS",frmt, ##__VA_ARGS__)
 
 

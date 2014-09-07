@@ -66,6 +66,8 @@
 
 @property (nonatomic, strong) id memoryWarningObserver;
 
+@property (nonatomic, strong, readonly) CIContext *coreImageContext;
+
 @end
 
 @implementation FSQImageCache
@@ -113,6 +115,15 @@
 
 - (NSString *) description {
 	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ memoryCapacity=%@",[super description], _name, _diskPath, @(_memoryCapacity)];
+}
+
+@synthesize coreImageContext = _coreImageContext;
+- (CIContext *) coreImageContext {
+	static dispatch_once_t coreImageContextInitToken;
+	dispatch_once(&coreImageContextInitToken, ^{
+		_coreImageContext = [CIContext contextWithOptions:nil];
+	});
+	return _coreImageContext;
 }
 
 
@@ -229,11 +240,45 @@
 	});
 }
 
+- (NSURL *) fileURLForKey:(id)key {
+	return [self fileURLForKey:key scale:kImageCacheScaleNoScale];
+}
+
+- (NSURL *) fileURLForKey:(id)key scale:(CGFloat)scaleOverride {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
+	__block NSURL *imageURL = nil;
+	dispatch_sync(_cacheQueue, ^{
+		CacheLog(@"%@",NSStringFromSelector(_cmd));
+		CGFloat scale = 1;
+		if (scaleOverride > 0.) {
+			scale = scaleOverride;
+		}
+		else {
+#if TARGET_OS_IPHONE
+			scale = [[UIScreen mainScreen] scale];
+#endif
+		}
+
+		NSString *storageKey = [self storageKeyForKey:key scale:scale];
+		NSString *imagePath = [self cachePathForStorageKey:storageKey];
+		NSFileManager *fm = [NSFileManager defaultManager];
+		if ([fm fileExistsAtPath:imagePath]) {
+			imageURL = [NSURL fileURLWithPath:imagePath];
+		}
+	});
+	return imageURL;
+}
+
+
 - (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk {
+	[self removeImageForKey:key removeOnDisk:removeOnDisk scale:kImageCacheScaleNoScale];
+}
+
+- (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk scale:(CGFloat)scale {
 	CacheLog(@"removeImageForKey:%@ removeOnDisk:%@",key,@(removeOnDisk));
 	dispatch_barrier_async(_cacheQueue, ^{
 		@autoreleasepool {
-			[self _removeImageForKey:key removeOnDisk:removeOnDisk];
+			[self _removeImageForKey:key removeOnDisk:removeOnDisk scale:scale];
 		}
 	});
 }
@@ -243,7 +288,7 @@
 	dispatch_barrier_async(_cacheQueue, ^{
 		@autoreleasepool {
 			for (id key in _keys) {
-				[self _removeImageForKey:key removeOnDisk:removeOnDisk];
+				[self removeImageForKey:key removeOnDisk:removeOnDisk];
 			}
 		}
 	});
@@ -337,6 +382,7 @@
 	NSString *storageKey = [self storageKeyForKey:key scale:scale];
 	id image = nil;
 	if (_usingMemoryCache) {
+		CacheLog(@"** Using memory cache");
 		image = [_cache objectForKey:storageKey];
 	}
 	if (nil == image) {
@@ -347,7 +393,7 @@
 		NSString *imagePath = [self cachePathForStorageKey:storageKey];
 #if TARGET_OS_IPHONE
 		image = [UIImage imageWithContentsOfFile:imagePath];
-//		CacheLog(@"IMG->ALLOC: %@",image);
+		CacheLog(@"- [UIImage imageWithContentsOfFile:%@] => %@, size: %@, scale: %@",imagePath,image,NSStringFromCGSize([image size]),@([(UIImage *)image scale]));
 #else
 //		//TODO: load image from disk for mac os
 #endif
@@ -383,27 +429,47 @@
 #if TARGET_OS_IPHONE
 		scale = [(UIImage *)image scale];
 #endif
+		id processedImage = nil;
+		if (_filter) {
+#if TARGET_OS_IPHONE
+			CIImage *input = [[CIImage alloc] initWithImage:image];
+			[_filter setValue:input forKey:kCIInputImageKey];
+			CIImage *output = [_filter valueForKey:kCIOutputImageKey];
+			// This has a bug that produces a blank image
+//			processedImage = [UIImage imageWithCIImage:output];
+			CGImageRef outputCGImage = [self.coreImageContext createCGImage:output fromRect:CGRectMake(0, 0, [image size].width*scale, [image size].height*scale)];
+			processedImage = [UIImage imageWithCGImage:outputCGImage scale:scale orientation:UIImageOrientationUp];
+#endif
+		}
+		else {
+			processedImage = image;
+		}
 		NSString *storageKey = [self storageKeyForKey:key scale:scale];
-		NSData *imageData = [self _dataForImage:image];
+		NSData *imageData = [self _dataForImage:processedImage];
 		NSError *writeError = nil;
 		if (NO == [imageData writeToFile:[self cachePathForStorageKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
 			FLogError(writeError, @"Could not write image to disk");
 		}
 		if (_usingMemoryCache) {
 			CacheLog(@" ** STORED TO MEMORY CACHE %@ **",_cache.name);
-			[_cache setObject:image forKey:storageKey cost:[imageData length]];
+			[_cache setObject:processedImage forKey:storageKey cost:[imageData length]];
 		}
 		imageData = nil;
 		[_keys addObject:storageKey];
 	}
 }
 
-- (void) _removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk {
+- (void) _removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk scale:(CGFloat)scaleOverride {
 	CacheLog(@"%@ => %@",NSStringFromSelector(_cmd),key);
 	CGFloat scale = 1;
+	if (scaleOverride > 0.) {
+		scale = scaleOverride;
+	}
+	else {
 #if TARGET_OS_IPHONE
-	scale = [[UIScreen mainScreen] scale];
+		scale = [[UIScreen mainScreen] scale];
 #endif
+	}
 	NSString *storageKey = [self storageKeyForKey:key scale:scale];
 	[_cache removeObjectForKey:storageKey]; // let's just always remove it in case memory limits got changed after it went in
 	if (removeOnDisk) {
@@ -428,6 +494,8 @@
 #else
 	imageData = nil; //TODO: get image data for mac os
 #endif
+	FSQAssert(imageData, @"Unable to get image data for image! %@", image);
+
 	return imageData;
 }
 

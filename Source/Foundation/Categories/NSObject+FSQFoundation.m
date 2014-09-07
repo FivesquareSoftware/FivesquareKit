@@ -104,6 +104,9 @@
 }
 
 - (void) removeObservationBlock:(id)observation {
+	if (nil == observation) {
+		return;
+	}
     FSQKeyObserver *observer = [FSQKeyObserver withObject:self];
     [observer removeObservationBlock:observation];
 }

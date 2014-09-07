@@ -256,6 +256,7 @@
 	return array;
 }
 
+
 @end
 
 
@@ -323,6 +324,14 @@
 	}
 }
 
+- (void) addObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
+	NSIndexPath *containerIndexPath = [indexPath indexPathByRemovingLastIndex];
+	id objectAtContainerIndexPath = [self objectAtIndexPath:containerIndexPath];
+	if ([objectAtContainerIndexPath respondsToSelector:@selector(addObject:)]) {
+		NSMutableArray *container = objectAtContainerIndexPath;
+		[container addObject:object];
+	}
+}
 
 @end
 

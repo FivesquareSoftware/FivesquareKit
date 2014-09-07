@@ -10,6 +10,8 @@
 
 #import <CoreImage/CoreImage.h>
 
+#import "NSArray+FSQFoundation.h"
+
 @implementation UIColor (FSQUIKit)
 
 + (UIColor *) colorWithDescription:(NSString *)colorDescription {
@@ -78,4 +80,14 @@
 
 	return adjustedColor;
 }
+
++ (UIColor *) randomColor {
+	static NSArray *colors = nil;
+	static dispatch_once_t randomColorsInitToken;
+	dispatch_once(&randomColorsInitToken, ^{
+		colors = @[[UIColor redColor],[UIColor greenColor],[UIColor blueColor],[UIColor orangeColor],[UIColor purpleColor],[UIColor brownColor]];
+	});
+	return [colors anyObject];
+}
+
 @end

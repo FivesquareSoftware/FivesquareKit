@@ -58,8 +58,8 @@ static const NSString *kNSObject_FSQFoundation_KeyObserver = @"NSObject_FSQFound
 
 - (void) removeObservationBlock:(id)observation {
     FSQKeyObservation *keyPathObservation = observation;
-    [_observations removeObject:observation];
-    if (NO == [self.observedKeyPaths containsObject:keyPathObservation.keyPath]) {
+	[_observations removeObject:observation];
+    if (NO == [self.observedKeyPaths containsObject:keyPathObservation.keyPath]) { // Observation was the last one, remove key path observation
         [_observedObject removeObserver:self forKeyPath:keyPathObservation.keyPath];
     }
 }

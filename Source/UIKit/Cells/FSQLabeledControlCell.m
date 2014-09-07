@@ -16,6 +16,7 @@
 }
 
 - (BOOL) resignFirstResponder {
+	[super resignFirstResponder];
 	return [self.control resignFirstResponder];
 }
 

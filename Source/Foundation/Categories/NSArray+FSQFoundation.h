@@ -78,6 +78,9 @@
 
 - (void) safeAddObject:(id)obj;
 
+- (void) addObject:(id)object atIndexPath:(NSIndexPath *)indexPath;
+
+
 
 
 @end
