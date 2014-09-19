@@ -26,6 +26,7 @@
  *  @param error contains any errors that occurred saving the receiver or its parent.
  */
 - (BOOL) saveWithParent:(NSError **)error;
+- (BOOL) saveWithParentWithErrorMessage:(NSString *)errorMessage;
 
 /** Saves the receiver asynchronously and, if it has a parent, asynchronously saves the parent using performBlock: dispatching the completionBlock on the main thread. */
 - (void) saveWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock;
