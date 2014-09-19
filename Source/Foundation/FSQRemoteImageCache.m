@@ -68,7 +68,8 @@
 		BOOL created;
 		NSError *error = nil;
 #if TARGET_OS_IPHONE
-		_cachePath = [[FSQSandbox cachesDirectory] stringByAppendingPathComponent:_diskPath];
+		NSString *baseDirectory = _diskCacheIsVolatile ? [FSQSandbox cachesDirectory] : [FSQSandbox applicationSupportDirectory];
+		_cachePath = [baseDirectory stringByAppendingPathComponent:_diskPath];
 #else
 		_cachePath = [_diskPath copy];
 #endif
@@ -108,6 +109,7 @@
 		_memoryCapacity = memoryCapacity;
 		_diskCapacity = diskCapacity;
 		_diskPath = diskPath;
+		_diskCacheIsVolatile = YES;
 		_automaticallyDetectsScale = YES;
 		
 		_cache = [NSMutableDictionary new];
@@ -354,7 +356,7 @@
 		};
 	});
 }
-
+\
 
 
 

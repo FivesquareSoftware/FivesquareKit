@@ -11,7 +11,7 @@
 #import "FSQLogging.h"
 
 
-#define kLocationLoggingEnabled DEBUG && 0
+#define kLocationLoggingEnabled DEBUG && 1
 #define LocLog(frmt, ...) FLogMarkIf(kLocationLoggingEnabled, ([NSString stringWithFormat:@"LOCATION.%@",_identifier]) , frmt, ##__VA_ARGS__)
 
 
@@ -36,7 +36,12 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 @property (nonatomic, strong) NSTimer *timedResolutionAbortTimer;
 @property (nonatomic, strong) NSTimer *initialFixTimer;
 @property (nonatomic, strong) NSMutableSet *locationUpdateHandlers;
-@property (strong) CLLocation *lastUpdatedLocation; ///< The last location we got from the location manager. May or may/not be better than the best effort location.
+
+@property (readwrite, strong) CLLocation *currentLocation;
+@property (readwrite, strong) CLLocation *lastGoodLocation;
+@property (readwrite, strong) CLLocation *lastUpdatedLocation;
+
+@property (readwrite, strong) NSError *error;
 
 @property (nonatomic, strong) NSMutableDictionary *regionBeginHandlersByIdentifier;
 @property (nonatomic, strong) NSMutableDictionary *regionEnterHandlersByIdentifier;
@@ -86,6 +91,10 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	return [CLLocationManager authorizationStatus];
 }
 
+@dynamic locationManagerLocation;
+- (CLLocation *) locationManagerLocation {
+	return _locationManager.location;
+}
 
 
 

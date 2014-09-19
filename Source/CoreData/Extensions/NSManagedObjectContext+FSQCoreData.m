@@ -76,6 +76,24 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 		*error = saveError;
 	}
 	return success;
+
+}
+
+- (BOOL) saveWithParentWithErrorMessage:(NSString *)errorMessage {
+	__block NSError *saveError = nil;
+	__block BOOL success = NO;
+
+	[self performBlockAndWait:^{
+		success = [self save:&saveError];
+	}];
+	if (success && self.parentContext) {
+		[self.parentContext performBlockAndWait:^{ success = [self.parentContext save:&saveError]; }];
+	}
+
+	if (!success) {
+		FLog(@"%@: %@ (%@)", errorMessage, [saveError localizedDescription], [saveError userInfo]);
+	}
+	return success;
 }
 
 - (void) saveWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {

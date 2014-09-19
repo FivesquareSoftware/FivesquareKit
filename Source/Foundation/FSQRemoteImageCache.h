@@ -33,6 +33,7 @@
 @property (nonatomic, readonly) NSUInteger memoryCapacity;
 /// In bytes, defaults to 0, which means no limit
 @property (nonatomic, readonly) NSUInteger diskCapacity;
+@property (nonatomic) BOOL diskCacheIsVolatile; // When YES, disk cache is placed in a location that the system is allowed to purge. YES by default. Ignored on Mac OS.
 @property (nonatomic, strong, readonly) NSString *diskPath; ///< On iOS a subdirectory in the caches directory, on Mac OS a full path
 @property (nonatomic) BOOL useICloud;
 /**

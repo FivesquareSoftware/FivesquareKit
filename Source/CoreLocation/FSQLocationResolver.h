@@ -33,16 +33,19 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 @property (getter = isMonitoringSignificantChanges) BOOL monitoringSignificantChanges;
 
 
-@property (strong) CLLocation *currentLocation; ///< The best effort location
-@property (strong) CLLocation *lastGoodLocation; ///< The best effort location
-@property (strong) NSError *error; ///< The error that occurred during last resolution
+@property (readonly, strong) CLLocation *currentLocation; ///< The best effort location
+@property (readonly, strong) CLLocation *lastGoodLocation; ///< A best effort location that may or may not reflect the current best effort location (may have been generated from a previous attempt)
+@property (readonly, strong) CLLocation *lastUpdatedLocation; ///< The last location we got from the location manager. May or may/not be better than the best effort location.
+@property (readonly) CLLocation *locationManagerLocation; ///< The location manager's actual last update. May or may/not be better than the best effort location. Use only in desperate attempts for a location.
+
+@property (readonly, strong) NSError *error; ///< The error that occurred during last resolution
 
 
 @property (nonatomic) NSTimeInterval resolutionTimeout;
 @property (nonatomic) NSTimeInterval initialFixTimeout;
 
 // If the location resolver is resolving without a timeout. If the hardware supports it, the receiver will pause locastion updates automatically depending on conditions when this is YES. Otherwise, updates are never paused until the timeout is reached.
-@property (nonatomic,readonly) BOOL resolvingContinuously;
+@property (nonatomic, readonly) BOOL resolvingContinuously;
 
 @property (nonatomic, readonly) CLAuthorizationStatus authorizationStatus;
 

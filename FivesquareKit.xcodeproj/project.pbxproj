@@ -246,6 +246,10 @@
 		A4AEA783185649D400289AFE /* NSCalendar+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AEA780185649D400289AFE /* NSCalendar+FSQFoundation.m */; };
 		A4AEA784185649D400289AFE /* NSCalendar+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AEA780185649D400289AFE /* NSCalendar+FSQFoundation.m */; };
 		A4AFFE9A1607F398001C6D31 /* FSQFoundationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFFE981607F398001C6D31 /* FSQFoundationUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4B35EB819CA57F00050A0AA /* FSQUpdatablePlist.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B35EB619CA57F00050A0AA /* FSQUpdatablePlist.h */; };
+		A4B35EB919CA57F00050A0AA /* FSQUpdatablePlist.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B35EB619CA57F00050A0AA /* FSQUpdatablePlist.h */; };
+		A4B35EBA19CA57F00050A0AA /* FSQUpdatablePlist.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B35EB719CA57F00050A0AA /* FSQUpdatablePlist.m */; };
+		A4B35EBB19CA57F00050A0AA /* FSQUpdatablePlist.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B35EB719CA57F00050A0AA /* FSQUpdatablePlist.m */; };
 		A4B8ACAB15991E140062CE8C /* FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACA915991E140062CE8C /* FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B8ACB015991E610062CE8C /* WebView+FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACAD15991E610062CE8C /* WebView+FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B8ACB215991E610062CE8C /* WebView+FSQWebKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B8ACAE15991E610062CE8C /* WebView+FSQWebKit.m */; };
@@ -593,6 +597,8 @@
 		A4AFECE315213F9700645412 /* FSQUIColorToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIColorToDataTransformer.m; sourceTree = "<group>"; };
 		A4AFFE981607F398001C6D31 /* FSQFoundationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQFoundationUtils.h; sourceTree = "<group>"; };
 		A4AFFE991607F398001C6D31 /* FSQFoundationUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQFoundationUtils.m; sourceTree = "<group>"; };
+		A4B35EB619CA57F00050A0AA /* FSQUpdatablePlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUpdatablePlist.h; sourceTree = "<group>"; };
+		A4B35EB719CA57F00050A0AA /* FSQUpdatablePlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUpdatablePlist.m; sourceTree = "<group>"; };
 		A4B8ACA915991E140062CE8C /* FSQWebKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQWebKit.h; sourceTree = "<group>"; };
 		A4B8ACAD15991E610062CE8C /* WebView+FSQWebKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebView+FSQWebKit.h"; sourceTree = "<group>"; };
 		A4B8ACAE15991E610062CE8C /* WebView+FSQWebKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WebView+FSQWebKit.m"; sourceTree = "<group>"; };
@@ -904,6 +910,8 @@
 				A45FAF8716926EC50066B78C /* FSQKeyObserver.m */,
 				A45FAF8B16926ED30066B78C /* FSQKeyObservation.h */,
 				A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */,
+				A4B35EB619CA57F00050A0AA /* FSQUpdatablePlist.h */,
+				A4B35EB719CA57F00050A0AA /* FSQUpdatablePlist.m */,
 				A45F43FD12748374005D9BF4 /* Categories */,
 				A44E1191161E26EE00F574F3 /* Ext */,
 			);
@@ -1471,6 +1479,7 @@
 				A45FAFD616938C4B0066B78C /* FSQProgressPanel.h in Headers */,
 				A45FAFD816938C4B0066B78C /* FSQProgressView.h in Headers */,
 				A41625D3169508A1008499ED /* FSQUIKitConstants.h in Headers */,
+				A4B35EB819CA57F00050A0AA /* FSQUpdatablePlist.h in Headers */,
 				A4062E361697A6D900F25E7D /* NSIndexPath+FSQFoundation.h in Headers */,
 				A4413F481713D3FF0078F827 /* FSQObjectButton.h in Headers */,
 				A4DC742716CD990F0047E6B2 /* FSQSegmentedControl.h in Headers */,
@@ -1539,6 +1548,7 @@
 				A4B8ACAB15991E140062CE8C /* FSQWebKit.h in Headers */,
 				A4B8ACB015991E610062CE8C /* WebView+FSQWebKit.h in Headers */,
 				A4B8ACB7159920300062CE8C /* NSAttributedString+FSQAppKit.h in Headers */,
+				A4B35EB919CA57F00050A0AA /* FSQUpdatablePlist.h in Headers */,
 				A487DF2415C5D6CA00CB0C76 /* NSError+FSQFoundation.h in Headers */,
 				A4A5C90E15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h in Headers */,
 				A421B03515D441BB00811143 /* FSQZlib.h in Headers */,
@@ -1692,6 +1702,7 @@
 				A42A2EBE1525252D0032AB39 /* NSDictionary+FSQFoundation.m in Sources */,
 				A42A2EBF1525252D0032AB39 /* FSQCoreDataStack.m in Sources */,
 				A42A2EC01525252D0032AB39 /* FSQManagedObject.m in Sources */,
+				A4B35EBA19CA57F00050A0AA /* FSQUpdatablePlist.m in Sources */,
 				A4D6D04317EA51C4002F9865 /* UITabBarController+FSQUIKit.m in Sources */,
 				A49B729718762571007EB219 /* CLLocationUtils.m in Sources */,
 				A42A2EC11525252D0032AB39 /* NSManagedObject+FSQCoreData.m in Sources */,
@@ -1791,6 +1802,7 @@
 			files = (
 				A4D02E951525291D00C16B67 /* FivesquareKit.m in Sources */,
 				A4D02E961525291D00C16B67 /* FSQAsserter.m in Sources */,
+				A4B35EBB19CA57F00050A0AA /* FSQUpdatablePlist.m in Sources */,
 				A4D02E971525291D00C16B67 /* FSQSandbox.m in Sources */,
 				A4D02E991525291D00C16B67 /* FSQFoundationConstants.m in Sources */,
 				A4D02E9A1525291D00C16B67 /* FSQBindingsMapper.m in Sources */,

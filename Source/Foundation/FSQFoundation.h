@@ -18,6 +18,7 @@
 #import "FSQImageCache.h"
 #import "FSQRemoteImageCache.h"
 #import "FSQZlib.h"
+#import "FSQUpdatablePlist.h"
 
 #import "NSArray+FSQFoundation.h"
 #import "NSData+FSQFoundation.h"
