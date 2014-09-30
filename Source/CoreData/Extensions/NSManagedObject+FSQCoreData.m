@@ -62,7 +62,8 @@
 + (NSUInteger) countWithPredicate:(NSPredicate *)predicate
 				   requestOptions:(NSDictionary *)options
 						inContext:(NSManagedObjectContext *)context {
-	
+	NSParameterAssert(context);
+
 	NSFetchRequest *fetchRequest = nil;
 	__block NSError *error = nil;
 	__block NSUInteger count = 0;
@@ -116,7 +117,9 @@
 			   substitutionVariables:(NSDictionary *)variables 
 					 sortDescriptors:(NSArray *)sortDescriptors 
 						   inContext:(NSManagedObjectContext *)context {
-	
+	NSParameterAssert(templateName);
+	NSParameterAssert(context);
+
 	NSFetchRequest *fetchRequest = nil;
 	id found = nil;
 	
@@ -167,6 +170,9 @@
 				   sortDescriptors:(NSArray *)sortDescriptors 
 						 inContext:(NSManagedObjectContext *)context {
 	
+	NSParameterAssert(templateName);
+	NSParameterAssert(context);
+
 	NSFetchRequest *fetchRequest = nil;
 	
 	__block NSError *error = nil;
@@ -218,7 +224,9 @@
 		  sortDescriptors:(NSArray *)sortDescriptors
 		   requestOptions:(NSDictionary *)options
 				inContext:(NSManagedObjectContext *)context {
-	
+
+	NSParameterAssert(context);
+
 	NSFetchRequest *fetchRequest = nil;
 	id found = nil;
 	
@@ -294,7 +302,9 @@
 		sortDescriptors:(NSArray *)sortDescriptors
 		 requestOptions:(NSDictionary *)options
 						inContext:(NSManagedObjectContext *)context {
-	
+
+	NSParameterAssert(context);
+
 	NSFetchRequest *fetchRequest = nil;
 	
 	__block NSError *error = nil;
@@ -333,6 +343,9 @@
 			  sortDescriptors:(NSArray *)sortDescriptors
 			   requestOptions:(NSDictionary *)options
 					inContext:(NSManagedObjectContext *)context {
+
+	NSParameterAssert(context);
+
 	id results = nil;
 	
 	@try { // mostly just to catch dumb errors, Core Data stuff is caught in allWithPredicate
