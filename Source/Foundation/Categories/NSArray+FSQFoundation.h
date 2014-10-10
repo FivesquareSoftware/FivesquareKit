@@ -60,6 +60,9 @@
 - (NSIndexPath *) indexPathForObject:(id)object;
 - (NSArray *) firstObjects:(NSUInteger)length;
 
+/** Two levels only */
+- (id) deepCopy;
+
 @end
 
 @interface NSMutableArray (FSQFoundation)
@@ -79,7 +82,7 @@
 - (void) safeAddObject:(id)obj;
 
 - (void) addObject:(id)object atIndexPath:(NSIndexPath *)indexPath;
-
+- (void) replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object;
 
 
 

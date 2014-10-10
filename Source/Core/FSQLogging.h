@@ -22,7 +22,7 @@
 	#define FLogTime(start,frmt, ...) NSLog(@" - [TIMED] - %@s - %@", @(-[start timeIntervalSinceNow]), [NSString stringWithFormat:frmt, ##__VA_ARGS__])
 #else
 	#define FLog(frmt, ...)
-	#define FLogError(error, frmt, ...)
+	#define FLogError(error, frmt, ...) NSLog(@" - [ERROR] - %@:%d %s - %@ %@ (%@)", FSQ_FILE(__FILE__), __LINE__,  __PRETTY_FUNCTION__, [NSString stringWithFormat:frmt, ##__VA_ARGS__], [(NSError *)error localizedDescription], [(NSError *)error userInfo])
 	#define FLogMethod()
 	#define FLogSimple(frmt, ...)
 	#define FLogMark(name,frmt, ...)

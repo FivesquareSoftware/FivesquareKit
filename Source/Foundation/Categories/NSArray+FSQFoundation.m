@@ -256,6 +256,20 @@
 	return array;
 }
 
+- (id) deepCopy {
+	NSMutableArray *copy = [NSMutableArray new];
+	for (id object in self) {
+		id member;
+		if ([object isKindOfClass:[NSArray class]]) {
+			member = [object copy];
+		}
+		else {
+			member = object;
+		}
+		[copy addObject:member];
+	}
+	return copy;
+}
 
 @end
 
@@ -325,11 +339,27 @@
 }
 
 - (void) addObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
+	if ([indexPath length] < 1) {
+		return;
+	}
 	NSIndexPath *containerIndexPath = [indexPath indexPathByRemovingLastIndex];
 	id objectAtContainerIndexPath = [self objectAtIndexPath:containerIndexPath];
 	if ([objectAtContainerIndexPath respondsToSelector:@selector(addObject:)]) {
 		NSMutableArray *container = objectAtContainerIndexPath;
 		[container addObject:object];
+	}
+}
+
+- (void) replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object {
+	if ([indexPath length] < 1) {
+		return;
+	}
+	NSUInteger lastIndex = [indexPath indexAtPosition:[indexPath length]-1];
+	NSIndexPath *containerIndexPath = [indexPath indexPathByRemovingLastIndex];
+	id objectAtContainerIndexPath = [self objectAtIndexPath:containerIndexPath];
+	if ([objectAtContainerIndexPath respondsToSelector:@selector(replaceObjectAtIndex:withObject:)]) {
+		NSMutableArray *container = objectAtContainerIndexPath;
+		[container replaceObjectAtIndex:lastIndex withObject:object];
 	}
 }
 
