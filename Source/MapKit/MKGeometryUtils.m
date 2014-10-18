@@ -40,7 +40,7 @@ CLLocationCoordinate2D FSQGetMinCoordinateForRegion(MKCoordinateRegion region) {
 	CLLocationDegrees latitudeSpan = span.latitudeDelta;
 	CLLocationDegrees longitudeSpan = span.longitudeDelta;
 	
-	CLLocationCoordinate2D minCoordinate = CLLocationCoordinate2DMake(center.latitude - latitudeSpan, center.longitude - longitudeSpan);
+	CLLocationCoordinate2D minCoordinate = CLLocationCoordinate2DMake(center.latitude - (latitudeSpan/2.), center.longitude - (longitudeSpan/2.));
 
 	return minCoordinate;
 }
@@ -52,7 +52,7 @@ CLLocationCoordinate2D FSQGetMaxCoordinateForRegion(MKCoordinateRegion region) {
 	CLLocationDegrees latitudeSpan = span.latitudeDelta;
 	CLLocationDegrees longitudeSpan = span.longitudeDelta;
 	
-	CLLocationCoordinate2D maxCoordinate = CLLocationCoordinate2DMake(center.latitude + latitudeSpan, center.longitude + longitudeSpan);
+	CLLocationCoordinate2D maxCoordinate = CLLocationCoordinate2DMake(center.latitude + (latitudeSpan/2.), center.longitude + (longitudeSpan/2.));
 	
 	return maxCoordinate;
 }
