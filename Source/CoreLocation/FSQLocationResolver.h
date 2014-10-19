@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+typedef NS_ENUM(NSUInteger, FSQLocationServiceType) {
+	FSQLocationServiceTypeNone							= 0,
+	FSQLocationServiceTypeResolvingLocation				= 1 << 0,
+	FSQLocationServiceTypeMonitoringSignificantChanges	= 1 << 1,
+	FSQLocationServiceTypeMonitoringRegions				= 1 << 2
+};
+
 
 @class FSQLocationResolver;
 typedef void (^FSQLocationResolverLocationUpdateHandler)(CLLocation *location, NSError *error);
@@ -25,12 +32,19 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 @interface FSQLocationResolver : NSObject <CLLocationManagerDelegate> 
 
 @property (nonatomic, strong) id identifier;
-@property (nonatomic) CLActivityType activityType;
 
+#if TARGET_OS_IPHONE
+@property (nonatomic) CLActivityType activityType;
+#endif
+
+/** A mask of FSQLocationServiceType indicating what location activities this service is engaged in. */
+@property (nonatomic) NSUInteger serviceTypeMask;
 @property (getter = isResolving) BOOL resolving;
+@property (getter = isMonitoringSignificantChanges) BOOL monitoringSignificantChanges;
+@property (getter = isMonitoringRegions) BOOL monitoringRegions;
+
 @property BOOL aborted; ///< YES when the timeout occurs before accuracy was achieved
 @property BOOL initialFixFailed; ///< YES when the initial fix timeout occurs before an update occurred
-@property (getter = isMonitoringSignificantChanges) BOOL monitoringSignificantChanges;
 
 
 @property (readonly, strong) CLLocation *currentLocation; ///< The best effort location
@@ -50,9 +64,10 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 @property (nonatomic, readonly) CLAuthorizationStatus authorizationStatus;
 
 
+#if TARGET_OS_IPHONE
 - (BOOL) requestAuthorizationWithCompletionHandler:(void(^)(BOOL authorized))handler;
 - (BOOL) requestAuthorizationWhenInUseWithCompletionHandler:(void(^)(BOOL authorized))handler;
-
+#endif
 
 /** Starts updating the current location, accurate to the provided accuracy, and stops even if the desired accuracy has not been achieved if #timeout has been reached. Callers should subscribe to the receiver's kFSQLocationResolverCompletedResolutionNotification notification to learn about the results of the update. The notification's user info will contain the value of the receiver's current location, any error that occurred and whether or not the resolution timed out before the desired accuracy was acheived.
  *

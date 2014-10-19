@@ -9,10 +9,11 @@
 #import "FSQLocationResolver.h"
 
 #import "FSQLogging.h"
+#import "FSQMacros.h"
 
 
-#define kLocationLoggingEnabled DEBUG && 0
-#define LocLog(frmt, ...) FLogMarkIf(kLocationLoggingEnabled, ([NSString stringWithFormat:@"LOCATION.%@",_identifier]) , frmt, ##__VA_ARGS__)
+#define kLocationLoggingEnabled DEBUG && 1
+#define LocLog(frmt, ...) { FSQWeakSelf(self_); FLogMarkIf(kLocationLoggingEnabled, ([NSString stringWithFormat:@"LOCATION.%@",self_.identifier]) , frmt, ##__VA_ARGS__); }
 
 
 
@@ -61,6 +62,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 #pragma mark - Properties
 
+#if TARGET_OS_IPHONE
 @dynamic activityType;
 - (void) setActivityType:(CLActivityType)activityType {
 	self.locationManager.activityType = activityType;
@@ -68,6 +70,34 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 - (CLActivityType) activityType {
 	return self.locationManager.activityType;
+}
+#endif
+
+@dynamic resolving;
+- (BOOL) isResolving {
+	return (_serviceTypeMask&FSQLocationServiceTypeResolvingLocation) == FSQLocationServiceTypeResolvingLocation;
+}
+
+- (void) setResolving:(BOOL)resolving {
+	_serviceTypeMask|= (resolving ? FSQLocationServiceTypeResolvingLocation : ~FSQLocationServiceTypeResolvingLocation);
+}
+
+@dynamic monitoringSignificantChanges;
+- (BOOL) isMonitoringSignificantChanges {
+	return (_serviceTypeMask&FSQLocationServiceTypeMonitoringSignificantChanges) == FSQLocationServiceTypeMonitoringSignificantChanges;
+}
+
+- (void) setMonitoringSignificantChanges:(BOOL)monitoringSignificantChanges {
+	_serviceTypeMask|= (monitoringSignificantChanges ? FSQLocationServiceTypeMonitoringSignificantChanges : ~FSQLocationServiceTypeMonitoringSignificantChanges);
+}
+
+@dynamic monitoringRegions;
+- (BOOL) isMonitoringRegions {
+	return (_serviceTypeMask&FSQLocationServiceTypeMonitoringRegions) == FSQLocationServiceTypeMonitoringRegions;
+}
+
+- (void) setMonitoringRegions:(BOOL)monitoringRegions {
+	_serviceTypeMask|= (monitoringRegions ? FSQLocationServiceTypeMonitoringRegions : ~FSQLocationServiceTypeMonitoringRegions);
 }
 
 - (CLLocationManager *) locationManager {
@@ -129,12 +159,16 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 }
 
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"%@ identifier : %@", [super description],_identifier];
+}
+
 
 // ========================================================================== //
 
 #pragma mark - Public
 
-
+#if TARGET_OS_IPHONE
 - (BOOL) requestAuthorizationWithCompletionHandler:(void(^)(BOOL authorized))handler {
 	CLAuthorizationStatus status = self.authorizationStatus;
 	BOOL authorizing = (status == kCLAuthorizationStatusNotDetermined);
@@ -164,6 +198,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	}
 	return authorizing;
 }
+#endif
 
 
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout {
@@ -201,7 +236,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	self.resolutionTimeout = timeout;
 	self.initialFixTimeout = initialTimeout;
 	
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE
 	self.locationManager.pausesLocationUpdatesAutomatically = self.resolvingContinuously;
 #endif
 
@@ -300,9 +335,9 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 - (BOOL) startMonitoringForRegion:(CLRegion *)region onBegin:(FSQLocationResolverRegionUpdateHandler)onBegin onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onExit:(FSQLocationResolverRegionUpdateHandler)onExit  onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
 	NSParameterAssert(region != nil);
 	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
-	if (NO == [CLLocationManager isMonitoringAvailableForClass:[region class]]) return NO;
 	if (nil == region) return NO;
-	
+	if (NO == [CLLocationManager isMonitoringAvailableForClass:[region class]]) return NO;
+
 	if (onBegin) {
 		_regionBeginHandlersByIdentifier[region.identifier] = [onBegin copy];
 	}
@@ -316,6 +351,9 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 		_regionFailureHandlersByIdentifier[region.identifier] = [onFailure copy];
 	}
 	[self.locationManager startMonitoringForRegion:region];
+
+	self.monitoringRegions = YES;
+
 	return YES;
 }
 
@@ -325,6 +363,8 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	[_regionEnterHandlersByIdentifier removeObjectForKey:region.identifier];
 	[_regionExitHandlersByIdentifier removeObjectForKey:region.identifier];
 	[_regionFailureHandlersByIdentifier removeObjectForKey:region.identifier];
+
+	self.monitoringRegions = [_regionBeginHandlersByIdentifier count] > 0;
 }
 
 
@@ -345,7 +385,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
     NSTimeInterval fromWhenUpdatesStarted = [eventDate timeIntervalSinceDate:self.locationUpdatesStartedOn];
 	LocLog(@"fromWhenUpdatesStarted: %@",@(fromWhenUpdatesStarted));
 	
-	if (self.isResolving && fromWhenUpdatesStarted <= 0) { // this update was cached before we started resolving
+	if (self.isResolving && fromWhenUpdatesStarted <= 0) { // this update was cached before we started resolving, other modes are still interested in this
 		LocLog(@"Stale location while resolving, will keep trying ..");
 		return;
 	}
@@ -367,25 +407,26 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 	CLLocationDistance locationDelta FSQ_MAYBE_UNUSED = [self.currentLocation distanceFromLocation:newLocation];
 	LocLog(@"locationDelta: %@",@(locationDelta));
-	
-//	if (self.currentLocation == nil) {
-		LocLog(@"Got decent location, setting it to best effort location");
-        self.currentLocation = newLocation;
-	
-		if (self.initialFixTimer) {
-			[self.initialFixTimer invalidate];
-			self.initialFixTimer = nil;
-		}
+
+	LocLog(@"Got decent location, setting it to last good location location");
+	self.lastGoodLocation = newLocation;
+
+	if (self.initialFixTimer) {
+		[self.initialFixTimer invalidate];
+		self.initialFixTimer = nil;
+	}
 
 
-		LocLog(@"kCLLocationAccuracyBestForNavigation:%f",kCLLocationAccuracyBestForNavigation);
-		LocLog(@"kCLLocationAccuracyBest:%f",kCLLocationAccuracyBest);
-		
+	LocLog(@"kCLLocationAccuracyBestForNavigation:%f",kCLLocationAccuracyBestForNavigation);
+	LocLog(@"kCLLocationAccuracyBest:%f",kCLLocationAccuracyBest);
+
+	// When resolving we checl accuracy
+	if (self.isResolving) {
 		// When caller has set desired accuracy to one of the "best" values, they will actually be negative, which in a location update would indicate invalid, so just check for <= the kFSQLocationResolverAccuracyBest, which seems to be the best possible accuracy we get
-        if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy <= kFSQLocationResolverAccuracyBest) ) {
+		if (newLocation.horizontalAccuracy <= self.locationManager.desiredAccuracy || (self.locationManager.desiredAccuracy < 0 && newLocation.horizontalAccuracy <= kFSQLocationResolverAccuracyBest) ) {
 			LocLog(@"Got a good enough location: newLocation.horizontalAccuracy:%f",newLocation.horizontalAccuracy);
 			self.currentLocation = newLocation;
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE
 			if (self.resolvingContinuously) {
 				LocLog(@"locationManager.pausesLocationUpdatesAutomatically: %@",@(self.locationManager.pausesLocationUpdatesAutomatically));
 				LocLog(@"Running continuously, handling location change");
@@ -393,20 +434,19 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 				return;
 			}
 #endif
-			if (self.isMonitoringSignificantChanges) {
-				LocLog(@"Handling significant location change");
-				[self handleLocationUpdate];
-			}
-			else if (self.isResolving) {
-				LocLog(@"Stopping updates");
-				[self.locationManager stopUpdatingLocation];
-				[self handleFailureOrCompletion];
-			}
-        }
+			LocLog(@"Stopping updates");
+			[self.locationManager stopUpdatingLocation];
+			[self handleFailureOrCompletion];
+		}
 		else {
 			LocLog(@"Location not good enough, will keep trying ..");
 		}
-//    }
+	}
+	// For other service types like sigloc or regions, we want everything the system sends us
+	else {
+		LocLog(@"Handling significant location change");
+		[self handleLocationUpdate];
+	}
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -462,6 +502,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	if (status == kCLAuthorizationStatusNotDetermined) {
 		return;
 	}
+#if TARGET_OS_IPHONE
 	if (_authorizationAlwaysCompletionHandler) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			_authorizationAlwaysCompletionHandler(status == kCLAuthorizationStatusAuthorizedAlways);
@@ -474,6 +515,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 			_authorizationWhenInUseCompletionHandler = nil;
 		});
 	}
+#endif
 }
 
 
