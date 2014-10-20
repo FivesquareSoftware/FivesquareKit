@@ -6,7 +6,7 @@
 //  Copyright Fivesquare Software, LLC 2008. All rights reserved.
 //
 
-#import "FSQLocationResolver.h"
+#import "FSQLocationService.h"
 
 #import "FSQLogging.h"
 #import "FSQMacros.h"
@@ -26,7 +26,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 #define kFSQLocationResolverAccuracyBest 5
 
-@interface FSQLocationResolver()
+@interface FSQLocationService()
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
@@ -55,7 +55,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 @end
 
 
-@implementation FSQLocationResolver
+@implementation FSQLocationService
 
 
 // ========================================================================== //
@@ -126,7 +126,10 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	return _locationManager.location;
 }
 
-
+@dynamic monitoredRegions;
+- (NSSet *) monitoredRegions {
+	return _locationManager.monitoredRegions;
+}
 
 // ========================================================================== //
 
@@ -218,12 +221,18 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
 	
+	if (self.isResolving) {
+		// Since each resolution session has its own configuration we refuse to start another one until the current session is stopped
+		return NO;
+	}
+
 	if (self.timedResolutionAbortTimer) {
 		[self.timedResolutionAbortTimer invalidate];
 		self.timedResolutionAbortTimer = nil;
 	}
 
 	[_locationUpdateHandlers addObject:[handler copy]];
+
 
 	self.resolving = YES;
 	self.aborted = NO;
@@ -290,6 +299,10 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	if (NO == [CLLocationManager significantLocationChangeMonitoringAvailable]) return NO;
 	[_locationUpdateHandlers addObject:[onLocationChange copy]];
 	if (self.isMonitoringSignificantChanges) {
+		// Invoke the new listener with our current location since a new event may be a while coming, the initial fix timer remains the same so as not to invalidate the previous callers expectations
+		dispatch_async(dispatch_get_main_queue(), ^{
+			onLocationChange(self.currentLocation,nil);
+		});
 		return YES;
 	}
 	self.monitoringSignificantChanges = YES;
@@ -445,6 +458,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	// For other service types like sigloc or regions, we want everything the system sends us
 	else {
 		LocLog(@"Handling significant location change");
+		self.currentLocation = newLocation;
 		[self handleLocationUpdate];
 	}
 }

@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, FSQLocationServiceType) {
 };
 
 
-@class FSQLocationResolver;
+@class FSQLocationService;
 typedef void (^FSQLocationResolverLocationUpdateHandler)(CLLocation *location, NSError *error);
 typedef void (^FSQLocationResolverRegionUpdateHandler)(CLRegion *region, NSError *error);
 
@@ -29,7 +29,7 @@ extern NSString *kFSQLocationResolverKeyAborted; ///< Whether the resolution tim
 extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 
 
-@interface FSQLocationResolver : NSObject <CLLocationManagerDelegate> 
+@interface FSQLocationService : NSObject <CLLocationManagerDelegate> 
 
 @property (nonatomic, strong) id identifier;
 
@@ -51,6 +51,8 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 @property (readonly, strong) CLLocation *lastGoodLocation; ///< A best effort location that may or may not reflect the current best effort location (may have been generated from a previous attempt)
 @property (readonly, strong) CLLocation *lastUpdatedLocation; ///< The last location we got from the location manager. May or may/not be better than the best effort location.
 @property (readonly) CLLocation *locationManagerLocation; ///< The location manager's actual last update. May or may/not be better than the best effort location. Use only in desperate attempts for a location.
+
+@property (readonly) NSSet *monitoredRegions;
 
 @property (readonly, strong) NSError *error; ///< The error that occurred during last resolution
 

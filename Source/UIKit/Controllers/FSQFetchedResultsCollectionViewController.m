@@ -18,7 +18,7 @@
 #import "NSError+FSQFoundation.h"
 
 
-#define kDebugCollectionController DEBUG && 1
+#define kDebugCollectionController DEBUG && 0
 #define CollectionLog(frmt, ...) FLogMarkIf(kDebugCollectionController, ([NSString stringWithFormat:@"F-COLLECTION.%@",self.title]) , frmt, ##__VA_ARGS__)
 
 
