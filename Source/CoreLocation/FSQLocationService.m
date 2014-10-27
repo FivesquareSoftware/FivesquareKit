@@ -314,7 +314,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	self.initialFixTimeout = initialTimeout;
 	
 	self.locationUpdatesStartedOn = [NSDate date];
-	self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 	// Let's at least see make sure there is a value, even if bogus
 	self.currentLocation = self.locationManager.location;
 
