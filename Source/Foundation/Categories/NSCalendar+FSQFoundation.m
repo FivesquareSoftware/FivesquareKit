@@ -14,18 +14,27 @@
 	NSDateComponents *components = [self components:NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:startDate toDate:endDate options:0];
 	
 	NSInteger days = [components day];
+	NSInteger hours = [components hour];
 	NSInteger minutes = [components minute];
 	NSInteger seconds = [components second];
 	
-	NSString *durationDescription;
-	if (days > 0) {
-		durationDescription = [NSString  stringWithFormat:@"%@ day%@",@(days),(days > 1 ? @"s" : @"")];
-	}
-	else if (minutes > 0) {
-		durationDescription = [NSString  stringWithFormat:@"%@ min%@",@(minutes),(minutes > 1 ? @"s" : @"")];
-	}
-	else if (seconds > 0) {
-		durationDescription = i18n(@"Now", @"Now Time String");
+	NSMutableString *durationDescription = [[NSMutableString alloc] initWithString:@""];
+	if (days == 0) {
+		if (hours > 0) {
+			if (minutes > 0) {
+				[durationDescription appendFormat:@"%@:%@ hr%@",@(hours),@(minutes),(hours > 1 ? @"s" : @"")];
+			}
+			else {
+				[durationDescription appendFormat:@"%@ hr%@",@(hours),(hours > 1 ? @"s" : @"")];
+			}
+
+		}
+		else if (minutes > 0) {
+			[durationDescription appendFormat:@"%@ min%@",@(minutes),(minutes > 1 ? @"s" : @"")];
+		}
+		else if (seconds > 0) {
+			durationDescription = [[NSMutableString alloc] initWithString:i18n(@"Now", @"Now Time String")];
+		}
 	}
 	return durationDescription;
 }

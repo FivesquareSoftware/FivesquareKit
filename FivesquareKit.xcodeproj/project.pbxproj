@@ -207,6 +207,10 @@
 		A47A94A91774D0ED0028EE9F /* FSQRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */; };
 		A47E2EE6152B662800F7EDB1 /* FSQStretchableButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A47E2EE7152B662800F7EDB1 /* FSQStretchableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */; };
+		A47E59BB19FEB6200067FEA4 /* FSQLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E59B919FEB6200067FEA4 /* FSQLogger.h */; };
+		A47E59BC19FEB6200067FEA4 /* FSQLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E59B919FEB6200067FEA4 /* FSQLogger.h */; };
+		A47E59C119FEC5080067FEA4 /* FSQIOUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E59BF19FEC5080067FEA4 /* FSQIOUtils.h */; };
+		A47E59C219FEC5080067FEA4 /* FSQIOUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A47E59BF19FEC5080067FEA4 /* FSQIOUtils.h */; };
 		A4858C7717C6B3DE004A8B49 /* FSQLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = A4858C7117C6B3DE004A8B49 /* FSQLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4858C7817C6B3DE004A8B49 /* FSQLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A4858C7217C6B3DE004A8B49 /* FSQLabel.m */; };
 		A4858C7917C6B3DE004A8B49 /* FSQBadgeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4858C7317C6B3DE004A8B49 /* FSQBadgeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -563,6 +567,10 @@
 		A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQRadialGradientLayer.m; sourceTree = "<group>"; };
 		A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQStretchableButton.h; sourceTree = "<group>"; };
 		A47E2EE5152B662800F7EDB1 /* FSQStretchableButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQStretchableButton.m; sourceTree = "<group>"; };
+		A47E59B919FEB6200067FEA4 /* FSQLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQLogger.h; sourceTree = "<group>"; };
+		A47E59BA19FEB6200067FEA4 /* FSQLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQLogger.m; sourceTree = "<group>"; };
+		A47E59BF19FEC5080067FEA4 /* FSQIOUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSQIOUtils.h; path = "../../../../../Gather/Ext/FivesquareKit-1.0.0/Source/Utils/FSQIOUtils.h"; sourceTree = "<group>"; };
+		A47E59C019FEC5080067FEA4 /* FSQIOUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSQIOUtils.m; path = "../../../../../Gather/Ext/FivesquareKit-1.0.0/Source/Utils/FSQIOUtils.m"; sourceTree = "<group>"; };
 		A4858C7117C6B3DE004A8B49 /* FSQLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQLabel.h; sourceTree = "<group>"; };
 		A4858C7217C6B3DE004A8B49 /* FSQLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQLabel.m; sourceTree = "<group>"; };
 		A4858C7317C6B3DE004A8B49 /* FSQBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQBadgeView.h; sourceTree = "<group>"; };
@@ -1129,6 +1137,7 @@
 				A429628E12F47D3700AEAA83 /* FSQSandbox.m */,
 				A4D02ED615252B1400C16B67 /* FSQRuntime.h */,
 				A4D02ED715252B1400C16B67 /* FSQRuntime.m */,
+				A47E59C519FEC5220067FEA4 /* Unused */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1173,6 +1182,17 @@
 			);
 			name = "Supporting Files";
 			path = "FSQUIKit-Resources";
+			sourceTree = "<group>";
+		};
+		A47E59C519FEC5220067FEA4 /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				A47E59B919FEB6200067FEA4 /* FSQLogger.h */,
+				A47E59BA19FEB6200067FEA4 /* FSQLogger.m */,
+				A47E59BF19FEC5080067FEA4 /* FSQIOUtils.h */,
+				A47E59C019FEC5080067FEA4 /* FSQIOUtils.m */,
+			);
+			name = Unused;
 			sourceTree = "<group>";
 		};
 		A4A8251515B4972C003485B8 /* MapKit */ = {
@@ -1419,6 +1439,7 @@
 				A42A2EA51525250C0032AB39 /* UIViewController+FSQUIKit.h in Headers */,
 				A42A2EA61525250C0032AB39 /* UIPopoverController+FSQUIKit.h in Headers */,
 				A42A2EA71525250C0032AB39 /* UIColor+FSQUIKit.h in Headers */,
+				A47E59C119FEC5080067FEA4 /* FSQIOUtils.h in Headers */,
 				A42A2EA81525250C0032AB39 /* FSQKeychain.h in Headers */,
 				A42A2EA91525250C0032AB39 /* FSQCoreLocation.h in Headers */,
 				A42A2EAA1525250C0032AB39 /* FSQLocationService.h in Headers */,
@@ -1459,6 +1480,7 @@
 				A429E1D815C983F9006572D5 /* FSQLeftDetailCell.h in Headers */,
 				A44DF45815CACBFF00FF23B8 /* FSQBaseTableViewCell.h in Headers */,
 				A45E2AA9192FBA4500A7F888 /* UINavigationController+FSQUIKit.h in Headers */,
+				A47E59BB19FEB6200067FEA4 /* FSQLogger.h in Headers */,
 				A4A8251C15B49765003485B8 /* FSQMapKit.h in Headers */,
 				A4A5C90D15C99B9B001759F1 /* NSAttributedString+FSQFoundation.h in Headers */,
 				A4D460D415D022A700F59A95 /* FSQCapsuleButton.h in Headers */,
@@ -1505,6 +1527,7 @@
 				A4D02EB11525295600C16B67 /* FSQAsserter.h in Headers */,
 				A46D909517F4ED3100914512 /* NSNumber+FSQFoundation.h in Headers */,
 				A4D02EB21525295600C16B67 /* FSQSandbox.h in Headers */,
+				A47E59BC19FEB6200067FEA4 /* FSQLogger.h in Headers */,
 				A4D02EB41525295600C16B67 /* FSQFoundation.h in Headers */,
 				A4AEA77C185648D500289AFE /* NSDate+FSQFoundation.h in Headers */,
 				A4D02EB51525295600C16B67 /* FSQFoundationConstants.h in Headers */,
@@ -1521,6 +1544,7 @@
 				A4D02EBF1525295600C16B67 /* NSString+FSQFoundation.h in Headers */,
 				A4D02EC01525295600C16B67 /* NSBundle+FSQFoundation.h in Headers */,
 				A4D02EC11525295600C16B67 /* NSOperationQueue+FSQFoundation.h in Headers */,
+				A47E59C219FEC5080067FEA4 /* FSQIOUtils.h in Headers */,
 				A4D02EC21525295600C16B67 /* NSDictionary+FSQFoundation.h in Headers */,
 				A4D02EC31525295600C16B67 /* FSQCoreData.h in Headers */,
 				A4D02EC41525295600C16B67 /* FSQCoreDataStack.h in Headers */,
