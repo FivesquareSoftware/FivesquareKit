@@ -14,6 +14,8 @@
 - (id) firstDescendantMemberOfClass:(Class)aClass;
 /** Looks up the view hierarchy, starting with the receiver, and returns the first view that is of the supplied class. */
 - (id) firstAncestorOfClass:(Class)aClass;
+- (id) firstAncestorOfClassNameContaining:(NSString *)classNameFragment options:(NSStringCompareOptions)options;
+- (id) firstSiblingOfClassNameContaining:(NSString *)classNameFragment options:(NSStringCompareOptions)options;
 
 - (id) firstRespondingSubview;
 

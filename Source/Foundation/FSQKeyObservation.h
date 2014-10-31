@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class	FSQKeyObserver;
+
 @interface FSQKeyObservation : NSObject
-@property (nonatomic, strong) NSString *keyPath;
+
+@property (nonatomic, strong) FSQKeyObserver *keyPathObserver;
+@property (nonatomic, copy) NSString *keyPath;
 @property (nonatomic, copy) void(^block)(id value);
 
 @property (nonatomic, readonly) NSString *key;

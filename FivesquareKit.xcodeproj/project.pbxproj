@@ -379,6 +379,8 @@
 		A4F69F651540CAE6006DAF85 /* FSQThumbstripView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F69F631540CAE6006DAF85 /* FSQThumbstripView.m */; };
 		A4F69F681540CB43006DAF85 /* FSQThumbstripCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F69F661540CB43006DAF85 /* FSQThumbstripCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4F69F691540CB43006DAF85 /* FSQThumbstripCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F69F671540CB43006DAF85 /* FSQThumbstripCell.m */; };
+		A4F95EAF1A0402B700B9082E /* FSQKeyObserver+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F95EAE1A0402B700B9082E /* FSQKeyObserver+Protected.h */; };
+		A4F95EB01A0402B700B9082E /* FSQKeyObserver+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F95EAE1A0402B700B9082E /* FSQKeyObserver+Protected.h */; };
 		A4FFAEBE1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4FFAEBC1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4FFAEBF1551EC9C0093FEA1 /* UIImageView+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FFAEBD1551EC9C0093FEA1 /* UIImageView+FSQUIKit.m */; };
 /* End PBXBuildFile section */
@@ -680,6 +682,7 @@
 		A4F69F631540CAE6006DAF85 /* FSQThumbstripView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQThumbstripView.m; sourceTree = "<group>"; };
 		A4F69F661540CB43006DAF85 /* FSQThumbstripCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQThumbstripCell.h; sourceTree = "<group>"; };
 		A4F69F671540CB43006DAF85 /* FSQThumbstripCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQThumbstripCell.m; sourceTree = "<group>"; };
+		A4F95EAE1A0402B700B9082E /* FSQKeyObserver+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQKeyObserver+Protected.h"; sourceTree = "<group>"; };
 		A4FFAEBC1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4FFAEBD1551EC9C0093FEA1 /* UIImageView+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+FSQUIKit.m"; sourceTree = "<group>"; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -915,6 +918,7 @@
 				A421B03215D441BB00811143 /* FSQZlib.h */,
 				A421B03315D441BB00811143 /* FSQZlib.m */,
 				A45FAF8616926EC50066B78C /* FSQKeyObserver.h */,
+				A4F95EAE1A0402B700B9082E /* FSQKeyObserver+Protected.h */,
 				A45FAF8716926EC50066B78C /* FSQKeyObserver.m */,
 				A45FAF8B16926ED30066B78C /* FSQKeyObservation.h */,
 				A45FAF8C16926ED30066B78C /* FSQKeyObservation.m */,
@@ -1408,6 +1412,7 @@
 				A42A2E8B1525250C0032AB39 /* NSDictionary+FSQFoundation.h in Headers */,
 				A42A2E8C1525250C0032AB39 /* FSQCoreData.h in Headers */,
 				A42A2E8D1525250C0032AB39 /* FSQCoreDataStack.h in Headers */,
+				A4F95EAF1A0402B700B9082E /* FSQKeyObserver+Protected.h in Headers */,
 				A42A2E8E1525250C0032AB39 /* FSQManagedObject.h in Headers */,
 				A42A2E8F1525250C0032AB39 /* NSManagedObject+FSQCoreData.h in Headers */,
 				A42A2E901525250C0032AB39 /* NSManagedObjectContext+FSQCoreData.h in Headers */,
@@ -1546,6 +1551,7 @@
 				A4D02EC11525295600C16B67 /* NSOperationQueue+FSQFoundation.h in Headers */,
 				A47E59C219FEC5080067FEA4 /* FSQIOUtils.h in Headers */,
 				A4D02EC21525295600C16B67 /* NSDictionary+FSQFoundation.h in Headers */,
+				A4F95EB01A0402B700B9082E /* FSQKeyObserver+Protected.h in Headers */,
 				A4D02EC31525295600C16B67 /* FSQCoreData.h in Headers */,
 				A4D02EC41525295600C16B67 /* FSQCoreDataStack.h in Headers */,
 				A4D02EC51525295600C16B67 /* FSQManagedObject.h in Headers */,

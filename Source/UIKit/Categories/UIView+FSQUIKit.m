@@ -7,6 +7,7 @@
 //
 
 #import "UIView+FSQUIKit.h"
+#import "NSObject+FSQFoundation.h"
 
 @implementation UIView (FSQUIKit)
 
@@ -37,6 +38,40 @@
 		view = view.superview;
 	} while (view);
 	return ancestor;
+}
+
+- (id) firstAncestorOfClassNameContaining:(NSString *)classNameFragment options:(NSStringCompareOptions)options {
+	UIView *ancestor = nil;
+	UIView *view = self;
+	do {
+		if ([[view className] rangeOfString:classNameFragment options:options].location != NSNotFound) {
+			ancestor = view;
+			view = nil;
+			break;
+		}
+		view = view.superview;
+	} while (view);
+	return ancestor;
+}
+
+- (id) firstSiblingOfClassNameContaining:(NSString *)classNameFragment options:(NSStringCompareOptions)options {
+	UIView *parent = self.superview;
+	UIView *sibling = nil;
+	do {
+		NSArray *siblings = [parent subviews];
+		for (UIView *view in siblings) {
+			if ([[view className] rangeOfString:classNameFragment options:options].location != NSNotFound) {
+				sibling = view;
+				parent = nil;
+				break;
+			}
+		}
+		if (nil == sibling) {
+			parent = parent.superview;
+		}
+	} while (parent);
+	
+	return sibling;
 }
 
 - (id) firstRespondingSubview {
