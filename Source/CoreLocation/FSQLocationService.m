@@ -347,6 +347,9 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 - (BOOL) startMonitoringForRegion:(CLRegion *)region onBegin:(FSQLocationResolverRegionUpdateHandler)onBegin onEnter:(FSQLocationResolverRegionUpdateHandler)onEnter onExit:(FSQLocationResolverRegionUpdateHandler)onExit  onFailure:(FSQLocationResolverRegionUpdateHandler)onFailure {
 	NSParameterAssert(region != nil);
+	if (nil == region) {
+		return NO;
+	}
 	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
 	if (nil == region) return NO;
 	if (NO == [CLLocationManager isMonitoringAvailableForClass:[region class]]) return NO;
@@ -371,12 +374,17 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 }
 
 - (void) stopMonitoringRegion:(CLRegion *)region {
+	NSParameterAssert(region != nil);
+	if (nil == region) {
+		return;
+	}
 	[self.locationManager stopMonitoringForRegion:region];
-	[_regionBeginHandlersByIdentifier removeObjectForKey:region.identifier];
-	[_regionEnterHandlersByIdentifier removeObjectForKey:region.identifier];
-	[_regionExitHandlersByIdentifier removeObjectForKey:region.identifier];
-	[_regionFailureHandlersByIdentifier removeObjectForKey:region.identifier];
-
+	if (region.identifier) {
+		[_regionBeginHandlersByIdentifier removeObjectForKey:region.identifier];
+		[_regionEnterHandlersByIdentifier removeObjectForKey:region.identifier];
+		[_regionExitHandlersByIdentifier removeObjectForKey:region.identifier];
+		[_regionFailureHandlersByIdentifier removeObjectForKey:region.identifier];
+	}
 	self.monitoringRegions = [_regionBeginHandlersByIdentifier count] > 0;
 }
 
