@@ -30,7 +30,7 @@ static const NSString *kNSObject_FSQFoundation_KeyObserver = @"NSObject_FSQFound
 
 
 - (void) dealloc {
-	
+	objc_setAssociatedObject(_observedObject, &kNSObject_FSQFoundation_KeyObserver, nil, OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (id)init {
@@ -53,8 +53,6 @@ static const NSString *kNSObject_FSQFoundation_KeyObserver = @"NSObject_FSQFound
 		observer = [FSQKeyObserver new];
 		observer.observedObject = observedObject;
 		objc_setAssociatedObject(observedObject, &kNSObject_FSQFoundation_KeyObserver, observer, OBJC_ASSOCIATION_ASSIGN);
-		// This doesn't really work because the original dealloc method still gets treated as significant for some reason ..
-		//		[FSQRuntime swizzleInstanceMethod:sel_getUid("dealloc") inTarget:[observedObject class] withMethod:sel_getUid("dealloc") fromSource:[FSQObjectKVOCleanupStub class] aliasOriginal:YES];
 	}
 	return observer;
 }
