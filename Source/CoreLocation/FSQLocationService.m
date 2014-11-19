@@ -12,7 +12,7 @@
 #import "FSQMacros.h"
 
 
-#define kLocationLoggingEnabled DEBUG && 1
+#define kLocationLoggingEnabled DEBUG && 0
 #define LocLog(frmt, ...) { FSQWeakSelf(self_); FLogMarkIf(kLocationLoggingEnabled, ([NSString stringWithFormat:@"LOCATION.%@",self_.identifier]) , frmt, ##__VA_ARGS__); }
 
 
@@ -172,6 +172,12 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 #pragma mark - Public
 
 #if TARGET_OS_IPHONE
+- (BOOL) needsAuthorization {
+	CLAuthorizationStatus status = self.authorizationStatus;
+	BOOL needsAlwaysAuthorization = (status == kCLAuthorizationStatusNotDetermined);
+	return needsAlwaysAuthorization;
+}
+
 - (BOOL) requestAuthorizationWithCompletionHandler:(void(^)(BOOL authorized))handler {
 	CLAuthorizationStatus status = self.authorizationStatus;
 	BOOL authorizing = (status == kCLAuthorizationStatusNotDetermined);
@@ -179,6 +185,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 		_authorizationAlwaysCompletionHandler = handler;
 		[self.locationManager requestAlwaysAuthorization];
 	}
+	
 	else if (handler) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			handler(status == kCLAuthorizationStatusAuthorizedAlways);

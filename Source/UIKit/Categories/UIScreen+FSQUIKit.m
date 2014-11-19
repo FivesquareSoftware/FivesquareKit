@@ -15,7 +15,8 @@
 }
 
 - (BOOL) isFourInchScreen {
-	return self.bounds.size.height >= 568.;
+	return self.bounds.size.height == 568.;
 }
+
 
 @end

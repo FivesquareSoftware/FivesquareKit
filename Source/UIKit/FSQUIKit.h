@@ -111,5 +111,6 @@
 #import "UICollectionView+FSQUIKit.h"
 #import "UITableViewCell+FSQUIKit.h"
 #import "UICollectionViewCell+FSQUIKit.h"
+#import "UIImage+FSQUIKit.h"
 
 

@@ -18,6 +18,7 @@
 #import "NSURL+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
 #import "FSQRuntime.h"
+#import "UIImage+FSQUIKit.h"
 
 #define kImageCacheScaleNoScale -1.
 
@@ -153,6 +154,9 @@
 		_cacheQueue = dispatch_queue_create("com.fivesquaresoftware.FSQImageCache.cacheQueue", DISPATCH_QUEUE_CONCURRENT);
 		_keys = [NSMutableSet new];
 		_compressionQuality = .8;
+		_targetSize = CGSizeZero;
+		_targetScale = 1;
+		_contentMode = UIViewContentModeScaleAspectFill;
 
 		self.memoryCapacity = memoryCapacity;
 		
@@ -429,6 +433,15 @@
 #if TARGET_OS_IPHONE
 		scale = [(UIImage *)image scale];
 #endif
+
+
+		if (NO == CGSizeEqualToSize(CGSizeZero, _targetSize) && scale == 1 /*Not going to deal with crazy scaled images already*/) {
+#if TARGET_OS_IPHONE
+			scale = [[UIScreen mainScreen] scale];
+			image = [image imageSizedToFit:_targetSize scale:scale contentMode:_contentMode];
+#endif
+		}
+
 		id processedImage = nil;
 		if (_filter) {
 #if TARGET_OS_IPHONE
@@ -444,6 +457,7 @@
 		else {
 			processedImage = image;
 		}
+
 		NSString *storageKey = [self storageKeyForKey:key scale:scale];
 		NSData *imageData = [self _dataForImage:processedImage];
 		NSError *writeError = nil;

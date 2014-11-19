@@ -338,15 +338,32 @@
 	}
 }
 
-- (void) addObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
+- (void) addObject:(id)object toObjectAtIndex:(NSUInteger)index {
+	[self addObject:object toObjectAtIndexPath:[NSIndexPath indexPathWithIndex:index]];
+}
+
+- (void) addObject:(id)object toObjectAtIndexPath:(NSIndexPath *)indexPath {
 	if ([indexPath length] < 1) {
 		return;
 	}
-	NSIndexPath *containerIndexPath = [indexPath indexPathByRemovingLastIndex];
+	NSIndexPath *containerIndexPath = indexPath;//[indexPath indexPathByRemovingLastIndex];
 	id objectAtContainerIndexPath = [self objectAtIndexPath:containerIndexPath];
 	if ([objectAtContainerIndexPath respondsToSelector:@selector(addObject:)]) {
 		NSMutableArray *container = objectAtContainerIndexPath;
 		[container addObject:object];
+	}
+}
+
+- (void) insertObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
+	if ([indexPath length] < 1) {
+		return;
+	}
+	NSUInteger insertionIndex = [indexPath indexAtPosition:[indexPath length]-1];
+	NSIndexPath *containerIndexPath = [indexPath indexPathByRemovingLastIndex];
+	id objectAtContainerIndexPath = [self objectAtIndexPath:containerIndexPath];
+	if ([objectAtContainerIndexPath respondsToSelector:@selector(insertObject:atIndex:)]) {
+		NSMutableArray *container = objectAtContainerIndexPath;
+		[container insertObject:object atIndex:insertionIndex];
 	}
 }
 

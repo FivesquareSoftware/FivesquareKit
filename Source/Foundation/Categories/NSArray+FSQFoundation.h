@@ -81,7 +81,9 @@
 
 - (void) safeAddObject:(id)obj;
 
-- (void) addObject:(id)object atIndexPath:(NSIndexPath *)indexPath;
+- (void) addObject:(id)object toObjectAtIndex:(NSUInteger)index;
+- (void) addObject:(id)object toObjectAtIndexPath:(NSIndexPath *)indexPath;
+- (void) insertObject:(id)object atIndexPath:(NSIndexPath *)indexPath;
 - (void) replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object;
 
 

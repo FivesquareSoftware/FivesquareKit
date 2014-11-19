@@ -35,6 +35,8 @@ typedef NS_ENUM(NSInteger, FSQImageCacheMemoryLimit) {
 @property (nonatomic) NSString *storageTypeIdentifier; //kUTTypeJPEG or kUTTypePNG, Default is kUTTypeJPEG;
 @property (nonatomic) CGFloat compressionQuality;
 @property (nonatomic) CIFilter *filter;
+@property (nonatomic) CGSize targetSize;
+@property (nonatomic) UIViewContentMode contentMode;
 
 - (id)initWithMemoryCapacity:(NSInteger)memoryCapacity diskPath:(NSString *)diskPath;
 

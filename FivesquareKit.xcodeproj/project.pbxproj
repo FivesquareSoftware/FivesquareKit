@@ -221,6 +221,8 @@
 		A487DF2415C5D6CA00CB0C76 /* NSError+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A487DF2115C5D6CA00CB0C76 /* NSError+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A487DF2515C5D6CA00CB0C76 /* NSError+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A487DF2215C5D6CA00CB0C76 /* NSError+FSQFoundation.m */; };
 		A487DF2615C5D6CA00CB0C76 /* NSError+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A487DF2215C5D6CA00CB0C76 /* NSError+FSQFoundation.m */; };
+		A4930DAE1A1C2190000D8D11 /* UIImage+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4930DAC1A1C2190000D8D11 /* UIImage+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4930DAF1A1C2190000D8D11 /* UIImage+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4930DAD1A1C2190000D8D11 /* UIImage+FSQUIKit.m */; };
 		A4957788158FFFDB0095FE8F /* NSView+FSQAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4957786158FFFDB0095FE8F /* NSView+FSQAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4957789158FFFDB0095FE8F /* NSView+FSQAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4957787158FFFDB0095FE8F /* NSView+FSQAppKit.m */; };
 		A4976AE71550A6DE003DB2FB /* FSQRemoteImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F3AF441550936D00E2BB87 /* FSQRemoteImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -583,6 +585,8 @@
 		A487176012F5C76D000D9411 /* FSQUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUserDefaults.m; sourceTree = "<group>"; };
 		A487DF2115C5D6CA00CB0C76 /* NSError+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+FSQFoundation.h"; sourceTree = "<group>"; };
 		A487DF2215C5D6CA00CB0C76 /* NSError+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+FSQFoundation.m"; sourceTree = "<group>"; };
+		A4930DAC1A1C2190000D8D11 /* UIImage+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FSQUIKit.h"; sourceTree = "<group>"; };
+		A4930DAD1A1C2190000D8D11 /* UIImage+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4957786158FFFDB0095FE8F /* NSView+FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+FSQAppKit.h"; sourceTree = "<group>"; };
 		A4957787158FFFDB0095FE8F /* NSView+FSQAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+FSQAppKit.m"; sourceTree = "<group>"; };
 		A49B729318762571007EB219 /* CLLocationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLLocationUtils.h; sourceTree = "<group>"; };
@@ -1060,6 +1064,8 @@
 				A4DB73151986F78D00B7F49B /* UITableViewCell+FSQUIKit.m */,
 				A4DB73181986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.h */,
 				A4DB73191986F82A00B7F49B /* UICollectionViewCell+FSQUIKit.m */,
+				A4930DAC1A1C2190000D8D11 /* UIImage+FSQUIKit.h */,
+				A4930DAD1A1C2190000D8D11 /* UIImage+FSQUIKit.m */,
 			);
 			name = Extensions;
 			path = Categories;
@@ -1412,6 +1418,7 @@
 				A42A2E8B1525250C0032AB39 /* NSDictionary+FSQFoundation.h in Headers */,
 				A42A2E8C1525250C0032AB39 /* FSQCoreData.h in Headers */,
 				A42A2E8D1525250C0032AB39 /* FSQCoreDataStack.h in Headers */,
+				A4930DAE1A1C2190000D8D11 /* UIImage+FSQUIKit.h in Headers */,
 				A4F95EAF1A0402B700B9082E /* FSQKeyObserver+Protected.h in Headers */,
 				A42A2E8E1525250C0032AB39 /* FSQManagedObject.h in Headers */,
 				A42A2E8F1525250C0032AB39 /* NSManagedObject+FSQCoreData.h in Headers */,
@@ -1791,6 +1798,7 @@
 				A4541F5915C5F156008F085E /* FSQFetchedResultsDataSource.m in Sources */,
 				A429E1D915C983F9006572D5 /* FSQLeftDetailCell.m in Sources */,
 				A44DF45915CACBFF00FF23B8 /* FSQBaseTableViewCell.m in Sources */,
+				A4930DAF1A1C2190000D8D11 /* UIImage+FSQUIKit.m in Sources */,
 				A45E2AAE193111D200A7F888 /* UICollectionView+FSQUIKit.m in Sources */,
 				A4A5C90F15C99B9B001759F1 /* NSAttributedString+FSQFoundation.m in Sources */,
 				A4D460D515D022A700F59A95 /* FSQCapsuleButton.m in Sources */,

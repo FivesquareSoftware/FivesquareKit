@@ -67,6 +67,7 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 
 
 #if TARGET_OS_IPHONE
+- (BOOL) needsAuthorization;
 - (BOOL) requestAuthorizationWithCompletionHandler:(void(^)(BOOL authorized))handler;
 - (BOOL) requestAuthorizationWhenInUseWithCompletionHandler:(void(^)(BOOL authorized))handler;
 #endif
