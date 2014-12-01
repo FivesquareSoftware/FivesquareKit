@@ -51,6 +51,11 @@ typedef NS_ENUM(NSInteger, FSQImageCacheMemoryLimit) {
 - (NSURL *) fileURLForKey:(id)key;
 - (NSURL *) fileURLForKey:(id)key scale:(CGFloat)scale;
 
+- (NSDate *) modificationDateForKey:(id)key;
+- (NSDate *) modificationDateForKey:(id)key scale:(CGFloat)scale;
+- (BOOL) imageForKey:(id)key needsUpdate:(NSDate *)date;
+- (BOOL) imageForKey:(id)key scale:(CGFloat)scale needsUpdate:(NSDate *)date;
+
 - (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk;
 - (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk scale:(CGFloat)scale;
 - (void) removeAllImagesIncludingDisk:(BOOL)removeOnDisk;

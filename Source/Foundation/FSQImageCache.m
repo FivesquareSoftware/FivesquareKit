@@ -151,11 +151,10 @@
 		_storageTypeIdentifier = (NSString *)kUTTypeJPEG;
 		_diskPath = diskPath;
 		_cache = [[NSCache alloc] init];
-		_cacheQueue = dispatch_queue_create("com.fivesquaresoftware.FSQImageCache.cacheQueue", DISPATCH_QUEUE_CONCURRENT);
+		_cacheQueue = dispatch_queue_create([[NSString stringWithFormat:@"com.fivesquaresoftware.FSQImageCache.%p.cacheQueue",self] UTF8String], DISPATCH_QUEUE_CONCURRENT);
 		_keys = [NSMutableSet new];
 		_compressionQuality = .8;
 		_targetSize = CGSizeZero;
-		_targetScale = 1;
 		_contentMode = UIViewContentModeScaleAspectFill;
 
 		self.memoryCapacity = memoryCapacity;
@@ -273,6 +272,55 @@
 	return imageURL;
 }
 
+- (NSDate *) modificationDateForKey:(id)key {
+	return [self modificationDateForKey:key scale:kImageCacheScaleNoScale];
+}
+
+- (NSDate *) modificationDateForKey:(id)key scale:(CGFloat)scaleOverride {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
+	__block NSDate *modificationDate = nil;
+	dispatch_sync(_cacheQueue, ^{
+		CacheLog(@"%@",NSStringFromSelector(_cmd));
+		CGFloat scale = 1;
+		if (scaleOverride > 0.) {
+			scale = scaleOverride;
+		}
+		else {
+#if TARGET_OS_IPHONE
+			scale = [[UIScreen mainScreen] scale];
+#endif
+		}
+
+		NSString *storageKey = [self storageKeyForKey:key scale:scale];
+		NSString *imagePath = [self cachePathForStorageKey:storageKey];
+		NSFileManager *fm = [NSFileManager defaultManager];
+		if ([fm fileExistsAtPath:imagePath]) {
+			NSError *attributesError = nil;
+			NSDictionary *attributes = [fm attributesOfItemAtPath:imagePath error:&attributesError];
+			if (attributesError) {
+				FLogError(attributesError, @"Failed to get file attributes for image at path: %@",imagePath);
+			}
+			if (attributes) {
+				modificationDate = attributes[NSFileModificationDate];
+			}
+		}
+	});
+	return modificationDate;
+}
+
+- (BOOL) imageForKey:(id)key needsUpdate:(NSDate *)date {
+	return [self imageForKey:key scale:kImageCacheScaleNoScale needsUpdate:date];
+}
+
+- (BOOL) imageForKey:(id)key scale:(CGFloat)scaleOverride needsUpdate:(NSDate *)date {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
+	NSParameterAssert(date);
+	NSDate *modificationDate = [self modificationDateForKey:key scale:scaleOverride];
+	if (modificationDate) {
+		return [modificationDate compare:date] == NSOrderedAscending;
+	}
+	return YES;
+}
 
 - (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk {
 	[self removeImageForKey:key removeOnDisk:removeOnDisk scale:kImageCacheScaleNoScale];
@@ -433,9 +481,7 @@
 #if TARGET_OS_IPHONE
 		scale = [(UIImage *)image scale];
 #endif
-
-
-		if (NO == CGSizeEqualToSize(CGSizeZero, _targetSize) && scale == 1 /*Not going to deal with crazy scaled images already*/) {
+		if (NO == CGSizeEqualToSize(CGSizeZero, _targetSize)) {
 #if TARGET_OS_IPHONE
 			scale = [[UIScreen mainScreen] scale];
 			image = [image imageSizedToFit:_targetSize scale:scale contentMode:_contentMode];

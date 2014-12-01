@@ -13,6 +13,8 @@
 
 #define i18n(string,comment) NSLocalizedString(string,comment)
 
+#define fequals(a, b) (fabs(a - b) < 0.01)
+
 
 #ifndef NS_RETURNS_RETAINED
 	#if __has_feature(attribute_ns_returns_retained)
