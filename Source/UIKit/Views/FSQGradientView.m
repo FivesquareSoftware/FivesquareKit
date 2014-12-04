@@ -40,13 +40,42 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 }
 
 - (void) setGradientComponents:(NSArray *)gradientComponents {
+	[self setGradientComponents:gradientComponents animationDuration:0];
+}
+
+- (void) setGradientComponents:(NSArray *)gradientComponents animationDuration:(NSTimeInterval)duration {
 	if (_gradientComponents != gradientComponents) {
+		NSArray *previousComponents = _gradientComponents;
 		_gradientComponents = gradientComponents;
-		self.gradientLayer.colors = [_gradientComponents valueForKey:@"CGColor"];
-		self.gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
-		[self setNeedsDisplay];
+		
+		if (duration > 0.0 && previousComponents) {
+			[self.gradientLayer removeAnimationForKey:@"colorsAnimation"];
+			CABasicAnimation *colorAnimation = [CABasicAnimation animationWithKeyPath:@"colors"];
+			colorAnimation.fromValue = [previousComponents valueForKey:@"CGColor"];
+			colorAnimation.toValue = [_gradientComponents valueForKey:@"CGColor"];
+			colorAnimation.fillMode = kCAFillModeForwards;
+			colorAnimation.removedOnCompletion = NO;
+			colorAnimation.duration = duration;
+			[self.gradientLayer addAnimation:colorAnimation forKey:@"colorsAnimation"];
+
+//			[self.gradientLayer removeAnimationForKey:@"locationsAnimation"];
+//			CABasicAnimation *locationAnimation = [CABasicAnimation animationWithKeyPath:@"locations"];
+//			locationAnimation.fromValue = [previousComponents valueForKey:@"location"];
+//			locationAnimation.toValue = [_gradientComponents valueForKey:@"location"];
+//			locationAnimation.fillMode = kCAFillModeForwards;
+//			locationAnimation.removedOnCompletion = NO;
+//			locationAnimation.duration = duration;
+//			[self.gradientLayer addAnimation:locationAnimation forKey:@"locationsAnimation"];
+			self.gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
+		}
+		else {
+			self.gradientLayer.colors = [_gradientComponents valueForKey:@"CGColor"];
+			self.gradientLayer.locations = [_gradientComponents valueForKey:@"location"];
+			[self setNeedsDisplay];
+		}		
 	}
 }
+
 
 - (void) setStartPoint:(CGPoint)startPoint {
 	if (NO == CGPointEqualToPoint(_startPoint, startPoint)) {
@@ -79,9 +108,7 @@ NSString *kFSQGradientViewRadial = @"FSQGradientViewRadial";
 
 
 - (void) initialize {
-	if ([self respondsToSelector:@selector(translatesAutoresizingMaskIntoConstraints)]) {
-		self.translatesAutoresizingMaskIntoConstraints = NO;
-	}
+	self.translatesAutoresizingMaskIntoConstraints = NO;
 
 	self.layer.masksToBounds = YES;
 	_type = kCAGradientLayerAxial;

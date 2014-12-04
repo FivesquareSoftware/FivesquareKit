@@ -19,6 +19,7 @@ extern NSString *kFSQGradientViewRadial;
  *  @see [CAGradientLayer colors] and [CAGradientLayer locations]
  */
 @property (nonatomic, strong) NSArray *gradientComponents UI_APPEARANCE_SELECTOR;
+- (void) setGradientComponents:(NSArray *)gradientComponents animationDuration:(NSTimeInterval)duration;
 
 /** @see [CALayer cornerRadius] */
 @property (nonatomic) CGFloat cornerRadius;
