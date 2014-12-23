@@ -56,3 +56,19 @@ CGPoint CGPointFlipInBounds(CGPoint point, CGRect bounds);
 CGSize CGSizeFromString(NSString *string);
 NSString *NSStringFromCGSize(CGSize size);
 #endif
+
+
+
+CGAffineTransform CGAffineTransformMakeXShear(CGFloat proportion);
+CGAffineTransform CGAffineTransformXShear(CGAffineTransform src, CGFloat proportion);
+CGAffineTransform CGAffineTransformMakeYShear(CGFloat proportion);
+CGAffineTransform CGAffineTransformYShear(CGAffineTransform src, CGFloat proportion);
+
+
+#define CATransform3DPerspective(t, x, y) (CATransform3DConcat(t, CATransform3DMake(1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, 0, 0, 0, 0, 1)))
+#define CATransform3DMakePerspective(x, y) (CATransform3DPerspective(CATransform3DIdentity, x, y))
+
+CATransform3D CATransform3DMake(CGFloat m11, CGFloat m12, CGFloat m13, CGFloat m14,
+								CGFloat m21, CGFloat m22, CGFloat m23, CGFloat m24,
+								CGFloat m31, CGFloat m32, CGFloat m33, CGFloat m34,
+								CGFloat m41, CGFloat m42, CGFloat m43, CGFloat m44);
