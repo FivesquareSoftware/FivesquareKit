@@ -145,4 +145,9 @@
 	return [self dictionaryWithEntriesSeparatedBy:@"&" keysAndValuesSeparatedBy:@"="];
 }
 
+- (NSString *) indexString {
+	NSString *indexString = [self stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+	return [indexString lowercaseString];
+}
+
 @end

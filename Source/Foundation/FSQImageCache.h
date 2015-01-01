@@ -60,4 +60,6 @@ typedef NS_ENUM(NSInteger, FSQImageCacheMemoryLimit) {
 - (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk scale:(CGFloat)scale;
 - (void) removeAllImagesIncludingDisk:(BOOL)removeOnDisk;
 
+- (void) purgeMemoryCache;
+
 @end

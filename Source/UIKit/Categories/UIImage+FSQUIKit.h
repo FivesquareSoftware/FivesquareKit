@@ -10,6 +10,7 @@
 
 @interface UIImage (FSQUIKit)
 
+- (CGSize) sizeThatFits:(CGSize)fitSize scale:(CGFloat)scale contentMode:(UIViewContentMode)contentMode;
 - (UIImage *) imageSizedToFit:(CGSize)fitSize scale:(CGFloat)scale contentMode:(UIViewContentMode)contentMode;
 
 @end

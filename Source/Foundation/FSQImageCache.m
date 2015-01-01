@@ -346,6 +346,10 @@
 	});
 }
 
+- (void) purgeMemoryCache {
+	[_cache removeAllObjects];
+}
+
 
 // ========================================================================== //
 
@@ -495,9 +499,9 @@
 			[_filter setValue:input forKey:kCIInputImageKey];
 			CIImage *output = [_filter valueForKey:kCIOutputImageKey];
 			// This has a bug that produces a blank image
-//			processedImage = [UIImage imageWithCIImage:output];
-			CGImageRef outputCGImage = [self.coreImageContext createCGImage:output fromRect:CGRectMake(0, 0, [image size].width*scale, [image size].height*scale)];
-			processedImage = [UIImage imageWithCGImage:outputCGImage scale:scale orientation:UIImageOrientationUp];
+			processedImage = [UIImage imageWithCIImage:output];
+//			CGImageRef outputCGImage = [self.coreImageContext createCGImage:output fromRect:CGRectMake(0, 0, [image size].width*scale, [image size].height*scale)];
+//			processedImage = [UIImage imageWithCGImage:outputCGImage scale:scale orientation:UIImageOrientationUp];
 #endif
 		}
 		else {
@@ -513,6 +517,7 @@
 		if (_usingMemoryCache) {
 			CacheLog(@" ** STORED TO MEMORY CACHE %@ **",_cache.name);
 			[_cache setObject:processedImage forKey:storageKey cost:[imageData length]];
+			CacheLog(@"_cache.objectForKey:%@ -> %@ **",storageKey,[_cache objectForKey:storageKey]);
 		}
 		imageData = nil;
 		[_keys addObject:storageKey];
@@ -543,7 +548,7 @@
 }
 
 - (NSData *) _dataForImage:(id)image {
-	__autoreleasing NSData *imageData = nil;
+	NSData *imageData = nil;
 #if TARGET_OS_IPHONE
 	if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypeJPEG]) {
 		imageData = UIImageJPEGRepresentation(image, _compressionQuality);

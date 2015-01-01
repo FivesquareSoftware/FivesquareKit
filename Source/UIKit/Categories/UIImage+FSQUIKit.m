@@ -9,11 +9,17 @@
 #import "UIImage+FSQUIKit.h"
 
 
-#define ImgLog(frmt,...) NSLog(frmt, ##__VA_ARGS__)
+#define kDebugImage DEBUG && 0
+
+#if kDebugImage
+	#define ImgLog(frmt,...) NSLog(frmt, ##__VA_ARGS__)
+#else
+	#define ImgLog(frmt,...)
+#endif
 
 @implementation UIImage (FSQUIKit)
 
-- (UIImage *) imageSizedToFit:(CGSize)fitSize scale:(CGFloat)scale contentMode:(UIViewContentMode)contentMode {
+- (CGSize) sizeThatFits:(CGSize)fitSize scale:(CGFloat)scale contentMode:(UIViewContentMode)contentMode {
 
 	NSParameterAssert(contentMode == UIViewContentModeScaleAspectFit || contentMode == UIViewContentModeScaleAspectFill);
 
@@ -64,18 +70,28 @@
 	ImgLog(@"imageSize:%@",NSStringFromCGSize(imageSize));
 	ImgLog(@"resulting aspect: %@",@(imageSize.width/imageSize.height));
 
+	return imageSize;
+}
 
-	UIGraphicsBeginImageContext(imageSize);
+- (UIImage *) imageSizedToFit:(CGSize)fitSize scale:(CGFloat)scale contentMode:(UIViewContentMode)contentMode {
 
-	CGRect imageFrame = CGRectZero;
-	imageFrame.size = imageSize;
+	UIImage *image = self;
+
+	CGSize scaledFitSize = CGSizeMake(fitSize.width*scale, fitSize.height*scale);
+	CGSize scaledImageSize = [self sizeThatFits:fitSize scale:scale contentMode:contentMode];
+
+
+	UIGraphicsBeginImageContext(scaledFitSize);
+
+	CGRect renderFrame = CGRectZero;
+	renderFrame.size = scaledImageSize;
 
 	if (contentMode == UIViewContentModeScaleAspectFill) {
-		CGPoint imageOrigin = CGPointMake((scaledFitSize.width/2.)-(imageSize.width/2.), (scaledFitSize.height/2.)-(imageSize.height/2.));
-		imageFrame.origin = imageOrigin;
+		CGPoint imageOrigin = CGPointMake((scaledFitSize.width-scaledImageSize.width)/2., (scaledFitSize.height-scaledImageSize.height)/2.);
+		renderFrame.origin = imageOrigin;
 	}
 
-	[image drawInRect:imageFrame];
+	[image drawInRect:CGRectIntegral(renderFrame)];
 
 	UIImage *rawImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIImage *resizedImage = [UIImage imageWithCGImage:rawImage.CGImage scale:scale orientation:UIImageOrientationUp];

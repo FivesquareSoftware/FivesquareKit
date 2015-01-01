@@ -28,4 +28,7 @@
 - (NSDictionary *) dictionaryWithEntriesSeparatedBy:(NSString *)entryDelimiter keysAndValuesSeparatedBy:(NSString *)ketValueSeparator;
 - (NSDictionary *) dictionaryWithURLEncoding;
 
+/* A lower case representation of the reciever and with diacritical marks removed. */
+- (NSString *) indexString;
+
 @end
