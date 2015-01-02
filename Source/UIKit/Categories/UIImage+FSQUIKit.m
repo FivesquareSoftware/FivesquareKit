@@ -81,7 +81,14 @@
 	CGSize scaledImageSize = [self sizeThatFits:fitSize scale:scale contentMode:contentMode];
 
 
-	UIGraphicsBeginImageContext(scaledFitSize);
+	CGSize contextSize;
+	if (contentMode == UIViewContentModeScaleAspectFill) {
+		contextSize = scaledFitSize; // We are going to fill the entire target size
+	}
+	else { // UIViewContentModeScaleAspectFit
+		contextSize = scaledImageSize; // The image will be smaller that the target size in on dimension or equal
+	}
+	UIGraphicsBeginImageContext(contextSize);
 
 	CGRect renderFrame = CGRectZero;
 	renderFrame.size = scaledImageSize;
@@ -91,7 +98,8 @@
 		renderFrame.origin = imageOrigin;
 	}
 
-	[image drawInRect:CGRectIntegral(renderFrame)];
+	CGRect integralRenderFrame = CGRectIntegral(renderFrame);
+	[image drawInRect:integralRenderFrame];
 
 	UIImage *rawImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIImage *resizedImage = [UIImage imageWithCGImage:rawImage.CGImage scale:scale orientation:UIImageOrientationUp];
