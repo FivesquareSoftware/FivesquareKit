@@ -31,8 +31,11 @@
 
 
 	CGSize scaledFitSize = CGSizeMake(fitSize.width*scale, fitSize.height*scale);
+	CGFloat scaledWidth = scaledFitSize.width;
+	CGFloat scaledHeight = scaledFitSize.height;
+
 	CGFloat maxFitDimension = scaledFitSize.height >= scaledFitSize.width ? scaledFitSize.height : scaledFitSize.width;
-	CGFloat minFitDimension = scaledFitSize.width >= scaledFitSize.height ? scaledFitSize.width : scaledFitSize.height;
+//	CGFloat minFitDimension = scaledFitSize.width >= scaledFitSize.height ? scaledFitSize.height : scaledFitSize.width;
 
 
 	CGSize imageSize;
@@ -40,30 +43,30 @@
 	if (imageAspect >= 1.) {
 		ImgLog(@"Image more wide than tall");
 		if (contentMode == UIViewContentModeScaleAspectFill) {
-			ImgLog(@"Scaling height to min dimension (aspect fill)");
-			CGFloat scaledWidth = scaledFitSize.width*imageAspect;
-			imageSize = CGSizeMake(scaledWidth, minFitDimension);
+			ImgLog(@"Scaling width to fill, matching height (aspect fill)");
+			CGFloat fillWidth = scaledFitSize.height*imageAspect;
+			imageSize = CGSizeMake(fillWidth, scaledHeight);
 		}
 		else if (contentMode == UIViewContentModeScaleAspectFit) {
-			ImgLog(@"scaling screen width to max dimension (aspect fit)");
-			CGFloat scaledHeight = maxFitDimension/imageAspect;
-			ImgLog(@"scaledHeight:%@",@(scaledHeight));
-			imageSize = CGSizeMake(maxFitDimension, scaledHeight);
+			ImgLog(@"Fitting width, scaling height (aspect fit)");
+			CGFloat fitHeight = maxFitDimension/imageAspect;
+			ImgLog(@"fitHeight:%@",@(fitHeight));
+			imageSize = CGSizeMake(maxFitDimension, fitHeight);
 		}
 	}
 	else {
 		ImgLog(@"Image more tall than wide");
 
 		if (contentMode == UIViewContentModeScaleAspectFill) {
-			ImgLog(@"Scaling width to min dimension (aspect fill)");
-			CGFloat scaledHeight = scaledFitSize.height/imageAspect;
-			imageSize = CGSizeMake(minFitDimension, scaledHeight);
+			ImgLog(@"Scaling height to fill, matching width (aspect fill)");
+			CGFloat fillHeight = scaledFitSize.width/imageAspect;
+			imageSize = CGSizeMake(scaledWidth, fillHeight);
 		}
 		else if (contentMode == UIViewContentModeScaleAspectFit) {
-			ImgLog(@"scaling screen height to max dimension (aspect fit)");
-			CGFloat scaledWidth = maxFitDimension*imageAspect;
-			ImgLog(@"scaledWidth:%@",@(scaledWidth));
-			imageSize = CGSizeMake(scaledWidth, maxFitDimension);
+			ImgLog(@"Fitting height, scaling width (aspect fit)");
+			CGFloat fitWidth = maxFitDimension*imageAspect;
+			ImgLog(@"fitWidth:%@",@(fitWidth));
+			imageSize = CGSizeMake(fitWidth, maxFitDimension);
 		}
 	}
 
