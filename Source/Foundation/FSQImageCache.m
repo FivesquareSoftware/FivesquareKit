@@ -495,32 +495,38 @@
 		id processedImage = nil;
 		if (_filter) {
 #if TARGET_OS_IPHONE
-			CIImage *input = [[CIImage alloc] initWithImage:image];
-			[_filter setValue:input forKey:kCIInputImageKey];
-			CIImage *output = [_filter valueForKey:kCIOutputImageKey];
-			// This has a bug that produces a blank image
-			processedImage = [UIImage imageWithCIImage:output];
+			@autoreleasepool {
+				CIImage *input = [[CIImage alloc] initWithImage:image];
+				[_filter setValue:input forKey:kCIInputImageKey];
+				CIImage *output = [_filter valueForKey:kCIOutputImageKey];
+				// This has a bug that produces a blank image
+				processedImage = [UIImage imageWithCIImage:output];
 //			CGImageRef outputCGImage = [self.coreImageContext createCGImage:output fromRect:CGRectMake(0, 0, [image size].width*scale, [image size].height*scale)];
 //			processedImage = [UIImage imageWithCGImage:outputCGImage scale:scale orientation:UIImageOrientationUp];
+				input = nil;
+				output = nil;
+			}
 #endif
 		}
 		else {
 			processedImage = image;
 		}
 
-		NSString *storageKey = [self storageKeyForKey:key scale:scale];
-		NSData *imageData = [self _dataForImage:processedImage];
-		NSError *writeError = nil;
-		if (NO == [imageData writeToFile:[self cachePathForStorageKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
-			FLogError(writeError, @"Could not write image to disk");
+		@autoreleasepool {
+			NSString *storageKey = [self storageKeyForKey:key scale:scale];
+			__autoreleasing NSData *imageData = [self _dataForImage:processedImage];
+			NSError *writeError = nil;
+			if (NO == [imageData writeToFile:[self cachePathForStorageKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
+				FLogError(writeError, @"Could not write image to disk");
+			}
+			if (_usingMemoryCache) {
+				CacheLog(@" ** STORED TO MEMORY CACHE %@ **",_cache.name);
+				[_cache setObject:processedImage forKey:storageKey cost:[imageData length]];
+				CacheLog(@"_cache.objectForKey:%@ -> %@ **",storageKey,[_cache objectForKey:storageKey]);
+			}
+			imageData = nil;
+			[_keys addObject:storageKey];
 		}
-		if (_usingMemoryCache) {
-			CacheLog(@" ** STORED TO MEMORY CACHE %@ **",_cache.name);
-			[_cache setObject:processedImage forKey:storageKey cost:[imageData length]];
-			CacheLog(@"_cache.objectForKey:%@ -> %@ **",storageKey,[_cache objectForKey:storageKey]);
-		}
-		imageData = nil;
-		[_keys addObject:storageKey];
 	}
 }
 
