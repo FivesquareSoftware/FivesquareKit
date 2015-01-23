@@ -104,8 +104,8 @@
 	CGRect integralRenderFrame = CGRectIntegral(renderFrame);
 	[image drawInRect:integralRenderFrame];
 
-	UIImage *rawImage = UIGraphicsGetImageFromCurrentImageContext();
-	UIImage *resizedImage = [UIImage imageWithCGImage:rawImage.CGImage scale:scale orientation:UIImageOrientationUp];
+	__autoreleasing UIImage *rawImage = UIGraphicsGetImageFromCurrentImageContext();
+	__autoreleasing UIImage *resizedImage = [UIImage imageWithCGImage:rawImage.CGImage scale:scale orientation:UIImageOrientationUp];
 	rawImage = nil;
 	UIGraphicsEndImageContext();
 
