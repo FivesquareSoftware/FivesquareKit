@@ -121,6 +121,16 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	return [CLLocationManager authorizationStatus];
 }
 
+@dynamic isAuthorizedAlways;
+- (BOOL) isAuthorizedAlways {
+	return self.authorizationStatus == kCLAuthorizationStatusAuthorizedAlways;
+}
+
+@dynamic isAuthorizedWhenInUse;
+- (BOOL) isAuthorizedWhenInUse {
+	return self.authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse;
+}
+
 @dynamic locationManagerLocation;
 - (CLLocation *) locationManagerLocation {
 	return _locationManager.location;
