@@ -35,6 +35,12 @@ NSString *kFSQManagedObjectUniqueIdentifierKey	= @"uniqueIdentifier";
 	}
 }
 
+- (void) unmarkForDeletion {
+	if ([self respondsToSelector:@selector(setDeletedAt:)]) {
+		[self setPrimitiveValue:nil forKey:kFSQManagedObjectDeletedAtKey];
+	}
+}
+
 - (void) awakeFromInsert {
 	NSDate *at = [NSDate date];
 	if ([self respondsToSelector:@selector(setCreatedAt:)]) {

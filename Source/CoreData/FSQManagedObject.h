@@ -19,6 +19,7 @@ extern NSString *kFSQManagedObjectUniqueIdentifierKey;
 @property (nonatomic, readonly) NSDictionary *allAttributes;
 
 - (void) markForDeletion;
+- (void) unmarkForDeletion;
 
 
 @end
