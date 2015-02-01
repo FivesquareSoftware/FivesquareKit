@@ -33,7 +33,7 @@ NSString *kFSQUnknownErrorDomain = @"Unknown Error Domain";
 + (id) errorWithError:(NSError *)underlyingError localizedDescription:(NSString *)localizedDescription {
 	NSError *error;
 	if (underlyingError) {
-		[self errorWithError:underlyingError domain:underlyingError.domain code:underlyingError.code localizedDescription:localizedDescription];
+		error = [self errorWithError:underlyingError domain:underlyingError.domain code:underlyingError.code localizedDescription:localizedDescription];
 	}
 	else {
 		error = [self errorWithDomain:kFSQUnknownErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey : localizedDescription}];
