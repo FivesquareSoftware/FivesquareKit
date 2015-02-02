@@ -63,6 +63,9 @@
 				   requestOptions:(NSDictionary *)options
 						inContext:(NSManagedObjectContext *)context {
 	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
 
 	NSFetchRequest *fetchRequest = nil;
 	__block NSError *error = nil;
@@ -119,6 +122,9 @@
 						   inContext:(NSManagedObjectContext *)context {
 	NSParameterAssert(templateName);
 	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
 
 	NSFetchRequest *fetchRequest = nil;
 	id found = nil;
@@ -172,6 +178,9 @@
 	
 	NSParameterAssert(templateName);
 	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
 
 	NSFetchRequest *fetchRequest = nil;
 	
@@ -226,6 +235,9 @@
 				inContext:(NSManagedObjectContext *)context {
 
 	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
 
 	NSFetchRequest *fetchRequest = nil;
 	id found = nil;
@@ -304,6 +316,9 @@
 						inContext:(NSManagedObjectContext *)context {
 
 	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
 
 	NSFetchRequest *fetchRequest = nil;
 	
@@ -345,6 +360,9 @@
 					inContext:(NSManagedObjectContext *)context {
 
 	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
 
 	id results = nil;
 	
