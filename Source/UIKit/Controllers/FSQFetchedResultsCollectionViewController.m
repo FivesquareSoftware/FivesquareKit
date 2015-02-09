@@ -140,6 +140,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 	NSInteger numberOfItems =  [self.fetchedResultsController numberOfObjectsInSection:section];
+	FLog(@"numberOfItems:%@",@(numberOfItems));
 	return numberOfItems;
 }
 

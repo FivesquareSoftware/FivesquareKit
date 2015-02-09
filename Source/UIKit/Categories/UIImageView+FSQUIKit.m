@@ -62,7 +62,11 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 }
 
 - (void) setURL:(id)URL {
+//	FLog(@"%p.setURL:%@",self,URL);
 	objc_setAssociatedObject(self, &kUIImageView_FSQUIKit_URL, URL, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	if (nil == URL) {
+		self.image = nil;
+	}
 }
 
 @dynamic completionTicket;
@@ -93,6 +97,8 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 		if (self.cache && self.URL && self.completionTicket) {
 			[self.cache removeHandler:self.completionTicket forURL:self.URL];
 			self.completionTicket = nil;
+			self.URL = nil;
+			self.image = nil;
 		}
 	}
 }
@@ -116,9 +122,11 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 }
 
 - (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)(BOOL success))block {
+//	FLog(@"%p.setImageWithContentsOfURL:%@",self,URLOrString);
 
 	// Cancel/reject any completion handlers that might be out there already
 	if (self.URL && self.completionTicket) {
+//		FLog(@"%p -> Canceling previous ticket: %@",self,self.completionTicket);
 		[imageCache removeHandler:self.completionTicket forURL:self.URL];
 		self.completionTicket = nil;
 	}
@@ -137,7 +145,7 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 	}
 	
 	if (URL == nil || [NSString isEmpty:[URL description]]) {
-		FLog(@"Not loading image from empty URL");
+		FLog(@"%p -> Not loading image from empty URL",self);
 		return;
 	}
 	
@@ -145,6 +153,8 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 	if (NO == [URL isKindOfClass:[NSURL class]]) {
 		return;
 	}
+//	FLog(@"%p -> Loading new URL: %@",self,URL);
+
 		
 	// Check if we need to add scale
 	NSURL *URLWithScale = URL;
@@ -156,13 +166,14 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 			URLWithScale = [URL URLBySettingScale:scale];
 		} 
 	}
+//	FLog(@"%p -> URLWithScale: %@",self,URLWithScale);
 	
 	// Set up a completion handler that checks if our URL is still the same as what was fetched
 	void (^completionHandler)(id, NSError *) = ^(id image, NSError *error){
 		id fetchedURL = URLWithScale; // capture the URL we're fetching here
 
 		if (error) {
-			FLogError(error, @"Could not load image");
+			FLogError(error, @"%p -> Could not load image",self);
 		}
 		if ([fetchedURL isEqual:self.URL]) { // check if the image view is no longer interested
 			BOOL success = image != nil;
@@ -177,6 +188,9 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 			if (block) {
 				block(success);
 			}
+		}
+		else {
+			FLogWarn(@"%p -> Image view received a downloaded image that it doesn't care about: fetched:%@ != URL:%@",self,fetchedURL,self.URL);
 		}
 		self.completionTicket = nil;
 	};

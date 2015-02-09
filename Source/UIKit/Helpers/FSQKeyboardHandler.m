@@ -19,7 +19,7 @@
 @property (nonatomic, readonly) CGRect bounds;
 @property (nonatomic) CGRect frame;
 @property (nonatomic, readonly) CGPoint center;
-@property (nonatomic, readonly) UIInterfaceOrientation interfaceOrientation;
+@property (nonatomic) UIInterfaceOrientation interfaceOrientation;
 @property (nonatomic, readonly) BOOL isLandscape;
 @property (nonatomic, readonly) BOOL isUpsideDown;
 @end
@@ -139,45 +139,77 @@
 
 - (void) keyboardWillShowNotification:(NSNotification *)notification {
 	
-	if(_keyboardUp)
+	if(_keyboardUp) {
 		return;
+	}
 	_keyboardUp = YES;
 	
 	
 	NSDictionary *userInfo = [notification userInfo];
 	CGRect keyboardFrame;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
-	keyboardFrame = [_viewController.view.superview convertRect:keyboardFrame fromView:nil];
 	FLogDebug(@"keyboardFrame: %@", NSStringFromCGRect(keyboardFrame));
+	keyboardFrame = [_viewController.view.superview convertRect:keyboardFrame fromView:nil];
+	FLogDebug(@"keyboardFrame~: %@", NSStringFromCGRect(keyboardFrame));
 //	FLogDebug(@"self.frame: %@",NSStringFromCGRect(self.frame));
 	
 	CGRect remainingSlice;
 	CGRect keyboardSlice;
-	CGFloat keyboardIntrusionDimension = self.isLandscape ? keyboardFrame.size.width : keyboardFrame.size.height;
-//	FLogDebug(@"keyboardIntrusionDimension: %@",@(keyboardIntrusionDimension));
+	CGFloat keyboardIntrusionDimension;
 
 	CGRectEdge keyboardOriginEdge;
-	switch (self.interfaceOrientation) {
-		case UIDeviceOrientationPortraitUpsideDown:
-			keyboardOriginEdge = CGRectMinYEdge;
-			break;
-		case UIDeviceOrientationLandscapeLeft:
-			keyboardOriginEdge = CGRectMinXEdge;
-			break;
-		case UIDeviceOrientationLandscapeRight:
-			keyboardOriginEdge = CGRectMaxXEdge;
-			break;			
-		case UIDeviceOrientationPortrait:
-		default:
-			keyboardOriginEdge = CGRectMaxYEdge;
-			break;
+
+//	if (self.isLandscape && floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1){
+//		keyboardFrame.size = CGSizeMake(<#CGFloat width#>, <#CGFloat height#>)
+//	}
+
+
+	if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1){
+
+		keyboardIntrusionDimension = self.isLandscape ? keyboardFrame.size.width : keyboardFrame.size.height;
+
+		switch (self.interfaceOrientation) {
+			case UIInterfaceOrientationPortraitUpsideDown:
+				keyboardOriginEdge = CGRectMinYEdge;
+				break;
+			case UIInterfaceOrientationLandscapeLeft:
+				keyboardOriginEdge = CGRectMaxXEdge;
+				break;
+			case UIInterfaceOrientationLandscapeRight:
+				keyboardOriginEdge = CGRectMinXEdge;
+				break;
+			case UIInterfaceOrientationPortrait:
+			default:
+				keyboardOriginEdge = CGRectMaxYEdge;
+				break;
+		}
 	}
-//	FLogDebug(@"keyboardOriginEdge: %@",@(keyboardOriginEdge));
+	else {
+		keyboardIntrusionDimension = keyboardFrame.size.height;
+
+		switch (self.interfaceOrientation) {
+			case UIInterfaceOrientationPortraitUpsideDown:
+				keyboardOriginEdge = CGRectMinYEdge;
+				break;
+			case UIInterfaceOrientationLandscapeLeft:
+				keyboardOriginEdge = CGRectMinYEdge;
+				break;
+			case UIInterfaceOrientationLandscapeRight:
+				keyboardOriginEdge = CGRectMaxYEdge;
+				break;
+			case UIInterfaceOrientationPortrait:
+			default:
+				keyboardOriginEdge = CGRectMaxYEdge;
+				break;
+		}
+	}
+	FLogDebug(@"keyboardIntrusionDimension: %@",@(keyboardIntrusionDimension));
+	FLogDebug(@"keyboardOriginEdge: %@",@(keyboardOriginEdge));
 
 	CGRectDivide(self.frame, &keyboardSlice, &remainingSlice, keyboardIntrusionDimension, keyboardOriginEdge);	
-//	FLogDebug(@"remainingSlice: %@",NSStringFromCGRect(remainingSlice));
-//	FLogDebug(@"keyboardSlice: %@",NSStringFromCGRect(keyboardSlice));
-	FSQAssert(CGRectEqualToRect(keyboardSlice, keyboardFrame), @"Keyboard slice doesn't equal keyboard frame!");
+	FLogDebug(@"remainingSlice: %@",NSStringFromCGRect(remainingSlice));
+	FLogDebug(@"keyboardSlice: %@",NSStringFromCGRect(keyboardSlice));
+//	FSQAssert(CGRectEqualToRect(keyboardSlice, keyboardFrame), @"Keyboard slice doesn't equal keyboard frame! %@ %@",NSStringFromCGRect(keyboardSlice),NSStringFromCGRect(keyboardFrame));
 	_keyboardFrame = keyboardFrame;
 	
 	NSTimeInterval keyboardAnimationDuration;
@@ -204,8 +236,9 @@
 
 - (void) keyboardWillHideNotification:(NSNotification *)notification {
 	
-	if(self.keepKeyboardUp)
+	if(self.keepKeyboardUp) {
 		return;
+	}
 	NSDictionary *userInfo = [notification userInfo];
 //	FLogDebug(@"userInfo: %@",userInfo);
 	
@@ -221,7 +254,13 @@
 	UIViewAnimationCurve keyboardAnimationCurve;
 	[(NSValue *)[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&keyboardAnimationCurve];
 
-	CGRect newFrame = CGRectUnion(self.frame, keyboardFrame);
+	CGRect newFrame;
+	if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1){
+		newFrame = CGRectUnion(self.frame, keyboardFrame);
+	}
+	else {
+		newFrame = self.view.superview.bounds;
+	}
 	FLogDebug(@"newFrame: %@", NSStringFromCGRect(newFrame));
 	_keyboardFrame = CGRectZero;
 	

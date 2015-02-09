@@ -173,7 +173,7 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 #pragma mark - Object
 
 - (void)dealloc {
-    dispatch_release(_setupQueue);
+//    dispatch_release(_setupQueue);
 }
 
 - (id) initWithModelName:(NSString *)modelName persistentStore:(NSString *)storeName {

@@ -88,7 +88,7 @@
         block(semaphore);
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 //        dispatch_semaphore_signal(semaphore);
-        dispatch_release(semaphore);
+//        dispatch_release(semaphore);
     }];
 	[self.bootQ addOperation:blockOp];
 }

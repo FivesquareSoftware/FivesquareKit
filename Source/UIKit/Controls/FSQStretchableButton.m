@@ -69,7 +69,7 @@
 }
 
 - (void) ready {
-	[self generateStretchableImages];
+//	[self generateStretchableImages];
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -91,6 +91,13 @@
 
 - (void) awakeFromNib {
 	[self ready];
+}
+
+// Have to do this here because appearance now tracks usage of setters and will not invoke appearance selectors if the property has been called already
+- (void) didMoveToSuperview {
+	if (self.superview) {
+		[self generateStretchableImages];
+	}
 }
 
 
