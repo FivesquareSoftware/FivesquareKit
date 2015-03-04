@@ -18,8 +18,8 @@
 #import "NSError+FSQFoundation.h"
 
 
-#define kDebugCollectionController DEBUG && 0
-#define CollectionLog(frmt, ...) FLogMarkIf(kDebugCollectionController, ([NSString stringWithFormat:@"F-COLLECTION.%@",self.title]) , frmt, ##__VA_ARGS__)
+#define kDebugCollectionController DEBUG && 1
+#define CollectionLog(frmt, ...) FLogMarkIf(kDebugCollectionController, ([NSString stringWithFormat:@"F-COLLECTION.%@",self]) , frmt, ##__VA_ARGS__)
 
 
 @interface FSQFetchedResultsCollectionViewController ()
@@ -28,6 +28,7 @@
 @property (nonatomic, strong) id persistentStoresObserver;
 @property (nonatomic, strong) id ubiquitousChangesObserver;
 @property (nonatomic, strong) NSBlockOperation *collectionUpdateOperation;
+@property (nonatomic) BOOL pauseUpdates;
 @end
 
 @implementation FSQFetchedResultsCollectionViewController
@@ -128,6 +129,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	self.pauseUpdates = NO;
 	if (self.fetchedResultsController.delegate != self) {
 		self.fetchedResultsController.delegate = self;
 	}
@@ -138,6 +140,15 @@
 
 - (void) viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	self.pauseUpdates = YES;
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
 }
 
 
@@ -197,11 +208,14 @@
 
 #pragma mark -  NSFetchedResultsController Delegate
 
-#define kFSQFetchedResultsCollectionViewControllerEmptySectionBug 1
+#define kFSQFetchedResultsCollectionViewControllerEmptySectionBug 0
 
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
 	CollectionLog(@"%@",NSStringFromSelector(_cmd));
+	if (self.pauseUpdates) {
+		return;
+	}
 	if (_animatesCollectionViewUpdates) {
 		_shouldReloadCollectionView = NO;
 		_collectionUpdateOperation = [NSBlockOperation new];		
@@ -216,6 +230,10 @@
 //	CollectionLog(@"sectionInfo:%@",sectionInfo);
 //	CollectionLog(@"sectionIndex:%@",@(sectionIndex));
 //	CollectionLog(@"type:%@",@(type));
+
+	if (self.pauseUpdates) {
+		return;
+	}
 
 	if (_shouldReloadCollectionView) {
 		return;
@@ -260,6 +278,10 @@
 //NSFetchedResultsChangeUpdate = 4
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+	if (self.pauseUpdates) {
+		return;
+	}
+
 	if (_shouldReloadCollectionView) {
 		return;
 	}
@@ -377,6 +399,10 @@
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	if (self.pauseUpdates) {
+		return;
+	}
+
 	if (_shouldReloadCollectionView) {
 		[self.collectionView reloadData];
 		CollectionLog(@"Reloaded collection view data");
@@ -389,10 +415,10 @@
 		} completion:^(BOOL finished) {
 			_collectionUpdateOperation = nil;
 			if (finished) {
-				CollectionLog(@"Completed %@ updates",@(numberOfUpdates));
+				CollectionLog(@"%@ completed %@ updates",self,@(numberOfUpdates));
 			}
 			else {
-				CollectionLog(@"Failed to complete %@ updates",@(numberOfUpdates));
+				CollectionLog(@"%@ failed to complete %@ updates",self,@(numberOfUpdates));
 			}
 		}];
 	}

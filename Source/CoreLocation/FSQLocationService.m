@@ -12,7 +12,7 @@
 #import "FSQMacros.h"
 
 
-#define kLocationLoggingEnabled DEBUG && 0
+#define kLocationLoggingEnabled DEBUG && 1
 #define LocLog(frmt, ...) { FSQWeakSelf(self_); FLogMarkIf(kLocationLoggingEnabled, ([NSString stringWithFormat:@"LOCATION.%@",self_.identifier]) , frmt, ##__VA_ARGS__); }
 
 
