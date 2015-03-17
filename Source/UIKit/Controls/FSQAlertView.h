@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-
+#warning Convert FSQAlertView to FSQAlertController and subclass UIALertController
 @interface FSQAlertView : UIAlertView <UIAlertViewDelegate> {
 }
 
