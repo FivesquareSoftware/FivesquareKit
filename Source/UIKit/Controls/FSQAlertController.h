@@ -16,31 +16,28 @@
 
 
 
-/** @see infoAlertWithTitle:message:userInfo:delegate:. */
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage;
++ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message;
 
 /** Returns a simple alert view with an "OK" button. */
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage userInfo:(NSDictionary *)aUserInfo confirmationHandler:(void (^)())handler;
++ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
 
 /** Returns a simple alert view with custom button text. */
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage buttonTitle:(NSString *)aButton userInfo:(NSDictionary *)aUserInfo confirmationHandler:(void (^)())handler;
++ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
 
-/** @see  errorAlertWithError:userInfo:delegate: */
 + (FSQAlertController *) errorAlertWithError:(NSError *)error;
 
 + (FSQAlertController *) errorAlertWithTitle:(NSString *)title error:(NSError *)error;
 
 /** Returns a simple alert view with an "OK" button with the title and message derived from the supplied error object. */
-+ (FSQAlertController *) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(NSDictionary *)aUserInfo confirmationHandler:(void (^)())handler;
++ (FSQAlertController *) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
 
-/** @see confirmationAlertWithTitle:message:userInfo:delegate:. */
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage confirmationHandler:(void (^)())handler;
++ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive confirmationHandler:(void (^)())handler;
 
 /** Returns an alert with a "OK" and "Cancel" buttons. */
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage userInfo:(NSDictionary *)aUserInfo confirmationHandler:(void (^)())handler;
++ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
 
 /** Returns an alert with a button derived from the supplied button string and a "Cancel" button. */
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)aTitle message:(NSString *)aMessage button:(NSString *)aButton userInfo:(NSDictionary *)aUserInfo confirmationHandler:(void (^)())handler;
++ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message button:(NSString *)buttonTitle destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
 
 - (void) showFromRootController;
 - (void) showFromController:(UIViewController *)controller;

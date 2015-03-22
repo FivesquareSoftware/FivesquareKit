@@ -24,8 +24,8 @@
 	return [self infoAlertWithTitle:title message:message userInfo:nil confirmationHandler:nil];
 }
 
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)aTitle message:(NSString *)message userInfo:(NSDictionary *)userInfo {
-	return [self infoAlertWithTitle:aTitle message:message userInfo:userInfo confirmationHandler:nil];
++ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
+	return [self infoAlertWithTitle:title message:message buttonTitle:NSLocalizedString(@"OK", @"OK Button Title") userInfo:userInfo confirmationHandler:handler];
 }
 
 + (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
@@ -77,24 +77,34 @@
 	return alertController;
 }
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message confirmationHandler:(void (^)())handler {
-	return [self confirmationAlertWithTitle:title message:message userInfo:nil confirmationHandler:handler];
++ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive confirmationHandler:(void (^)())handler {
+	return [self confirmationAlertWithTitle:title message:message destructive:destructive userInfo:nil confirmationHandler:handler];
 }
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
-	return [self confirmationAlertWithTitle:title message:message button:NSLocalizedString(@"OK", @"OK Button Title") userInfo:userInfo confirmationHandler:handler];
++ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
+	return [self confirmationAlertWithTitle:title message:message button:NSLocalizedString(@"OK", @"OK Button Title") destructive:destructive userInfo:userInfo confirmationHandler:handler];
 }
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message button:(NSString *)buttonTitle userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
++ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message button:(NSString *)buttonTitle destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
 	FSQAlertController *alertController = [FSQAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 	alertController.userInfo = userInfo;
-	[alertController addAction:[UIAlertAction actionWithTitle:buttonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+
+	UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:buttonTitle style:(destructive ? UIAlertActionStyleDestructive : UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
 		if (handler) {
 			handler();
 		}
-	}]];
-	[alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-	}]];
+	}];
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+	}];
+
+	if (destructive) {
+		[alertController addAction:confirmAction];
+		[alertController addAction:cancelAction];
+	}
+	else {
+		[alertController addAction:cancelAction];
+		[alertController addAction:confirmAction];
+	}
 
 	return alertController;
 }
