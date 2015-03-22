@@ -76,7 +76,7 @@
 		A42A2E971525250C0032AB39 /* FSQFetchedResultsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E3C659130A2D6B00BF4C6E /* FSQFetchedResultsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E981525250C0032AB39 /* FSQFetchedResultsTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F444212748375005D9BF4 /* FSQFetchedResultsTableViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E991525250C0032AB39 /* FSQFetchedResultsMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EBEAE514FACBC3001CE780 /* FSQFetchedResultsMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A42A2E9A1525250C0032AB39 /* FSQAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094421303AC4800CE8BB3 /* FSQAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A42A2E9A1525250C0032AB39 /* FSQAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094421303AC4800CE8BB3 /* FSQAlertController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E9B1525250C0032AB39 /* FSQDetailImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F445A12748375005D9BF4 /* FSQDetailImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E9C1525250C0032AB39 /* FSQModalImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = A464DA4113D390C0006B6C59 /* FSQModalImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2E9D1525250C0032AB39 /* FSQRatingIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F445F12748375005D9BF4 /* FSQRatingIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -123,7 +123,7 @@
 		A42A2EC81525252D0032AB39 /* FSQFetchedResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E3C65A130A2D6B00BF4C6E /* FSQFetchedResultsViewController.m */; };
 		A42A2EC91525252D0032AB39 /* FSQFetchedResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F444312748375005D9BF4 /* FSQFetchedResultsTableViewController.m */; };
 		A42A2ECA1525252D0032AB39 /* FSQFetchedResultsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EBEAE614FACBC3001CE780 /* FSQFetchedResultsMapViewController.m */; };
-		A42A2ECB1525252D0032AB39 /* FSQAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C094431303AC4800CE8BB3 /* FSQAlertView.m */; };
+		A42A2ECB1525252D0032AB39 /* FSQAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C094431303AC4800CE8BB3 /* FSQAlertController.m */; };
 		A42A2ECC1525252D0032AB39 /* FSQDetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F445B12748375005D9BF4 /* FSQDetailImageView.m */; };
 		A42A2ECD1525252D0032AB39 /* FSQModalImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A464DA4213D390C0006B6C59 /* FSQModalImageView.m */; };
 		A42A2ECE1525252D0032AB39 /* FSQRatingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F446012748375005D9BF4 /* FSQRatingIndicatorView.m */; };
@@ -626,8 +626,8 @@
 		A4BD54D81582A0F800AC0BEE /* FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAppKit.h; sourceTree = "<group>"; };
 		A4BEA9B0155C389200509D20 /* UIDevice+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4BEA9B1155C389200509D20 /* UIDevice+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+FSQUIKit.m"; sourceTree = "<group>"; };
-		A4C094421303AC4800CE8BB3 /* FSQAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAlertView.h; sourceTree = "<group>"; };
-		A4C094431303AC4800CE8BB3 /* FSQAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAlertView.m; sourceTree = "<group>"; };
+		A4C094421303AC4800CE8BB3 /* FSQAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAlertController.h; sourceTree = "<group>"; };
+		A4C094431303AC4800CE8BB3 /* FSQAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAlertController.m; sourceTree = "<group>"; };
 		A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4C094541303AD4700CE8BB3 /* UIViewController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4C0945B1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+FSQUIKit.h"; sourceTree = "<group>"; };
@@ -1094,8 +1094,8 @@
 		A45F444F12748375005D9BF4 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				A4C094421303AC4800CE8BB3 /* FSQAlertView.h */,
-				A4C094431303AC4800CE8BB3 /* FSQAlertView.m */,
+				A4C094421303AC4800CE8BB3 /* FSQAlertController.h */,
+				A4C094431303AC4800CE8BB3 /* FSQAlertController.m */,
 				A41E30BD188608F400914376 /* FSQActionSheet.h */,
 				A41E30BE188608F400914376 /* FSQActionSheet.m */,
 				A45F445A12748375005D9BF4 /* FSQDetailImageView.h */,
@@ -1434,7 +1434,7 @@
 				A4AEA77B185648D500289AFE /* NSDate+FSQFoundation.h in Headers */,
 				A42A2E981525250C0032AB39 /* FSQFetchedResultsTableViewController.h in Headers */,
 				A42A2E991525250C0032AB39 /* FSQFetchedResultsMapViewController.h in Headers */,
-				A42A2E9A1525250C0032AB39 /* FSQAlertView.h in Headers */,
+				A42A2E9A1525250C0032AB39 /* FSQAlertController.h in Headers */,
 				A42A2E9B1525250C0032AB39 /* FSQDetailImageView.h in Headers */,
 				A42A2E9C1525250C0032AB39 /* FSQModalImageView.h in Headers */,
 				A41E30BF188608F400914376 /* FSQActionSheet.h in Headers */,
@@ -1753,7 +1753,7 @@
 				A42A2EC81525252D0032AB39 /* FSQFetchedResultsViewController.m in Sources */,
 				A42A2EC91525252D0032AB39 /* FSQFetchedResultsTableViewController.m in Sources */,
 				A42A2ECA1525252D0032AB39 /* FSQFetchedResultsMapViewController.m in Sources */,
-				A42A2ECB1525252D0032AB39 /* FSQAlertView.m in Sources */,
+				A42A2ECB1525252D0032AB39 /* FSQAlertController.m in Sources */,
 				A42A2ECC1525252D0032AB39 /* FSQDetailImageView.m in Sources */,
 				A42A2ECD1525252D0032AB39 /* FSQModalImageView.m in Sources */,
 				A42A2ECE1525252D0032AB39 /* FSQRatingIndicatorView.m in Sources */,
