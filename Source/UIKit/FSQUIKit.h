@@ -60,7 +60,6 @@
 #import "FSQMenuViewController+Protected.h"
 #import "FSQFetchedResultsDataSource.h"
 #import "FSQFetchedResultsCollectionViewController.h"
-#import "FSQSearchDisplayController.h"
 
 
 // Controls

@@ -367,8 +367,6 @@
 		A4E416231617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E416201617AD9400B3FADE /* NSSet+FSQFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4E416241617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E416211617AD9400B3FADE /* NSSet+FSQFoundation.m */; };
 		A4E416251617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E416211617AD9400B3FADE /* NSSet+FSQFoundation.m */; };
-		A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */ = {isa = PBXBuildFile; fileRef = A4E6FCDA1618C0D90040D57D /* FSQSearchDisplayController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A4E6FCDD1618C0DA0040D57D /* FSQSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E6FCDB1618C0D90040D57D /* FSQSearchDisplayController.m */; };
 		A4EA537015336753006BF354 /* FSQMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EA536E15336753006BF354 /* FSQMenuItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4EA537115336753006BF354 /* FSQMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EA536F15336753006BF354 /* FSQMenuItem.m */; };
 		A4EA537515336789006BF354 /* FSQMenuControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A4EA537315336789006BF354 /* FSQMenuControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -669,8 +667,6 @@
 		A4E3C65A130A2D6B00BF4C6E /* FSQFetchedResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQFetchedResultsViewController.m; sourceTree = "<group>"; };
 		A4E416201617AD9400B3FADE /* NSSet+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+FSQFoundation.h"; sourceTree = "<group>"; };
 		A4E416211617AD9400B3FADE /* NSSet+FSQFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+FSQFoundation.m"; sourceTree = "<group>"; };
-		A4E6FCDA1618C0D90040D57D /* FSQSearchDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQSearchDisplayController.h; sourceTree = "<group>"; };
-		A4E6FCDB1618C0D90040D57D /* FSQSearchDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQSearchDisplayController.m; sourceTree = "<group>"; };
 		A4EA536E15336753006BF354 /* FSQMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMenuItem.h; sourceTree = "<group>"; };
 		A4EA536F15336753006BF354 /* FSQMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQMenuItem.m; sourceTree = "<group>"; };
 		A4EA537315336789006BF354 /* FSQMenuControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMenuControl.h; sourceTree = "<group>"; };
@@ -1084,8 +1080,6 @@
 				A466434F15A1FA190079C2C1 /* FSQFetchedResultsCollectionViewController.m */,
 				A4541F5615C5F156008F085E /* FSQFetchedResultsDataSource.h */,
 				A4541F5715C5F156008F085E /* FSQFetchedResultsDataSource.m */,
-				A4E6FCDA1618C0D90040D57D /* FSQSearchDisplayController.h */,
-				A4E6FCDB1618C0D90040D57D /* FSQSearchDisplayController.m */,
 				A44624311558659200E25FFD /* Menu */,
 			);
 			path = Controllers;
@@ -1503,7 +1497,6 @@
 				A4C4B2E5161E6241004256F3 /* NSData+FSQFoundation_Base64.h in Headers */,
 				A4E4160D1617AA4300B3FADE /* FSQFetchedResultsCollectionViewController.h in Headers */,
 				A40D3E8315E7E3FB00C2063E /* CALayer+FSQQuartz.h in Headers */,
-				A4E6FCDC1618C0DA0040D57D /* FSQSearchDisplayController.h in Headers */,
 				A4E416221617AD9400B3FADE /* NSSet+FSQFoundation.h in Headers */,
 				A43901E91804A3FA00C94D88 /* UIScreen+FSQUIKit.h in Headers */,
 				A45FAF8D16926ED30066B78C /* FSQKeyObservation.h in Headers */,
@@ -1808,7 +1801,6 @@
 				A4C4B2E6161E6241004256F3 /* NSData+FSQFoundation_Base64.m in Sources */,
 				A4E4160C1617AA3D00B3FADE /* FSQFetchedResultsCollectionViewController.m in Sources */,
 				A4E416241617AD9400B3FADE /* NSSet+FSQFoundation.m in Sources */,
-				A4E6FCDD1618C0DA0040D57D /* FSQSearchDisplayController.m in Sources */,
 				A457EE4E16274E7F00240B7E /* FSQFoundationUtils.m in Sources */,
 				A45FAF8916926EC50066B78C /* FSQKeyObserver.m in Sources */,
 				A45E2AAA192FBA4500A7F888 /* UINavigationController+FSQUIKit.m in Sources */,
@@ -1941,7 +1933,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DDEBUG=1";
 				OTHER_LDFLAGS = "-ObjC";
@@ -1967,7 +1959,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";
 				RUN_CLANG_STATIC_ANALYZER = NO;

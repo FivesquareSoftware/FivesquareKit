@@ -12,6 +12,7 @@
 
 @property (strong, readonly) NSMutableDictionary *attributes;
 
-- (id)initWithAttributes:(NSDictionary *)attributes;
+- (instancetype)initWithAttributes:(NSDictionary *)attributes;
+- (instancetype) initWithContentsOfFile:(NSString *)file;
 
 @end
