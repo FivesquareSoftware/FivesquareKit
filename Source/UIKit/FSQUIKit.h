@@ -64,7 +64,7 @@
 
 // Controls
 
-#import "FSQAlertView.h"
+#import "FSQAlertController.h"
 #import "FSQActionSheet.h"
 #import "FSQModalImageView.h"
 #import "FSQDetailImageView.h"
