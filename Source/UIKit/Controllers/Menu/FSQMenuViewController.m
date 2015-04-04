@@ -13,6 +13,7 @@
 #import "FSQAsserter.h"
 
 
+static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 
 @implementation FSQMenuViewController
 
@@ -105,6 +106,8 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
+
+	[self.tableView registerClass:_itemTableCellClass forCellReuseIdentifier:kFSQmenuViewControllerCell];
 }
 
 - (void)viewDidUnload {
@@ -156,11 +159,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFSQmenuViewControllerCell];
-	if (cell == nil) {
-		cell = [[self.itemTableCellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kFSQmenuViewControllerCell];
-	}
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFSQmenuViewControllerCell forIndexPath:indexPath];
 
     FSQMenuItem *itemAtIndex = [self itemAtIndex:(NSUInteger)indexPath.row];
 	cell.textLabel.text = itemAtIndex.displayName;
