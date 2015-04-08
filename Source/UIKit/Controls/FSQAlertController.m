@@ -9,6 +9,7 @@
 #import "FSQAlertController.h"
 
 #import "FSQAsserter.h"
+#import "UIViewController+FSQUIKit.h"
 
 
 @interface FSQAlertController ()
@@ -114,7 +115,7 @@
 	UIViewController *rootController = keyWindow.rootViewController;
 	FSQAssert(rootController, @"Tried to present an alert controller from a nil root view controller");
 	if (rootController) {
-		[rootController presentViewController:self animated:YES completion:^{}];
+		[rootController.visibleViewController presentViewController:self animated:YES completion:^{}];
 	}
 }
 
