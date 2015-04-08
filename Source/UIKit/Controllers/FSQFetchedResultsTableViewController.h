@@ -30,8 +30,8 @@
 @property (nonatomic) BOOL editable;
 @property (nonatomic) BOOL reordering;
 @property (nonatomic) NSUInteger mutatingSectionIndex;
-@property (nonatomic) NSUInteger fetchedResultsTableRowOffset;
-@property (nonatomic) NSUInteger fetchedResultsTableSection;
+@property (nonatomic) NSInteger fetchedResultsTableRowOffset;
+@property (nonatomic) NSInteger fetchedResultsTableSection;
 @property (nonatomic) BOOL showsPlaceholderRow;
 @property (nonatomic) BOOL animateTableUpdates;
 

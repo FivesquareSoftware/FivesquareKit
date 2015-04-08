@@ -31,6 +31,8 @@
 /** Returns a simple alert view with an "OK" button with the title and message derived from the supplied error object. */
 + (FSQAlertController *) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
 
++ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message confirmationHandler:(void (^)())handler;
+
 + (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive confirmationHandler:(void (^)())handler;
 
 /** Returns an alert with a "OK" and "Cancel" buttons. */

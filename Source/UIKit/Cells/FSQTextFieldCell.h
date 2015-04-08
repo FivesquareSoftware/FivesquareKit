@@ -11,8 +11,19 @@
 #import "FSQBaseTableViewCell.h"
 
 
-@interface FSQTextFieldCell : FSQBaseTableViewCell
+@interface FSQTextFieldCell : FSQBaseTableViewCell <UITextFieldDelegate> {
+@protected
+	__weak UITextField *_textField;
+}
 
-@property (nonatomic, weak) IBOutlet UITextField *textField;
+@property (nonatomic,weak) IBOutlet UITextField *textField;
+
+
+@property (nonatomic, copy) BOOL(^shouldChangeCharactersInRange)(NSRange range, NSString *replacementString);
+@property (nonatomic, copy) void(^onChange)(NSString *text);
+@property (nonatomic, copy) BOOL(^onClear)();
+@property (nonatomic, copy) void(^onReturn)(NSString *text);
+@property (nonatomic, copy) void(^onEditingEnded)(NSString *text);
+
 
 @end

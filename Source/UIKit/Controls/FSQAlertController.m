@@ -78,6 +78,10 @@
 	return alertController;
 }
 
++ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message confirmationHandler:(void (^)())handler {
+	return [self confirmationAlertWithTitle:title message:message destructive:NO userInfo:nil confirmationHandler:handler];
+}
+
 + (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive confirmationHandler:(void (^)())handler {
 	return [self confirmationAlertWithTitle:title message:message destructive:destructive userInfo:nil confirmationHandler:handler];
 }

@@ -25,12 +25,23 @@
 	return _attributes;
 }
 
-- (id)initWithAttributes:(NSDictionary *)attributes {
+- (instancetype)initWithAttributes:(NSDictionary *)attributes {
     self = [super init];
     if (self) {
         _attributes = [attributes mutableDeepCopy];
     }
     return self;
+}
+
+- (instancetype) initWithContentsOfFile:(NSString *)file {
+	NSDictionary *attributes = [NSDictionary dictionaryWithContentsOfFile:file];
+	if (attributes) {
+		self = [self initWithAttributes:attributes];
+	}
+	else {
+		self = nil;
+	}
+	return self;
 }
 
 - (NSString *) description {

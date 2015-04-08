@@ -84,7 +84,6 @@
 	return self;
 }
 
-
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
@@ -153,22 +152,28 @@
 
 - (NSIndexPath *) fetchedResultsIndexPathForTableIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row - (NSInteger)_fetchedResultsTableRowOffset inSection:indexPath.section - (NSInteger)_fetchedResultsTableSection];
+	return [NSIndexPath indexPathForRow:indexPath.row - _fetchedResultsTableRowOffset inSection:indexPath.section - _fetchedResultsTableSection];
 }
 
 - (NSIndexPath *) tableIndexPathForFetchedResultsIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row + (NSInteger)_fetchedResultsTableRowOffset inSection:indexPath.section + (NSInteger)_fetchedResultsTableSection];
+	return [NSIndexPath indexPathForRow:indexPath.row + _fetchedResultsTableRowOffset inSection:indexPath.section + _fetchedResultsTableSection];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self.fetchedResultsController numberOfSections];
+    return [self.fetchedResultsController numberOfSections] + _fetchedResultsTableSection;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - (NSInteger)_fetchedResultsTableSection];
-	if(count < 1 && self.showsPlaceholderRow)
-		count = 1;
+    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - _fetchedResultsTableSection];
+	if(self.showsPlaceholderRow) {
+		if (count < 1) {
+			count = 1;
+		}
+	}
+	else {
+		count += self.fetchedResultsTableRowOffset;
+	}
 	return count;
 }
 
@@ -182,8 +187,9 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section == _fetchedResultsTableSection)
+	if(indexPath.section == _fetchedResultsTableSection) {
 		return _editable;
+	}
 	return NO;
 }
 
@@ -248,12 +254,10 @@
 	
     switch(type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
-						  withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection] withRowAnimation:UITableViewRowAnimationFade];
             break;			
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
-						  withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection] withRowAnimation:UITableViewRowAnimationFade];
 		case NSFetchedResultsChangeMove:
 		case NSFetchedResultsChangeUpdate:
 		default:
