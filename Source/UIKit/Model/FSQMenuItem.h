@@ -21,6 +21,8 @@
 @property (nonatomic, weak) id menu;
 
 + (id) withRepresentedObject:(id)representedObject;
++ (id) withRepresentedObject:(id)representedObject displayName:(NSString *)displayName;
+
 - (id) initWithRepresentedObject:(id)representedObject;
 
 @end

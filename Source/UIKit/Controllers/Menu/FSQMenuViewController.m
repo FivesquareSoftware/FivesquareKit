@@ -11,9 +11,14 @@
 
 #import "FSQMenuItem.h"
 #import "FSQAsserter.h"
+#import "NSString+FSQFoundation.h"
 
 
 static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
+
+@interface FSQMenuViewController ()
+@property (nonatomic) BOOL staticTableView;
+@end
 
 @implementation FSQMenuViewController
 
@@ -34,13 +39,13 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 	}
 }
 
-- (void) setSelectedIndex:(NSUInteger)selectedIndex {
+- (void) setSelectedIndex:(NSInteger)selectedIndex {
 	[self setSelectedIndex:selectedIndex animated:NO];
 }
 
 @dynamic selectedItem;
 - (FSQMenuItem *) selectedItem {
-	return [self.itemsInternal objectAtIndex:self.selectedIndex];
+	return [self.itemsInternal objectAtIndex:(NSUInteger)self.selectedIndex];
 }
 
 - (void) setSelectedItem:(FSQMenuItem *)selectedItem {
@@ -92,6 +97,8 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
     self = [super initWithStyle:style];
     if (self) {
         [self initialize];
+		self.tableView.dataSource = self;
+		self.tableView.delegate = self;
     }
     return self;
 }
@@ -107,7 +114,25 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
-	[self.tableView registerClass:_itemTableCellClass forCellReuseIdentifier:kFSQmenuViewControllerCell];
+	_staticTableView = (self.tableView.dataSource != self);
+	if (_staticTableView) {
+		// Static table, extract menu items
+		NSInteger numberOfRows = [self.tableView.dataSource tableView:self.tableView numberOfRowsInSection:0];
+		for (NSInteger idx = 0; idx < numberOfRows; idx++) {
+			UITableViewCell *cell = [self.tableView.dataSource tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+			FSQAssert(cell, @"Couldn't get cell from a static table to create menu item!");
+			if (cell) {
+				NSString *text = cell.textLabel.text;
+				FSQAssert([NSString isNotEmpty:text], @"Empty text for menu item!");
+				if ([NSString isNotEmpty:text]) {
+					[self addRepresentedObject:text];
+				}
+			}
+		}
+	}
+	else {
+		[self.tableView registerClass:_itemTableCellClass forCellReuseIdentifier:kFSQmenuViewControllerCell];
+	}
 }
 
 - (void)viewDidUnload {
@@ -151,17 +176,27 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	if (_staticTableView) {
+		return [super numberOfSectionsInTableView:tableView];
+	}
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return (NSInteger)self.itemsInternal.count;
+	if (_staticTableView) {
+		return [super tableView:tableView numberOfRowsInSection:section];
+	}
+	return (NSInteger)self.itemsInternal.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (_staticTableView) {
+		return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+	}
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFSQmenuViewControllerCell forIndexPath:indexPath];
 
-    FSQMenuItem *itemAtIndex = [self itemAtIndex:(NSUInteger)indexPath.row];
+    FSQMenuItem *itemAtIndex = [self itemAtIndex:indexPath.row];
 	cell.textLabel.text = itemAtIndex.displayName;
 	cell.imageView.image = itemAtIndex.image;
 	
@@ -174,15 +209,8 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (self.selectionHandler) {
-		NSUInteger selectedIndex;
-		if (indexPath.row < 0) {
-			selectedIndex = 0;
-		} else {
-			selectedIndex = (NSUInteger)indexPath.row;
-		}
-		[self setSelectedIndex:selectedIndex animated:YES];
-	}
+	NSInteger selectedIndex = indexPath.row;
+	[self setSelectedIndex:selectedIndex animated:YES];
 }
 
 
@@ -206,13 +234,15 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 	}
 }
 
-- (void) setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated {		
+- (void) setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated {
 	if (_selectedIndex != selectedIndex) {
 		_selectedIndex = selectedIndex;
-		FSQMenuItem *selectedItem = [self.itemsInternal objectAtIndex:selectedIndex];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			self.selectionHandler(selectedItem, selectedIndex);
-		});
+		FSQMenuItem *selectedItem = [self.itemsInternal objectAtIndex:(NSUInteger)selectedIndex];
+		if (_selectionHandler) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				self.selectionHandler(selectedItem, selectedIndex);
+			});
+		}
 		NSIndexPath *newSelectedIndexPath = [NSIndexPath indexPathForRow:(NSInteger)selectedIndex inSection:0];
 		NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
 		if (NO == [selectedIndexPath isEqual:newSelectedIndexPath]) {
@@ -221,18 +251,18 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 	}
 }
 
-- (FSQMenuItem *) itemAtIndex:(NSUInteger)index {
+- (FSQMenuItem *) itemAtIndex:(NSInteger)index {
 	if (index >= self.itemsInternal.count) {
 		return nil;
 	}
-	return [self.itemsInternal objectAtIndex:index];
+	return [self.itemsInternal objectAtIndex:(NSUInteger)index];
 }
 
 
 - (void) setSelectedItem:(FSQMenuItem *)selectedItem animated:(BOOL)animated {
 	[self.itemsInternal enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		if (obj == selectedItem) {
-			[self setSelectedIndex:idx animated:animated];
+			[self setSelectedIndex:(NSInteger)idx animated:animated];
 			*stop = YES;
 		}
 	}];
