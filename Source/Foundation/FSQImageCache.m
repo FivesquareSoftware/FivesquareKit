@@ -120,10 +120,11 @@
 
 @synthesize coreImageContext = _coreImageContext;
 - (CIContext *) coreImageContext {
-	static dispatch_once_t coreImageContextInitToken;
-	dispatch_once(&coreImageContextInitToken, ^{
-		_coreImageContext = [CIContext contextWithOptions:nil];
-	});
+	if (nil == _coreImageContext) {
+		EAGLContext *myEAGLContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+		NSDictionary *options = @{ kCIContextWorkingColorSpace : [NSNull null] };
+		_coreImageContext = [CIContext contextWithEAGLContext:myEAGLContext options:options];
+	}
 	return _coreImageContext;
 }
 
@@ -350,6 +351,10 @@
 	[_cache removeAllObjects];
 }
 
+- (void) purgeDiskCache {
+
+}
+
 
 // ========================================================================== //
 
@@ -500,9 +505,10 @@
 				[_filter setValue:input forKey:kCIInputImageKey];
 				CIImage *output = [_filter valueForKey:kCIOutputImageKey];
 				// This has a bug that produces a blank image
-				processedImage = [UIImage imageWithCIImage:output];
-//			CGImageRef outputCGImage = [self.coreImageContext createCGImage:output fromRect:CGRectMake(0, 0, [image size].width*scale, [image size].height*scale)];
-//			processedImage = [UIImage imageWithCGImage:outputCGImage scale:scale orientation:UIImageOrientationUp];
+//				processedImage = [UIImage imageWithCIImage:output];
+			CGImageRef outputCGImage = [self.coreImageContext createCGImage:output fromRect:CGRectMake(0, 0, [image size].width*scale, [image size].height*scale)];
+			processedImage = [UIImage imageWithCGImage:outputCGImage scale:scale orientation:UIImageOrientationUp];
+				CGImageRelease(outputCGImage);
 				input = nil;
 				output = nil;
 			}

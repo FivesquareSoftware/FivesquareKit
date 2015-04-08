@@ -32,10 +32,15 @@ typedef NS_ENUM(NSUInteger, FSQUIViewControllerTransition) {
 /** If the receiver is the nav controller's first controller. */
 @property (nonatomic, readonly) BOOL isNavRootController;
 
+/** @deprecated
+ *  @see visibleViewController;
+ */
+@property (nonatomic, readonly) UIViewController *topmostController;
+
 /** For cases where you might have several view stacks layered on top of each other,
  *  will return the controller managing the topmost view stack.
  */
-@property (nonatomic, readonly) UIViewController *topmostController;
+@property (nonatomic, readonly) UIViewController *visibleViewController;
 
 /** When embedded in a popover, lets you get at it. Set as a dynamic association at the runtime level. */
 @property (nonatomic, assign) UIPopoverController *popoverController;

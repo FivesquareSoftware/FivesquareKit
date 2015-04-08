@@ -33,15 +33,19 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 }
 
 @dynamic topmostController;
-@dynamic popoverController;
-
 - (UIViewController *) topmostController {
+	return [self visibleViewController];
+}
+
+@dynamic visibleViewController;
+- (UIViewController *) visibleViewController {
 	if(self.presentedViewController) {
-		return self.presentedViewController.topmostController;
+		return self.presentedViewController.visibleViewController;
 	}
 	return self;
 }
 
+@dynamic popoverController;
 - (void) setPopoverController:(UIPopoverController *)value {
 	objc_setAssociatedObject(self, &kUIViewController_FSQUIKitPopoverController, value, OBJC_ASSOCIATION_ASSIGN);
 }
