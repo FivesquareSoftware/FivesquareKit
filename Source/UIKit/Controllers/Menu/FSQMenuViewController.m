@@ -129,6 +129,9 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 				}
 			}
 		}
+		// Since are cells were preloaded, update their selection if we can
+		NSIndexPath *newSelectedIndexPath = [NSIndexPath indexPathForRow:(NSInteger)_selectedIndex inSection:0];
+		[self.tableView selectRowAtIndexPath:newSelectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
 	}
 	else {
 		[self.tableView registerClass:_itemTableCellClass forCellReuseIdentifier:kFSQmenuViewControllerCell];
@@ -237,16 +240,18 @@ static NSString *kFSQmenuViewControllerCell = @"FSQmenuViewControllerCell";
 - (void) setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated {
 	if (_selectedIndex != selectedIndex) {
 		_selectedIndex = selectedIndex;
-		FSQMenuItem *selectedItem = [self.itemsInternal objectAtIndex:(NSUInteger)selectedIndex];
-		if (_selectionHandler) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				self.selectionHandler(selectedItem, selectedIndex);
-			});
-		}
-		NSIndexPath *newSelectedIndexPath = [NSIndexPath indexPathForRow:(NSInteger)selectedIndex inSection:0];
-		NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-		if (NO == [selectedIndexPath isEqual:newSelectedIndexPath]) {
-			[self.tableView selectRowAtIndexPath:newSelectedIndexPath animated:animated scrollPosition:UITableViewScrollPositionNone];
+		if (_selectedIndex < [self.itemsInternal count]) {
+			FSQMenuItem *selectedItem = [self.itemsInternal objectAtIndex:(NSUInteger)selectedIndex];
+			if (_selectionHandler) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					self.selectionHandler(selectedItem, selectedIndex);
+				});
+			}
+			NSIndexPath *newSelectedIndexPath = [NSIndexPath indexPathForRow:(NSInteger)selectedIndex inSection:0];
+			NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+			if (NO == [selectedIndexPath isEqual:newSelectedIndexPath]) {
+				[self.tableView selectRowAtIndexPath:newSelectedIndexPath animated:animated scrollPosition:UITableViewScrollPositionNone];
+			}
 		}
 	}
 }

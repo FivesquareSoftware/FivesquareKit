@@ -254,10 +254,10 @@
 	
     switch(type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + (NSUInteger)_fetchedResultsTableSection] withRowAnimation:UITableViewRowAnimationFade];
             break;			
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + (NSUInteger)_fetchedResultsTableSection] withRowAnimation:UITableViewRowAnimationFade];
 		case NSFetchedResultsChangeMove:
 		case NSFetchedResultsChangeUpdate:
 		default:
