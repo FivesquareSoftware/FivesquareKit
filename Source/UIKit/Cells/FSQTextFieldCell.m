@@ -67,6 +67,16 @@
 	[super prepareForReuse];
 }
 
+- (void) setSelected:(BOOL)selected animated:(BOOL)animated {
+	[super setSelected:selected animated:animated];
+	if (selected) {
+		[self becomeFirstResponder];
+	}
+	else {
+		[self resignFirstResponder];
+	}
+}
+
 - (BOOL) becomeFirstResponder {
 	return [self.textField becomeFirstResponder];
 }
@@ -74,6 +84,13 @@
 - (BOOL) resignFirstResponder {
 	[super resignFirstResponder]; // stfu analyzer
 	return [self.textField resignFirstResponder];
+}
+
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+	if (_onEditingBegan) {
+		_onEditingBegan(textField.text);
+	}
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
