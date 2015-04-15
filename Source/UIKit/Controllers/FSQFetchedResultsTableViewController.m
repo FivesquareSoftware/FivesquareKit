@@ -107,18 +107,6 @@
 	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
 	[super viewDidLoad];
 	
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    NSPersistentStoreCoordinator *persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator;
-    
-    FSQWeakSelf(self_);
-    self.persistentStoresObserver = [notificationCenter addObserverForName:NSPersistentStoreCoordinatorStoresDidChangeNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [self_.fetchedResultsController fetch];
-		[self_.tableView reloadData];
-    }];
-    self.ubiquitousChangesObserver = [notificationCenter addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [self_.fetchedResultsController fetch];
-		[self_.tableView reloadData];
-    }];
 
 }
 
@@ -129,6 +117,22 @@
 	}
 	[self.fetchedResultsController fetch];
 	[self.tableView reloadData];
+
+
+	if (nil == self.persistentStoresObserver) {
+		NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+		NSPersistentStoreCoordinator *persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator;
+
+		FSQWeakSelf(self_);
+		self.persistentStoresObserver = [notificationCenter addObserverForName:NSPersistentStoreCoordinatorStoresDidChangeNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+			[self_.fetchedResultsController fetch];
+			[self_.tableView reloadData];
+		}];
+		self.ubiquitousChangesObserver = [notificationCenter addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+			[self_.fetchedResultsController fetch];
+			[self_.tableView reloadData];
+		}];
+	}
 }
 
 - (void) setEditing:(BOOL)editing animated:(BOOL)animated {
