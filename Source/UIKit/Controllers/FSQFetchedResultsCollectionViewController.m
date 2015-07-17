@@ -168,16 +168,16 @@
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	[FSQAsserter subclass:self responsibility:_cmd];
+	FSQSubclassResponsibility();
 	return nil;
 }
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-	[FSQAsserter subclass:self warn:_cmd];
+	FSQSubclassWarn();
 }
 
 - (void)configureSupplementaryView:(UICollectionReusableView *)supplementaryView atIndexPath:(NSIndexPath *)indexPath {
-	[FSQAsserter subclass:self warn:_cmd];
+	FSQSubclassWarn();
 }
 
 //
