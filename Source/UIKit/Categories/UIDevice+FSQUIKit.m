@@ -100,6 +100,16 @@
 	return NO;
 }
 
+@dynamic isBigPhone;
+- (BOOL) isBigPhone {
+	return self.iPhone6 || self.iPhone6Simulator || self.iPhone6Plus || self.iPhone6PlusSimulator;
+}
+
+@dynamic isSmallPhone;
+- (BOOL) isSmallPhone {
+	return NO == self.isBigPhone;
+}
+
 - (NSString *) newPersistentIdentifier {
 	//???: Just using a UUID right now, it would be nice if this was tied to hardware like net interface or something so it could be recreated reliably
 	CFUUIDRef newUUID = CFUUIDCreate(NULL);

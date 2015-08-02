@@ -208,7 +208,7 @@
 
 #pragma mark -  NSFetchedResultsController Delegate
 
-#define kFSQFetchedResultsCollectionViewControllerEmptySectionBug 0
+#define kFSQFetchedResultsCollectionViewControllerEmptySectionBug 1
 
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {

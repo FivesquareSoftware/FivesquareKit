@@ -70,6 +70,7 @@
 
 - (void) initialize {
 	self.initialized = YES;
+	_editable = NO;
 	_animateTableUpdates = YES;
 	_insertRowAnimationType = UITableViewRowAnimationRight;
 	_deleteRowAnimationType = UITableViewRowAnimationLeft;

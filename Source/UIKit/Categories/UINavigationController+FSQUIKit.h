@@ -13,4 +13,6 @@
 @property (nonatomic, readonly) UIViewController *backViewController;
 @property (nonatomic, readonly) UIViewController *rootViewController;
 
+- (UIViewController *) popViewControllerAnimated:(BOOL)animated completion:(void(^)())completion;
+
 @end

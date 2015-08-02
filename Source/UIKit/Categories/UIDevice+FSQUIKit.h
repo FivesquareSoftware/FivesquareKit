@@ -20,6 +20,10 @@
 @property (nonatomic, readonly) BOOL iPhone6Plus;
 @property (nonatomic, readonly) BOOL iPhone6PlusSimulator;
 
+@property (nonatomic, readonly) BOOL isBigPhone;
+@property (nonatomic, readonly) BOOL isSmallPhone;
+
+
 - (NSString *) newPersistentIdentifier;
 
 @end
