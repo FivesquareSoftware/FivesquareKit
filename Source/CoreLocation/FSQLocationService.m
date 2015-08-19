@@ -121,6 +121,11 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	return [CLLocationManager authorizationStatus];
 }
 
+@dynamic isAuthorizedAny;
+- (BOOL) isAuthorizedAny {
+	return self.isAuthorizedAlways || self.isAuthorizedWhenInUse;
+}
+
 @dynamic isAuthorizedAlways;
 - (BOOL) isAuthorizedAlways {
 	return self.authorizationStatus == kCLAuthorizationStatusAuthorizedAlways;
@@ -235,7 +240,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 - (BOOL) resolveLocationAccurateTo:(CLLocationAccuracy)accuracy within:(NSTimeInterval)timeout initialFixWithin:(NSTimeInterval)initialTimeout distanceFilter:(CLLocationDistance)distanceFilter completionHandler:(FSQLocationResolverLocationUpdateHandler)handler {
 
-	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
+	if (NO == self.isAuthorizedAny) return NO;
 	if (NO == [CLLocationManager locationServicesEnabled]) return NO;
 	
 	if (self.isResolving) {
@@ -312,7 +317,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 }
 
 - (BOOL) onSignificantLocationChange:(FSQLocationResolverLocationUpdateHandler)onLocationChange initialFixWithin:(NSTimeInterval)initialTimeout {
-	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
+	if (NO == self.isAuthorizedAny) return NO;
 	if (NO == [CLLocationManager significantLocationChangeMonitoringAvailable]) return NO;
 	[_locationUpdateHandlers addObject:[onLocationChange copy]];
 	if (self.isMonitoringSignificantChanges) {
@@ -367,7 +372,7 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 	if (nil == region) {
 		return NO;
 	}
-	if (kCLAuthorizationStatusAuthorized != [CLLocationManager authorizationStatus]) return NO;
+	if (NO == self.isAuthorizedAny) return NO;
 	if (nil == region) return NO;
 	if (NO == [CLLocationManager isMonitoringAvailableForClass:[region class]]) return NO;
 

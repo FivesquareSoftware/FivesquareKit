@@ -64,6 +64,7 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 @property (nonatomic, readonly) BOOL resolvingContinuously;
 
 @property (nonatomic, readonly) CLAuthorizationStatus authorizationStatus;
+@property (nonatomic) BOOL isAuthorizedAny;
 @property (nonatomic) BOOL isAuthorizedAlways;
 @property (nonatomic) BOOL isAuthorizedWhenInUse;
 

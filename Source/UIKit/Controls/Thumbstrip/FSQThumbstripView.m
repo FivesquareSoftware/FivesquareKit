@@ -42,6 +42,8 @@
 #pragma mark - Properties
 
 
+@synthesize delegate = _delegate;
+
 @dynamic visibleRange;
 - (NSRange) visibleRange {
 	NSInteger location = [self indexOfCellAtCurrentOffset];

@@ -21,10 +21,10 @@
 // Pass through methods to menu controller
 
 @property (nonatomic) FSQMenuItem *selectedItem;
-@property (nonatomic) NSUInteger selectedIndex;
+@property (nonatomic) NSInteger selectedIndex;
 
-- (void) setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated;
-- (FSQMenuItem *) itemAtIndex:(NSUInteger)index;
+- (void) setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated;
+- (FSQMenuItem *) itemAtIndex:(NSInteger)index;
 - (void) setSelectedItem:(FSQMenuItem *)selectedItem animated:(BOOL)animated;
 
 

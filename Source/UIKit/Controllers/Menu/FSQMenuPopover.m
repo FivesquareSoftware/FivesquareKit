@@ -35,19 +35,19 @@
 }
 
 @dynamic selectedIndex;
-- (void) setSelectedIndex:(NSUInteger)selectedIndex {
+- (void) setSelectedIndex:(NSInteger)selectedIndex {
 	[_menuController setSelectedIndex:selectedIndex];
 }
 
-- (NSUInteger) selectedIndex {
+- (NSInteger) selectedIndex {
 	return _menuController.selectedIndex;
 }
 
-- (void) setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated {
+- (void) setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated {
 	[_menuController setSelectedIndex:selectedIndex animated:animated];
 }
 
-- (FSQMenuItem *) itemAtIndex:(NSUInteger)index {
+- (FSQMenuItem *) itemAtIndex:(NSInteger)index {
 	return [_menuController itemAtIndex:index];
 }
 

@@ -38,7 +38,7 @@
 	}
 }
 
-- (void) setItemAlignment:(UITextAlignment)itemAlignment {
+- (void) setItemAlignment:(NSTextAlignment)itemAlignment {
 	if (_itemAlignment != itemAlignment) {
 		_itemAlignment = itemAlignment;
 		[self setItemsTextAlignment:itemAlignment];
@@ -290,7 +290,7 @@
 	}];
 }
 
-- (void) setItemsTextAlignment:(UITextAlignment)textAlignment {
+- (void) setItemsTextAlignment:(NSTextAlignment)textAlignment {
 	[self.itemViews enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
 		[(FSQMenuItemView *)subview setTextAlignment:textAlignment];
 	}];

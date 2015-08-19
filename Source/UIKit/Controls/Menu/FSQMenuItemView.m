@@ -45,11 +45,11 @@
 }
 
 @dynamic textAlignment;
-- (void) setTextAlignment:(UITextAlignment)textAlignment {
+- (void) setTextAlignment:(NSTextAlignment)textAlignment {
 	self.textLabel.textAlignment = textAlignment;
 }
 
-- (UITextAlignment) textAlignment {
+- (NSTextAlignment) textAlignment {
 	return self.textLabel.textAlignment;
 }
 

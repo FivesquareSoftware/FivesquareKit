@@ -19,7 +19,7 @@
 @property (nonatomic, readonly) CGRect bounds;
 @property (nonatomic) CGRect frame;
 @property (nonatomic, readonly) CGPoint center;
-@property (nonatomic, readonly) UIInterfaceOrientation interfaceOrientation;
+@property (nonatomic, readonly) UIDeviceOrientation interfaceOrientation;
 @property (nonatomic, readonly) BOOL isLandscape;
 @property (nonatomic, readonly) BOOL isUpsideDown;
 @end
@@ -32,8 +32,8 @@
 
 
 @dynamic interfaceOrientation;
-- (UIInterfaceOrientation) interfaceOrientation {
-	return _viewController.interfaceOrientation;
+- (UIDeviceOrientation) interfaceOrientation {
+	return [[UIDevice currentDevice] orientation];
 }
 
 @dynamic isLandscape;
