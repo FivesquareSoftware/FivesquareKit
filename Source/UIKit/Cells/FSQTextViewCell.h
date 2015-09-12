@@ -11,8 +11,14 @@
 #import "FSQBaseTableViewCell.h"
 
 
-@interface FSQTextViewCell : FSQBaseTableViewCell
+@interface FSQTextViewCell : FSQBaseTableViewCell <UITextViewDelegate>
 
 @property (nonatomic, assign) IBOutlet UITextView *textView;
+
+	@property (nonatomic, copy) void(^onEditingBegan)(NSString *text);
+	@property (nonatomic, copy) BOOL(^shouldChangeCharactersInRange)(NSRange range, NSString *replacementString);
+	@property (nonatomic, copy) void(^onChange)(NSString *text);
+	@property (nonatomic, copy) BOOL(^shouldEnd)(NSString *text);
+	@property (nonatomic, copy) void(^onEditingEnded)(NSString *text);
 
 @end
