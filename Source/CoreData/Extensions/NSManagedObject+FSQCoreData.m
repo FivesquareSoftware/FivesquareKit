@@ -240,7 +240,7 @@
 	}
 
 	NSFetchRequest *fetchRequest = nil;
-	id found = nil;
+	__block id found = nil;
 	
 	__block NSError *error = nil;
 	__block NSArray *results = nil;
@@ -264,10 +264,10 @@
 			if (localError) {
 				error = localError;
 			}
+			if([results count] > 0) {
+				found = [results objectAtIndex:0];
+			}
 		}];
-		if([results count] > 0) {
-			found = [results objectAtIndex:0];
-		}
 	}
 	@catch (NSException *exception) {
 		FSQAssert(exception == nil, @"Exception fetching first for fetchRequest %@ (%@)", fetchRequest, exception);
