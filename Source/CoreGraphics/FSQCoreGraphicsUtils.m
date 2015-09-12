@@ -214,7 +214,7 @@ CGFloat CGPointDistanceFromPoint(CGPoint firstPoint, CGPoint secondPoint) {
 	CGFloat b = firstPoint.y-secondPoint.y;
 	
 	CGFloat c = sqrtf(powf(a,2)+powf(b,2));
-	return fabsf(c);
+	return fabs(c);
 }
 
 CGPoint CGPointDeltaPoint(CGPoint firstPoint, CGPoint secondPoint) {

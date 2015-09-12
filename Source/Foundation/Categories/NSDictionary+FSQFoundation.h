@@ -20,7 +20,8 @@
 
 - (NSString *) stringValue;
 
-- (id) objectMatchingPredicate:(NSPredicate *)predicate;
+- (id) firstObjectMatchingPredicate:(NSPredicate *)predicate;
+- (id) anyKeyForObject:(id)obj;
 
 - (NSArray *) keysSortedByValueUsingSortDescriptors:(NSArray *)sortDescriptors;
 

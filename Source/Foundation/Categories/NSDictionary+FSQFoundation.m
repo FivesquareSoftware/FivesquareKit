@@ -55,8 +55,15 @@
 	return (NSMutableDictionary *)[self deepCopy];
 }
 
-- (id) objectMatchingPredicate:(NSPredicate *)predicate {
-	return [[[self allValues] filteredArrayUsingPredicate:predicate] lastObject];
+- (id) firstObjectMatchingPredicate:(NSPredicate *)predicate {
+	return [[[self allValues] filteredArrayUsingPredicate:predicate] firstObject];
+}
+
+- (id) anyKeyForObject:(id)obj {
+	NSSet *keys = [self keysOfEntriesPassingTest:^BOOL(id key, id testObj, BOOL *stop) {
+		return obj == testObj;
+	}];
+	return keys.anyObject;
 }
 
 - (NSArray *) keysSortedByValueUsingSortDescriptors:(NSArray *)sortDescriptors {

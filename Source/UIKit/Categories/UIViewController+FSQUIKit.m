@@ -45,34 +45,6 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 	return self;
 }
 
-@dynamic popoverController;
-- (void) setPopoverController:(UIPopoverController *)value {
-	objc_setAssociatedObject(self, &kUIViewController_FSQUIKitPopoverController, value, OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (UIPopoverController *) popoverController {
-	UIPopoverController *popoverController = (UIPopoverController *)objc_getAssociatedObject(self, &kUIViewController_FSQUIKitPopoverController);
-	return popoverController;
-}
-
-- (void) dismissPopoverControllerAnimated:(BOOL)animated {
-	if (!NSClassFromString(@"UIPopoverController"))
-		return;
-	
-	BOOL shouldDismiss = YES;
-	
-	if ([self.popoverController.delegate respondsToSelector:@selector(popoverControllerShouldDismissPopover:)]) {
-		shouldDismiss = [self.popoverController.delegate popoverControllerShouldDismissPopover:self.popoverController];
-	}
-	
-	if (shouldDismiss) {
-		[self.popoverController dismissPopoverAnimated:animated];
-		if([self.popoverController.delegate respondsToSelector:@selector(popoverControllerDidDismissPopover:)]) {
-			[self.popoverController.delegate popoverControllerDidDismissPopover:self.popoverController];
-		}
-	}	
-}
-
 - (void) transitionFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options type:(FSQUIViewControllerTransition)transitionType completion:(void (^)(BOOL finished))completion {
 	
 	CGAffineTransform onDeckTransform = [self onDeckTransformForTransition:transitionType];

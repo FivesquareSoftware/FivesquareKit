@@ -33,8 +33,6 @@
 		A41625D4169508A1008499ED /* FSQUIKitConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A41625D2169508A1008499ED /* FSQUIKitConstants.m */; };
 		A41E2C40152F84F7005554B9 /* FSQTransparentSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A41E2C41152F84F7005554B9 /* FSQTransparentSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */; };
-		A41E30BF188608F400914376 /* FSQActionSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = A41E30BD188608F400914376 /* FSQActionSheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A41E30C0188608F400914376 /* FSQActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E30BE188608F400914376 /* FSQActionSheet.m */; };
 		A421B03415D441BB00811143 /* FSQZlib.h in Headers */ = {isa = PBXBuildFile; fileRef = A421B03215D441BB00811143 /* FSQZlib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A421B03515D441BB00811143 /* FSQZlib.h in Headers */ = {isa = PBXBuildFile; fileRef = A421B03215D441BB00811143 /* FSQZlib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A421B03615D441BB00811143 /* FSQZlib.m in Sources */ = {isa = PBXBuildFile; fileRef = A421B03315D441BB00811143 /* FSQZlib.m */; };
@@ -88,7 +86,6 @@
 		A42A2EA31525250C0032AB39 /* UISearchBar+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F442F12748374005D9BF4 /* UISearchBar+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2EA41525250C0032AB39 /* UITableView+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F443112748374005D9BF4 /* UITableView+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2EA51525250C0032AB39 /* UIViewController+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A42A2EA61525250C0032AB39 /* UIPopoverController+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4C0945B1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2EA71525250C0032AB39 /* UIColor+FSQUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2EA81525250C0032AB39 /* FSQKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F441C12748374005D9BF4 /* FSQKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42A2EA91525250C0032AB39 /* FSQCoreLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = A45F43F812748374005D9BF4 /* FSQCoreLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -135,7 +132,6 @@
 		A42A2ED41525252D0032AB39 /* UISearchBar+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F443012748374005D9BF4 /* UISearchBar+FSQUIKit.m */; };
 		A42A2ED51525252D0032AB39 /* UITableView+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F443212748374005D9BF4 /* UITableView+FSQUIKit.m */; };
 		A42A2ED61525252D0032AB39 /* UIViewController+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C094541303AD4700CE8BB3 /* UIViewController+FSQUIKit.m */; };
-		A42A2ED71525252D0032AB39 /* UIPopoverController+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C0945C1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.m */; };
 		A42A2ED81525252D0032AB39 /* UIColor+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AFECA9151EAB5800645412 /* UIColor+FSQUIKit.m */; };
 		A42A2ED91525252D0032AB39 /* FSQKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F441D12748374005D9BF4 /* FSQKeychain.m */; };
 		A42A2EDA1525252D0032AB39 /* FSQLocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = A45F43FA12748374005D9BF4 /* FSQLocationService.m */; };
@@ -152,8 +148,6 @@
 		A43CC1BC1538AC960013700F /* UIView+FSQUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */; };
 		A4413F481713D3FF0078F827 /* FSQObjectButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A4413F461713D3FF0078F827 /* FSQObjectButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4413F491713D3FF0078F827 /* FSQObjectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4413F471713D3FF0078F827 /* FSQObjectButton.m */; };
-		A44624371558659200E25FFD /* FSQMenuPopover.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624321558659200E25FFD /* FSQMenuPopover.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A44624381558659200E25FFD /* FSQMenuPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = A44624331558659200E25FFD /* FSQMenuPopover.m */; };
 		A44624391558659200E25FFD /* FSQMenuViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624341558659200E25FFD /* FSQMenuViewController+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A446243A1558659200E25FFD /* FSQMenuViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A44624351558659200E25FFD /* FSQMenuViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A446243B1558659200E25FFD /* FSQMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44624361558659200E25FFD /* FSQMenuViewController.m */; };
@@ -415,8 +409,6 @@
 		A41625D2169508A1008499ED /* FSQUIKitConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQUIKitConstants.m; sourceTree = "<group>"; };
 		A41E2C3E152F84F7005554B9 /* FSQTransparentSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQTransparentSearchBar.h; sourceTree = "<group>"; };
 		A41E2C3F152F84F7005554B9 /* FSQTransparentSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQTransparentSearchBar.m; sourceTree = "<group>"; };
-		A41E30BD188608F400914376 /* FSQActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQActionSheet.h; sourceTree = "<group>"; };
-		A41E30BE188608F400914376 /* FSQActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQActionSheet.m; sourceTree = "<group>"; };
 		A421B03215D441BB00811143 /* FSQZlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQZlib.h; sourceTree = "<group>"; };
 		A421B03315D441BB00811143 /* FSQZlib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQZlib.m; sourceTree = "<group>"; };
 		A42961C412F4738200AEAA83 /* FSQCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQCore.h; sourceTree = "<group>"; };
@@ -458,8 +450,6 @@
 		A43CC1BA1538AC960013700F /* UIView+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4413F461713D3FF0078F827 /* FSQObjectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQObjectButton.h; sourceTree = "<group>"; };
 		A4413F471713D3FF0078F827 /* FSQObjectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQObjectButton.m; sourceTree = "<group>"; };
-		A44624321558659200E25FFD /* FSQMenuPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMenuPopover.h; sourceTree = "<group>"; };
-		A44624331558659200E25FFD /* FSQMenuPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQMenuPopover.m; sourceTree = "<group>"; };
 		A44624341558659200E25FFD /* FSQMenuViewController+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSQMenuViewController+Protected.h"; sourceTree = "<group>"; };
 		A44624351558659200E25FFD /* FSQMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMenuViewController.h; sourceTree = "<group>"; };
 		A44624361558659200E25FFD /* FSQMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQMenuViewController.m; sourceTree = "<group>"; };
@@ -628,8 +618,6 @@
 		A4C094431303AC4800CE8BB3 /* FSQAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAlertController.m; sourceTree = "<group>"; };
 		A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4C094541303AD4700CE8BB3 /* UIViewController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+FSQUIKit.m"; sourceTree = "<group>"; };
-		A4C0945B1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+FSQUIKit.h"; sourceTree = "<group>"; };
-		A4C0945C1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPopoverController+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4CD08F515BB14C400E698C0 /* MKGeometryUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKGeometryUtils.h; sourceTree = "<group>"; };
 		A4CD08F615BB14C400E698C0 /* MKGeometryUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKGeometryUtils.m; sourceTree = "<group>"; };
 		A4D02E94152528C600C16B67 /* FivesquareKitFramework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FivesquareKitFramework-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -816,8 +804,6 @@
 		A44624311558659200E25FFD /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				A44624321558659200E25FFD /* FSQMenuPopover.h */,
-				A44624331558659200E25FFD /* FSQMenuPopover.m */,
 				A44624341558659200E25FFD /* FSQMenuViewController+Protected.h */,
 				A44624351558659200E25FFD /* FSQMenuViewController.h */,
 				A44624361558659200E25FFD /* FSQMenuViewController.m */,
@@ -1036,8 +1022,6 @@
 				A45F443212748374005D9BF4 /* UITableView+FSQUIKit.m */,
 				A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */,
 				A4C094541303AD4700CE8BB3 /* UIViewController+FSQUIKit.m */,
-				A4C0945B1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.h */,
-				A4C0945C1303ADDF00CE8BB3 /* UIPopoverController+FSQUIKit.m */,
 				A45E2AA7192FBA4500A7F888 /* UINavigationController+FSQUIKit.h */,
 				A45E2AA8192FBA4500A7F888 /* UINavigationController+FSQUIKit.m */,
 				A4AFECA8151EAB5800645412 /* UIColor+FSQUIKit.h */,
@@ -1090,8 +1074,6 @@
 			children = (
 				A4C094421303AC4800CE8BB3 /* FSQAlertController.h */,
 				A4C094431303AC4800CE8BB3 /* FSQAlertController.m */,
-				A41E30BD188608F400914376 /* FSQActionSheet.h */,
-				A41E30BE188608F400914376 /* FSQActionSheet.m */,
 				A45F445A12748375005D9BF4 /* FSQDetailImageView.h */,
 				A45F445B12748375005D9BF4 /* FSQDetailImageView.m */,
 				A464DA4113D390C0006B6C59 /* FSQModalImageView.h */,
@@ -1431,7 +1413,6 @@
 				A42A2E9A1525250C0032AB39 /* FSQAlertController.h in Headers */,
 				A42A2E9B1525250C0032AB39 /* FSQDetailImageView.h in Headers */,
 				A42A2E9C1525250C0032AB39 /* FSQModalImageView.h in Headers */,
-				A41E30BF188608F400914376 /* FSQActionSheet.h in Headers */,
 				A42A2E9D1525250C0032AB39 /* FSQRatingIndicatorView.h in Headers */,
 				A42A2E9E1525250C0032AB39 /* FSQUIImageToDataTransformer.h in Headers */,
 				A42A2E9F1525250C0032AB39 /* FSQUIColorToDataTransformer.h in Headers */,
@@ -1443,7 +1424,6 @@
 				A4858C7917C6B3DE004A8B49 /* FSQBadgeView.h in Headers */,
 				A42A2EA41525250C0032AB39 /* UITableView+FSQUIKit.h in Headers */,
 				A42A2EA51525250C0032AB39 /* UIViewController+FSQUIKit.h in Headers */,
-				A42A2EA61525250C0032AB39 /* UIPopoverController+FSQUIKit.h in Headers */,
 				A42A2EA71525250C0032AB39 /* UIColor+FSQUIKit.h in Headers */,
 				A47E59C119FEC5080067FEA4 /* FSQIOUtils.h in Headers */,
 				A42A2EA81525250C0032AB39 /* FSQKeychain.h in Headers */,
@@ -1469,7 +1449,6 @@
 				A40FA7761542179F0013D6EF /* FSQThumbstripBaseDataSource+Protected.h in Headers */,
 				A4F3AF461550936D00E2BB87 /* FSQRemoteImageCache.h in Headers */,
 				A4FFAEBE1551EC9C0093FEA1 /* UIImageView+FSQUIKit.h in Headers */,
-				A44624371558659200E25FFD /* FSQMenuPopover.h in Headers */,
 				A44624391558659200E25FFD /* FSQMenuViewController+Protected.h in Headers */,
 				A446243A1558659200E25FFD /* FSQMenuViewController.h in Headers */,
 				A4BEA9B2155C389200509D20 /* UIDevice+FSQUIKit.h in Headers */,
@@ -1715,7 +1694,6 @@
 				A42A2EAE1525252D0032AB39 /* FSQAsserter.m in Sources */,
 				A42A2EAF1525252D0032AB39 /* FSQSandbox.m in Sources */,
 				A42A2EB11525252D0032AB39 /* FSQFoundationConstants.m in Sources */,
-				A41E30C0188608F400914376 /* FSQActionSheet.m in Sources */,
 				A42A2EB21525252D0032AB39 /* FSQBindingsMapper.m in Sources */,
 				A42A2EB31525252D0032AB39 /* FSQPropertyMapper.m in Sources */,
 				A4DB73171986F78D00B7F49B /* UITableViewCell+FSQUIKit.m in Sources */,
@@ -1760,7 +1738,6 @@
 				A42A2ED51525252D0032AB39 /* UITableView+FSQUIKit.m in Sources */,
 				A42A2ED61525252D0032AB39 /* UIViewController+FSQUIKit.m in Sources */,
 				A4858C7817C6B3DE004A8B49 /* FSQLabel.m in Sources */,
-				A42A2ED71525252D0032AB39 /* UIPopoverController+FSQUIKit.m in Sources */,
 				A42A2ED81525252D0032AB39 /* UIColor+FSQUIKit.m in Sources */,
 				A42A2ED91525252D0032AB39 /* FSQKeychain.m in Sources */,
 				A42A2EDA1525252D0032AB39 /* FSQLocationService.m in Sources */,
@@ -1779,7 +1756,6 @@
 				A40FA7731542115E0013D6EF /* FSQThumbstripBaseDataSource.m in Sources */,
 				A4F3AF471550936D00E2BB87 /* FSQRemoteImageCache.m in Sources */,
 				A4FFAEBF1551EC9C0093FEA1 /* UIImageView+FSQUIKit.m in Sources */,
-				A44624381558659200E25FFD /* FSQMenuPopover.m in Sources */,
 				A446243B1558659200E25FFD /* FSQMenuViewController.m in Sources */,
 				A4BEA9B3155C389200509D20 /* UIDevice+FSQUIKit.m in Sources */,
 				A40017391565C581004765ED /* NSURL+FSQFoundation.m in Sources */,

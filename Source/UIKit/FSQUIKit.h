@@ -55,7 +55,6 @@
 
 #import "FSQFetchedResultsTableViewController.h"
 #import "FSQFetchedResultsViewController.h"
-#import "FSQMenuPopover.h"
 #import "FSQMenuViewController.h"
 #import "FSQMenuViewController+Protected.h"
 #import "FSQFetchedResultsDataSource.h"
@@ -65,7 +64,6 @@
 // Controls
 
 #import "FSQAlertController.h"
-#import "FSQActionSheet.h"
 #import "FSQModalImageView.h"
 #import "FSQDetailImageView.h"
 #import "FSQStretchableButton.h"
@@ -98,7 +96,6 @@
 #import "UISearchBar+FSQUIKit.h"
 #import "UITableView+FSQUIKit.h"
 #import "UIViewController+FSQUIKit.h"
-#import "UIPopoverController+FSQUIKit.h"
 #import "UINavigationController+FSQUIKit.h"
 #import "UIColor+FSQUIKit.h"
 #import "UIView+FSQUIKit.h"
