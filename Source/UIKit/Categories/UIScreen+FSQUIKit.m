@@ -18,5 +18,8 @@
 	return self.bounds.size.height == 568.;
 }
 
+- (BOOL) isBigScreen {
+	return self.bounds.size.height >= 736.;
+}
 
 @end

@@ -67,7 +67,8 @@
 @dynamic iPhone6;
 - (BOOL) iPhone6 {
 	NSString *modelName = [self modelName];
-	if ([modelName isEqualToString:@"iPhone7,2"]) {
+	if (	[modelName isEqualToString:@"iPhone7,2"]
+		||	[modelName isEqualToString:@"iPhone8,1"]) {
 		return YES;
 	}
 	return NO;
@@ -85,7 +86,8 @@
 @dynamic iPhone6Plus;
 - (BOOL) iPhone6Plus {
 	NSString *modelName = [self modelName];
-	if ([modelName isEqualToString:@"iPhone7,1"]) {
+	if (	[modelName isEqualToString:@"iPhone7,1"]
+		||	[modelName isEqualToString:@"iPhone8,2"]) {
 		return YES;
 	}
 	return NO;
@@ -96,6 +98,23 @@
 	NSString *modelName = [self modelName];
 	if ([modelName isEqualToString:@"x86_64"] && [UIScreen mainScreen].bounds.size.height == 736.) {
 		return YES;
+	}
+	return NO;
+}
+
+- (BOOL) isLatestPhone {
+	NSString *modelName = [self modelName];
+	NSRegularExpression *modelNumberPattern = [NSRegularExpression regularExpressionWithPattern:@"iPhone(\\d)" options:NSRegularExpressionCaseInsensitive error:NULL];
+	NSTextCheckingResult *match = [modelNumberPattern firstMatchInString:modelName options:0 range:NSMakeRange(0, modelName.length)];
+	if (match) {
+		NSRange numberRange = [match rangeAtIndex:1];
+		if (numberRange.location != NSNotFound) {
+			NSString *modelNumberPrefixString = [modelName substringWithRange:numberRange];
+			NSInteger modelNumberPrefix = [modelNumberPrefixString integerValue];
+			if (modelNumberPrefix >= 8) {
+				return YES;
+			}
+		}
 	}
 	return NO;
 }

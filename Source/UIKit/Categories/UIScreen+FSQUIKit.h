@@ -12,5 +12,6 @@
 
 - (BOOL) isShortScreen;
 - (BOOL) isFourInchScreen;
+- (BOOL) isBigScreen;
 
 @end
