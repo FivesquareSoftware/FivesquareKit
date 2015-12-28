@@ -25,6 +25,21 @@
 	return [self.textView becomeFirstResponder];
 }
 
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated {
+	[super setEditing:editing animated:animated];
+	if (_automaticallyEnabledTextViewForEditing) {
+		self.textView.editable = editing;
+	}
+}
+
+- (void) setAutomaticallyEnabledTextFieldForEditing:(BOOL)automaticallyEnabledTextViewForEditing {
+	if (_automaticallyEnabledTextViewForEditing != automaticallyEnabledTextViewForEditing) {
+		_automaticallyEnabledTextViewForEditing = automaticallyEnabledTextViewForEditing;
+		self.textView.editable = self.editing;
+	}
+}
+
+
 // ========================================================================== //
 
 #pragma mark - UITextViewDelegate

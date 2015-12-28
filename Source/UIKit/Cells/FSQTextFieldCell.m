@@ -77,6 +77,20 @@
 	}
 }
 
+- (void) setEditing:(BOOL)editing animated:(BOOL)animated {
+	[super setEditing:editing animated:animated];
+	if (_automaticallyEnabledTextFieldForEditing) {
+		self.textField.enabled = editing;
+	}
+}
+
+- (void) setAutomaticallyEnabledTextFieldForEditing:(BOOL)automaticallyEnabledTextFieldForEditing {
+	if (_automaticallyEnabledTextFieldForEditing != automaticallyEnabledTextFieldForEditing) {
+		_automaticallyEnabledTextFieldForEditing = automaticallyEnabledTextFieldForEditing;
+		self.textField.enabled = self.editing;
+	}
+}
+
 - (BOOL) becomeFirstResponder {
 	return [self.textField becomeFirstResponder];
 }

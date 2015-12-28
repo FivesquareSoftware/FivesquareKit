@@ -18,6 +18,7 @@
 
 @property (nonatomic,weak) IBOutlet UITextField *textField;
 
+@property (nonatomic) BOOL automaticallyEnabledTextFieldForEditing;
 
 @property (nonatomic, copy) void(^onEditingBegan)(NSString *text);
 @property (nonatomic, copy) BOOL(^shouldChangeCharactersInRange)(NSRange range, NSString *replacementString);
