@@ -14,4 +14,6 @@
 - (BOOL) isFourInchScreen;
 - (BOOL) isBigScreen;
 
+- (CGFloat) aspect;
+
 @end

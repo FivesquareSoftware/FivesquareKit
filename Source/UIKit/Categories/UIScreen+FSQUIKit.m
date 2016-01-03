@@ -22,4 +22,8 @@
 	return self.bounds.size.height >= 736.;
 }
 
+- (CGFloat) aspect {
+	return self.bounds.size.width/self.bounds.size.height;
+}
+
 @end
