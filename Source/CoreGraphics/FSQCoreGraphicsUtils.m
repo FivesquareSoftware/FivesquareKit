@@ -277,3 +277,7 @@ CATransform3D CATransform3DMake(CGFloat m11, CGFloat m12, CGFloat m13, CGFloat m
 	return t;
 }
 
+CGSize CGSizeInset(CGSize size, CGFloat dx, CGFloat dy) {
+	return  CGSizeMake(size.width - dx, size.height - dy);
+}
+
