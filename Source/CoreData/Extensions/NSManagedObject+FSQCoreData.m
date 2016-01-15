@@ -539,7 +539,14 @@
 				if (NO == [collection conformsToProtocol:@protocol(NSFastEnumeration)]) {
 					continue; // we can't map to-many unless there is a collection
 				}
-				NSMutableSet *newObjects = [NSMutableSet set];
+
+				id newObjects = nil;
+				if ([propertyDescription isOrdered]) {
+					newObjects = [NSMutableOrderedSet orderedSet];
+				}
+				else {
+					newObjects = [NSMutableSet set];
+				}
 				for (id value in collection) {
 					id ref = [value valueForKeyPath:@"<predicate>" error:NULL];
 					if (ref) {
