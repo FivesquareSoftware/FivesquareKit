@@ -472,11 +472,11 @@
 		A45F443012748374005D9BF4 /* UISearchBar+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+FSQUIKit.m"; sourceTree = "<group>"; };
 		A45F443112748374005D9BF4 /* UITableView+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FSQUIKit.h"; sourceTree = "<group>"; };
 		A45F443212748374005D9BF4 /* UITableView+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FSQUIKit.m"; sourceTree = "<group>"; };
-		A45F443512748374005D9BF4 /* FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQUIKit.h; sourceTree = "<group>"; };
+		A45F443512748374005D9BF4 /* FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FSQUIKit.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		A45F444212748375005D9BF4 /* FSQFetchedResultsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQFetchedResultsTableViewController.h; sourceTree = "<group>"; };
 		A45F444312748375005D9BF4 /* FSQFetchedResultsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQFetchedResultsTableViewController.m; sourceTree = "<group>"; };
 		A45F445A12748375005D9BF4 /* FSQDetailImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQDetailImageView.h; sourceTree = "<group>"; };
-		A45F445B12748375005D9BF4 /* FSQDetailImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQDetailImageView.m; sourceTree = "<group>"; };
+		A45F445B12748375005D9BF4 /* FSQDetailImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FSQDetailImageView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A45F445F12748375005D9BF4 /* FSQRatingIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQRatingIndicatorView.h; sourceTree = "<group>"; };
 		A45F446012748375005D9BF4 /* FSQRatingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FSQRatingIndicatorView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A45F446112748375005D9BF4 /* RatingIndicatorOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RatingIndicatorOff.png; sourceTree = "<group>"; };
@@ -510,7 +510,7 @@
 		A47A94941773DEA20028EE9F /* FSQBadgedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQBadgedButton.h; sourceTree = "<group>"; };
 		A47A94951773DEA20028EE9F /* FSQBadgedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQBadgedButton.m; sourceTree = "<group>"; };
 		A47A94981773DEEA0028EE9F /* FSQBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQBadgeView.h; sourceTree = "<group>"; };
-		A47A94991773DEEB0028EE9F /* FSQBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQBadgeView.m; sourceTree = "<group>"; };
+		A47A94991773DEEB0028EE9F /* FSQBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FSQBadgeView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A47A94A41774D0ED0028EE9F /* FSQRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQRadialGradientLayer.h; sourceTree = "<group>"; };
 		A47A94A51774D0ED0028EE9F /* FSQRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQRadialGradientLayer.m; sourceTree = "<group>"; };
 		A47E2EE4152B662800F7EDB1 /* FSQStretchableButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQStretchableButton.h; sourceTree = "<group>"; };
@@ -596,7 +596,7 @@
 		A4EA537315336789006BF354 /* FSQMenuControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMenuControl.h; sourceTree = "<group>"; };
 		A4EA537415336789006BF354 /* FSQMenuControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQMenuControl.m; sourceTree = "<group>"; };
 		A4EA53771533679F006BF354 /* FSQMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQMenuItemView.h; sourceTree = "<group>"; };
-		A4EA53781533679F006BF354 /* FSQMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQMenuItemView.m; sourceTree = "<group>"; };
+		A4EA53781533679F006BF354 /* FSQMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FSQMenuItemView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A4EBEAE514FACBC3001CE780 /* FSQFetchedResultsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQFetchedResultsMapViewController.h; sourceTree = "<group>"; };
 		A4EBEAE614FACBC3001CE780 /* FSQFetchedResultsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQFetchedResultsMapViewController.m; sourceTree = "<group>"; };
 		A4F3AF441550936D00E2BB87 /* FSQImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQImageCache.h; sourceTree = "<group>"; };

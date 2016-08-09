@@ -123,8 +123,8 @@
 		CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
 		[editString drawInRect:labelRect 
 					  withFont:editFont
-				 lineBreakMode:UILineBreakModeClip
-					 alignment:UITextAlignmentCenter];
+				 lineBreakMode:NSLineBreakByClipping
+					 alignment:NSTextAlignmentCenter];
 		
 	}
 	

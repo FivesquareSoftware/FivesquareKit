@@ -167,7 +167,7 @@
 						
 		UILabel *newLabel = [[UILabel alloc] initWithFrame:self.bounds];
 		newLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		newLabel.lineBreakMode = UILineBreakModeTailTruncation;
+		newLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 		newLabel.backgroundColor = [UIColor clearColor];
 		newLabel.font = [UIFont boldSystemFontOfSize:17];
 		newLabel.textColor = [UIColor darkTextColor];

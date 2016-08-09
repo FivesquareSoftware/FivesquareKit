@@ -30,7 +30,7 @@ typedef NSUInteger FSQMenuDirection;
 @property (nonatomic) CGSize maxItemSize; 
 @property (nonatomic, strong) UIImage *backgroundImage UI_APPEARANCE_SELECTOR; 
 @property (nonatomic) FSQMenuSelectionStyle selectionStyle UI_APPEARANCE_SELECTOR; // Defaults to FSQMenuSelectionStyleDefault which has a blue background like a table cell
-@property (nonatomic) UITextAlignment itemAlignment UI_APPEARANCE_SELECTOR; // Defaults to UITextAlignmentLeft
+@property (nonatomic) NSTextAlignment itemAlignment UI_APPEARANCE_SELECTOR; // Defaults to UITextAlignmentLeft
 @property (nonatomic) FSQMenuDirection direction UI_APPEARANCE_SELECTOR;
 @property (nonatomic) BOOL scrollEnabled;
 

@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-//#ifndef UILineBreakModeClip
-//#define UILineBreakModeClip NSLineBreakByClipping 
+//#ifndef NSLineBreakModeClip
+//#define NSLineBreakModeClip NSLineBreakByClipping 
 //#endif
 //
-//#ifndef UILineBreakModeTailTruncation
-//#define UILineBreakModeTailTruncation NSLineBreakByTruncatingTail
+//#ifndef NSLineBreakModeTailTruncation
+//#define NSLineBreakModeTailTruncation NSLineBreakByTruncatingTail
 //#endif
 //
 //#ifndef UITextAlignmentCenter

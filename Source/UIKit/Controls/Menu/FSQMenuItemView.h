@@ -16,7 +16,7 @@
 @property (nonatomic, strong) FSQMenuItem *menuItem;
 @property (nonatomic, getter = isSelected) BOOL selected;
 
-@property (nonatomic) UITextAlignment textAlignment UI_APPEARANCE_SELECTOR;
+@property (nonatomic) NSTextAlignment textAlignment UI_APPEARANCE_SELECTOR;
 @property (nonatomic) UIFont *font UI_APPEARANCE_SELECTOR;
 
 

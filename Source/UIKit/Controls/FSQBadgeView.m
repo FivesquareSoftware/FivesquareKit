@@ -158,7 +158,7 @@
 	 ];
 	_badgeColor = nil;
 	_borderColor = [UIColor whiteColor];
-	_titleTextAttributes = @{ UITextAttributeFont : [UIFont boldSystemFontOfSize:12.f],  UITextAttributeTextColor : [UIColor whiteColor]/*, UITextAttributeTextShadowColor : [UIColor colorWithWhite:1. alpha:.35], UITextAttributeTextShadowOffset : [NSValue valueWithCGSize:CGSizeMake(1, 0)]*/  };
+	_titleTextAttributes = @{ UITextAttributeFont : [UIFont boldSystemFontOfSize:12.f],  NSForegroundColorAttributeName : [UIColor whiteColor]/*, UITextAttributeTextShadowColor : [UIColor colorWithWhite:1. alpha:.35], UITextAttributeTextShadowOffset : [NSValue valueWithCGSize:CGSizeMake(1, 0)]*/  };
 	
 	//	self.layer.backgroundColor = [SpotAppAppearance controlTintColor].CGColor;
 	self.backgroundColor = [UIColor clearColor];
@@ -184,7 +184,7 @@
 	
 	badgeLabel.backgroundColor = [UIColor clearColor];
 	badgeLabel.font = _titleTextAttributes[UITextAttributeFont];
-	badgeLabel.textColor = _titleTextAttributes[UITextAttributeTextColor];
+	badgeLabel.textColor = _titleTextAttributes[NSForegroundColorAttributeName];
 //	NSShadow *shadow = _titleTextAttributes[NSShadowAttributeName];
 //	badgeLabel.shadowColor = shadow.shadowColor;
 //	badgeLabel.shadowOffset = shadow.shadowOffset;
