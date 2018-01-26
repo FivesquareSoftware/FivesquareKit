@@ -413,18 +413,10 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 	if ([fm fileExistsAtPath:[sqliteURL path]]) {
 		CoreDataLog(self,@"Copying in default store");
 		found = YES;
-		if (NO == [targetStoreOptions hasKey:NSPersistentStoreUbiquitousContentURLKey]) {
-			success = [fm copyItemAtURL:sqliteURL toURL:targetStoreURL error:&error];
-			loaded = success;
-			if (NO == success) {
-				FLogError(error, @"Failed to copy default data from store at %@",sqliteURL);
-			}
-		}
-		else {
-			CoreDataLog(self,@"Migrating in default store");
-			//TODO: PSC store migration to make sure ubiquity sees the changes
-//			NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
-//			[coordinator migratePersistentStore:￼ toURL:￼ options:￼ withType:￼ error:￼]
+		success = [fm copyItemAtURL:sqliteURL toURL:targetStoreURL error:&error];
+		loaded = success;
+		if (NO == success) {
+			FLogError(error, @"Failed to copy default data from store at %@",sqliteURL);
 		}
 	}
 	if (NO == loaded) {

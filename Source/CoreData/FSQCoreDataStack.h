@@ -66,7 +66,7 @@ typedef void(^FSQCoreDataStackReadyBlock)(NSManagedObjectContext *mainContext);
 /** The common persistent store coordinator created with storeOptions. */
 @property (strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-/** @returns the currently in use store, which may be either ubiquitous or local-only, or nil if it has yet to be initialized. */
+/** @returns the currently in use store or nil if it has yet to be initialized. */
 @property (nonatomic, readonly) NSPersistentStore *persistentStore;
 
 /** @returns the URL that the persistent store is or will be located at. This may be called before the stack has been initialized to allow you to perform file system operations as needed. */
@@ -99,7 +99,7 @@ typedef void(^FSQCoreDataStackReadyBlock)(NSManagedObjectContext *mainContext);
 /** This must be called once before the stack or any context created from it are used to do any work. Handles model migration and setting up the persistent store as either local or ubiquitous depending on the value of #isUbiquitous and the availability of an iCloud account. Calling this method more than once has no effect. Call #reloadWithCompletionBlock: if you want to re-initialize the receiver. */
 - (void) initializeWithCompletionBlock:(void(^)(FSQCoreDataStack *stack,NSError *error))completionBlock;
 
-/** Drops the persistent store and reinitializes the receiver, handling ubiquity (re)configuration and migration as needed. */
+/** Drops the persistent store and reinitializes the receiver, handling migration as needed. */
 - (void) reloadWithCompletionBlock:(void(^)(NSError *error))completionBlock;
 
 
