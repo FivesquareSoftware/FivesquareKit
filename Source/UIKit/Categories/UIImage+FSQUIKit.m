@@ -38,7 +38,7 @@
 //	CGFloat minFitDimension = scaledFitSize.width >= scaledFitSize.height ? scaledFitSize.height : scaledFitSize.width;
 
 
-	CGSize imageSize;
+	CGSize imageSize = CGSizeZero;
 
 	if (imageAspect >= 1.) {
 		ImgLog(@"Image more wide than tall");

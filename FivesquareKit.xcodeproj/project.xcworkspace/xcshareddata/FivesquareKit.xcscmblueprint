@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D03A421D5644D23A07BF507ACCDB1A2FDD601B11",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "474921DC75391A6070C6594D825CBE0E17387848" : 9223372036854775807,
+    "D03A421D5644D23A07BF507ACCDB1A2FDD601B11" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "64B520D2-BBB6-4551-8B78-D05DA64CB995",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "474921DC75391A6070C6594D825CBE0E17387848" : "..",
+    "D03A421D5644D23A07BF507ACCDB1A2FDD601B11" : "FivesquareKit\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "FivesquareKit",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "FivesquareKit.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:FivesquareSoftware\/Now.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "474921DC75391A6070C6594D825CBE0E17387848"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:FivesquareSoftware\/FivesquareKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D03A421D5644D23A07BF507ACCDB1A2FDD601B11"
+    }
+  ]
+}

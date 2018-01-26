@@ -38,7 +38,7 @@
 
 @dynamic isLandscape;
 - (BOOL) isLandscape {
-	return UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+	return UIDeviceOrientationIsLandscape(self.interfaceOrientation);
 }
 
 @dynamic isUpsideDown;

@@ -115,7 +115,7 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 }
 
 - (CGAffineTransform) onDeckTransformForTransition:(FSQUIViewControllerTransition)transition  {
-	CGAffineTransform onDeckTransform;
+	CGAffineTransform onDeckTransform = CGAffineTransformIdentity;
 	switch (transition) {
 		case FSQUIViewControllerTransitionCenterExchange:
 			break;

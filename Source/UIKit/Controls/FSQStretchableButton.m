@@ -90,6 +90,7 @@
 }
 
 - (void) awakeFromNib {
+	[super awakeFromNib];
 	[self ready];
 }
 

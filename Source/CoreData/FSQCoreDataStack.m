@@ -131,7 +131,7 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 
 - (NSDictionary *) storeMetadata {
 	NSError *error = nil;
-	NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:self.persistentStoreURL error:&error];
+	NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:self.persistentStoreURL options:nil error:&error];
 	if(storeMetadata == nil) {
 		FLogError(error,@"Couldn't get store metadata!");
 	}
@@ -367,7 +367,7 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
     NSError *error = nil;
     
     CoreDataLog(self,@"Getting metadata for store on disk");
-	NSDictionary *currentStoreMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:storeURL error:&error];
+	NSDictionary *currentStoreMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:storeURL options:nil error:&error];
     if(currentStoreMetadata == nil) {
         if (error) {
             FLogError(error, @"Unable to get metadata for current store");

@@ -26,29 +26,29 @@
 + (NSString *) passwordForIdentifier:(NSString *)identifier {
 	NSMutableDictionary *genericAttrQuery = [[NSMutableDictionary alloc] init];
 	
-	[genericAttrQuery setObject:(id)objc_unretainedObject(kSecClassGenericPassword) forKey:(id)objc_unretainedObject(kSecClass)];
+	[genericAttrQuery setObject:(__bridge id) kSecClassGenericPassword forKey:(__bridge id) kSecClass];
 	NSData *genericAttrData = [identifier dataUsingEncoding:NSUTF8StringEncoding];
-	[genericAttrQuery setObject:genericAttrData forKey:(id)objc_unretainedObject(kSecAttrGeneric)];
-	[genericAttrQuery setObject:(id)objc_unretainedObject(kSecMatchLimitOne) forKey:(id)objc_unretainedObject(kSecMatchLimit)];
-	[genericAttrQuery setObject:(id)kCFBooleanTrue forKey:(id)objc_unretainedObject(kSecReturnAttributes)];
+	[genericAttrQuery setObject:genericAttrData forKey:(__bridge id) kSecAttrGeneric];
+	[genericAttrQuery setObject:(__bridge id) kSecMatchLimitOne forKey:(__bridge id) kSecMatchLimit];
+	[genericAttrQuery setObject:(id)kCFBooleanTrue forKey:(__bridge id) kSecReturnAttributes];
 	
 	NSMutableDictionary *item = [self keychainItemForQuery:genericAttrQuery];
 	
-	return (NSString *)[item objectForKey:(id)objc_unretainedObject(kSecValueData)];
+	return (NSString *)[item objectForKey:(__bridge id) kSecValueData];
 }
 
 + (void) savePassword:(NSString *)password forIdentifier:(NSString *)identifier {
 	NSMutableDictionary *genericAttrQuery = [[NSMutableDictionary alloc] init];
 	
-	[genericAttrQuery setObject:(id)objc_unretainedObject(kSecClassGenericPassword) forKey:(id)objc_unretainedObject(kSecClass)];
+	[genericAttrQuery setObject:(__bridge id) kSecClassGenericPassword forKey:(__bridge id) kSecClass];
 	NSData *genericAttrData = [identifier dataUsingEncoding:NSUTF8StringEncoding];
-	[genericAttrQuery setObject:genericAttrData forKey:(id)objc_unretainedObject(kSecAttrGeneric)];
-	[genericAttrQuery setObject:(id)objc_unretainedObject(kSecMatchLimitOne) forKey:(id)objc_unretainedObject(kSecMatchLimit)];
-	[genericAttrQuery setObject:(id)kCFBooleanTrue forKey:(id)objc_unretainedObject(kSecReturnAttributes)];
+	[genericAttrQuery setObject:genericAttrData forKey:(__bridge id) kSecAttrGeneric];
+	[genericAttrQuery setObject:(__bridge id) kSecMatchLimitOne forKey:(__bridge id) kSecMatchLimit];
+	[genericAttrQuery setObject:(id)kCFBooleanTrue forKey:(__bridge id) kSecReturnAttributes];
 	
 	NSMutableDictionary *keychainItem = [[NSMutableDictionary alloc] init];
-	[keychainItem setObject:genericAttrData forKey:(id)objc_unretainedObject(kSecAttrGeneric)];
-	[keychainItem setObject:[password dataUsingEncoding:NSUTF8StringEncoding] forKey:(id)objc_unretainedObject(kSecValueData)];
+	[keychainItem setObject:genericAttrData forKey:(__bridge id) kSecAttrGeneric];
+	[keychainItem setObject:[password dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id) kSecValueData];
 	
 	[self saveKeychainItem:keychainItem matchingQuery:genericAttrQuery];
 	
@@ -77,7 +77,7 @@
 		return nil;
 	}
 	
-	id itemClass = [keychainQuery objectForKey:(id)objc_unretainedObject(kSecClass)];
+	id itemClass = [keychainQuery objectForKey:(__bridge id) kSecClass];
 	NSMutableDictionary *keychainDictionary = [self fetchItemDataForItemOfClass:itemClass withAttributes:(__bridge NSMutableDictionary *)outDictionary];
 	
 //	[outDictionary release];
@@ -93,13 +93,13 @@
 	if (keychainErr == noErr) { // There is an existing keychain item => attributes
 		FSQAssert([(__bridge NSDictionary *)attributes isKindOfClass:[NSDictionary class]], @"Keychain returned item of wrong class %@", [(__bridge NSDictionary *)attributes class]);
         NSMutableDictionary *foundItem = [NSMutableDictionary dictionaryWithDictionary:(__bridge NSDictionary *)attributes];
-		[foundItem setObject:[aQuery objectForKey:(id)objc_unretainedObject(kSecClass)] forKey:(id)objc_unretainedObject(kSecClass)];		
+		[foundItem setObject:[aQuery objectForKey:(__bridge id) kSecClass] forKey:(__bridge id) kSecClass];		
 		
-		keychainErr = SecItemUpdate((CFDictionaryRef)objc_unretainedPointer(foundItem),(CFDictionaryRef)objc_unretainedPointer(keychainItem));
+		keychainErr = SecItemUpdate((__bridge CFDictionaryRef)foundItem,(__bridge CFDictionaryRef)keychainItem);
         FSQAssert(keychainErr == noErr, @"Couldn't update the Keychain Item (%d).", keychainErr);
     } else { // Create a new keychain item
-		[keychainItem setObject:[aQuery objectForKey:(id)objc_unretainedObject(kSecClass)] forKey:(id)objc_unretainedObject(kSecClass)];		
-		keychainErr = SecItemAdd((CFDictionaryRef)objc_unretainedPointer(keychainItem),NULL);
+		[keychainItem setObject:[aQuery objectForKey:(__bridge id) kSecClass] forKey:(__bridge id) kSecClass];		
+		keychainErr = SecItemAdd((__bridge CFDictionaryRef)keychainItem,NULL);
         FSQAssert(keychainErr == noErr, @"Couldn't add the Keychain Item (%d).", keychainErr);
     }
 //	[attributes release];
@@ -110,18 +110,18 @@
     NSMutableDictionary *keychainItem = [NSMutableDictionary
 										 dictionaryWithDictionary:attributes];
 	
-    [keychainItem setObject:(id)kCFBooleanTrue forKey:(id)objc_unretainedObject(kSecReturnData)];
-    [keychainItem setObject:(id)itemClass forKey:(id)objc_unretainedObject(kSecClass)];
+    [keychainItem setObject:(id)kCFBooleanTrue forKey:(__bridge id) kSecReturnData];
+    [keychainItem setObject:(id)itemClass forKey:(__bridge id) kSecClass];
 	
 //    NSData *itemData = nil;
 	CFDataRef itemData = NULL;
     OSStatus keychainError = noErr; 
     keychainError = SecItemCopyMatching((__bridge CFDictionaryRef)keychainItem, (CFTypeRef *)&itemData);
     if(keychainError == noErr) {
-		if([itemClass isEqual:(id)objc_unretainedObject(kSecClassGenericPassword)] || [itemClass isEqual:(id)objc_unretainedObject(kSecClassInternetPassword)]) {
+		if([itemClass isEqual:(__bridge id) kSecClassGenericPassword] || [itemClass isEqual:(__bridge id) kSecClassInternetPassword]) {
 			NSString *password = [[NSString alloc] initWithBytes:[(__bridge NSData *)itemData bytes]
 														  length:[(__bridge NSData *)itemData length] encoding:NSUTF8StringEncoding];
-			[keychainItem setObject:password forKey:(id)objc_unretainedObject(kSecValueData)];
+			[keychainItem setObject:password forKey:(__bridge id) kSecValueData];
 		}
     } else {
 		if (keychainError == errSecItemNotFound)
