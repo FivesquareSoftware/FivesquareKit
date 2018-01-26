@@ -245,7 +245,7 @@
 		A4AEA784185649D400289AFE /* NSCalendar+FSQFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AEA780185649D400289AFE /* NSCalendar+FSQFoundation.m */; };
 		A4AFFE9A1607F398001C6D31 /* FSQFoundationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A4AFFE981607F398001C6D31 /* FSQFoundationUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B35EB819CA57F00050A0AA /* FSQUpdatablePlist.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B35EB619CA57F00050A0AA /* FSQUpdatablePlist.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A4B35EB919CA57F00050A0AA /* FSQUpdatablePlist.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B35EB619CA57F00050A0AA /* FSQUpdatablePlist.h */; };
+		A4B35EB919CA57F00050A0AA /* FSQUpdatablePlist.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B35EB619CA57F00050A0AA /* FSQUpdatablePlist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4B35EBA19CA57F00050A0AA /* FSQUpdatablePlist.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B35EB719CA57F00050A0AA /* FSQUpdatablePlist.m */; };
 		A4B35EBB19CA57F00050A0AA /* FSQUpdatablePlist.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B35EB719CA57F00050A0AA /* FSQUpdatablePlist.m */; };
 		A4B8ACAB15991E140062CE8C /* FSQWebKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4B8ACA915991E140062CE8C /* FSQWebKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
