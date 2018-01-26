@@ -10,7 +10,7 @@
 
 #import <WebKit/WebKit.h>
 
-@interface FSQTransientWebKitDelegate : NSObject 
+@interface FSQTransientWebKitDelegate<WebFrameLoadDelegate> : NSObject 
 @property (nonatomic, strong) id lifetime;
 @property (nonatomic, copy) void (^completionHandler)(NSError *error);
 @end
@@ -44,7 +44,7 @@
 	delegate.lifetime = delegate;
 	delegate.completionHandler = completionHandler;
 	
-	self.frameLoadDelegate = delegate;
+	self.frameLoadDelegate = (id<WebFrameLoadDelegate>)delegate;
 	[self setMainFrameURL:[URL absoluteString]];
 }
 

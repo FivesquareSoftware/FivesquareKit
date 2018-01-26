@@ -33,14 +33,14 @@
 		}];
 	};
 	
-	dispatch_queue_t currentQueue = dispatch_get_current_queue();
-	if (currentQueue != dispatch_get_main_queue()) {
+	if (NO == [NSThread isMainThread]) {
 		dispatch_async(dispatch_get_main_queue(), block);
 	} else {
 		block();
 	}
 	
-	
+	dispatch_async(dispatch_get_main_queue(), block);
+
 	dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 	return string;
 }

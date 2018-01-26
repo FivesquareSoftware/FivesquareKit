@@ -156,16 +156,17 @@
 		_keys = [NSMutableSet new];
 		_compressionQuality = .8;
 		_targetSize = CGSizeZero;
-		_contentMode = UIViewContentModeScaleAspectFill;
-
 		self.memoryCapacity = memoryCapacity;
 		
 #if TARGET_OS_IPHONE
+		_contentMode = UIViewContentModeScaleAspectFill;
 		FSQWeakSelf(self_);
 		self.memoryWarningObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 			CacheLog(@"!!! * OUT OF MEMORY, PURGING %@ * !!!",self_);
 			[self_.cache removeAllObjects];
 		}];
+#else
+		_contentMode = kCAGravityResizeAspectFill;
 #endif
 
 		

@@ -12,7 +12,7 @@
 
 @implementation NSApplication (FSQAppKit)
 
-- (void) blockSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+- (void) blockSheetDidEnd:(NSWindow *)sheet returnCode:(NSModalResponse)returnCode contextInfo:(void *)contextInfo {
 	FSQSheetCompletionBlock completionBlock = (__bridge_transfer FSQSheetCompletionBlock)contextInfo;
 	if (completionBlock) {
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -32,13 +32,22 @@
 		if (executionBlock) {
 			returnCode = executionBlock();
 		}
-		[self endSheet:sheet returnCode:returnCode];
+		[window endSheet:sheet returnCode:returnCode];
 	});
 }
 
 - (void) beginSheet:(NSWindow *)sheet modalForWindow:(NSWindow *)window completionBlock:(FSQSheetCompletionBlock)completionBlock {
-	void *contextInfo = Block_copy((__bridge void *)completionBlock);
-	[self beginSheet:sheet modalForWindow:window modalDelegate:self didEndSelector:@selector(blockSheetDidEnd:returnCode:contextInfo:) contextInfo:contextInfo];
+	FSQWeakSelf(welf);
+	[window beginSheet:sheet completionHandler:^(NSModalResponse returnCode) {
+		if (completionBlock) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completionBlock(returnCode);
+			});
+		}
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[sheet orderOut:welf];
+		});
+	}];
 }
 
 

@@ -7,5 +7,5 @@
 //
 
 typedef NSInteger(^FSQSheetExecutionBlock)(void);
-typedef void(^FSQSheetCompletionBlock)(NSInteger returnCode);
+typedef void(^FSQSheetCompletionBlock)(NSModalResponse returnCode);
 

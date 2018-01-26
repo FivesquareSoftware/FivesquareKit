@@ -36,7 +36,11 @@ typedef NS_ENUM(NSInteger, FSQImageCacheMemoryLimit) {
 @property (nonatomic) CGFloat compressionQuality;
 @property (nonatomic) CIFilter *filter;
 @property (nonatomic) CGSize targetSize;
+#if TARGET_OS_IPHONE
 @property (nonatomic) UIViewContentMode contentMode;
+#else
+@property (nonatomic) NSString *contentMode; // see CALayer.contentsGravity
+#endif
 
 - (id)initWithMemoryCapacity:(NSInteger)memoryCapacity diskPath:(NSString *)diskPath;
 
