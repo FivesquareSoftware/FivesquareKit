@@ -70,8 +70,11 @@
 
 - (void) initialize {
 	self.initialized = YES;
+	_editable = NO;
 	_animateTableUpdates = YES;
-	_tableRowAnimationType = UITableViewRowAnimationNone;
+	_insertRowAnimationType = UITableViewRowAnimationRight;
+	_deleteRowAnimationType = UITableViewRowAnimationLeft;
+	_moveRowAnimationType = UITableViewRowAnimationFade;
 }
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -81,7 +84,6 @@
 	}
 	return self;
 }
-
 
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
@@ -106,25 +108,32 @@
 	FSQAssert(self.initialized, @"Controller not initialized. Did you forget to call [super initialize] from %@?",self);
 	[super viewDidLoad];
 	
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    NSPersistentStoreCoordinator *persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator;
-    
-    FSQWeakSelf(self_);
-    self.persistentStoresObserver = [notificationCenter addObserverForName:NSPersistentStoreCoordinatorStoresDidChangeNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [self_.fetchedResultsController fetch];
-		[self_.tableView reloadData];
-    }];
-    self.ubiquitousChangesObserver = [notificationCenter addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [self_.fetchedResultsController fetch];
-		[self_.tableView reloadData];
-    }];
 
 }
 
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	if (self.fetchedResultsController.delegate != self) {
+		self.fetchedResultsController.delegate = self;
+	}
 	[self.fetchedResultsController fetch];
 	[self.tableView reloadData];
+
+
+	if (nil == self.persistentStoresObserver) {
+		NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+		NSPersistentStoreCoordinator *persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator;
+
+		FSQWeakSelf(self_);
+		self.persistentStoresObserver = [notificationCenter addObserverForName:NSPersistentStoreCoordinatorStoresDidChangeNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+			[self_.fetchedResultsController fetch];
+			[self_.tableView reloadData];
+		}];
+		self.ubiquitousChangesObserver = [notificationCenter addObserverForName:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:persistentStoreCoordinator queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+			[self_.fetchedResultsController fetch];
+			[self_.tableView reloadData];
+		}];
+	}
 }
 
 - (void) setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -148,37 +157,44 @@
 
 - (NSIndexPath *) fetchedResultsIndexPathForTableIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row - (NSInteger)_fetchedResultsTableRowOffset inSection:indexPath.section - (NSInteger)_fetchedResultsTableSection];
+	return [NSIndexPath indexPathForRow:indexPath.row - _fetchedResultsTableRowOffset inSection:indexPath.section - _fetchedResultsTableSection];
 }
 
 - (NSIndexPath *) tableIndexPathForFetchedResultsIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath == nil) return nil;
-	return [NSIndexPath indexPathForRow:indexPath.row + (NSInteger)_fetchedResultsTableRowOffset inSection:indexPath.section + (NSInteger)_fetchedResultsTableSection];
+	return [NSIndexPath indexPathForRow:indexPath.row + _fetchedResultsTableRowOffset inSection:indexPath.section + _fetchedResultsTableSection];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self.fetchedResultsController numberOfSections];
+    return [self.fetchedResultsController numberOfSections] + _fetchedResultsTableSection;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - (NSInteger)_fetchedResultsTableSection];
-	if(count < 1 && self.showsPlaceholderRow)
-		count = 1;
+    NSInteger count =  [self.fetchedResultsController numberOfObjectsInSection:section - _fetchedResultsTableSection];
+	if(self.showsPlaceholderRow) {
+		if (count < 1) {
+			count = 1;
+		}
+	}
+	else {
+		count += self.fetchedResultsTableRowOffset;
+	}
 	return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	[FSQAsserter subclass:self responsibility:_cmd];
-	return nil;
+	FSQSubclassResponsibility();
+	return [[UITableViewCell alloc] init];
 }
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-	[FSQAsserter subclass:self warn:_cmd];
+	FSQSubclassWarn();
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section == _fetchedResultsTableSection)
+	if(indexPath.section == _fetchedResultsTableSection) {
 		return _editable;
+	}
 	return NO;
 }
 
@@ -199,13 +215,13 @@
 	return [self.fetchedResultsController nameOfSectionAtIndex:section - (NSInteger)_fetchedResultsTableSection];
 }
 
-- (CGFloat)tableView:(UITableView *)inTableView heightForHeaderInSection:(NSInteger)section {
-	NSString *title = [self tableView:inTableView titleForHeaderInSection:section];
-	if(title) {
-		return inTableView.sectionHeaderHeight;
-	}
-	return 0;
-}
+//- (CGFloat)tableView:(UITableView *)inTableView heightForHeaderInSection:(NSInteger)section {
+//	NSString *title = [self tableView:inTableView titleForHeaderInSection:section];
+//	if(title) {
+//		return inTableView.sectionHeaderHeight;
+//	}
+//	return 0;
+//}
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
 	return [self.fetchedResultsController sectionIndexTitles];
@@ -243,12 +259,13 @@
 	
     switch(type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
-						  withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex + (NSUInteger)_fetchedResultsTableSection] withRowAnimation:UITableViewRowAnimationFade];
             break;			
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + _fetchedResultsTableSection]
-						  withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex + (NSUInteger)_fetchedResultsTableSection] withRowAnimation:UITableViewRowAnimationFade];
+		case NSFetchedResultsChangeMove:
+		case NSFetchedResultsChangeUpdate:
+		default:
             break;
     }
 }
@@ -273,12 +290,12 @@
         case NSFetchedResultsChangeInsert:
 			if(newIndexPath.section == self.mutatingSectionIndex) break;
             [self.tableView insertRowsAtIndexPaths:@[newTableIndexPath]
-								  withRowAnimation:UITableViewRowAnimationFade];
+								  withRowAnimation:_insertRowAnimationType];
             break;
 			
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteRowsAtIndexPaths:@[tableIndexPath]
-								  withRowAnimation:UITableViewRowAnimationFade];
+								  withRowAnimation:_deleteRowAnimationType];
             break;
 			
         case NSFetchedResultsChangeUpdate:
@@ -288,9 +305,9 @@
 			
         case NSFetchedResultsChangeMove:
             [self.tableView deleteRowsAtIndexPaths:@[tableIndexPath]
-								  withRowAnimation:UITableViewRowAnimationFade];
+								  withRowAnimation:_moveRowAnimationType];
             [self.tableView insertRowsAtIndexPaths:@[newTableIndexPath]
-								  withRowAnimation:UITableViewRowAnimationTop];
+								  withRowAnimation:_moveRowAnimationType];
 			break;
     }
 }

@@ -11,7 +11,7 @@
 #import "FSQProgressView.h"
 #import "FSQProgressPanel.h"
 
-#import "FSQAlertView.h"
+#import "FSQAlertController.h"
 #import "FSQUIKitConstants.h"
 #import "FSQLogging.h"
 
@@ -295,8 +295,8 @@ static FSQProgressAlert *__instance = nil;
 	dispatch_async(dispatch_get_main_queue(), ^{
 //		[self.previousKeyWindow makeKeyWindow];
 		[self hideAnimated:YES completionBlock:^{
-			FSQAlertView *alert = [FSQAlertView errorAlertWithError:error];
-			[alert show];
+			FSQAlertController *alert = [FSQAlertController errorAlertWithError:error];
+			[alert showFromRootController];
 		}];
 	});
 }

@@ -8,45 +8,68 @@
 
 #import "FSQKeyObserver.h"
 
-#import <objc/runtime.h>
 #import "FSQKeyObservation.h"
+#import "FSQLogging.h"
+#import "FSQRuntime.h"
+
 
 static const NSString *kNSObject_FSQFoundation_KeyObserver = @"NSObject_FSQFoundation_KeyObserver";
 
 
+@interface FSQKeyObserver ()
+@property (nonatomic, strong) NSMutableSet *observations;
+@end
+
 @implementation FSQKeyObserver
+
 @dynamic observedKeyPaths;
 - (NSSet *) observedKeyPaths {
     NSSet *keyPaths = [_observations valueForKey:@"keyPath"];
     return keyPaths;
 }
 
-+ (id) withObject:(id)observedObject {
-    FSQKeyObserver *observer = objc_getAssociatedObject(observedObject, &kNSObject_FSQFoundation_KeyObserver);
-    if (nil == observer) {
-        observer = [FSQKeyObserver new];
-        observer.observedObject = observedObject;
-        objc_setAssociatedObject(observedObject, &kNSObject_FSQFoundation_KeyObserver, observer, OBJC_ASSOCIATION_RETAIN);
-    }
-    return observer;
-}
 
 - (void) dealloc {
-    [self.observedKeyPaths enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        [_observedObject removeObserver:self forKeyPath:obj];
-    }];
+	objc_setAssociatedObject(_observedObject, &kNSObject_FSQFoundation_KeyObserver, nil, OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (id)init {
     self = [super init];
     if (self) {
-        _observations = [NSMutableSet new];
+//        _observations = [[NSHashTable alloc] initWithOptions:NSPointerFunctionsWeakMemory capacity:1];
+
+		CFSetCallBacks scb = { 0, NULL, NULL, CFCopyDescription, CFEqual };
+		//!!!: should probably use a CFMutableSet here instead of having to check the contents of the array
+		CFMutableSetRef setRef = CFSetCreateMutable(NULL, 0, &scb);
+
+		_observations = (NSMutableSet *)CFBridgingRelease(setRef);
     }
     return self;
 }
 
++ (id) withObject:(id)observedObject {
+	FSQKeyObserver *observer = objc_getAssociatedObject(observedObject, &kNSObject_FSQFoundation_KeyObserver);
+	if (nil == observer) {
+		observer = [FSQKeyObserver new];
+		observer.observedObject = observedObject;
+		objc_setAssociatedObject(observedObject, &kNSObject_FSQFoundation_KeyObserver, observer, OBJC_ASSOCIATION_ASSIGN);
+	}
+	return observer;
+}
+
++ (id) object:(id)observedObject onKeyPathChange:(NSString *)key do:(void(^)(id value))block {
+	FSQKeyObserver *observer = [FSQKeyObserver withObject:observedObject];
+	return [observer onKeyPathChange:key do:block];
+}
+
++ (void) object:(id)observedObject removeObservationBlock:(id)observation {
+	FSQKeyObserver *observer = [FSQKeyObserver withObject:observedObject];
+	[observer removeObservationBlock:observation];
+}
+
 - (id) onKeyPathChange:(NSString *)keyPath do:(void(^)(id value))block {
     FSQKeyObservation *observation = [FSQKeyObservation new];
+	observation.keyPathObserver = self;
     observation.keyPath = keyPath;
     observation.block = block;
     if (NO == [self.observedKeyPaths containsObject:keyPath]) {
@@ -57,24 +80,30 @@ static const NSString *kNSObject_FSQFoundation_KeyObserver = @"NSObject_FSQFound
 }
 
 - (void) removeObservationBlock:(id)observation {
+	if (nil == observation) {
+		return;
+	}
     FSQKeyObservation *keyPathObservation = observation;
-    [_observations removeObject:observation];
-    if (NO == [self.observedKeyPaths containsObject:keyPathObservation.keyPath]) {
+	if (NO == [_observations containsObject:keyPathObservation]) {
+		return;
+	}
+	[_observations removeObject:observation];
+    if (NO == [self.observedKeyPaths containsObject:keyPathObservation.keyPath]) { // Observation was the last one, remove key path observation
         [_observedObject removeObserver:self forKeyPath:keyPathObservation.keyPath];
     }
 }
-
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     id newValue = [change objectForKey:NSKeyValueChangeNewKey];
     NSSet *matchingObservations = [_observations objectsPassingTest:^BOOL(FSQKeyObservation *observation, BOOL *stop) {
         return [observation.keyPath isEqualToString:keyPath];
     }];
-    [matchingObservations enumerateObjectsUsingBlock:^(FSQKeyObservation *observation, BOOL *stop) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            observation.block(newValue);
-        });
-    }];
+
+	for (FSQKeyObservation *observation in matchingObservations) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			observation.block(newValue);
+		});
+	}
 }
 
 @end

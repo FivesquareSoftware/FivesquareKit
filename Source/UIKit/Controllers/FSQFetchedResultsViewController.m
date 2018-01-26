@@ -117,10 +117,6 @@
 
 }
 
-- (void) viewDidUnload {
-	_fetchedResultsController = nil;
-}
-
 - (void) viewWillAppear:(BOOL)animated {
 	[self.fetchedResultsController fetch];
 	[super viewWillAppear:animated];

@@ -10,6 +10,10 @@
 
 @interface NSSet (FSQFoundation)
 - (id) randomObject;
+- (NSArray *) sortedArrayUsingKey:(NSString *)sortKey ascending:(BOOL)ascending;
+- (NSArray *)sortedArrayUsingSelector:(SEL)comparator;
+- (NSArray *)sortedArrayUsingComparator:(NSComparator)cmptr;
+- (NSArray *)sortedArrayWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr;
 @end
 
 @interface NSMutableSet (FSQFoundation)

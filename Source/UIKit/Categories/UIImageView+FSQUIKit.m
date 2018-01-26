@@ -31,12 +31,12 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 
 
 @dynamic cache;
-- (FSQImageCache *) cache {
-	FSQImageCache *cache = (FSQImageCache *)objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_Cache);
+- (FSQRemoteImageCache *) cache {
+	FSQRemoteImageCache *cache = (FSQRemoteImageCache *)objc_getAssociatedObject(self, &kUIImageView_FSQUIKit_Cache);
 	return cache;
 }
 
-- (void) setCache:(FSQImageCache *)cache {
+- (void) setCache:(FSQRemoteImageCache *)cache {
 	objc_setAssociatedObject(self, &kUIImageView_FSQUIKit_Cache, cache, OBJC_ASSOCIATION_ASSIGN);
 }
 
@@ -92,13 +92,20 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 //	}
 //}
 
+//FIXME: do not like putting a dealloc in a category ... even considering the new ARC behavior
+//!!!: This caused endless memory leaks
+//- (void)dealloc {
+//	if (self.cache && self.URL && self.completionTicket) {
+//		[self.cache removeHandler:self.completionTicket forURL:self.URL];
+//		self.completionTicket = nil;
+//	}
+//}
+
 - (void) willMoveToSuperview:(UIView *)newSuperview {
 	if (nil == newSuperview) {
 		if (self.cache && self.URL && self.completionTicket) {
 			[self.cache removeHandler:self.completionTicket forURL:self.URL];
 			self.completionTicket = nil;
-			self.URL = nil;
-			self.image = nil;
 		}
 	}
 }
@@ -121,8 +128,7 @@ static const NSString *kUIImageView_FSQUIKit_completionTicket = @"UIImageView_FS
 	[self setImageWithContentsOfURL:URL cache:self.cache completionBlock:block];
 }
 
-- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)imageCache completionBlock:(void(^)(BOOL success))block {
-//	FLog(@"%p.setImageWithContentsOfURL:%@",self,URLOrString);
+- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQRemoteImageCache *)imageCache completionBlock:(void(^)(BOOL success))block {
 
 	// Cancel/reject any completion handlers that might be out there already
 	if (self.URL && self.completionTicket) {

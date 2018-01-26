@@ -8,14 +8,11 @@
 
 #import "FSQTransparentSearchBar.h"
 
-@interface FSQTransparentSearchBar ()
-@end
-
 
 @implementation FSQTransparentSearchBar
 
 - (void) initialize {
-	//	self.translatesAutoresizingMaskIntoConstraints = NO;
+//	self.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 - (void) ready {

@@ -40,14 +40,14 @@
  *  @{
  */
 
-+ (id) firstWithFetchRequest:(NSString *)requestName 
++ (instancetype) firstWithFetchRequest:(NSString *)requestName
 				   inContext:(NSManagedObjectContext *)context;
 
-+ (id) firstWithFetchRequestTemplate:(NSString *)templateName 
++ (instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
 			   substitutionVariables:(NSDictionary *)variables
 						   inContext:(NSManagedObjectContext *)context;
 
-+ (id) firstWithFetchRequestTemplate:(NSString *)templateName 
++ (instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
 			   substitutionVariables:(NSDictionary *)variables
 					 sortDescriptors:(NSArray *)sortDescriptors
 						   inContext:(NSManagedObjectContext *)context;
@@ -70,16 +70,16 @@
  *  @{
  */
 
-+ (id) firstInContext:(NSManagedObjectContext *)context;
++ (instancetype) firstInContext:(NSManagedObjectContext *)context;
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 				inContext:(NSManagedObjectContext *)context;
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
 				inContext:(NSManagedObjectContext *)context;
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
 		   requestOptions:(NSDictionary *)options
 				inContext:(NSManagedObjectContext *)context;
@@ -117,25 +117,25 @@
  *  @{
  */
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
++ (instancetype) findOrCreateWithPredicate:(NSPredicate *)predicate
 					   inContext:(NSManagedObjectContext *)context;
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
++ (instancetype) findOrCreateWithPredicate:(NSPredicate *)predicate
 				  attributes:(NSDictionary *)someAttributes
 					   inContext:(NSManagedObjectContext *)context;
 
-+ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
++ (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
 					  substitutionVariables:(NSDictionary *)variables
 								  inContext:(NSManagedObjectContext *)context;
 
-+ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
++ (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
 					  substitutionVariables:(NSDictionary *)variables
 								 attributes:(id)someAttributes
 								  inContext:(NSManagedObjectContext *)context;
 
-+ (id) createInContext:(NSManagedObjectContext *)context;
++ (instancetype) createInContext:(NSManagedObjectContext *)context;
 
-+ (id) createWithAttributes:(NSDictionary *)someAttributes
++ (instancetype) createWithAttributes:(NSDictionary *)someAttributes
 				  inContext:(NSManagedObjectContext *)context;
 
 /** @} */

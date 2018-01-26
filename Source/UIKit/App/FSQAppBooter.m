@@ -13,10 +13,11 @@
 
 
 @interface FSQAppBooter()
+@property (nonatomic) BOOL isBooting;
 @property (nonatomic) BOOL booted;
 @property (strong) NSOperationQueue *bootQ;
 @property (strong) NSMutableArray *errorsInternal;
-@property (copy) void (^completionBlock)(void);
+@property (nonatomic, strong) NSMutableSet *completionBlocks;
 
 - (void) bootInBackground;
 
@@ -55,6 +56,7 @@
 - (id)init {
     self = [super init];
     if (self) {
+		_completionBlocks = [NSMutableSet new];
         self.bootQ = [NSOperationQueue new];
 		[_bootQ setSuspended:YES];
 		self.errorsInternal = [NSMutableArray new];
@@ -76,29 +78,36 @@
 	[self.bootQ addOperationRecursively:operation];
 }
 
-- (void) addBlock:(void (^)(void))block {
-	NSBlockOperation *blockOp = [NSBlockOperation blockOperationWithBlock:block];
+- (void) addBlock:(FSQBootBlock)block {
+	void(^opBlock)(void) = ^{
+		block(self);
+	};
+	
+	NSBlockOperation *blockOp = [NSBlockOperation blockOperationWithBlock:opBlock];
 	[self.bootQ addOperation:blockOp];
 }
 
-- (void) addWaitBlock:(void (^)(dispatch_semaphore_t wait_semaphore))block {
+- (void) addWaitBlock:(FSQBootWaitBlock)block {
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	NSBlockOperation *blockOp = [NSBlockOperation blockOperationWithBlock:^{
-//        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-        block(semaphore);
+        block(semaphore,self);
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-//        dispatch_semaphore_signal(semaphore);
-//        dispatch_release(semaphore);
     }];
 	[self.bootQ addOperation:blockOp];
 }
 
-- (void) bootWithCompletionBlock:(void (^)(void))block {
-	FSQAssert(_booted == NO, @"Already booted!");
-	if (_booted) return;
+- (void) boot {
+	[self bootWithCompletionBlock:nil];
+}
 
-	_booted = YES;
-	self.completionBlock = block;
+- (void) bootWithCompletionBlock:(FSQBootBlock)block {
+	FSQAssert(_booted == NO, @"Already booted!");
+	if (_isBooting || _booted) return;
+	_isBooting = YES;
+
+	if (block) {
+		[_completionBlocks addObject:block];
+	}
 	[self performSelectorInBackground:@selector(bootInBackground) withObject:nil];
 }
 
@@ -106,6 +115,16 @@
 	[self.errorsInternal addObject:error];
 }
 
+- (void) onComplete:(FSQBootBlock)block {
+	if (_booted) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			block(self);
+		});
+	}
+	else {
+		[_completionBlocks addObject:block];
+	}
+}
 
 // ========================================================================== //
 
@@ -119,10 +138,14 @@
 		[self.bootQ setSuspended:NO];	
 		[self.bootQ waitUntilAllOperationsAreFinished];
 		[NSThread sleepUntilDate:[startDate dateByAddingTimeInterval:_minimumBootTime]];
-		if (_completionBlock) {
-			dispatch_async(dispatch_get_main_queue(), _completionBlock);
-		}
-		
+		_booted = YES;
+		_isBooting = NO;
+
+		for (FSQBootBlock block in _completionBlocks) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				block(self);
+			});
+		}		
 	}
 }
 

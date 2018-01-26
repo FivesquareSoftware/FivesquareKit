@@ -32,3 +32,81 @@ CLLocationCoordinate2D FSQCoordinateOffsetFromCoordinate(CLLocationCoordinate2D 
 //
 //MK_EXTERN CLLocationDistance MKMetersBetweenMapPoints(MKMapPoint a, MKMapPoint b) NS_AVAILABLE(NA, 4_0);
 
+
+CLLocationCoordinate2D FSQGetMinCoordinateForRegion(MKCoordinateRegion region) {
+	CLLocationCoordinate2D center = region.center;
+	
+	MKCoordinateSpan span = region.span;
+	CLLocationDegrees latitudeSpan = span.latitudeDelta;
+	CLLocationDegrees longitudeSpan = span.longitudeDelta;
+	
+	CLLocationCoordinate2D minCoordinate = CLLocationCoordinate2DMake(center.latitude - (latitudeSpan/2.), center.longitude - (longitudeSpan/2.));
+
+	return minCoordinate;
+}
+
+CLLocationCoordinate2D FSQGetMaxCoordinateForRegion(MKCoordinateRegion region) {
+	CLLocationCoordinate2D center = region.center;
+	
+	MKCoordinateSpan span = region.span;
+	CLLocationDegrees latitudeSpan = span.latitudeDelta;
+	CLLocationDegrees longitudeSpan = span.longitudeDelta;
+	
+	CLLocationCoordinate2D maxCoordinate = CLLocationCoordinate2DMake(center.latitude + (latitudeSpan/2.), center.longitude + (longitudeSpan/2.));
+	
+	return maxCoordinate;
+}
+
+CLLocationDistance FSQDiagonalSpanForRegion(MKCoordinateRegion region) {
+	CLLocationCoordinate2D minCoordinate = FSQGetMinCoordinateForRegion(region);
+	CLLocationCoordinate2D maxCoordinate = FSQGetMaxCoordinateForRegion(region);
+	
+	CLLocation *minLocation = [[CLLocation alloc] initWithLatitude:minCoordinate.latitude longitude:minCoordinate.longitude];
+	CLLocation *maxLocation = [[CLLocation alloc] initWithLatitude:maxCoordinate.latitude longitude:maxCoordinate.longitude];
+	CLLocationDistance distance = [maxLocation distanceFromLocation:minLocation];
+	
+	return distance;
+}
+
+CLLocationDistance FSQLatitudeSpanForRegion(MKCoordinateRegion region) {
+	CLLocationCoordinate2D minCoordinate = FSQGetMinCoordinateForRegion(region);
+	CLLocationCoordinate2D maxCoordinate = FSQGetMaxCoordinateForRegion(region);
+	
+	CLLocation *minLocation = [[CLLocation alloc] initWithLatitude:minCoordinate.latitude longitude:minCoordinate.longitude];
+	CLLocation *maxLocation = [[CLLocation alloc] initWithLatitude:maxCoordinate.latitude longitude:minCoordinate.longitude];
+	CLLocationDistance distance = [maxLocation distanceFromLocation:minLocation];
+	
+	return distance;
+}
+
+BOOL isMKCoordinateRegionZero(MKCoordinateRegion region) {
+	return region.center.latitude == 0. && region.center.longitude == 0. && region.span.latitudeDelta == 0. && region.span.longitudeDelta == 0.;
+}
+
+BOOL MKCoordinateRegionEquals(MKCoordinateRegion region,MKCoordinateRegion otherRegion) {
+	return	region.center.latitude			== otherRegion.center.latitude
+	&& region.center.longitude		== otherRegion.center.longitude
+	&& region.span.latitudeDelta	== otherRegion.span.latitudeDelta
+	&& region.span.longitudeDelta	== otherRegion.span.longitudeDelta;
+}
+
+BOOL MKCoordinateRegionContainsCoordinate(MKCoordinateRegion region,CLLocationCoordinate2D coordinate) {
+	CLLocationCoordinate2D center = region.center;
+	MKCoordinateSpan span = region.span;
+	
+	double latitudeRadius = span.latitudeDelta/2.;
+	double longitudeRadius = span.longitudeDelta/2.;
+	
+	double minLatitude = center.latitude-latitudeRadius;
+	double maxLatitude = center.latitude+latitudeRadius;
+	double minLongitude = center.longitude-longitudeRadius;
+	double maxLongitude = center.longitude+longitudeRadius;
+	
+	return coordinate.latitude >= minLatitude && coordinate.latitude <= maxLatitude && coordinate.longitude >= minLongitude && coordinate.longitude <= maxLongitude;
+}
+
+NSString *NSStringFromMKCoordinateRegion(MKCoordinateRegion region) {
+	return [NSString stringWithFormat:@"{{%f,%f},{%f,%f}}",region.center.latitude,region.center.longitude, region.span.latitudeDelta,region.span.longitudeDelta];
+}
+
+

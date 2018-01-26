@@ -9,11 +9,6 @@
 
 #import "FSQMacros.h"
 
-#if HAS_MODERN_OBJC == 0
-//#error "FivesquareKit requires a modern obj-c compiler"
-#warn "FivesquareKit will require a modern obj-c compiler very soon (yours isn't)"
-#endif
-
 
 #ifdef __OBJC__
 	#import <Foundation/Foundation.h>

@@ -20,12 +20,22 @@
 
 - (NSString *) stringValue;
 
-- (id) objectMatchingPredicate:(NSPredicate *)predicate;
+- (id) firstObjectMatchingPredicate:(NSPredicate *)predicate;
+- (id) anyKeyForObject:(id)obj;
+
+- (NSArray *) keysSortedByValueUsingSortDescriptors:(NSArray *)sortDescriptors;
+
+- (NSArray *) valuesForKeysSortedByKey:(NSString *)sortKey ascending:(BOOL)ascending;
+- (NSArray *) valuesSortedByKeysUsingSortDescriptors:(NSArray *)sortDescriptors;
+- (NSArray *) valuesSortedByKeysUsingSelector:(SEL)comparator;
+- (NSArray *) valuesSortedByKeyWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr;
+- (NSArray *) valuesSortedByKeyUsingComparator:(NSComparator)cmptr;
 
 @end
 
 @interface NSMutableDictionary (FSQFoundation)
 
+- (void) safeSetObject:(id)obj forKey:(id<NSCopying>)key;
 - (void) setObjectIfNotNil:(id)obj forKey:(id<NSCopying>)key;
 
 @end

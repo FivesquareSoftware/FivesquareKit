@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-#import "FSQLocationResolver.h"
+#import "CLLocationUtils.h"
+#import "FSQLocationService.h"
 
 #import "CLLocation+FSQCoreLocation.h"

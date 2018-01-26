@@ -8,8 +8,18 @@
 
 #import <CoreData/CoreData.h>
 
+extern NSString *kFSQManagedObjectCreatedAtKey;
+extern NSString *kFSQManagedObjectUpdatedAtKey;
+extern NSString *kFSQManagedObjectDeletedAtKey;
+extern NSString *kFSQManagedObjectUniqueIdentifierKey;
+
+
 @interface FSQManagedObject : NSManagedObject
 
+@property (nonatomic, readonly) NSDictionary *allAttributes;
+
 - (void) markForDeletion;
+- (void) unmarkForDeletion;
+
 
 @end

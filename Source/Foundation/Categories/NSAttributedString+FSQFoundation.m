@@ -7,12 +7,16 @@
 //
 
 #import "NSAttributedString+FSQFoundation.h"
+#import "NSObject+FSQFoundation.h"
 
 @implementation NSAttributedString (FSQFoundation)
 
-+ (BOOL) isEmpty:(NSAttributedString *)string {
-	return string == nil || [string length] < 1;
-
++ (BOOL) isEmpty:(NSAttributedString *)obj {
+	BOOL isEmpty = [NSObject isEmpty:obj];
+	if (isEmpty) {
+		return isEmpty;
+	}
+	return [[obj string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length < 1;
 }
 
 @end

@@ -26,29 +26,29 @@
 + (NSString *) passwordForIdentifier:(NSString *)identifier {
 	NSMutableDictionary *genericAttrQuery = [[NSMutableDictionary alloc] init];
 	
-	[genericAttrQuery setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+	[genericAttrQuery setObject:(__bridge id) kSecClassGenericPassword forKey:(__bridge id) kSecClass];
 	NSData *genericAttrData = [identifier dataUsingEncoding:NSUTF8StringEncoding];
-	[genericAttrQuery setObject:genericAttrData forKey:(__bridge id)kSecAttrGeneric];
-	[genericAttrQuery setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
-	[genericAttrQuery setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnAttributes];
+	[genericAttrQuery setObject:genericAttrData forKey:(__bridge id) kSecAttrGeneric];
+	[genericAttrQuery setObject:(__bridge id) kSecMatchLimitOne forKey:(__bridge id) kSecMatchLimit];
+	[genericAttrQuery setObject:(id)kCFBooleanTrue forKey:(__bridge id) kSecReturnAttributes];
 	
 	NSMutableDictionary *item = [self keychainItemForQuery:genericAttrQuery];
 	
-	return (NSString *)[item objectForKey:(__bridge id)kSecValueData];
+	return (NSString *)[item objectForKey:(__bridge id) kSecValueData];
 }
 
 + (void) savePassword:(NSString *)password forIdentifier:(NSString *)identifier {
 	NSMutableDictionary *genericAttrQuery = [[NSMutableDictionary alloc] init];
 	
-	[genericAttrQuery setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+	[genericAttrQuery setObject:(__bridge id) kSecClassGenericPassword forKey:(__bridge id) kSecClass];
 	NSData *genericAttrData = [identifier dataUsingEncoding:NSUTF8StringEncoding];
-	[genericAttrQuery setObject:genericAttrData forKey:(__bridge id)kSecAttrGeneric];
-	[genericAttrQuery setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
-	[genericAttrQuery setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnAttributes];
+	[genericAttrQuery setObject:genericAttrData forKey:(__bridge id) kSecAttrGeneric];
+	[genericAttrQuery setObject:(__bridge id) kSecMatchLimitOne forKey:(__bridge id) kSecMatchLimit];
+	[genericAttrQuery setObject:(id)kCFBooleanTrue forKey:(__bridge id) kSecReturnAttributes];
 	
 	NSMutableDictionary *keychainItem = [[NSMutableDictionary alloc] init];
-	[keychainItem setObject:genericAttrData forKey:(__bridge id)kSecAttrGeneric];
-	[keychainItem setObject:[password dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecValueData];
+	[keychainItem setObject:genericAttrData forKey:(__bridge id) kSecAttrGeneric];
+	[keychainItem setObject:[password dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id) kSecValueData];
 	
 	[self saveKeychainItem:keychainItem matchingQuery:genericAttrQuery];
 	
@@ -77,7 +77,7 @@
 		return nil;
 	}
 	
-	id itemClass = [keychainQuery objectForKey:(__bridge id)kSecClass];
+	id itemClass = [keychainQuery objectForKey:(__bridge id) kSecClass];
 	NSMutableDictionary *keychainDictionary = [self fetchItemDataForItemOfClass:itemClass withAttributes:(__bridge NSMutableDictionary *)outDictionary];
 	
 //	[outDictionary release];
@@ -93,12 +93,12 @@
 	if (keychainErr == noErr) { // There is an existing keychain item => attributes
 		FSQAssert([(__bridge NSDictionary *)attributes isKindOfClass:[NSDictionary class]], @"Keychain returned item of wrong class %@", [(__bridge NSDictionary *)attributes class]);
         NSMutableDictionary *foundItem = [NSMutableDictionary dictionaryWithDictionary:(__bridge NSDictionary *)attributes];
-		[foundItem setObject:[aQuery objectForKey:(__bridge id)kSecClass] forKey:(__bridge id)kSecClass];
+		[foundItem setObject:[aQuery objectForKey:(__bridge id) kSecClass] forKey:(__bridge id) kSecClass];		
 		
 		keychainErr = SecItemUpdate((__bridge CFDictionaryRef)foundItem,(__bridge CFDictionaryRef)keychainItem);
         FSQAssert(keychainErr == noErr, @"Couldn't update the Keychain Item (%d).", keychainErr);
     } else { // Create a new keychain item
-		[keychainItem setObject:[aQuery objectForKey:(__bridge id)kSecClass] forKey:(__bridge id)kSecClass];
+		[keychainItem setObject:[aQuery objectForKey:(__bridge id) kSecClass] forKey:(__bridge id) kSecClass];		
 		keychainErr = SecItemAdd((__bridge CFDictionaryRef)keychainItem,NULL);
         FSQAssert(keychainErr == noErr, @"Couldn't add the Keychain Item (%d).", keychainErr);
     }
@@ -110,18 +110,18 @@
     NSMutableDictionary *keychainItem = [NSMutableDictionary
 										 dictionaryWithDictionary:attributes];
 	
-    [keychainItem setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
-    [keychainItem setObject:(id)itemClass forKey:(__bridge id)kSecClass];
+    [keychainItem setObject:(id)kCFBooleanTrue forKey:(__bridge id) kSecReturnData];
+    [keychainItem setObject:(id)itemClass forKey:(__bridge id) kSecClass];
 	
 //    NSData *itemData = nil;
 	CFDataRef itemData = NULL;
     OSStatus keychainError = noErr; 
     keychainError = SecItemCopyMatching((__bridge CFDictionaryRef)keychainItem, (CFTypeRef *)&itemData);
     if(keychainError == noErr) {
-		if([itemClass isEqual:(__bridge id)kSecClassGenericPassword] || [itemClass isEqual:(__bridge id)kSecClassInternetPassword]) {
+		if([itemClass isEqual:(__bridge id) kSecClassGenericPassword] || [itemClass isEqual:(__bridge id) kSecClassInternetPassword]) {
 			NSString *password = [[NSString alloc] initWithBytes:[(__bridge NSData *)itemData bytes]
 														  length:[(__bridge NSData *)itemData length] encoding:NSUTF8StringEncoding];
-			[keychainItem setObject:password forKey:(__bridge id)kSecValueData];
+			[keychainItem setObject:password forKey:(__bridge id) kSecValueData];
 		}
     } else {
 		if (keychainError == errSecItemNotFound)

@@ -58,6 +58,8 @@
 - (id) initWithDefaults:(NSString *)fileName;
 
 - (void) resetDefaults;
+- (BOOL) synchronize;
+- (NSDictionary *) dictionaryRepresentation;
 - (BOOL) valueWasSetForKey:(NSString *)key;
 - (id) valueForKey:(NSString *)defaultsKey defaultValue:(id)defaultValue wasChanged:(BOOL *)wasChanged;
 
@@ -92,6 +94,12 @@
 
 - (void)setUnsignedInteger:(NSUInteger)value forKey:(NSString *)defaultName;
 - (NSUInteger)unsignedIntegerForKey:(NSString *)defaultName;
+
+- (NSUInteger) incrementUnsignedIntegerForKey:(NSString *)defaultName;
+- (NSUInteger) decrementUnsignedIntegerForKey:(NSString *)defaultName;
+
+- (NSInteger) incrementIntegerForKey:(NSString *)defaultName;
+- (NSInteger) decrementIntegerForKey:(NSString *)defaultName;
 
 
 @end

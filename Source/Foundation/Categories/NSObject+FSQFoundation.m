@@ -22,7 +22,7 @@
 	}
 	if ([NSNull null] == obj) {
 		return YES;
-	}	
+	}
 	
 	return NO;
 }
@@ -99,13 +99,11 @@
 #pragma mark - KVO Blocks
 
 - (id) onKeyPathChange:(NSString *)keyPath do:(void(^)(id value))block {
-    FSQKeyObserver *observer = [FSQKeyObserver withObject:self];
-    return [observer onKeyPathChange:keyPath do:block];
+	return [FSQKeyObserver object:self onKeyPathChange:keyPath do:block];
 }
 
 - (void) removeObservationBlock:(id)observation {
-    FSQKeyObserver *observer = [FSQKeyObserver withObject:self];
-    [observer removeObservationBlock:observation];
+	[FSQKeyObserver object:self removeObservationBlock:observation];
 }
 
 @end

@@ -65,6 +65,19 @@
 //    return region;
 //}
 
+- (MKMapRect) mapRectForAnnotations:(NSArray *)annotations edgePadding:(UIEdgeInsets)edgeInsets {
+	double minX = INFINITY, maxX = -INFINITY, minY = INFINITY, maxY = -INFINITY;
 
+	for (id<MKAnnotation> annotation in annotations) {
+		MKMapPoint point = MKMapPointForCoordinate(annotation.coordinate);
+		minX = MIN(point.x, minX);
+		minY = MIN(point.y, minY);
+		maxX = MAX(point.x, maxX);
+		maxY = MAX(point.y, maxY);
+	}
+	MKMapRect mapRect = MKMapRectMake(minX, minY, maxX-minX, maxY-minY);
+	mapRect = [self mapRectThatFits:mapRect edgePadding:edgeInsets];
+	return mapRect;
+}
 
 @end

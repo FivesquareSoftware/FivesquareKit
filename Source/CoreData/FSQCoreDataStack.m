@@ -44,11 +44,14 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 
 // Private
 
+@property BOOL isInitializing;
 @property (getter = wasInitialized) BOOL initialized;
 
 @property (nonatomic, strong) NSURL *modelURL;
 @property (nonatomic, strong) NSURL *localStoreURL;
 @property (nonatomic, strong) NSPersistentStore *localStore;
+
+@property (nonatomic, strong) NSMutableSet *readyBlocks;
 
 @end
 
@@ -128,7 +131,7 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 
 - (NSDictionary *) storeMetadata {
 	NSError *error = nil;
-	NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:self.persistentStoreURL error:&error];
+	NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:self.persistentStoreURL options:nil error:&error];
 	if(storeMetadata == nil) {
 		FLogError(error,@"Couldn't get store metadata!");
 	}
@@ -136,6 +139,14 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 	return storeMetadata;
 }
 
+@synthesize mainContext = _mainContext;
+- (NSManagedObjectContext *) mainContext {
+	if (nil == _mainContext && self.wasInitialized) {
+		_mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+		_mainContext.persistentStoreCoordinator = _persistentStoreCoordinator;
+	}
+	return _mainContext;
+}
 
 
 #pragma mark - -- Private
@@ -173,7 +184,7 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 #pragma mark - Object
 
 - (void)dealloc {
-//    dispatch_release(_setupQueue);
+
 }
 
 - (id) initWithModelName:(NSString *)modelName persistentStore:(NSString *)storeName {
@@ -195,11 +206,11 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 		self.persistentStoresDirectoryURL = persistentStoresDirectoryURL;
 		
         _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
-        _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        _mainContext.persistentStoreCoordinator = _persistentStoreCoordinator;		
+//        _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+//        _mainContext.persistentStoreCoordinator = _persistentStoreCoordinator;		
         _storeOptions = @{};
-        _setupQueue = dispatch_queue_create("com.fivesquaresoftware.FSQCoreDataManager.steupQueue", NULL);        
-
+        _setupQueue = dispatch_queue_create("com.fivesquaresoftware.FSQCoreDataManager.steupQueue", NULL);
+		_readyBlocks = [NSMutableSet new];
 	}
 	return self;
 }
@@ -214,10 +225,25 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
 
 #pragma mark - Stack Setup
 
-- (void) initializeWithCompletionBlock:(void(^)(NSError *error))completionBlock {
-    if (NO == self.wasInitialized) {
-        self.initialized = YES;
-		[self _initializeWithCompletionBlock:completionBlock];
+
+- (void) initializeWithCompletionBlock:(void(^)(FSQCoreDataStack *stack,NSError *error))completionBlock {
+    if (NO == self.wasInitialized && NO == self.isInitializing) {
+		self.isInitializing = YES;
+		[self _initializeWithCompletionBlock:^(NSError *error) {
+			if (nil == error) {
+				self.initialized = YES;
+			}
+			self.isInitializing = NO;
+			if (completionBlock) {
+				completionBlock(self,error);
+			}
+			for (FSQCoreDataStackReadyBlock readyBlock in _readyBlocks) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					readyBlock(self.mainContext);
+				});
+			}
+			[_readyBlocks removeAllObjects];
+		}];
     }
 }
 
@@ -241,6 +267,9 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
     });
 }
 
+- (void) performOnMainContextWhenReady:(FSQCoreDataStackReadyBlock)block {
+	[_readyBlocks addObject:block];
+}
 
 
 // ========================================================================== //
@@ -338,7 +367,7 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
     NSError *error = nil;
     
     CoreDataLog(self,@"Getting metadata for store on disk");
-	NSDictionary *currentStoreMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:storeURL error:&error];
+	NSDictionary *currentStoreMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:storeURL options:nil error:&error];
     if(currentStoreMetadata == nil) {
         if (error) {
             FLogError(error, @"Unable to get metadata for current store");
@@ -520,6 +549,14 @@ static NSString *kFSQCoreDataStackSqliteExtension = @"sqlite";
     return [_mainContext newChildContextWithConcurrencyType:concurrencyType];
 }
 
+- (NSManagedObjectContext *) newConcurrentContext {
+	if (NO ==self.wasInitialized) {
+		return nil;
+	}
+	NSManagedObjectContext *concurrentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+	concurrentContext.persistentStoreCoordinator = _persistentStoreCoordinator;
+	return concurrentContext;
+}
 
 
 // ========================================================================== //

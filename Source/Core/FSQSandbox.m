@@ -49,13 +49,13 @@
 	return created;
 }
 
-+ (NSString *) directoryInUserSearchPath:(NSUInteger)directoryIdentifier {
++ (NSString *) directoryInUserSearchPath:(NSSearchPathDirectory)directoryIdentifier {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(directoryIdentifier, NSUserDomainMask, YES);
 	NSString *directory = [paths lastObject];
 	return directory;
 }
 
-+ (BOOL) createDirectoryInUserSearchPath:(NSUInteger)directoryIdentifier error:(NSError **)error {
++ (BOOL) createDirectoryInUserSearchPath:(NSSearchPathDirectory)directoryIdentifier error:(NSError **)error {
 	NSString *directory = [self directoryInUserSearchPath:directoryIdentifier];
 	NSFileManager *fm = [NSFileManager new];
 	BOOL created = YES;

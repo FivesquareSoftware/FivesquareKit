@@ -25,11 +25,13 @@
 }
 
 - (id)transformedValue:(id)value {
-	return [NSKeyedArchiver archivedDataWithRootObject:value];
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:value];
+	return data;
 }
 
 - (id)reverseTransformedValue:(id)value {
-	return [NSKeyedUnarchiver unarchiveObjectWithData:value];
+	id transformedValue = [NSKeyedUnarchiver unarchiveObjectWithData:value];
+	return transformedValue;
 }
 
 @end

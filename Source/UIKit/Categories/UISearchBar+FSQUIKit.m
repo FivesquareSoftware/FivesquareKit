@@ -23,8 +23,14 @@
 }
 
 - (UITextField *) textField {
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		subviews = [firstSubview subviews];
+	}
+
 	UITextField *textField = nil;
-	for (id subview in [self subviews]) {
+	for (id subview in subviews) {
 		if ([subview isKindOfClass:[UITextField class]]) {
 			textField = (UITextField *)subview;
 			break;
@@ -34,10 +40,18 @@
 }
 
 - (UIView *) backgroundView {
+	
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		subviews = [firstSubview subviews];
+	}
+	
+	NSString *backgroundViewClassName = @"UISearchBarBackground";
 	UIView *backgroundView = nil;
-	for (id subview in [self subviews]) {
+	for (id subview in subviews) {
 		NSString *subviewClassName = NSStringFromClass([subview class]);
-		if ([subviewClassName isEqualToString:@"UISearchBarBackground"]) {
+		if ([subviewClassName isEqualToString:backgroundViewClassName]) {
 			backgroundView = (UIView *)subview;
 			break;
 		}
@@ -46,8 +60,14 @@
 }
 
 - (UIButton *) cancelButton {
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		subviews = [firstSubview subviews];
+	}
+
 	UIButton *cancelButton = nil;
-	for (id subview in [self subviews]) {
+	for (id subview in subviews) {
 		NSString *subviewClassName = NSStringFromClass([subview class]);
 		if ([subviewClassName isEqualToString:@"UINavigationButton"]) {
 			if([[(NSObject *)subview performSelector:@selector(title)] isEqualToString:@"Cancel"]) {
@@ -57,6 +77,28 @@
 		}
 	}
 	return cancelButton;
+}
+
+- (UISegmentedControl *) scopeBar {
+	NSArray *subviews = [self subviews];
+	if ([subviews count] == 1) {
+		UIView *firstSubview = [subviews firstObject];
+		subviews = [firstSubview subviews];
+	}
+	
+	UISegmentedControl *scopeBar = nil;
+	for (UIView *subview in subviews) {
+		for (UIView *containedView in subview.subviews) {
+			if ([containedView isKindOfClass:[UISegmentedControl class]]) {
+				scopeBar = (UISegmentedControl *)containedView;
+				break;
+			}
+		}
+		if (scopeBar) {
+			break;
+		}
+	}
+	return scopeBar;
 }
 
 

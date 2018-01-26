@@ -8,9 +8,16 @@
 
 #import "FSQKeyObservation.h"
 
+#import "FSQKeyObserver+Protected.h"
+
 @implementation FSQKeyObservation
+
+- (void)dealloc {
+	[_keyPathObserver removeObservationBlock:self];
+}
+
 - (NSString *) description {
-	return [NSString stringWithFormat:@"%@ {keyPath : %@, block : %@}",[super description],_keyPath,_block];
+	return [NSString stringWithFormat:@"%@  object : %@, keyPath : %@, block : %@",[super description],_keyPathObserver.observedObject, _keyPath, _block];
 }
 
 @dynamic key;

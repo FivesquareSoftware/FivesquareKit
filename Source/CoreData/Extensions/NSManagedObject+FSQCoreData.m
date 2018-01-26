@@ -62,7 +62,11 @@
 + (NSUInteger) countWithPredicate:(NSPredicate *)predicate
 				   requestOptions:(NSDictionary *)options
 						inContext:(NSManagedObjectContext *)context {
-	
+	NSParameterAssert(context);
+	if (nil == context) {
+		return 0;
+	}
+
 	NSFetchRequest *fetchRequest = nil;
 	__block NSError *error = nil;
 	__block NSUInteger count = 0;
@@ -101,22 +105,27 @@
 
 #pragma mark -- First
 
-+ (id) firstWithFetchRequest:(NSString *)requestName 
++ (instancetype) firstWithFetchRequest:(NSString *)requestName
 				   inContext:(NSManagedObjectContext *)context {
 	return [self firstWithFetchRequestTemplate:requestName substitutionVariables:nil sortDescriptors:nil inContext:context];
 }
 
-+ (id) firstWithFetchRequestTemplate:(NSString *)templateName 
++ (instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
 			   substitutionVariables:(NSDictionary *)variables 
 						   inContext:(NSManagedObjectContext *)context {
 	return [self firstWithFetchRequestTemplate:templateName substitutionVariables:variables sortDescriptors:nil inContext:context];
 }
 
-+ (id) firstWithFetchRequestTemplate:(NSString *)templateName 
++ (instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
 			   substitutionVariables:(NSDictionary *)variables 
 					 sortDescriptors:(NSArray *)sortDescriptors 
 						   inContext:(NSManagedObjectContext *)context {
-	
+	NSParameterAssert(templateName);
+	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
+
 	NSFetchRequest *fetchRequest = nil;
 	id found = nil;
 	
@@ -167,6 +176,12 @@
 				   sortDescriptors:(NSArray *)sortDescriptors 
 						 inContext:(NSManagedObjectContext *)context {
 	
+	NSParameterAssert(templateName);
+	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
+
 	NSFetchRequest *fetchRequest = nil;
 	
 	__block NSError *error = nil;
@@ -199,28 +214,33 @@
 #pragma mark -- First
 
 
-+ (id) firstInContext:(NSManagedObjectContext *)context {
++ (instancetype) firstInContext:(NSManagedObjectContext *)context {
 	return [self firstWithPredicate:nil inContext:context];	
 }
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 				inContext:(NSManagedObjectContext *)context {
 	return [self firstWithPredicate:predicate sortDescriptors:nil inContext:context];
 }
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
 				inContext:(NSManagedObjectContext *)context {
 	return [self firstWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
 }	
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
 		   requestOptions:(NSDictionary *)options
 				inContext:(NSManagedObjectContext *)context {
-	
+
+	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
+
 	NSFetchRequest *fetchRequest = nil;
-	id found = nil;
+	__block id found = nil;
 	
 	__block NSError *error = nil;
 	__block NSArray *results = nil;
@@ -244,10 +264,10 @@
 			if (localError) {
 				error = localError;
 			}
+			if([results count] > 0) {
+				found = [results objectAtIndex:0];
+			}
 		}];
-		if([results count] > 0) {
-			found = [results objectAtIndex:0];
-		}
 	}
 	@catch (NSException *exception) {
 		FSQAssert(exception == nil, @"Exception fetching first for fetchRequest %@ (%@)", fetchRequest, exception);
@@ -294,7 +314,12 @@
 		sortDescriptors:(NSArray *)sortDescriptors
 		 requestOptions:(NSDictionary *)options
 						inContext:(NSManagedObjectContext *)context {
-	
+
+	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
+
 	NSFetchRequest *fetchRequest = nil;
 	
 	__block NSError *error = nil;
@@ -333,6 +358,12 @@
 			  sortDescriptors:(NSArray *)sortDescriptors
 			   requestOptions:(NSDictionary *)options
 					inContext:(NSManagedObjectContext *)context {
+
+	NSParameterAssert(context);
+	if (nil == context) {
+		return nil;
+	}
+
 	id results = nil;
 	
 	@try { // mostly just to catch dumb errors, Core Data stuff is caught in allWithPredicate
@@ -366,12 +397,12 @@
 
 
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
++ (instancetype) findOrCreateWithPredicate:(NSPredicate *)predicate
 					   inContext:(NSManagedObjectContext *)context {
 	return [self findOrCreateWithPredicate:predicate attributes:nil inContext:context];
 }
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)predicate
++ (instancetype) findOrCreateWithPredicate:(NSPredicate *)predicate
 					  attributes:(NSDictionary *)someAttributes
 					   inContext:(NSManagedObjectContext *)context {
 	__block id found = [self firstWithPredicate:predicate inContext:context];
@@ -384,13 +415,13 @@
 	return found;
 }
 
-+ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
++ (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
 					  substitutionVariables:(NSDictionary *)variables
 								  inContext:(NSManagedObjectContext *)context {
 	return [self findOrCreateWithFetchRequestTemplate:templateName substitutionVariables:variables attributes:nil inContext:context];
 }
 
-+ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
++ (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
 			  substitutionVariables:(NSDictionary *)variables
 					  attributes:(id)someAttributes
 					   inContext:(NSManagedObjectContext *)context {
@@ -404,11 +435,11 @@
 	return found;
 }
 
-+ (id) createInContext:(NSManagedObjectContext *)context {
++ (instancetype) createInContext:(NSManagedObjectContext *)context {
 	return [self createWithAttributes:nil inContext:context];
 }
 
-+ (id) createWithAttributes:(NSDictionary *)someAttributes
++ (instancetype) createWithAttributes:(NSDictionary *)someAttributes
 				  inContext:(NSManagedObjectContext *)context {
 	
 	__block id created;
@@ -508,7 +539,14 @@
 				if (NO == [collection conformsToProtocol:@protocol(NSFastEnumeration)]) {
 					continue; // we can't map to-many unless there is a collection
 				}
-				NSMutableSet *newObjects = [NSMutableSet set];
+
+				id newObjects = nil;
+				if ([propertyDescription isOrdered]) {
+					newObjects = [NSMutableOrderedSet orderedSet];
+				}
+				else {
+					newObjects = [NSMutableSet set];
+				}
 				for (id value in collection) {
 					id ref = [value valueForKeyPath:@"<predicate>" error:NULL];
 					if (ref) {

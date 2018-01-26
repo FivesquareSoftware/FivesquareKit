@@ -15,5 +15,6 @@
 @property (nonatomic, readonly) UITextField *textField;
 @property (nonatomic, readonly) UIView *backgroundView;
 @property (nonatomic, readonly) UIButton *cancelButton;
+@property (nonatomic, readonly) UISegmentedControl *scopeBar;
 
 @end

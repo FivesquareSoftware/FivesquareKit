@@ -13,4 +13,6 @@
 
 @property (nonatomic) BOOL usesContentView;
 
+- (void) initialize;
+
 @end

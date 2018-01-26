@@ -13,7 +13,14 @@
 /** Takes the result of [aColor description] (e.g. UIDeviceRGBColorSpace 0.5 0 0.5 1) and returns the represented color object. */
 + (UIColor *) colorWithDescription:(NSString *)colorDescription;
 
+/** @see [CIColor colorWithString:] .*/
++ (UIColor *) colorWithStringRepresentation:(NSString *)stringRepresentation;
+/** @see [CIColor stringRepresentation] .*/
+- (NSString *) stringRepresentation;
+
 /** @returns a new color created by altering the brightness of the receiver. */
 - (UIColor *) colorWithBrightnessAdjustment:(CGFloat)brightnessAdjustment;
+
++ (UIColor *) randomColor;
 
 @end

@@ -12,14 +12,19 @@
 #import <CommonCrypto/CommonCryptor.h>
 
 #import "FSQAsserter.h"
+#import "NSObject+FSQFoundation.h"
 
 
 //static NSString *kFSQ_NSStringPathWithOptionalScaleExpression = @"^(\\w+)(@([0-9.]+)x)?(\\.([^.]+))$";
 
 @implementation NSString (FSQFoundation)
 
-+ (BOOL) isEmpty:(NSString *)string {
-	return string == nil || [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length < 1;
++ (BOOL) isEmpty:(NSString *)obj {
+	BOOL isEmpty = [NSObject isEmpty:obj];
+	if (isEmpty) {
+		return isEmpty;
+	}
+	return [obj stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length < 1;
 }
 
 + (BOOL) isNotEmpty:(NSString *)string {
@@ -124,5 +129,25 @@
 	return newString;
 }
 
+- (NSDictionary *) dictionaryWithEntriesSeparatedBy:(NSString *)entryDelimiter keysAndValuesSeparatedBy:(NSString *)keyValueSeparator {
+	NSMutableDictionary *dictionary = [NSMutableDictionary new];
+	NSArray *entries = [self componentsSeparatedByString:entryDelimiter];
+	for (NSString *entry in entries) {
+		NSArray *keyValuePair = [entry componentsSeparatedByString:keyValueSeparator];
+		if ([keyValuePair count] == 2) {
+			dictionary[keyValuePair[0]] = keyValuePair[1];
+		}
+	}
+	return dictionary;
+}
+
+- (NSDictionary *) dictionaryWithURLEncoding {
+	return [self dictionaryWithEntriesSeparatedBy:@"&" keysAndValuesSeparatedBy:@"="];
+}
+
+- (NSString *) indexString {
+	NSString *indexString = [self stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+	return [indexString lowercaseString];
+}
 
 @end

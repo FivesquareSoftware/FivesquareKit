@@ -8,10 +8,30 @@
 
 #import "UIColor+FSQUIKit.h"
 
+#import <CoreImage/CoreImage.h>
+
+#import "NSArray+FSQFoundation.h"
+
 @implementation UIColor (FSQUIKit)
 
 + (UIColor *) colorWithDescription:(NSString *)colorDescription {
 	return nil;
+}
+
++ (UIColor *) colorWithStringRepresentation:(NSString *)stringRepresentation {
+	UIColor *color = nil;
+//	CIColor *coreImageColor = [CIColor colorWithString:stringRepresentation];
+	NSArray *components = [stringRepresentation componentsSeparatedByString:@" "];
+	if ([components count] == 4) {
+		color = [UIColor colorWithRed:[(NSString *)components[0] floatValue] green:[(NSString *)components[1] floatValue] blue:[(NSString *)components[2] floatValue] alpha:[(NSString *)components[3] floatValue]];
+	}
+	return color;
+}
+
+- (NSString *) stringRepresentation {
+	CGColorRef colorRef = self.CGColor;
+	CIColor *coreImageColor = [CIColor colorWithCGColor:colorRef];
+	return coreImageColor.stringRepresentation;
 }
 
 - (UIColor *) colorWithBrightnessAdjustment:(CGFloat)brightnessAdjustment {
@@ -60,4 +80,14 @@
 
 	return adjustedColor;
 }
+
++ (UIColor *) randomColor {
+	static NSArray *colors = nil;
+	static dispatch_once_t randomColorsInitToken;
+	dispatch_once(&randomColorsInitToken, ^{
+		colors = @[[UIColor redColor],[UIColor greenColor],[UIColor blueColor],[UIColor orangeColor],[UIColor purpleColor],[UIColor brownColor]];
+	});
+	return [colors anyObject];
+}
+
 @end

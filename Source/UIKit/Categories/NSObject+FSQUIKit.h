@@ -14,7 +14,10 @@
 @property (nonatomic, readonly) id appDelegate;
 
 + (NSString *)nibName;
-+ (id) loadFromNib;
-+ (id) loadFromNibWithOwner:(id)owner;
+
++ (id) withNibOwner:(id)owner;
++ (id) withNibNamed:(NSString *)nibName owner:(id)owner;
++ (id) withNib:(UINib *)nib owner:(id)owner;
+
 
 @end

@@ -17,41 +17,32 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 
 @implementation UIViewController (FSQUIKit)
 
-@dynamic topmostController;
-@dynamic popoverController;
 
+@dynamic isDisappearingBackwards;
+- (BOOL) isDisappearingBackwards {
+	if (nil == self.navigationController) {
+		return NO;
+	}
+	BOOL isDisappearingBackwards = (NO == [self.navigationController.viewControllers containsObject:self]);
+	return isDisappearingBackwards;
+}
+
+@dynamic isNavRootController;
+- (BOOL) isNavRootController {
+	return [self.navigationController.viewControllers firstObject] == self;
+}
+
+@dynamic topmostController;
 - (UIViewController *) topmostController {
+	return [self visibleViewController];
+}
+
+@dynamic visibleViewController;
+- (UIViewController *) visibleViewController {
 	if(self.presentedViewController) {
-		return self.presentedViewController.topmostController;
+		return self.presentedViewController.visibleViewController;
 	}
 	return self;
-}
-
-- (void) setPopoverController:(UIPopoverController *)value {
-	objc_setAssociatedObject(self, &kUIViewController_FSQUIKitPopoverController, value, OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (UIPopoverController *) popoverController {
-	UIPopoverController *popoverController = (UIPopoverController *)objc_getAssociatedObject(self, &kUIViewController_FSQUIKitPopoverController);
-	return popoverController;
-}
-
-- (void) dismissPopoverControllerAnimated:(BOOL)animated {
-	if (!NSClassFromString(@"UIPopoverController"))
-		return;
-	
-	BOOL shouldDismiss = YES;
-	
-	if ([self.popoverController.delegate respondsToSelector:@selector(popoverControllerShouldDismissPopover:)]) {
-		shouldDismiss = [self.popoverController.delegate popoverControllerShouldDismissPopover:self.popoverController];
-	}
-	
-	if (shouldDismiss) {
-		[self.popoverController dismissPopoverAnimated:animated];
-		if([self.popoverController.delegate respondsToSelector:@selector(popoverControllerDidDismissPopover:)]) {
-			[self.popoverController.delegate popoverControllerDidDismissPopover:self.popoverController];
-		}
-	}	
 }
 
 - (void) transitionFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options type:(FSQUIViewControllerTransition)transitionType completion:(void (^)(BOOL finished))completion {
@@ -59,7 +50,16 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 	CGAffineTransform onDeckTransform = [self onDeckTransformForTransition:transitionType];
 	CGAffineTransform resigningTransform = [self resigningTransformForTransition:transitionType];
 
+
+	//HACK: to work around a bug in extended top bars where they don't redraw under the status bar when you move the view into view
+	toViewController.view.hidden = YES;
+	[self.view addSubview:toViewController.view];
 	toViewController.view.transform = onDeckTransform;
+	toViewController.view.hidden = NO;
+
+//	toViewController.view.transform = onDeckTransform;
+
+	
 	[self transitionFromViewController:fromViewController toViewController:toViewController duration:duration options:options animations:^{
 		fromViewController.view.transform = resigningTransform;
 		toViewController.view.transform = CGAffineTransformIdentity;		
@@ -115,7 +115,7 @@ static const NSString *kUIViewController_FSQUIKitPopoverController = @"kUIViewCo
 }
 
 - (CGAffineTransform) onDeckTransformForTransition:(FSQUIViewControllerTransition)transition  {
-	CGAffineTransform onDeckTransform;
+	CGAffineTransform onDeckTransform = CGAffineTransformIdentity;
 	switch (transition) {
 		case FSQUIViewControllerTransitionCenterExchange:
 			break;

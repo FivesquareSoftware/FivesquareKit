@@ -8,13 +8,23 @@
 
 #import "FSQMenuItem.h"
 
+#import "NSString+FSQFoundation.h"
+
+@interface FSQMenuItem ()
+@property (nonatomic, readwrite) NSString *displayName;
+
+@end
+
 @implementation FSQMenuItem
 
 
-@dynamic displayName;
+
 - (NSString *) displayName {
-	id displayValue = [self.representedObject valueForKeyPath:self.displayNameKeyPath];
-	if (displayValue == nil) {
+	id displayValue = _displayName;
+	if (nil == displayValue) {
+		displayValue = [self.representedObject valueForKeyPath:self.displayNameKeyPath];
+	}
+	if (nil == displayValue) {
 		displayValue = self.representedObject;
 	}
 	return [displayValue description];
@@ -22,6 +32,12 @@
 
 + (id) withRepresentedObject:(id)representedObject {
 	return [[self alloc] initWithRepresentedObject:representedObject];
+}
+
++ (id) withRepresentedObject:(id)representedObject displayName:(NSString *)displayName {
+	FSQMenuItem *item = [self withRepresentedObject:representedObject];
+	item.displayName = displayName;
+	return item;
 }
 
 - (id) initWithRepresentedObject:(id)representedObject {

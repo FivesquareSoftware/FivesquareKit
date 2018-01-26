@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FSQImageCache.h"
+#import "FSQRemoteImageCache.h"
 
 @interface UIImageView (FSQUIKit)
 
-@property (nonatomic, unsafe_unretained) FSQImageCache *cache;
+@property (nonatomic, unsafe_unretained) FSQRemoteImageCache *cache;
 
 /** Whether scale signifiers (e.g. '@2x') are appended to filenames in URLS. The default is NO.
  *  @examples
@@ -40,6 +40,6 @@
  *  @param completionBlock runs if the image is loaded successfully
  *  @param URLOrString may be an NSURL or an NSString representing an URL
  */
-- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQImageCache *)cache completionBlock:(void(^)(BOOL success))block;
+- (void) setImageWithContentsOfURL:(id)URLOrString cache:(FSQRemoteImageCache *)cache completionBlock:(void(^)(BOOL success))block;
 
 @end

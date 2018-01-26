@@ -9,15 +9,14 @@
 #import "NSSet+FSQFoundation.h"
 
 #import "NSArray+FSQFoundation.h"
+#import "NSObject+FSQFoundation.h"
 
 @implementation NSSet (FSQFoundation)
 
 + (BOOL) isEmpty:(id)obj {
-	if (nil == obj) {
-		return YES;
-	}
-	if ([NSNull null] == obj) {
-		return YES;
+	BOOL isEmpty = [NSObject isEmpty:obj];
+	if (isEmpty) {
+		return isEmpty;
 	}
 	
 	return [obj count] == 0;
@@ -31,13 +30,36 @@
 	return [[self allObjects] anyObject];
 }
 
+- (NSArray *) sortedArrayUsingKey:(NSString *)sortKey ascending:(BOOL)ascending {
+	NSArray *array = [self allObjects];
+	return [array sortedArrayUsingKey:sortKey ascending:ascending];
+}
+
+- (NSArray *)sortedArrayUsingSelector:(SEL)comparator {
+	NSArray *array = [self allObjects];
+	return [array sortedArrayUsingSelector:comparator];
+}
+
+- (NSArray *)sortedArrayUsingComparator:(NSComparator)cmptr {
+	NSArray *array = [self allObjects];
+	return [array sortedArrayUsingComparator:cmptr];
+}
+
+- (NSArray *)sortedArrayWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr {
+	NSArray *array = [self allObjects];
+	return [array sortedArrayWithOptions:opts usingComparator:cmptr];
+}
+
+
 @end
 
 @implementation NSMutableSet (FSQFoundation)
 
 - (id) popObject {
 	id object = [self anyObject];
-	[self removeObject:object];
+	if (object) {
+		[self removeObject:object];
+	}
 	return object;
 }
 

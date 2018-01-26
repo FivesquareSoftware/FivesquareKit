@@ -25,6 +25,7 @@
 - (id) valueForKeyPath:(NSString *)keyPath error:(NSError **)error;
 - (BOOL) mapFromObject:(NSObject *)source error:(NSError **)error;
 
+/** @see FSQKeyObserver object:onKeyPathChange:do: */
 - (id) onKeyPathChange:(NSString *)keyPath do:(void(^)(id value))block;
 - (void) removeObservationBlock:(id)observation;
 

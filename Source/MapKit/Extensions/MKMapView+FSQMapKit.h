@@ -24,5 +24,6 @@ typedef NS_ENUM(NSUInteger, FSQMapZoomLevel) {
 - (void) setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSInteger)zoomLevel animated:(BOOL)animated;
 - (MKCoordinateSpan) coordinateSpanForCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSInteger)zoomLevel;
 
+- (MKMapRect) mapRectForAnnotations:(NSArray *)annotations edgePadding:(UIEdgeInsets)edgeInsets;
 
 @end

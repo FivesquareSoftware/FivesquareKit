@@ -76,6 +76,24 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 		*error = saveError;
 	}
 	return success;
+
+}
+
+- (BOOL) saveWithParentWithErrorMessage:(NSString *)errorMessage {
+	__block NSError *saveError = nil;
+	__block BOOL success = NO;
+
+	[self performBlockAndWait:^{
+		success = [self save:&saveError];
+	}];
+	if (success && self.parentContext) {
+		[self.parentContext performBlockAndWait:^{ success = [self.parentContext save:&saveError]; }];
+	}
+
+	if (!success) {
+		FLog(@"%@: %@ (%@)", errorMessage, [saveError localizedDescription], [saveError userInfo]);
+	}
+	return success;
 }
 
 - (void) saveWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
@@ -114,11 +132,12 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 }
 
 - (NSManagedObjectContext *) newChildContext {
-    return [self newChildContextWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    return [self newChildContextWithConcurrencyType:NSMainQueueConcurrencyType];
 }
 
 - (NSManagedObjectContext *) newChildContextWithConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType {
     NSManagedObjectContext *child = [[NSManagedObjectContext alloc] initWithConcurrencyType:concurrencyType];
+	child.mergePolicy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
     child.parentContext = self;
     return child;
 }

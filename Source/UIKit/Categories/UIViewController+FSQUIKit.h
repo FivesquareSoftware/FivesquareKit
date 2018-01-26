@@ -26,18 +26,29 @@ typedef NS_ENUM(NSUInteger, FSQUIViewControllerTransition) {
 
 @interface UIViewController (FSQUIKit)
 
-/** For cases where you might have several view stacks layered on top of each other,
- *  will return the controller managing the topmost view stack.
+// Are we going back in the nav controller's stack
+@property (nonatomic, readonly) BOOL isDisappearingBackwards;
+
+/** If the receiver is the nav controller's first controller. */
+@property (nonatomic, readonly) BOOL isNavRootController;
+
+/** @deprecated
+ *  @see visibleViewController;
  */
 @property (nonatomic, readonly) UIViewController *topmostController;
 
-/** When embedded in a popover, lets you get at it. Set as a dynamic association at the runtime level. */
-@property (nonatomic, assign) UIPopoverController *popoverController;
-
-/** Allows for the programmatic dismissal of an associated popover controller. */
-- (void) dismissPopoverControllerAnimated:(BOOL)animated;
+/** For cases where you might have several view stacks layered on top of each other,
+ *  will return the controller managing the topmost view stack.
+ */
+@property (nonatomic, readonly) UIViewController *visibleViewController;
 
 /** Allows for some pre-defined canned VC transitions. Don't pass any of the system defined ones in the options. */
 - (void) transitionFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options type:(FSQUIViewControllerTransition)transitionType completion:(void (^)(BOOL))completion;
+
+
+- (CGAffineTransform) offscreenLeftTransform;
+- (CGAffineTransform) offscreenRightTransform;
+- (CGAffineTransform) offscreenTopTransform;
+- (CGAffineTransform) offscreenBottomTransform;
 
 @end

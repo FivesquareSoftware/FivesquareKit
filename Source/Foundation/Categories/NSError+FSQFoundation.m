@@ -9,12 +9,35 @@
 #import "NSError+FSQFoundation.h"
 
 #import "NSString+FSQFoundation.h"
+#import "NSDictionary+FSQFoundation.h"
+
+NSString *kFSQUnknownErrorDomain = @"Unknown Error Domain";
 
 @implementation NSError (FSQFoundation)
 
 + (id) errorWithException:(NSException *)exception {
-	NSDictionary *info = @{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"An exception occurred: %@",[exception name]], @"exception" : exception, @"reason" : [exception reason] , @"callStackSymbols" : [exception callStackSymbols], @"userInfo" : [exception userInfo] };
+	if (nil == exception) {
+		return nil;
+	}
+	NSMutableDictionary *info = [NSMutableDictionary new];
+	info[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"An exception occurred: %@",[exception name]];
+	[info setObjectIfNotNil:exception forKey:@"exception"];
+	[info setObjectIfNotNil:[exception reason] forKey:@"reason"];
+	[info setObjectIfNotNil:[exception callStackSymbols] forKey:@"callStackSymbols"];
+	[info setObjectIfNotNil:[exception userInfo] forKey:@"userInfo"];
+	
 	NSError *error = [NSError errorWithDomain:@"Exception Error Domain" code:-999 userInfo:info];
+	return error;
+}
+
++ (id) errorWithError:(NSError *)underlyingError localizedDescription:(NSString *)localizedDescription {
+	NSError *error;
+	if (underlyingError) {
+		error = [self errorWithError:underlyingError domain:underlyingError.domain code:underlyingError.code localizedDescription:localizedDescription];
+	}
+	else {
+		error = [self errorWithDomain:kFSQUnknownErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey : localizedDescription}];
+	}
 	return error;
 }
 

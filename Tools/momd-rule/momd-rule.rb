@@ -49,6 +49,7 @@ class MomDRule
 		self.options.human_dir = File.join(self.options.output_dir,'Human')
 		self.options.machine_dir = File.join(self.options.output_dir,'Machine')
 		self.options.base_class = nil
+		self.options.base_class_import = ""
 		self.options.use_arc = true
 		self.options.includeh = File.join(self.options.human_dir,"#{input_file_base}Model.h")
 		self.options.momc = "#{ENV['SYSTEM_DEVELOPER_BIN_DIR']}/momc"
@@ -81,6 +82,9 @@ class MomDRule
 			opts.on("-b", "--base-class BASECLASS", "The base class to pass to mogenerator. Defaults to empty, which results in NSManagedObject being used.") do |opt|
 				self.options.base_class = opt
 			end
+			opts.on("-i", "--base-class-import TEXT", "Import base class as TEXT. Defaults to empty, which results in #import BaseClass.h being used.") do |opt|
+				self.options.base_class_import = opt
+			end
 			opts.on("-r", "--use-arc", "Generate ARC compatible code. Defaults to true.") do |opt|
 				self.options.use_arc = true
 			end
@@ -99,7 +103,7 @@ class MomDRule
 		log "Generating source files from model version: #{current_version_name}"
 		base_class_opt = self.options.base_class ? "--base-class #{self.options.base_class}" : ""
 		arc_template_opt = self.options.use_arc ? "--template-var arc=true" : ""
-		cmd = %Q{"#{self.options.mogenerator}" --model "#{current_model_path}" --template-path "#{self.options.template_path}" --machine-dir "#{self.options.machine_dir}" --human-dir "#{self.options.human_dir}" #{base_class_opt}	#{arc_template_opt}}
+		cmd = %Q{"#{self.options.mogenerator}" --model "#{current_model_path}" --template-path "#{self.options.template_path}" --machine-dir "#{self.options.machine_dir}" --human-dir "#{self.options.human_dir}" #{base_class_opt} --base-class-import "#{self.options.base_class_import}" #{arc_template_opt}}
 		log cmd
 		output = `#{cmd}`
 		error "Couldn't generate source files: #{output}" unless $? == 0

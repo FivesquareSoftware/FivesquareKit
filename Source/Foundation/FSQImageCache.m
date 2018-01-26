@@ -2,15 +2,13 @@
 //  FSQImageCache.m
 //  FivesquareKit
 //
-//  Created by John Clayton on 5/1/12.
-//  Copyright (c) 2012 Fivesquare Software, LLC. All rights reserved.
+//  Created by John Clayton on 1/17/14.
+//  Copyright (c) 2014 Fivesquare Software, LLC. All rights reserved.
 //
 
 #import "FSQImageCache.h"
 
-#if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-#endif
+
 
 #import "FSQSandbox.h"
 #import "FSQAsserter.h"
@@ -19,40 +17,57 @@
 #import "NSString+FSQFoundation.h"
 #import "NSURL+FSQFoundation.h"
 #import "NSDictionary+FSQFoundation.h"
+#import "FSQRuntime.h"
+#import "UIImage+FSQUIKit.h"
+
+#define kImageCacheScaleNoScale -1.
 
 
+#define kDebugImageCache DEBUG && 0
+#define CacheLog(frmt,...) FLogMarkIf(kDebugImageCache, ([NSString stringWithFormat:@"IMG-CACHE.%@",self.name]) ,frmt, ##__VA_ARGS__)
 
-// A wraper for cache entries that lets us do LRU
-@interface FSQImageCacheEntry : NSObject
-@property (nonatomic, strong) id image;
-@property (nonatomic, strong) NSDate *lastAccessDate;
-+ (id) withImage:(id)image;
+@interface FSQImage : UIImage
 @end
 
-@implementation FSQImageCacheEntry
-@synthesize image = _image, lastAccessDate = _lastAccessDate;
-+ (id) withImage:(id)image {
-	FSQImageCacheEntry *entry = [self new];
-	entry.image = image;
-	entry.lastAccessDate = [NSDate date];
-	return entry;
+@implementation FSQImage
++ (id) imageWithCGImage:(CGImageRef)imageRef {
+	__autoreleasing FSQImage *img =  [[super alloc] initWithCGImage:imageRef];
+	FLogMarkIf(kDebugImageCache, @"IMG-CACHE",@"initWithCGImage: %@",self);
+	return img;
 }
++ (id) imageWithContentsOfFile:(NSString *)file {
+	__autoreleasing FSQImage *img =  [[super alloc] initWithContentsOfFile:file];
+	FLogMarkIf(kDebugImageCache, @"IMG-CACHE",@"imageWithContentsOfFile: %@",self);
+	return img;
+}
++ (id) imageWithData:(NSData *)data {
+	__autoreleasing FSQImage *img =  [[super alloc] initWithData:data];
+	FLogMarkIf(kDebugImageCache, @"IMG-CACHE",@"imageWithData: %@",self);
+	return img;
+}
+- (void) dealloc {
+	FLogMarkIf(kDebugImageCache, @"IMG-CACHE",@"IMG->DEALLOC: %@",self);
+}
+- (NSString *) description {
+	return [NSString stringWithFormat:@"<FSQImage:%p>",self];
+}
+//- (id)copyWithZone:(NSZone *)zone {
+//	return [self copyWithZone:zone];
+//}
 @end
 
 
 
-@interface FSQImageCache ()
+@interface FSQImageCache () <NSCacheDelegate>
 
-@property (nonatomic, strong) NSMutableDictionary *cache;
-//#if TARGET_OS_IPHONE && !defined(__IPHONE_6_0)
-//@property (nonatomic, assign) dispatch_queue_t cacheQueue;
-//#else
+@property (nonatomic, strong) NSCache *cache;
 @property (nonatomic, strong) dispatch_queue_t cacheQueue;
-//#endif
-@property (nonatomic, strong) NSMutableDictionary *completionHandlersByKey;
-@property (nonatomic, strong) NSMutableSet *currentDownloads;
-@property (nonatomic, strong) NSMutableArray *fileList;
+@property (nonatomic, strong) NSMutableSet *keys;
 @property (nonatomic, strong) NSString *cachePath;
+
+@property (nonatomic, strong) id memoryWarningObserver;
+
+@property (nonatomic, strong, readonly) CIContext *coreImageContext;
 
 @end
 
@@ -62,13 +77,31 @@
 
 #pragma mark - Properties
 
+- (void) setName:(NSString *)name {
+	if (_name != name) {
+		_name = name;
+		_cache.name = _name;
+	}
+}
+
+- (void) setMemoryCapacity:(NSInteger)memoryCapacity {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),@(memoryCapacity));
+	if (_memoryCapacity != memoryCapacity) {
+		_memoryCapacity = memoryCapacity;
+		if (_memoryCapacity >= 0) {
+			[_cache setTotalCostLimit:(NSUInteger)memoryCapacity];
+		}
+		_usingMemoryCache = _memoryCapacity >= 0;
+	}
+}
 
 - (NSString *) cachePath {
 	if (_cachePath == nil) {
 		BOOL created;
 		NSError *error = nil;
 #if TARGET_OS_IPHONE
-		_cachePath = [[FSQSandbox cachesDirectory] stringByAppendingPathComponent:_diskPath];
+		NSString *baseDirectory = _diskCacheIsVolatile ? [FSQSandbox cachesDirectory] : [FSQSandbox applicationSupportDirectory];
+		_cachePath = [baseDirectory stringByAppendingPathComponent:_diskPath];
 #else
 		_cachePath = [_diskPath copy];
 #endif
@@ -81,73 +114,75 @@
 	return _cachePath;
 }
 
+- (NSString *) description {
+	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ memoryCapacity=%@",[super description], _name, _diskPath, @(_memoryCapacity)];
+}
+
+@synthesize coreImageContext = _coreImageContext;
+- (CIContext *) coreImageContext {
+	if (nil == _coreImageContext) {
+		EAGLContext *myEAGLContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+		NSDictionary *options = @{ kCIContextWorkingColorSpace : [NSNull null] };
+		_coreImageContext = [CIContext contextWithEAGLContext:myEAGLContext options:options];
+	}
+	return _coreImageContext;
+}
+
 
 // ========================================================================== //
 
 #pragma mark - Object
 
-
-- (void)dealloc {
-//#ifndef __IPHONE_6_0
-//    dispatch_release(_cacheQueue);
-//#endif
-#if TARGET_OS_IPHONE
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-#endif
+- (void)dealloc
+{
+	if (_memoryWarningObserver) {
+		[[NSNotificationCenter defaultCenter] removeObserver:_memoryWarningObserver];
+	}
 }
 
-- (id)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)diskPath {
+- (id) init {
+	return [self initWithMemoryCapacity:0 diskPath:[[NSUUID UUID] UUIDString]];
+}
+
+- (id)initWithMemoryCapacity:(NSInteger)memoryCapacity diskPath:(NSString *)diskPath {
 	self = [super init];
-	diskPath = [diskPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	if ([NSString isEmpty:diskPath]) {
-		FSQAssert(NO, @"diskPath cannot be nil or empty");
-		self = nil;
-	}
 	if (self) {
-		_usesMemoryCache = YES;
-		_memoryCapacity = memoryCapacity;
-		_diskCapacity = diskCapacity;
+		_name = [[NSUUID UUID] UUIDString];
+		_diskCacheIsVolatile = NO;
+		_storageTypeIdentifier = (NSString *)kUTTypeJPEG;
 		_diskPath = diskPath;
-		_automaticallyDetectsScale = YES;
+		_cache = [[NSCache alloc] init];
+		_cacheQueue = dispatch_queue_create([[NSString stringWithFormat:@"com.fivesquaresoftware.FSQImageCache.%p.cacheQueue",self] UTF8String], DISPATCH_QUEUE_CONCURRENT);
+		_keys = [NSMutableSet new];
+		_compressionQuality = .8;
+		_targetSize = CGSizeZero;
+		_contentMode = UIViewContentModeScaleAspectFill;
+
+		self.memoryCapacity = memoryCapacity;
 		
-		_cache = [NSMutableDictionary new];
-		_cacheQueue = dispatch_queue_create([[NSString stringWithFormat:@"FSQImageCache.%p",self] UTF8String], DISPATCH_QUEUE_SERIAL);
-		_completionHandlersByKey = [NSMutableDictionary new];
-		_currentDownloads = [NSMutableSet new];
 #if TARGET_OS_IPHONE
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+		FSQWeakSelf(self_);
+		self.memoryWarningObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+			CacheLog(@"!!! * OUT OF MEMORY, PURGING %@ * !!!",self_);
+			[self_.cache removeAllObjects];
+		}];
 #endif
-		// build a cached file list and calculate disk usage before any requests come in 
-		dispatch_async(_cacheQueue, ^{
+
+		
+		dispatch_barrier_async(_cacheQueue, ^{
 			NSFileManager *fm = [NSFileManager new];
 			NSError *error = nil;
 			
-			NSArray *files = [fm contentsOfDirectoryAtURL:[NSURL fileURLWithPath:self.cachePath] 
-							   includingPropertiesForKeys:@[NSURLContentAccessDateKey,NSURLFileSizeKey] 
-												  options:NSDirectoryEnumerationSkipsHiddenFiles 
+			NSArray *files = [fm contentsOfDirectoryAtURL:[NSURL fileURLWithPath:self.cachePath]
+							   includingPropertiesForKeys:@[NSURLContentAccessDateKey,NSURLFileSizeKey]
+												  options:NSDirectoryEnumerationSkipsHiddenFiles
 													error:&error];
 			if (error) {
-				FLogError(error, @"Could not build file list!");
-			} else {
+				FLogError(error, @"Could not build existing key list!");
+			}
+			else {
 				for (NSURL *file in files) {
-					// access entries
-					FSQImageCacheEntry *entry = [FSQImageCacheEntry new];
-					entry.image = file;
-					id lastAccessDate;
-					if ([file getResourceValue:&lastAccessDate forKey:NSURLContentAccessDateKey error:&error]) {
-						entry.lastAccessDate = lastAccessDate;
-						[_fileList addObject:entry];
-					}
-					FSQAssert(error == nil, @"Couldn't get last access date");
-
-					
-					// disk usage
-					id fileSize;
-					if ([file getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error]) {
-						NSUInteger size = [fileSize unsignedIntegerValue];
-						_currentDiskUsage += size;
-					} 
-					FSQAssert(error == nil, @"Couldn't get file size");
+					[_keys addObject:[[file lastPathComponent] stringByDeletingPathExtension]];
 				}
 			}
 		});
@@ -155,377 +190,391 @@
 	return self;
 }
 
-- (NSString *) description {
-	return [NSString stringWithFormat:@"%@ name=%@ diskPath=%@ currentMemoryUsage=%@",[super description], _name, _diskPath, @(_currentMemoryUsage)];
-}
 
 
 // ========================================================================== //
 
-#pragma mark - Public
+#pragma mark - Image Cache
 
 
-- (BOOL) hasImageForURL:(id)URLOrString {
-	return [self hasImageForURL:URLOrString scale:0];
+
+
+- (id) addImage:(id)image {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),image);
+	id key = [self newKeyForImage:image];
+	[self setImage:image forKey:key];
+	return key;
 }
 
-- (BOOL) hasImageForURL:(id)URLOrString scale:(CGFloat)scaleOverride {
-	NSURL *key = [self keyForKeyObject:URLOrString];
-	
-	if (key == nil || [NSString isEmpty:[key description]]) {
-		FLog(@"'%@' is not a valid URL-like object",[URLOrString description]);
-		return NO;
-	}
-	
-	
-	NSURL *unscaledKey = nil;
-	NSURL *storageKey = nil;
-	float scale FSQ_MAYBE_UNUSED = 1;
-	if (_automaticallyDetectsScale) {
-		scale = [self scaleForKey:key descaledKey:&unscaledKey];
-	}
-	else {
-		unscaledKey = key;
-	}
-	
-	if (scaleOverride > 0) {
-		scale = scaleOverride;
-		storageKey = [key URLBySettingScale:scale];
-	}
-	else {
-		storageKey = key;
-	}
-	
-	__block BOOL hasImage = NO;
-	
+- (void) setImage:(id)image forKey:(id)key {
+	CacheLog(@"setImage:%@ forKey:%@",image,key);
+	dispatch_barrier_sync(_cacheQueue, ^{
+		[self _storeImage:image forKey:key];
+	});
+}
+
+- (id) imageForKey:(id)key {
+	return [self imageForKey:key scale:kImageCacheScaleNoScale];
+}
+
+- (id) imageForKey:(id)key scale:(CGFloat)scaleOverride {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
+	__block id fetchedImage = nil;
 	dispatch_sync(_cacheQueue, ^{
-		// check the memory cache for the image
-		hasImage = [_cache hasKey:key];
-		
-		if (NO == hasImage) { // check the disk cache for the image			
-			NSString *imagePath = [self cachePathForKey:storageKey]; // use the scaled path because we are checking the disk directly
-			NSFileManager *fm = [NSFileManager new];
-			hasImage = [fm fileExistsAtPath:imagePath];
-		}
+		fetchedImage = [self _getImageForKey:key scale:scaleOverride];
 	});
-	return hasImage;
+	return fetchedImage;
 }
 
-- (id) fetchImageForURL:(id)URLOrString completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
-	return [self fetchImageForURL:URLOrString scale:0 completionHandler:completionHandler];
+- (void) getImageForKey:(id)key completion:(FSQImageCacheCompletionHandler)completion {
+	[self getImageForKey:key scale:kImageCacheScaleNoScale completion:completion];
 }
 
-- (id) fetchImageForURL:(id)URLOrString scale:(CGFloat)scaleOverride completionHandler:(FSQImageCacheCompletionHandler)completionHandler {
-//	FLog(@"fetchImageForURL:%@ scale:%@",URLOrString,@(scaleOverride));
-
-	NSURL *key = [self keyForKeyObject:URLOrString];
-	
-	if (key == nil || [NSString isEmpty:[key description]]) {
-		FLog(@"'%@' is not a valid URL-like object",[URLOrString description]);
-		return nil;
-	}
-
-	
-	NSURL *unscaledKey = nil;
-	NSURL *storageKey = nil;
-	float scale FSQ_MAYBE_UNUSED = 1;
-	if (_automaticallyDetectsScale) {
-		scale = [self scaleForKey:key descaledKey:&unscaledKey];
-	} 
-	else {
-		unscaledKey = key;
-	}
-	
-	if (scaleOverride > 0) {
-		scale = scaleOverride;
-		storageKey = [key URLBySettingScale:scale];
-	}
-	else {
-		storageKey = key;
-	}
-	
-	NSString *ticket = [NSString stringWithFormat:@"%@ %@",[key absoluteString],[[NSDate date] description]];
-
-	// don't block the main thread with disk scans etc..
-	// all cache access is piped through our serial queue so there are no concurrency issues
+- (void) getImageForKey:(id)key scale:(CGFloat)scale completion:(FSQImageCacheCompletionHandler)completion {
+	CacheLog(@"getImageForKey:%@ scale:%@",key,@(scale));
+	__block id image = nil;
 	dispatch_async(_cacheQueue, ^{
-		
-		// register our handler for the key
-		[self addHandler:completionHandler forKey:key ticket:ticket];
-		
-		// check the memory cache for the image
-		id image = [[_cache objectForKey:key] image];
-		if (image) {
-			[self dispatchCompletionHandlersForKey:key withImage:image error:nil];
-		} 
-		// check the disk cache for the image
-		else { 
-#if TARGET_OS_IPHONE
-			NSString *imagePath = [self cachePathForKey:unscaledKey]; // use the unscaled path because imageWithContentsOfFile: gets the right version for us
-			image = [UIImage imageWithContentsOfFile:imagePath];
-#else
-			//TODO: load image from disk for mac os
-#endif
-			if (image) {
-				[self dispatchCompletionHandlersForKey:key withImage:image error:nil];
-			}
-			// if the URL points to a file on disk, just load it up and store it
-			else if([key isFileURL]) {
-				id localImage = nil;
-#if TARGET_OS_IPHONE
-				localImage = [UIImage imageWithContentsOfFile:[unscaledKey path]];
-#else
-				//TODO: load image from disk for mac os
-#endif
-				if (localImage) {
-					[self storeImage:localImage forKey:key storageKey:storageKey];
-					[self dispatchCompletionHandlersForKey:key withImage:localImage error:nil];
-				}
-				else {
-					// generate a load error
-					[self dispatchCompletionHandlersForKey:key withImage:nil error:nil];
-				}
-
-			}
-			// begin downloading it if noone else is
-			else if ([self beginDownload:key]) {
-				_downloadHandler(key,^(id downloadedImage, NSError *downloadError){
-					if (downloadedImage && downloadError == nil) {
-#if TARGET_OS_IPHONE
-						if (scale > 1) {
-							CGImageRef cgImage = [(UIImage *)downloadedImage CGImage];
-							downloadedImage = [UIImage imageWithCGImage:cgImage scale:scale orientation:UIImageOrientationUp];
-						}
-#else
-						//TODO: will Mac OS support @2x?
-#endif
-						[self storeImage:downloadedImage forKey:key storageKey:storageKey];
-						[self dispatchCompletionHandlersForKey:key withImage:downloadedImage error:nil];
-					}
-					else {
-						[self dispatchCompletionHandlersForKey:key withImage:nil error:downloadError];
-					}
-					[_currentDownloads removeObject:key];
-				});
-			}
-		}
-	});
-	
-	return ticket;
-}
-
-- (void) removeHandler:(id)identifier forURL:(id)URLOrString {
-	NSURL *key = [self keyForKeyObject:URLOrString];
-	dispatch_async(_cacheQueue, ^{
-		NSMutableDictionary *handlersForKey = [_completionHandlersByKey objectForKey:key];
-		if (handlersForKey) {
-			[handlersForKey removeObjectForKey:identifier];
-		}
-	});
-}
-
-- (void) cancelFetchForURL:(id)URLOrString {
-	NSURL *key = [self keyForKeyObject:URLOrString];
-	
-	if (key == nil || [NSString isEmpty:[key description]]) {
-		FLog(@"'%@' is not a valid URL-like object",[URLOrString description]);
-		return;
-	}
-
-	dispatch_async(_cacheQueue, ^{
-		[_completionHandlersByKey removeObjectForKey:key];
-		if (_cancelationHandler) {
+		image = [self _getImageForKey:key scale:scale];
+		if (completion) {
 			dispatch_async(dispatch_get_main_queue(), ^{
-				_cancelationHandler(URLOrString);
+				completion(image,nil);
+				image = nil;
 			});
 		}
 	});
 }
 
-- (void) removeImageForURL:(id)URLOrString {
-	FLog(@"removeImageForURL: %@",URLOrString);
-	NSURL *key = [self keyForKeyObject:URLOrString];
-	dispatch_async(_cacheQueue, ^{
-		[_cache removeObjectForKey:key];
-		NSFileManager *fm = [NSFileManager new];
-		NSError *error = nil;
-		if (NO == [fm removeItemAtPath:[self cachePathForKey:key] error:&error]) {
-			FLogError(error, @"Could not remove entry for %@",URLOrString);
-		};
+- (NSURL *) fileURLForKey:(id)key {
+	return [self fileURLForKey:key scale:kImageCacheScaleNoScale];
+}
+
+- (NSURL *) fileURLForKey:(id)key scale:(CGFloat)scaleOverride {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
+	__block NSURL *imageURL = nil;
+	dispatch_sync(_cacheQueue, ^{
+		CacheLog(@"%@",NSStringFromSelector(_cmd));
+		CGFloat scale = 1;
+		if (scaleOverride > 0.) {
+			scale = scaleOverride;
+		}
+		else {
+#if TARGET_OS_IPHONE
+			scale = [[UIScreen mainScreen] scale];
+#endif
+		}
+
+		NSString *storageKey = [self storageKeyForKey:key scale:scale];
+		NSString *imagePath = [self cachePathForStorageKey:storageKey];
+		NSFileManager *fm = [NSFileManager defaultManager];
+		if ([fm fileExistsAtPath:imagePath]) {
+			imageURL = [NSURL fileURLWithPath:imagePath];
+		}
+	});
+	return imageURL;
+}
+
+- (NSDate *) modificationDateForKey:(id)key {
+	return [self modificationDateForKey:key scale:kImageCacheScaleNoScale];
+}
+
+- (NSDate *) modificationDateForKey:(id)key scale:(CGFloat)scaleOverride {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
+	__block NSDate *modificationDate = nil;
+	dispatch_sync(_cacheQueue, ^{
+		CacheLog(@"%@",NSStringFromSelector(_cmd));
+		CGFloat scale = 1;
+		if (scaleOverride > 0.) {
+			scale = scaleOverride;
+		}
+		else {
+#if TARGET_OS_IPHONE
+			scale = [[UIScreen mainScreen] scale];
+#endif
+		}
+
+		NSString *storageKey = [self storageKeyForKey:key scale:scale];
+		NSString *imagePath = [self cachePathForStorageKey:storageKey];
+		NSFileManager *fm = [NSFileManager defaultManager];
+		if ([fm fileExistsAtPath:imagePath]) {
+			NSError *attributesError = nil;
+			NSDictionary *attributes = [fm attributesOfItemAtPath:imagePath error:&attributesError];
+			if (attributesError) {
+				FLogError(attributesError, @"Failed to get file attributes for image at path: %@",imagePath);
+			}
+			if (attributes) {
+				modificationDate = attributes[NSFileModificationDate];
+			}
+		}
+	});
+	return modificationDate;
+}
+
+- (BOOL) imageForKey:(id)key needsUpdate:(NSDate *)date {
+	return [self imageForKey:key scale:kImageCacheScaleNoScale needsUpdate:date];
+}
+
+- (BOOL) imageForKey:(id)key scale:(CGFloat)scaleOverride needsUpdate:(NSDate *)date {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
+	NSParameterAssert(date);
+	NSDate *modificationDate = [self modificationDateForKey:key scale:scaleOverride];
+	if (modificationDate) {
+		return [modificationDate compare:date] == NSOrderedAscending;
+	}
+	return YES;
+}
+
+- (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk {
+	[self removeImageForKey:key removeOnDisk:removeOnDisk scale:kImageCacheScaleNoScale];
+}
+
+- (void) removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk scale:(CGFloat)scale {
+	CacheLog(@"removeImageForKey:%@ removeOnDisk:%@",key,@(removeOnDisk));
+	dispatch_barrier_async(_cacheQueue, ^{
+		@autoreleasepool {
+			[self _removeImageForKey:key removeOnDisk:removeOnDisk scale:scale];
+		}
 	});
 }
 
+- (void) removeAllImagesIncludingDisk:(BOOL)removeOnDisk {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),@(removeOnDisk));
+	dispatch_barrier_async(_cacheQueue, ^{
+		@autoreleasepool {
+			for (id key in _keys) {
+				[self removeImageForKey:key removeOnDisk:removeOnDisk];
+			}
+		}
+	});
+}
 
+- (void) purgeMemoryCache {
+	[_cache removeAllObjects];
+}
+
+- (void) purgeDiskCache {
+
+}
 
 
 // ========================================================================== //
 
-#pragma mark - Private
+#pragma mark - Helpers
 
-- (NSURL *) keyForKeyObject:(id)URLOrString {
-	NSURL *key = nil;
-	if ([URLOrString isKindOfClass:[NSString class]]) {
-		NSString *trimmedString = [URLOrString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		if ([trimmedString length] > 0) {
-			key = [NSURL URLWithString:URLOrString];
-		}
-	} else if ([URLOrString isKindOfClass:[NSURL class]]) {
-		key = URLOrString;
+
+- (id) storageKeyForKey:(id)key scale:(CGFloat)scale {
+	CacheLog(@"%@%@",NSStringFromSelector(_cmd),key);
+	NSString *keyString;
+	NSString *storageKey;
+	if ([key isKindOfClass:[NSString class]]) {
+		keyString = key;
 	}
+	else {
+		keyString = [key description];
+	}
+	keyString = [keyString stringByDeletingPathExtension];
+	keyString = [keyString stringByDeletingScaleModifier];
+	
+
+	if (scale != 1) {
+		storageKey = [NSString stringWithFormat:@"%@@%@x.%@",keyString,@(scale),[self storageExtensionForStorageType]];
+	}
+	else {
+		storageKey = [NSString stringWithFormat:@"%@.%@",keyString,[self storageExtensionForStorageType]];
+	}
+
+	
+	CacheLog(@"<= %@",storageKey);
+	return storageKey;
+}
+
+- (id) newKeyForImage:(id)image {
+	NSString *key = [[NSUUID UUID] UUIDString];
 	return key;
 }
 
-
-- (float) scaleForKey:(NSURL *)URL descaledKey:(NSURL **)descaledKeyPtr {
-	if (descaledKeyPtr) {
-		*descaledKeyPtr = [URL URLByDeletingScale];
-	}
-	return [URL scale];
-}
-
-- (NSString *) cachePathForKey:(NSURL *)URL {
-//	FLog(@"URL:%@",URL);
-
-	NSString *basename = [[[[URL path] lastPathComponent] stringByDeletingPathExtension] stringByDeletingScaleModifier];
-	NSString *scaleModifier = [URL scaleModifier];
-	NSString *extension = [URL pathExtension];
-	
-	
-	NSString *cachePath = [self.cachePath stringByAppendingPathComponent:[basename MD5Hash]];
-	if (NO == [NSString isEmpty:scaleModifier]) {
-		cachePath = [cachePath stringByAppendingString:scaleModifier];
-	}
-	if (NO == [NSString isEmpty:extension]) {
-		cachePath = [cachePath stringByAppendingPathExtension:extension];
-	}
-//	FLog(@"cachePath: %@",cachePath);
+- (NSString *) cachePathForStorageKey:(NSString *)storageKey {
+	NSString *cachePath = [self.cachePath stringByAppendingPathComponent:storageKey];
 	return cachePath;
 }
 
-- (void) addHandler:(FSQImageCacheCompletionHandler)handler forKey:(NSURL *)key ticket:(id)ticket {
-	NSMutableDictionary *handlersForKey = [_completionHandlersByKey objectForKey:key];
-	if (handlersForKey == nil) {
-		handlersForKey = [NSMutableDictionary new];
-		[_completionHandlersByKey setObject:handlersForKey forKey:key];
+- (NSString *) storageExtensionForStorageType {
+	NSString *extension = @"";
+	if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypeJPEG]) {
+		extension = @"jpg";
 	}
-	[handlersForKey setObject:[handler copy] forKey:ticket];
+	else if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypePNG]) {
+		extension = @"png";
+	}
+	return extension;
 }
 
-- (void) dispatchCompletionHandlersForKey:(NSURL *)key withImage:(id)image error:(NSError *)error {
-	NSArray *handlers = [[_completionHandlersByKey objectForKey:key] allValues];
-	for (FSQImageCacheCompletionHandler handler in handlers) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			handler(image,error);
-		});
-	}
-	[_completionHandlersByKey removeObjectForKey:key];
-}
 
-- (BOOL) beginDownload:(NSURL *)key {
-	FSQAssert(_downloadHandler != nil, @"downloadHandler cannot be nil!");
-	if (_downloadHandler == nil) {
-		return NO;
-	}
-	if (NO == [_currentDownloads containsObject:key]) {
-		[_currentDownloads addObject:key];
-		return YES;
-	}
-	return NO;
-}
-		
-- (void) storeImage:(id)image forKey:(NSURL *)key storageKey:(NSURL *)storageKey {
-//	FLog(@"storeImage:forURL: %@",key);
-	
-	// all cache access is piped through our serial queue so there are no concurrency issues
-	dispatch_async(_cacheQueue, ^{
-		
-		// trim memory cache if over size
-#if TARGET_OS_IPHONE
-		NSData *imageData = UIImagePNGRepresentation(image);
-#else
-		NSData *imageData = nil; //TODO: get image data for mac os
-#endif
-		NSUInteger imageSize = [imageData length];
-		
-		__block NSUInteger newMemoryUsage = _currentMemoryUsage + imageSize;
-		if (_usesMemoryCache && _memoryCapacity != 0 && newMemoryUsage > _memoryCapacity) {
-			FLog(@"%@ - ** Memory capacity (%@) exceeded, purging cache",self,@(_currentMemoryUsage));
-			NSArray *sortedCacheKeys = [_cache keysSortedByValueUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
-				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
-			}];
-			
-			[sortedCacheKeys enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id cacheKey, NSUInteger idx, BOOL *stop) {
-				id cachedImage FSQ_MAYBE_UNUSED = [[_cache objectForKey:cacheKey] image];
-#if TARGET_OS_IPHONE
-				NSData *entryData = UIImagePNGRepresentation(cachedImage);
-#else
-				NSData *entryData = nil; //TODO: get image data for mac os
-#endif				
-				[_cache removeObjectForKey:cacheKey];
-				newMemoryUsage -= [entryData length];
-				*stop = newMemoryUsage < _memoryCapacity;
-			}];
-		}
-		
-		if (_usesMemoryCache) {
-			// store in memory cache
-			[_cache setObject:[FSQImageCacheEntry withImage:image] forKey:key];
-			_currentMemoryUsage = newMemoryUsage;
-		}
-		
-		// trim disk cache if over size
-		__block NSUInteger newDiskUsage = _currentDiskUsage + imageSize;
-		if (_diskCapacity != 0 && newDiskUsage > _diskCapacity) {
-			FLog(@"%@ - ** Disk capacity (%@) exceeded, purging cache",self,@(_currentDiskUsage));
-
-			NSArray *sortedFileList = [_fileList sortedArrayUsingComparator:^NSComparisonResult(FSQImageCacheEntry *obj1, FSQImageCacheEntry *obj2) {
-				return [obj2.lastAccessDate compare:obj1.lastAccessDate]; // Descending by date
-			}];
-			
-			[sortedFileList enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id file, NSUInteger idx, BOOL *stop) {
-				id fileSize;
-				NSError *error = nil;
-				if ([file getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error]) {
-					NSUInteger bytes = [fileSize unsignedIntegerValue];
-					NSFileManager *fm = [NSFileManager new];
-					if ([fm removeItemAtURL:file error:&error]) {
-						[_fileList removeObject:file];
-						newMemoryUsage -= bytes;
-					};
-				}
-				FSQAssert(error == nil, @"Couldn't get file size");
-				*stop = newDiskUsage < _diskCapacity;
-			}];
-			
-		}
-		
-		// store in disk cache
-		NSError *writeError = nil;
-		if (NO == [imageData writeToFile:[self cachePathForKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
-			FLogError(writeError, @"Could not write image to disk");
-		}
-	});
-}
-
-		 
 // ========================================================================== //
 
-#pragma mark - Notifications
+#pragma mark - Cache Delegate
 
 
-#if TARGET_OS_IPHONE
-
-- (void) didReceiveMemoryWarning:(NSNotification *)notification {
-	FLog(@"** LOW MEMORY ** -- IMAGE CACHE DUMPING CONTENTS -- %@",[self description]);
-	dispatch_async(_cacheQueue, ^{
-		[_cache removeAllObjects];
-	});
+- (void)cache:(NSCache *)cache willEvictObject:(id)obj {
+	CacheLog(@"** EVICTING OBJECT ** : %@",obj);
 }
 
-#endif		 
+
+
+
+
+
+// ========================================================================== //
+
+#pragma mark - Model Access - Must run on cache Q
+
+
+- (id) _getImageForKey:(id)key scale:(CGFloat)scaleOverride {
+	CacheLog(@"%@",NSStringFromSelector(_cmd));
+	CGFloat scale = 1;
+	if (scaleOverride > 0.) {
+		scale = scaleOverride;
+	}
+	else {
+#if TARGET_OS_IPHONE
+		scale = [[UIScreen mainScreen] scale];
+#endif
+	}
+	
+	NSString *storageKey = [self storageKeyForKey:key scale:scale];
+	id image = nil;
+	if (_usingMemoryCache) {
+		CacheLog(@"** Using memory cache");
+		image = [_cache objectForKey:storageKey];
+	}
+	if (nil == image) {
+		if (_usingMemoryCache) {
+			CacheLog(@"** IMAGE MEMORY FAULT **");
+		}
+		
+		NSString *imagePath = [self cachePathForStorageKey:storageKey];
+#if TARGET_OS_IPHONE
+		image = [UIImage imageWithContentsOfFile:imagePath];
+		CacheLog(@"- [UIImage imageWithContentsOfFile:%@] => %@, size: %@, scale: %@",imagePath,image,NSStringFromCGSize([image size]),@([(UIImage *)image scale]));
+#else
+//		//TODO: load image from disk for mac os
+#endif
+		if (nil == image) {
+			CacheLog(@"** IMAGE DISK FAULT **");
+		}
+		if (_usingMemoryCache && image) {
+			__block id localImage = image;
+			dispatch_barrier_async(_cacheQueue, ^{
+				NSURL *imageURL = [NSURL fileURLWithPath:imagePath];
+				FSQAssert(imageURL, @"Couldn't get image URL from image path: %@", imagePath);
+				NSNumber *fileSize;
+				NSUInteger size = 0;
+				NSError *error = nil;
+				if ([imageURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error]) {
+					size = [fileSize unsignedIntegerValue];
+				}
+				else {
+					FLogError(error, @"Failed to get file size for re-inflated image: %@",imageURL);
+				}
+				[_cache setObject:localImage forKey:storageKey cost:size];
+				localImage = nil;
+			});
+		}
+	}
+	return image;
+}
+
+- (void) _storeImage:(id)image forKey:(NSString *)key {
+	CacheLog(@"%@ => %@",NSStringFromSelector(_cmd),key);
+	@autoreleasepool {
+		CGFloat scale = 1;
+#if TARGET_OS_IPHONE
+		scale = [(UIImage *)image scale];
+#endif
+		if (NO == CGSizeEqualToSize(CGSizeZero, _targetSize)) {
+#if TARGET_OS_IPHONE
+			scale = [[UIScreen mainScreen] scale];
+			image = [image imageSizedToFit:_targetSize scale:scale contentMode:_contentMode];
+#endif
+		}
+
+		id processedImage = nil;
+		if (_filter) {
+#if TARGET_OS_IPHONE
+			@autoreleasepool {
+				CIImage *input = [[CIImage alloc] initWithImage:image];
+				[_filter setValue:input forKey:kCIInputImageKey];
+				CIImage *output = [_filter valueForKey:kCIOutputImageKey];
+				// This has a bug that produces a blank image
+//				processedImage = [UIImage imageWithCIImage:output];
+			CGImageRef outputCGImage = [self.coreImageContext createCGImage:output fromRect:CGRectMake(0, 0, [image size].width*scale, [image size].height*scale)];
+			processedImage = [UIImage imageWithCGImage:outputCGImage scale:scale orientation:UIImageOrientationUp];
+				CGImageRelease(outputCGImage);
+				input = nil;
+				output = nil;
+			}
+#endif
+		}
+		else {
+			processedImage = image;
+		}
+
+		@autoreleasepool {
+			NSString *storageKey = [self storageKeyForKey:key scale:scale];
+			__autoreleasing NSData *imageData = [self _dataForImage:processedImage];
+			NSError *writeError = nil;
+			if (NO == [imageData writeToFile:[self cachePathForStorageKey:storageKey] options:NSDataWritingAtomic error:&writeError]) {
+				FLogError(writeError, @"Could not write image to disk");
+			}
+			if (_usingMemoryCache) {
+				CacheLog(@" ** STORED TO MEMORY CACHE %@ **",_cache.name);
+				[_cache setObject:processedImage forKey:storageKey cost:[imageData length]];
+				CacheLog(@"_cache.objectForKey:%@ -> %@ **",storageKey,[_cache objectForKey:storageKey]);
+			}
+			imageData = nil;
+			[_keys addObject:storageKey];
+		}
+	}
+}
+
+- (void) _removeImageForKey:(id)key removeOnDisk:(BOOL)removeOnDisk scale:(CGFloat)scaleOverride {
+	CacheLog(@"%@ => %@",NSStringFromSelector(_cmd),key);
+	CGFloat scale = 1;
+	if (scaleOverride > 0.) {
+		scale = scaleOverride;
+	}
+	else {
+#if TARGET_OS_IPHONE
+		scale = [[UIScreen mainScreen] scale];
+#endif
+	}
+	NSString *storageKey = [self storageKeyForKey:key scale:scale];
+	[_cache removeObjectForKey:storageKey]; // let's just always remove it in case memory limits got changed after it went in
+	if (removeOnDisk) {
+		NSFileManager *fm = [NSFileManager new];
+		NSError *error = nil;
+		if (NO == [fm removeItemAtPath:[self cachePathForStorageKey:storageKey] error:&error]) {
+			FLogError(error, @"Could not remove entry for %@",storageKey);
+		};
+	}
+	[_keys removeObject:storageKey];
+}
+
+- (NSData *) _dataForImage:(id)image {
+	NSData *imageData = nil;
+#if TARGET_OS_IPHONE
+	if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypeJPEG]) {
+		imageData = UIImageJPEGRepresentation(image, _compressionQuality);
+	}
+	else if ([_storageTypeIdentifier isEqualToString:(NSString *)kUTTypePNG]) {
+		imageData = UIImagePNGRepresentation(image);
+	}
+#else
+	imageData = nil; //TODO: get image data for mac os
+#endif
+	FSQAssert(imageData, @"Unable to get image data for image! %@", image);
+
+	return imageData;
+}
+
 
 @end
-
-
-
-

@@ -7,7 +7,7 @@
 //
 
 #import "NSArray+FSQFoundation.h"
-
+#import "NSObject+FSQFoundation.h"
 
 
 
@@ -15,11 +15,9 @@
 
 
 + (BOOL) isEmpty:(id)obj {
-	if (nil == obj) {
-		return YES;
-	}
-	if ([NSNull null] == obj) {
-		return YES;
+	BOOL isEmpty = [NSObject isEmpty:obj];
+	if (isEmpty) {
+		return isEmpty;
 	}
 	
 	return [obj count] == 0;
@@ -115,12 +113,22 @@
 	return object;
 }
 
-- (id) firstObject {
-	if (self.count < 1) {
-		return nil;
-	}
-	return [self objectAtIndex:0];
+- (NSArray *) objectsPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate {
+	NSArray *objects = nil;
+	NSIndexSet *indexes  = [self indexesOfObjectsPassingTest:predicate];
+	objects = [self objectsAtIndexes:indexes];
+	return objects;
 }
+
+
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 40000
+//- (id) firstObject {
+//	if (self.count < 1) {
+//		return nil;
+//	}
+//	return [self objectAtIndex:0];
+//}
+//#endif
 
 - (id) anyObject {
 	uint32_t rnd = arc4random_uniform((u_int32_t)[self count]);
@@ -135,15 +143,61 @@
 	return array;
 }
 
+- (id) meanObject {
+	if (self.count > 2) {
+		NSUInteger meanIndex = self.count/2;
+		id meanObject = self[meanIndex];
+		return meanObject;
+	}
+	return [self firstObject];
+}
+
 - (id) objectAtIndexPath:(NSIndexPath *)indexPath {
 	id object = self;
 	NSUInteger length = [indexPath length];
 	for (NSUInteger i = 0; i < length; i++) {
 		NSUInteger index = [indexPath indexAtPosition:i];
-		object = [object objectAtIndex:index];
+		if ([object respondsToSelector:@selector(count)] && index < [object count] && [object respondsToSelector:@selector(objectAtIndex:)]) {
+			object = [object objectAtIndex:index];
+		}
+		else {
+			object = nil;
+            break;
+		}
 	}
 	return object;
 }
+
+- (NSIndexPath *) indexPathForObject:(id)object {
+	NSIndexPath *indexPathForObject = nil;
+	__block NSIndexPath *indexPath = [NSIndexPath new];
+	[self enumerateObjectsUsingBlock:^(id child, NSUInteger idx, BOOL *stop) {
+		if (object == child) {
+			indexPath = [indexPath indexPathByAddingIndex:idx];
+			*stop = YES;
+		}
+		else if ([child respondsToSelector:_cmd]) {
+			NSIndexPath *childIndexPath = [child indexPathForObject:object];
+			NSUInteger length = [childIndexPath length];
+			if (length > 0) {
+				indexPath = [indexPath indexPathByAddingIndex:idx];
+				NSUInteger *indexes = malloc(sizeof(NSUInteger)*length);
+				[childIndexPath getIndexes:indexes];
+				for (NSUInteger i = 0; i < length; i++) {
+					indexPath = [indexPath indexPathByAddingIndex:indexes[i]];
+				}
+				free(indexes);
+				*stop = YES;
+			}
+		}
+	}];
+	if (indexPath.length) {
+		indexPathForObject = indexPath;
+	}
+	return indexPathForObject;
+}
+
+
 
 // ========================================================================== //
 
@@ -188,6 +242,35 @@
 	return newArray;
 }
 
+- (NSArray *) objectsToIndex:(NSUInteger)index {
+	return [self firstObjects:index+1];
+}
+
+- (NSArray *) firstObjects:(NSUInteger)length {
+	NSUInteger count = [self count];
+	NSRange sliceRange = NSMakeRange(0, length);
+	if (NSMaxRange(sliceRange) > count) {
+		sliceRange.length = count;
+	}
+	NSArray *array = [self subarrayWithRange:sliceRange];
+	return array;
+}
+
+- (id) deepCopy {
+	NSMutableArray *copy = [NSMutableArray new];
+	for (id object in self) {
+		id member;
+		if ([object isKindOfClass:[NSArray class]]) {
+			member = [object copy];
+		}
+		else {
+			member = object;
+		}
+		[copy addObject:member];
+	}
+	return copy;
+}
+
 @end
 
 
@@ -227,6 +310,74 @@
 - (void)sortUsingKey:(NSString *)sortKey ascending:(BOOL)ascending {
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
     [self sortUsingDescriptors:@[descriptor]];
+}
+
+- (id) shift {
+	id firstObject = [self firstObject];
+	if (firstObject) {
+		[self removeObject:firstObject];
+	}
+	return firstObject;
+}
+
+- (id) pop {
+	id lastObject = [self lastObject];
+	if (lastObject) {
+		[self removeObject:lastObject];
+	}
+	return lastObject;
+}
+
+- (void) insert:(id)object {
+	[self insertObject:object atIndex:0];
+}
+
+- (void) safeAddObject:(id)obj {
+	if (obj) {
+		[self addObject:obj];
+	}
+}
+
+- (void) addObject:(id)object toObjectAtIndex:(NSUInteger)index {
+	[self addObject:object toObjectAtIndexPath:[NSIndexPath indexPathWithIndex:index]];
+}
+
+- (void) addObject:(id)object toObjectAtIndexPath:(NSIndexPath *)indexPath {
+	if ([indexPath length] < 1) {
+		return;
+	}
+	NSIndexPath *containerIndexPath = indexPath;//[indexPath indexPathByRemovingLastIndex];
+	id objectAtContainerIndexPath = [self objectAtIndexPath:containerIndexPath];
+	if ([objectAtContainerIndexPath respondsToSelector:@selector(addObject:)]) {
+		NSMutableArray *container = objectAtContainerIndexPath;
+		[container addObject:object];
+	}
+}
+
+- (void) insertObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
+	if ([indexPath length] < 1) {
+		return;
+	}
+	NSUInteger insertionIndex = [indexPath indexAtPosition:[indexPath length]-1];
+	NSIndexPath *containerIndexPath = [indexPath indexPathByRemovingLastIndex];
+	id objectAtContainerIndexPath = [self objectAtIndexPath:containerIndexPath];
+	if ([objectAtContainerIndexPath respondsToSelector:@selector(insertObject:atIndex:)]) {
+		NSMutableArray *container = objectAtContainerIndexPath;
+		[container insertObject:object atIndex:insertionIndex];
+	}
+}
+
+- (void) replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object {
+	if ([indexPath length] < 1) {
+		return;
+	}
+	NSUInteger lastIndex = [indexPath indexAtPosition:[indexPath length]-1];
+	NSIndexPath *containerIndexPath = [indexPath indexPathByRemovingLastIndex];
+	id objectAtContainerIndexPath = [self objectAtIndexPath:containerIndexPath];
+	if ([objectAtContainerIndexPath respondsToSelector:@selector(replaceObjectAtIndex:withObject:)]) {
+		NSMutableArray *container = objectAtContainerIndexPath;
+		[container replaceObjectAtIndex:lastIndex withObject:object];
+	}
 }
 
 @end

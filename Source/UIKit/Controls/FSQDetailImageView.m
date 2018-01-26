@@ -113,7 +113,7 @@
 		
 		UIFont *editFont = [UIFont boldSystemFontOfSize:12.0];
 		
-		CGSize labelSize = [editString sizeWithFont:editFont];
+		CGSize labelSize = [editString sizeWithAttributes:@{NSFontAttributeName : editFont}];
 		CGRect labelRect = CGRectMake(0, rect.size.height - labelSize.height, rect.size.width, labelSize.height);	
 		
 		UIColor *overlayColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.40];
@@ -121,10 +121,11 @@
 		CGContextFillRect(context, labelRect);
 
 		CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
-		[editString drawInRect:labelRect 
-					  withFont:editFont
-				 lineBreakMode:NSLineBreakByClipping
-					 alignment:NSTextAlignmentCenter];
+//		[editString drawInRect:labelRect 
+//					  withFont:editFont
+//				 lineBreakMode:UILineBreakModeClip
+//					 alignment:UITextAlignmentCenter];
+		[editString drawInRect:labelRect withAttributes:@{NSFontAttributeName:editFont}];
 		
 	}
 	

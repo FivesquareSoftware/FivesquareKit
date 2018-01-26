@@ -10,9 +10,13 @@
 
 
 #import "FSQMacros.h"
+#import "FSQLogging.h"
 
 
 #define StandardDefaults() [NSUserDefaults standardUserDefaults]
+
+#define kDebugDefaults DEBUG && 0
+#define DefLog(frmt, ...) FLogMarkIf(kDebugDefaults,@"DEFAULTS",frmt, ##__VA_ARGS__)
 
 
 @interface FSQUserDefaults ()
@@ -33,10 +37,13 @@
 }
 
 - (void) initialize {
+	DefLog(@"Initializing defaults..");
 	NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:_fileName ofType:@"plist"];
 	NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+	DefLog(@"Existing defaults: %@",[StandardDefaults() dictionaryRepresentation]);
 	if(defaults) {
 		[StandardDefaults() registerDefaults:defaults];
+		[StandardDefaults() synchronize];
 		_defaultKeysAndValues = defaults;
 	}
 	_changedKeys = [NSMutableSet new];
@@ -61,9 +68,19 @@
 
 
 - (void) resetDefaults {
+	DefLog(@"Resetting defaults!");
 	[NSUserDefaults resetStandardUserDefaults];
 	[StandardDefaults() removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
 	[self initialize];
+}
+
+- (BOOL) synchronize {
+	DefLog(@"synchronize()");
+	return [StandardDefaults() synchronize];
+}
+
+- (NSDictionary *) dictionaryRepresentation {
+	return [StandardDefaults() dictionaryRepresentation];
 }
 
 - (BOOL) valueWasSetForKey:(NSString *)key {
@@ -173,6 +190,36 @@
 	return unsignedInteger;
 }
 
+- (NSUInteger) incrementUnsignedIntegerForKey:(NSString *)defaultName {
+	NSUInteger value = [self unsignedIntegerForKey:defaultName];
+	value += 1;
+	[self setUnsignedInteger:value forKey:defaultName];
+	return value;
+}
+
+- (NSUInteger) decrementUnsignedIntegerForKey:(NSString *)defaultName {
+	NSUInteger value = [self unsignedIntegerForKey:defaultName];\
+	if (value > 0) {
+		value -= 1;
+	}
+	[self setUnsignedInteger:value forKey:defaultName];
+	return value;
+}
+
+- (NSInteger) incrementIntegerForKey:(NSString *)defaultName {
+	NSInteger value = [self integerForKey:defaultName];
+	value += 1;
+	[self setInteger:value forKey:defaultName];
+	return value;
+}
+
+- (NSInteger) decrementIntegerForKey:(NSString *)defaultName {
+	NSInteger value = [self integerForKey:defaultName];
+	value -= 1;
+	[self setInteger:value forKey:defaultName];
+	return value;
+}
+
 
 // ========================================================================== //
 
@@ -262,7 +309,7 @@
 
 
 - (id) valueForKeySynchronized:(NSString *)key {
-	[StandardDefaults() synchronize];
+//	[StandardDefaults() synchronize];
 	return [StandardDefaults() valueForKey:key];
 }
 
@@ -270,7 +317,7 @@
 	[self willChangeValueForKey:key];
 	[_changedKeys addObject:key];
 	[StandardDefaults() setValue:value forKey:key];
-	[StandardDefaults() synchronize];
+//	BOOL synchronized = [StandardDefaults() synchronize];
 	[self didChangeValueForKey:key];
 }
 

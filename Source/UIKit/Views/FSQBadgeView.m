@@ -113,7 +113,13 @@
 
 - (CGSize) intrinsicContentSize {
 //	FLog(@"_stringValue: %@",_stringValue);
-	CGSize labelFitSize = [_badgeLabel.text sizeWithFont:_badgeLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, _badgeLabel.bounds.size.height) lineBreakMode:_badgeLabel.lineBreakMode];
+	
+	CGRect labelRect = [_badgeLabel.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, _badgeLabel.bounds.size.height) options:0 attributes:@{NSFontAttributeName : _badgeLabel.font} context:[NSStringDrawingContext new]];
+	CGSize labelFitSize = labelRect.size;//[_badgeLabel.text sizeWithFont:_badgeLabel.font constrainedToSize: lineBreakMode:_badgeLabel.lineBreakMode];
+	
+	
+	
+	
 //	FLogDebug(@"labelFitSize: %@",NSStringFromCGSize(labelFitSize));
 //	if (labelFitSize.width > _intrinsicLabelWidth) {
 		_intrinsicLabelWidth = labelFitSize.width;
@@ -158,7 +164,7 @@
 	 ];
 	_badgeColor = nil;
 	_borderColor = [UIColor whiteColor];
-	_titleTextAttributes = @{ UITextAttributeFont : [UIFont boldSystemFontOfSize:12.f],  NSForegroundColorAttributeName : [UIColor whiteColor]/*, UITextAttributeTextShadowColor : [UIColor colorWithWhite:1. alpha:.35], UITextAttributeTextShadowOffset : [NSValue valueWithCGSize:CGSizeMake(1, 0)]*/  };
+	_titleTextAttributes = @{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12.f],  NSForegroundColorAttributeName : [UIColor whiteColor]/*, UITextAttributeTextShadowColor : [UIColor colorWithWhite:1. alpha:.35], UITextAttributeTextShadowOffset : [NSValue valueWithCGSize:CGSizeMake(1, 0)]*/  };
 	
 	//	self.layer.backgroundColor = [SpotAppAppearance controlTintColor].CGColor;
 	self.backgroundColor = [UIColor clearColor];
@@ -183,13 +189,19 @@
 	}
 	
 	badgeLabel.backgroundColor = [UIColor clearColor];
-	badgeLabel.font = _titleTextAttributes[UITextAttributeFont];
+	badgeLabel.font = _titleTextAttributes[NSFontAttributeName];
 	badgeLabel.textColor = _titleTextAttributes[NSForegroundColorAttributeName];
 //	NSShadow *shadow = _titleTextAttributes[NSShadowAttributeName];
 //	badgeLabel.shadowColor = shadow.shadowColor;
 //	badgeLabel.shadowOffset = shadow.shadowOffset;
-	badgeLabel.shadowColor = _titleTextAttributes[UITextAttributeTextShadowColor];
-	badgeLabel.shadowOffset = [_titleTextAttributes[UITextAttributeTextShadowOffset] CGSizeValue];
+
+	NSShadow *textShadow = _titleTextAttributes[NSShadowAttributeName];
+
+	badgeLabel.shadowColor = textShadow.shadowColor;
+	badgeLabel.shadowOffset = textShadow.shadowOffset;
+	
+	
+	
 	badgeLabel.adjustsFontSizeToFitWidth = NO;
 //	badgeLabel.adjustsLetterSpacingToFitWidth = NO;
 	badgeLabel.textAlignment = NSTextAlignmentCenter;

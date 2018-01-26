@@ -28,7 +28,6 @@
 	CGFloat circumscribingHeight = sqrt(2) * bounds.size.height;
 	CGFloat circumscribingRadius = circumscribingWidth > circumscribingHeight ? circumscribingWidth : circumscribingHeight;
 
-	CGFloat startRadius = 0;
 	CGFloat endRadius = circumscribingRadius;
 
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();

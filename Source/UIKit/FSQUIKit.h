@@ -37,6 +37,9 @@
 // Views
 
 #import "FSQGradientView.h"
+#import "FSQBadgeView.h"
+#import "FSQTransparentWebView.h"
+#import "FSQLabel.h"
 
 
 // Cells
@@ -46,22 +49,21 @@
 #import "FSQTextFieldCell.h"
 #import "FSQTextViewCell.h"
 #import "FSQLeftDetailCell.h"
+#import "FSQImageCollectionViewCell.h"
 
 // Controllers
 
 #import "FSQFetchedResultsTableViewController.h"
 #import "FSQFetchedResultsViewController.h"
-#import "FSQMenuPopover.h"
 #import "FSQMenuViewController.h"
 #import "FSQMenuViewController+Protected.h"
 #import "FSQFetchedResultsDataSource.h"
 #import "FSQFetchedResultsCollectionViewController.h"
-#import "FSQSearchDisplayController.h"
 
 
 // Controls
 
-#import "FSQAlertView.h"
+#import "FSQAlertController.h"
 #import "FSQModalImageView.h"
 #import "FSQDetailImageView.h"
 #import "FSQStretchableButton.h"
@@ -74,14 +76,11 @@
 #import "FSQThumbstripCell.h"
 #import "FSQThumbstripBaseDataSource.h"
 #import "FSQThumbstripBaseDataSource+Protected.h"
-#import "FSQLabel.h"
 #import "FSQCapsuleButton.h"
 #import "FSQProgressAlert.h"
 #import "FSQObjectButton.h"
 #import "FSQSegmentedControl.h"
-#import "FSQTransparentWebView.h"
 #import "FSQBadgedButton.h"
-#import "FSQBadgeView.h"
 
 
 // Transformers
@@ -97,11 +96,17 @@
 #import "UISearchBar+FSQUIKit.h"
 #import "UITableView+FSQUIKit.h"
 #import "UIViewController+FSQUIKit.h"
-#import "UIPopoverController+FSQUIKit.h"
+#import "UINavigationController+FSQUIKit.h"
 #import "UIColor+FSQUIKit.h"
 #import "UIView+FSQUIKit.h"
 #import "UIImageView+FSQUIKit.h"
 #import "UIDevice+FSQUIKit.h"
-#import "UILabel+FSQFoundation.h"
+#import "UILabel+FSQUIKit.h"
+#import "UITabBarController+FSQUIKit.h"
+#import "UIScreen+FSQUIKit.h"
+#import "UICollectionView+FSQUIKit.h"
+#import "UITableViewCell+FSQUIKit.h"
+#import "UICollectionViewCell+FSQUIKit.h"
+#import "UIImage+FSQUIKit.h"
 
 

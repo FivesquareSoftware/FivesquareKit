@@ -34,10 +34,16 @@
 
 - (id) objectMatchingPredicate:(NSPredicate *)predicate;
 - (id) objectPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate;
+- (NSArray *) objectsPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate;
 
-- (id) firstObject; ///< @returns the first object if there is one, or nil.
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 40000
+//- (id) firstObject; ///< @returns the first object if there is one, or nil.
+//#endif
+
 - (id) anyObject;
 - (NSArray *) anyArray:(NSUInteger)seed;
+
+- (id) meanObject;
 
 /** Accesses objects in multidimensional arrays by index path. */
 - (id) objectAtIndexPath:(NSIndexPath *)indexPath;
@@ -50,6 +56,13 @@
 - (NSArray *) flatten;
 - (NSArray *) flatten:(id(^)(id obj))enumerationBlock;
 
+- (NSArray *) objectsToIndex:(NSUInteger)index;
+- (NSIndexPath *) indexPathForObject:(id)object;
+- (NSArray *) firstObjects:(NSUInteger)length;
+
+/** Two levels only */
+- (id) deepCopy;
+
 @end
 
 @interface NSMutableArray (FSQFoundation)
@@ -61,6 +74,18 @@
 - (void) filterOnAttribute:(NSString *)attributeNamed isEqual:(id)aValue;
 
 - (void)sortUsingKey:(NSString *)sortKey ascending:(BOOL)ascending;
+
+- (id) shift;
+- (id) pop;
+- (void) insert:(id)object;
+
+- (void) safeAddObject:(id)obj;
+
+- (void) addObject:(id)object toObjectAtIndex:(NSUInteger)index;
+- (void) addObject:(id)object toObjectAtIndexPath:(NSIndexPath *)indexPath;
+- (void) insertObject:(id)object atIndexPath:(NSIndexPath *)indexPath;
+- (void) replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object;
+
 
 
 @end

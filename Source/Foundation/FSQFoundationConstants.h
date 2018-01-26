@@ -13,5 +13,7 @@ extern NSString *kFSQFoundationErrorDomain;
 extern NSString *kFSQMapperErrorInfoKeyFailingSourceKeyPath;
 extern NSString *kFSQMapperErrorInfoKeyFailingDestinationKeyPath;
 
+typedef void (^FSQImageCacheCompletionHandler)(id image, NSError *error);
+
 
 #define kFSQMapperErrorCodeMappingFailed -1
