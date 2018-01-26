@@ -133,7 +133,11 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 
 @dynamic isAuthorizedWhenInUse;
 - (BOOL) isAuthorizedWhenInUse {
+#if TARGET_OS_IPHONE
 	return self.authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse;
+#else
+	return NO;
+#endif
 }
 
 @dynamic locationManagerLocation;
