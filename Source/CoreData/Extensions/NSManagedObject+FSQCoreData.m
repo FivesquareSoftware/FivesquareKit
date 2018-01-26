@@ -64,7 +64,7 @@
 						inContext:(NSManagedObjectContext *)context {
 	NSParameterAssert(context);
 	if (nil == context) {
-		return nil;
+		return 0;
 	}
 
 	NSFetchRequest *fetchRequest = nil;
@@ -105,18 +105,18 @@
 
 #pragma mark -- First
 
-+ (id) firstWithFetchRequest:(NSString *)requestName 
++ (instancetype) firstWithFetchRequest:(NSString *)requestName
 				   inContext:(NSManagedObjectContext *)context {
 	return [self firstWithFetchRequestTemplate:requestName substitutionVariables:nil sortDescriptors:nil inContext:context];
 }
 
-+ (id) firstWithFetchRequestTemplate:(NSString *)templateName 
++ (instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
 			   substitutionVariables:(NSDictionary *)variables 
 						   inContext:(NSManagedObjectContext *)context {
 	return [self firstWithFetchRequestTemplate:templateName substitutionVariables:variables sortDescriptors:nil inContext:context];
 }
 
-+ (id) firstWithFetchRequestTemplate:(NSString *)templateName 
++ (instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
 			   substitutionVariables:(NSDictionary *)variables 
 					 sortDescriptors:(NSArray *)sortDescriptors 
 						   inContext:(NSManagedObjectContext *)context {
@@ -214,22 +214,22 @@
 #pragma mark -- First
 
 
-+ (id) firstInContext:(NSManagedObjectContext *)context {
++ (instancetype) firstInContext:(NSManagedObjectContext *)context {
 	return [self firstWithPredicate:nil inContext:context];	
 }
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 				inContext:(NSManagedObjectContext *)context {
 	return [self firstWithPredicate:predicate sortDescriptors:nil inContext:context];
 }
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
 				inContext:(NSManagedObjectContext *)context {
 	return [self firstWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
 }	
 
-+ (id) firstWithPredicate:(NSPredicate *)predicate
++ (instancetype) firstWithPredicate:(NSPredicate *)predicate
 		  sortDescriptors:(NSArray *)sortDescriptors
 		   requestOptions:(NSDictionary *)options
 				inContext:(NSManagedObjectContext *)context {
@@ -397,12 +397,12 @@
 
 
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)predicate 
++ (instancetype) findOrCreateWithPredicate:(NSPredicate *)predicate
 					   inContext:(NSManagedObjectContext *)context {
 	return [self findOrCreateWithPredicate:predicate attributes:nil inContext:context];
 }
 
-+ (id) findOrCreateWithPredicate:(NSPredicate *)predicate
++ (instancetype) findOrCreateWithPredicate:(NSPredicate *)predicate
 					  attributes:(NSDictionary *)someAttributes
 					   inContext:(NSManagedObjectContext *)context {
 	__block id found = [self firstWithPredicate:predicate inContext:context];
@@ -415,13 +415,13 @@
 	return found;
 }
 
-+ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
++ (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
 					  substitutionVariables:(NSDictionary *)variables
 								  inContext:(NSManagedObjectContext *)context {
 	return [self findOrCreateWithFetchRequestTemplate:templateName substitutionVariables:variables attributes:nil inContext:context];
 }
 
-+ (id) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
++ (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
 			  substitutionVariables:(NSDictionary *)variables
 					  attributes:(id)someAttributes
 					   inContext:(NSManagedObjectContext *)context {
@@ -435,11 +435,11 @@
 	return found;
 }
 
-+ (id) createInContext:(NSManagedObjectContext *)context {
++ (instancetype) createInContext:(NSManagedObjectContext *)context {
 	return [self createWithAttributes:nil inContext:context];
 }
 
-+ (id) createWithAttributes:(NSDictionary *)someAttributes
++ (instancetype) createWithAttributes:(NSDictionary *)someAttributes
 				  inContext:(NSManagedObjectContext *)context {
 	
 	__block id created;

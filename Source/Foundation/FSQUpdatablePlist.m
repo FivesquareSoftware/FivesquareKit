@@ -10,10 +10,10 @@
 
 #import "FSQLogging.h"
 #import "NSError+FSQFoundation.h"
+#import "FSQAsserter.h"
 
 @interface FSQUpdatablePlist ()
 @property (nonatomic, strong, readonly) NSURL *cacheFileURL;
-@property (nonatomic, strong) id plist;
 
 @end
 
@@ -24,8 +24,12 @@
 	if (self) {
 		_name = name;
 		_cacheDirectoryURL = cacheDirectoryURL;
-		_cacheFileURL = [[_cacheDirectoryURL URLByAppendingPathComponent:_name] URLByAppendingPathExtension:@"plist"];
 		_downloadHandler = downloadHandler;
+		_cacheFileURL = [[_cacheDirectoryURL URLByAppendingPathComponent:_name] URLByAppendingPathExtension:@"plist"];
+		FSQAssert(_cacheFileURL, @"Failed to create cacheFileURL! %@ %@",_cacheDirectoryURL,_name);
+		if (nil == _cacheFileURL) {
+			self = nil;
+		}
 	}
 	return self;
 }
@@ -34,9 +38,10 @@
 	return [NSString stringWithFormat:@"%@ { name : %@, cacheFile : %@ }",[super description],_name,_cacheFileURL];
 }
 
-- (id) loadDefaultPlistWithUpdateHandler:(FSQUpdatablePlistCompletionHandler)updateHandler {
+- (id) loadPlist {
+
 	// If cached version exists, return it
-	// If not, return default from bundle
+	// If not, return default from bundle after copying to cache
 	// Kick off a request to load remote version and fire update handler when done, caching result
 
 	id plist = nil;
@@ -63,6 +68,9 @@
 					if (readError) {
 						FLogError(readError, @"Failed to read plist from bundle: %@",bundlePath);
 					}
+					else {
+						[plistData writeToURL:_cacheFileURL atomically:YES];
+					}
 				}
 			}
 			else {
@@ -73,14 +81,22 @@
 	@catch (NSException *exception) {
 		FLogError([NSError errorWithException:exception], @"Exception reading plist from bundle or cache");
 	}
+	return plist;
+}
 
+- (id) loadPlistAndUpdateWithHandler:(FSQUpdatablePlistCompletionHandler)updateHandler {
+	id plist = [self loadPlist];
+	[self updatePlistWithUpdateHandler:updateHandler];
+	return plist;
+}
+
+- (void) updatePlistWithUpdateHandler:(FSQUpdatablePlistCompletionHandler)updateHandler {
 	if (_downloadHandler) {
 		_downloadHandler(^(id updatedPlist, NSError *error){
-			_plist = updatedPlist;
 			if (updatedPlist) {
 				// write to cache
 				NSError *writeError = nil;
-				NSData *remotePlistData = [NSPropertyListSerialization dataWithPropertyList:plist format:NSPropertyListXMLFormat_v1_0 options:0 error:&writeError];
+				NSData *remotePlistData = [NSPropertyListSerialization dataWithPropertyList:updatedPlist format:NSPropertyListXMLFormat_v1_0 options:0 error:&writeError];
 				if (remotePlistData) {
 					[remotePlistData writeToURL:_cacheFileURL atomically:YES];
 				}
@@ -100,8 +116,6 @@
 			}
 		});
 	}
-
-	return plist;
 }
 
 @end

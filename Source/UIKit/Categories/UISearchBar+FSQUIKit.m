@@ -51,7 +51,7 @@
 	UIView *backgroundView = nil;
 	for (id subview in subviews) {
 		NSString *subviewClassName = NSStringFromClass([subview class]);
-		if ([subviewClassName isEqualToString:@"UISearchBarBackground"]) {
+		if ([subviewClassName isEqualToString:backgroundViewClassName]) {
 			backgroundView = (UIView *)subview;
 			break;
 		}

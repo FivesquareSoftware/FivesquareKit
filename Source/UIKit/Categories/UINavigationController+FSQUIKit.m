@@ -32,7 +32,7 @@
 - (UIViewController *) popViewControllerAnimated:(BOOL)animated completion:(void(^)())completion {
 	[CATransaction begin];
 	[CATransaction setCompletionBlock:completion];
-	id result =[self popViewControllerAnimated:YES];
+	id result =[self popViewControllerAnimated:animated];
 	[CATransaction commit];
 	return result;
 }

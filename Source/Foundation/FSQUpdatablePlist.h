@@ -21,6 +21,9 @@ typedef void (^FSQUpdatablePlistDownloadHandler)(FSQUpdatablePlistCompletionHand
 @property (nonatomic, copy) FSQUpdatablePlistDownloadHandler downloadHandler;
 
 - (instancetype)initWithName:(NSString *)name cacheDirectoryURL:(NSURL *)cacheDirectoryURL downloadHandler:(FSQUpdatablePlistDownloadHandler)downloadHandler;
-- (id) loadDefaultPlistWithUpdateHandler:(FSQUpdatablePlistCompletionHandler)updateHandler;
+
+- (id) loadPlist;
+- (id) loadPlistAndUpdateWithHandler:(FSQUpdatablePlistCompletionHandler)updateHandler;
+- (void) updatePlistWithUpdateHandler:(FSQUpdatablePlistCompletionHandler)updateHandler;
 
 @end

@@ -122,7 +122,6 @@
 #pragma mark - Helpers
 
 - (void) generateStretchableImages {
-	NSUInteger stride = 0;
 	for (NSUInteger state = UIControlStateNormal; state <= UIControlStateSelected; state = 1 << state ) {
 		[self setBackgroundImage:[self backgroundImageForState:state] forState:state];
 	}
