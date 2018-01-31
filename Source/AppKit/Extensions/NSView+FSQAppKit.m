@@ -25,6 +25,10 @@
 	}
 	
 	CGColorRef CGColor = self.layer.backgroundColor;
+
+	if (NULL == CGColor) {
+		return nil;
+	}
 	
 	const CGFloat *components = CGColorGetComponents(CGColor);
 	CGColorSpaceRef CGColorSpace = CGColorGetColorSpace(CGColor);
