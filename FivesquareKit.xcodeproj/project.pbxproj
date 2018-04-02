@@ -848,6 +848,8 @@
 		A4BD54D81582A0F800AC0BEE /* FSQAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAppKit.h; sourceTree = "<group>"; };
 		A4BEA9B0155C389200509D20 /* UIDevice+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4BEA9B1155C389200509D20 /* UIDevice+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+FSQUIKit.m"; sourceTree = "<group>"; };
+		A4BFC8D02072CAA100583FEB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A4BFC8D22072CAB600583FEB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A4C094421303AC4800CE8BB3 /* FSQAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQAlertController.h; sourceTree = "<group>"; };
 		A4C094431303AC4800CE8BB3 /* FSQAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQAlertController.m; sourceTree = "<group>"; };
 		A4C094531303AD4700CE8BB3 /* UIViewController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FSQUIKit.h"; sourceTree = "<group>"; };
@@ -969,6 +971,8 @@
 		0867D691FE84028FC02AAC07 /* FivesquareKit */ = {
 			isa = PBXGroup;
 			children = (
+				A4BFC8D22072CAB600583FEB /* LICENSE */,
+				A4BFC8D02072CAA100583FEB /* README.md */,
 				08FB77AEFE84172EC02AAC07 /* Source */,
 				A42A2F1E1525285D0032AB39 /* Resources */,
 				A4713EAD13509E3A00FA1402 /* Supporting Files */,
