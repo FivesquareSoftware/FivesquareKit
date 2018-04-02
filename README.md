@@ -2,7 +2,7 @@
 
 ## About
 
-FivesquareKit is a general purpose framework for building software on macOS and iOS that supplements or extends the frameworks supplied by the system, hence the historically conventional suffic"Kit" in the name. The source is organized by the system framework that it extends or augments, and/or by the level in the system that it is intended to be used (e.g. "Core" is code that is generally usable everywhere).
+FivesquareKit is a general purpose framework for building software on macOS and iOS that supplements or extends the frameworks supplied by the system, hence the historically conventional suffix "Kit" in the name. The source is organized by the system framework that it extends or augments, and/or by the level in the system that it is intended to be used (e.g. "Core" is code that is generally usable everywhere).
 
 The framework can be built for macOS or iOS and will include only the code that is applicable for that platform.
 
