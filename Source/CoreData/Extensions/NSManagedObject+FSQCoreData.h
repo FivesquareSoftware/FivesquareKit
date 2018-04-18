@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface NSManagedObject (FSQCoreData)
 
@@ -24,14 +25,14 @@
  *  @{
  */
 
-+ (NSUInteger) countInContext:(NSManagedObjectContext *)aContext;
++ (NSUInteger) countInContext:(NSManagedObjectContext *)aContext NS_SWIFT_UNAVAILABLE("Use count(withPredicate:requestOptions:inContext:)");
 
-+ (NSUInteger) countWithPredicate:(NSPredicate *)aPredicate
-						inContext:(NSManagedObjectContext *)aContext;
++ (NSUInteger) countWithPredicate:(nullable NSPredicate *)aPredicate
+						inContext:(NSManagedObjectContext *)aContext NS_SWIFT_UNAVAILABLE("Use count(withPredicate:requestOptions:inContext:)");
 
-+ (NSUInteger) countWithPredicate:(NSPredicate *)aPredicate
-				   requestOptions:(NSDictionary *)someOptions
-						inContext:(NSManagedObjectContext *)aContext;
++ (NSUInteger) countWithPredicate:(nullable NSPredicate *)aPredicate
+				   requestOptions:(nullable NSDictionary *)someOptions
+						inContext:(NSManagedObjectContext *)aContext NS_SWIFT_NAME(count(withPredicate:requestOptions:inContext:));
 
 /** @} */
 
@@ -40,29 +41,29 @@
  *  @{
  */
 
-+ (instancetype) firstWithFetchRequest:(NSString *)requestName
-				   inContext:(NSManagedObjectContext *)context;
++ (nullable instancetype) firstWithFetchRequest:(NSString *)requestName
+				   inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use first(withFetchRequestTemplate:substitutionVariables:sortDescriptors:inContext:)");
 
-+ (instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
-			   substitutionVariables:(NSDictionary *)variables
-						   inContext:(NSManagedObjectContext *)context;
++ (nullable instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
+			   substitutionVariables:(nullable NSDictionary *)variables
+						   inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use first(withFetchRequestTemplate:substitutionVariables:sortDescriptors:inContext:)");
 
-+ (instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
-			   substitutionVariables:(NSDictionary *)variables
-					 sortDescriptors:(NSArray *)sortDescriptors
-						   inContext:(NSManagedObjectContext *)context;
++ (nullable instancetype) firstWithFetchRequestTemplate:(NSString *)templateName
+			   substitutionVariables:(nullable NSDictionary *)variables
+					 sortDescriptors:(nullable NSArray *)sortDescriptors
+						   inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(first(withFetchRequestTemplate:substitutionVariables:sortDescriptors:inContext:));
 
-+ (id) allWithFetchRequest:(NSString *)requestName
-				 inContext:(NSManagedObjectContext *)context;
-
-+ (id) allWithFetchRequestTemplate:(NSString *)templateName
-			 substitutionVariables:(NSDictionary *)variables
-						 inContext:(NSManagedObjectContext *)context;
++ (id) allWithFetchRequest:(nullable NSString *)requestName
+				 inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use all(withFetchRequestTemplate:substitutionVariables:sortDescriptors:inContext:)");
 
 + (id) allWithFetchRequestTemplate:(NSString *)templateName
-			 substitutionVariables:(NSDictionary *)variables
-				   sortDescriptors:(NSArray *)sortDescriptors
-						 inContext:(NSManagedObjectContext *)context;
+			 substitutionVariables:(nullable NSDictionary *)variables
+						 inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use all(withFetchRequestTemplate:substitutionVariables:sortDescriptors:inContext:)");
+
++ (id) allWithFetchRequestTemplate:(NSString *)templateName
+			 substitutionVariables:(nullable NSDictionary *)variables
+				   sortDescriptors:(nullable NSArray *)sortDescriptors
+						 inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(all(withFetchRequestTemplate:substitutionVariables:sortDescriptors:inContext:));
 
 /** @} */
 
@@ -70,45 +71,45 @@
  *  @{
  */
 
-+ (instancetype) firstInContext:(NSManagedObjectContext *)context;
++ (nullable instancetype) firstInContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use first(withPredicate:sortDescriptors:requestOptions:inContext:)");
 
-+ (instancetype) firstWithPredicate:(NSPredicate *)predicate
-				inContext:(NSManagedObjectContext *)context;
++ (nullable instancetype) firstWithPredicate:(nullable NSPredicate *)predicate
+				inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use first(withPredicate:sortDescriptors:requestOptions:inContext:)");
 
-+ (instancetype) firstWithPredicate:(NSPredicate *)predicate
-		  sortDescriptors:(NSArray *)sortDescriptors
-				inContext:(NSManagedObjectContext *)context;
++ (nullable instancetype) firstWithPredicate:(nullable NSPredicate *)predicate
+		  sortDescriptors:(nullable NSArray *)sortDescriptors
+								   inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use first(withPredicate:sortDescriptors:requestOptions:inContext:)");
 
-+ (instancetype) firstWithPredicate:(NSPredicate *)predicate
-		  sortDescriptors:(NSArray *)sortDescriptors
-		   requestOptions:(NSDictionary *)options
-				inContext:(NSManagedObjectContext *)context;
-
-
-+ (id) allInContext:(NSManagedObjectContext *)context;
-+ (id) allValuesForProperties:(NSArray *)propertiesToFetch inContext:(NSManagedObjectContext *)context;
++ (nullable instancetype) firstWithPredicate:(nullable NSPredicate *)predicate
+		  sortDescriptors:(nullable NSArray *)sortDescriptors
+		   requestOptions:(nullable NSDictionary *)options
+				inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(first(withPredicate:sortDescriptors:requestOptions:inContext:));
 
 
-+ (id) allWithPredicate:(NSPredicate *)predicate
-			  inContext:(NSManagedObjectContext *)context;
-+ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
-			  inContext:(NSManagedObjectContext *)context;
++ (id) allInContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use all(withPredicate:sortDescriptors:requestOptions:inContext:)");
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use allValues(forProperties:withPredicate:sortDescriptors:requestOptions:inContext:)");
 
-+ (id) allWithPredicate:(NSPredicate *)predicate
-		sortDescriptors:(NSArray *)sortDescriptors
-			  inContext:(NSManagedObjectContext *)context;
-+ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
-		sortDescriptors:(NSArray *)sortDescriptors
-			  inContext:(NSManagedObjectContext *)context;
 
-+ (id) allWithPredicate:(NSPredicate *)predicate
-		sortDescriptors:(NSArray *)sortDescriptors
-				requestOptions:(NSDictionary *)options
-			  inContext:(NSManagedObjectContext *)context;
-+ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(NSPredicate *)predicate
-		sortDescriptors:(NSArray *)sortDescriptors
-		 requestOptions:(NSDictionary *)options
-			  inContext:(NSManagedObjectContext *)context;
++ (id) allWithPredicate:(nullable NSPredicate *)predicate
+			  inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use all(withPredicate:sortDescriptors:requestOptions:inContext:)");
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(nullable NSPredicate *)predicate
+			  inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use allValues(forProperties:withPredicate:sortDescriptors:requestOptions:inContext:)");
+
++ (id) allWithPredicate:(nullable NSPredicate *)predicate
+		sortDescriptors:(nullable NSArray *)sortDescriptors
+			  inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use all(withPredicate:sortDescriptors:requestOptions:inContext:)");
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(nullable NSPredicate *)predicate
+		sortDescriptors:(nullable NSArray *)sortDescriptors
+			  inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use allValues(forProperties:withPredicate:sortDescriptors:requestOptions:inContext:)");
+
++ (id) allWithPredicate:(nullable NSPredicate *)predicate
+		sortDescriptors:(nullable NSArray *)sortDescriptors
+				requestOptions:(nullable NSDictionary *)options
+			  inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(all(withPredicate:sortDescriptors:requestOptions:inContext:));
++ (id) allValuesForProperties:(NSArray *)propertiesToFetch withPredicate:(nullable NSPredicate *)predicate
+		sortDescriptors:(nullable NSArray *)sortDescriptors
+		 requestOptions:(nullable NSDictionary *)options
+					inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(allValues(forProperties:withPredicate:sortDescriptors:requestOptions:inContext:));
 
 /** @} */
 
@@ -117,26 +118,26 @@
  *  @{
  */
 
-+ (instancetype) findOrCreateWithPredicate:(NSPredicate *)predicate
-					   inContext:(NSManagedObjectContext *)context;
++ (instancetype) findOrCreateWithPredicate:(nullable NSPredicate *)predicate
+					   inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use findOrCreate(withPredicate:attributes:inContext:)");
 
-+ (instancetype) findOrCreateWithPredicate:(NSPredicate *)predicate
-				  attributes:(NSDictionary *)someAttributes
-					   inContext:(NSManagedObjectContext *)context;
-
-+ (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
-					  substitutionVariables:(NSDictionary *)variables
-								  inContext:(NSManagedObjectContext *)context;
++ (instancetype) findOrCreateWithPredicate:(nullable NSPredicate *)predicate
+				  attributes:(nullable NSDictionary *)someAttributes
+					   inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(findOrCreate(withPredicate:attributes:inContext:));
 
 + (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
-					  substitutionVariables:(NSDictionary *)variables
-								 attributes:(id)someAttributes
-								  inContext:(NSManagedObjectContext *)context;
+					  substitutionVariables:(nullable NSDictionary *)variables
+								  inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use findOrCreate(withFetchRequestTemplate:substitutionVariables:attributes:inContext:)");
 
-+ (instancetype) createInContext:(NSManagedObjectContext *)context;
++ (instancetype) findOrCreateWithFetchRequestTemplate:(NSString *)templateName
+					  substitutionVariables:(nullable NSDictionary *)variables
+								 attributes:(nullable id)someAttributes
+								  inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(findOrCreate(withFetchRequestTemplate:substitutionVariables:attributes:inContext:));
 
-+ (instancetype) createWithAttributes:(NSDictionary *)someAttributes
-				  inContext:(NSManagedObjectContext *)context;
++ (instancetype) createInContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use create(withAttributes:inContext:)");
+
++ (instancetype) createWithAttributes:(nullable NSDictionary *)someAttributes
+				  inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(create(withAttributes:inContext:));
 
 /** @} */
 
@@ -144,9 +145,9 @@
  *  @{
  */
 
-+ (BOOL) deleteAllInContext:(NSManagedObjectContext *)context;
++ (BOOL) deleteAllInContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("Use deleteAll(withPredicate:inContext:)");
 
-+ (BOOL) deleteAllWithPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
++ (BOOL) deleteAllWithPredicate:(nullable NSPredicate *)predicate inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(deleteAll(withPredicate:inContext:));
 
 /** @} */
 
@@ -172,17 +173,19 @@
  *  @{
  */
 
-+ (NSFetchRequest *) fetchRequestInContext:(NSManagedObjectContext *)context;
++ (NSFetchRequest *) fetchRequestInContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("fetchRequest(named:substitutionVariables:options:inContext:)");
 
-+ (NSFetchRequest *) fetchRequestNamed:(NSString *)requestName 
-							 inContext:(NSManagedObjectContext *)context;
++ (NSFetchRequest *) fetchRequestNamed:(nullable NSString *)requestName
+							 inContext:(NSManagedObjectContext *)context NS_SWIFT_UNAVAILABLE("fetchRequest(named:substitutionVariables:options:inContext:)");
 
-+ (NSFetchRequest *) fetchRequestNamed:(NSString *)requestName 
-				 substitutionVariables:(NSDictionary *)variables 
-							   options:(NSDictionary *)requestOptions
-							 inContext:(NSManagedObjectContext *)context;
++ (NSFetchRequest *) fetchRequestNamed:(nullable NSString *)requestName
+				 substitutionVariables:(nullable NSDictionary *)variables
+							   options:(nullable NSDictionary *)requestOptions
+							 inContext:(NSManagedObjectContext *)context NS_SWIFT_NAME(fetchRequest(named:substitutionVariables:options:inContext:));
 
 /** @} */
 
 
 @end
+
+NS_ASSUME_NONNULL_END

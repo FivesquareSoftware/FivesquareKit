@@ -24,7 +24,7 @@
 
 //NSTextAlignmentCenter
 
-
+#import "FSQUIKitConstants.h"
 
 // App
 
@@ -59,6 +59,7 @@
 #import "FSQMenuViewController+Protected.h"
 #import "FSQFetchedResultsDataSource.h"
 #import "FSQFetchedResultsCollectionViewController.h"
+#import "FSQFetchedResultsMapViewController.h"
 
 
 // Controls
@@ -81,6 +82,9 @@
 #import "FSQObjectButton.h"
 #import "FSQSegmentedControl.h"
 #import "FSQBadgedButton.h"
+#import "FSQProgressView.h"
+#import "FSQRatingIndicatorView.h"
+#import "FSQProgressPanel.h"
 
 
 // Transformers

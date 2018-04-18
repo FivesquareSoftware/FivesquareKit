@@ -288,7 +288,7 @@
 	return [self allValuesForProperties:propertiesToFetch withPredicate:nil sortDescriptors:nil requestOptions:nil inContext:context];
 }
 
-+ (id) allWithPredicate:(NSPredicate *)predicate 
++ (id) allWithPredicate:(NSPredicate *)predicate
 			  inContext:(NSManagedObjectContext *)context {
 	return [self allWithPredicate:predicate sortDescriptors:nil inContext:context];
 }
@@ -298,7 +298,7 @@
 	return [self allValuesForProperties:propertiesToFetch withPredicate:predicate sortDescriptors:nil requestOptions:nil inContext:context];
 }
 
-+ (id) allWithPredicate:(NSPredicate *)predicate 
++ (id) allWithPredicate:(NSPredicate *)predicate
 		sortDescriptors:(NSArray *)sortDescriptors
 			  inContext:(NSManagedObjectContext *)context {
 	return [self allWithPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
@@ -310,7 +310,7 @@
 	return [self allValuesForProperties:propertiesToFetch withPredicate:predicate sortDescriptors:sortDescriptors requestOptions:nil inContext:context];
 }
 
-+ (id) allWithPredicate:(NSPredicate *)predicate 
++ (id) allWithPredicate:(NSPredicate *)predicate
 		sortDescriptors:(NSArray *)sortDescriptors
 		 requestOptions:(NSDictionary *)options
 						inContext:(NSManagedObjectContext *)context {
