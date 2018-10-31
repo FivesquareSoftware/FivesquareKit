@@ -146,12 +146,14 @@ class MomDRule
 	end
 	
 	def current_version_name
-		if @current_version_name == nil
+		if @current_version_name == nil && File.exist?(current_version_file)
 			cmd = "#{self.options.plist_buddy} -c 'print _XCCurrentVersionName' '#{current_version_file}'"
 			# log "#{cmd}"
 			output = `#{cmd}`
 			error "Couldn't get current model version: #{output}" unless $? == 0
 			@current_version_name = output.chomp
+		else
+			@current_version_name = "#{input_file_base}.xcdatamodel"
 		end
 		log "@current_version_name: #{@current_version_name}"
 		@current_version_name
