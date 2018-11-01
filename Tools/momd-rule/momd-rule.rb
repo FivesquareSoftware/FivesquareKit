@@ -54,6 +54,8 @@ class MomDRule
 		self.options.includeh = File.join(self.options.human_dir,"#{input_file_base}Model.h")
 		self.options.momc = "#{ENV['SYSTEM_DEVELOPER_BIN_DIR']}/momc"
 		self.options.verbose = false
+		self.options.swift = false
+		self.options.template_vars = {}
 		
 
 		opts = OptionParser.new do |opts|
@@ -89,11 +91,19 @@ class MomDRule
 				self.options.use_arc = true
 			end
 			opts.on("-c", "--momc MOMC", "The path to momc. Defaults to #{self.options.momc}.") do |opt|
-				self.options.plist_buddy = opt
+				self.options.momc = opt
 			end
 			opts.on("-v", "--verbose", "Generate verbose output. Defaults to false.") do |opt|
 				self.options.verbose = true
 			end
+			opts.on("-s", "--swift", "Generate swift templates. Defaults to false.") do |opt|
+				self.options.swift = true
+			end
+			opts.on("-q", "--template-var KEY=VALUE", "Pass a key value pair to the template engine.") do |opt|
+				key,value = opt.split("=")
+				self.options.template_vars[key] = value
+			end
+
 		end
 		opts.parse!
 	end
@@ -103,7 +113,11 @@ class MomDRule
 		log "Generating source files from model version: #{current_version_name}"
 		base_class_opt = self.options.base_class ? "--base-class #{self.options.base_class}" : ""
 		arc_template_opt = self.options.use_arc ? "--template-var arc=true" : ""
-		cmd = %Q{"#{self.options.mogenerator}" --model "#{current_model_path}" --template-path "#{self.options.template_path}" --machine-dir "#{self.options.machine_dir}" --human-dir "#{self.options.human_dir}" #{base_class_opt} --base-class-import "#{self.options.base_class_import}" #{arc_template_opt}}
+		swift_template_opt = self.options.swift ? "--swift" : ""
+		template_vars_opts = self.options.template_vars.reduce("") { |str,h|
+			"--template-var #{h.to_a.join("=")} "
+		}
+		cmd = %Q{"#{self.options.mogenerator}" --model "#{current_model_path}" --template-path "#{self.options.template_path}" --machine-dir "#{self.options.machine_dir}" --human-dir "#{self.options.human_dir}" #{base_class_opt} --base-class-import "#{self.options.base_class_import}" #{arc_template_opt} #{swift_template_opt} #{template_vars_opts}}
 		log cmd
 		output = `#{cmd}`
 		error "Couldn't generate source files: #{output}" unless $? == 0

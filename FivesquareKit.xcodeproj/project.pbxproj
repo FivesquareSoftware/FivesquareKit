@@ -416,6 +416,14 @@
 		A429E1D715C983F8006572D5 /* FSQLeftDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQLeftDetailCell.m; sourceTree = "<group>"; };
 		A42A2F0A1525271E0032AB39 /* FivesquareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FivesquareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42A2F201525285D0032AB39 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A42D50D9218B809F00C49B02 /* MyBaseClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBaseClass.h; sourceTree = "<group>"; };
+		A42D50DA218B809F00C49B02 /* machine.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.h.motemplate; sourceTree = "<group>"; };
+		A42D50DB218B809F00C49B02 /* machine.swift.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.swift.motemplate; sourceTree = "<group>"; };
+		A42D50DC218B809F00C49B02 /* MyBaseClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyBaseClass.m; sourceTree = "<group>"; };
+		A42D50DD218B809F00C49B02 /* machine.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
+		A42D50DE218B809F00C49B02 /* human.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
+		A42D50DF218B809F00C49B02 /* human.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
+		A42D50E0218B809F00C49B02 /* human.swift.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.swift.motemplate; sourceTree = "<group>"; };
 		A43199C414DF09C00057063F /* FSQOpenStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSQOpenStruct.h; sourceTree = "<group>"; };
 		A43199C514DF09C00057063F /* FSQOpenStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQOpenStruct.m; sourceTree = "<group>"; };
 		A4319A5514DF0F370057063F /* NSDictionary+FSQFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+FSQFoundation.h"; sourceTree = "<group>"; };
@@ -623,10 +631,6 @@
 		A4D460D315D022A700F59A95 /* FSQCapsuleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSQCapsuleButton.m; sourceTree = "<group>"; };
 		A4D4B318152FBA7400B3A66E /* mogenerator */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mogenerator; sourceTree = "<group>"; };
 		A4D4B319152FBA7400B3A66E /* momd-rule.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = "momd-rule.rb"; sourceTree = "<group>"; };
-		A4D4B31B152FBA7400B3A66E /* human.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
-		A4D4B31C152FBA7400B3A66E /* human.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
-		A4D4B31D152FBA7400B3A66E /* machine.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.h.motemplate; sourceTree = "<group>"; };
-		A4D4B31E152FBA7400B3A66E /* machine.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
 		A4D6D04017EA51C4002F9865 /* UITabBarController+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+FSQUIKit.h"; sourceTree = "<group>"; };
 		A4D6D04117EA51C4002F9865 /* UITabBarController+FSQUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+FSQUIKit.m"; sourceTree = "<group>"; };
 		A4DB73141986F78D00B7F49B /* UITableViewCell+FSQUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+FSQUIKit.h"; sourceTree = "<group>"; };
@@ -1278,10 +1282,14 @@
 		A4D4B31A152FBA7400B3A66E /* templates */ = {
 			isa = PBXGroup;
 			children = (
-				A4D4B31B152FBA7400B3A66E /* human.h.motemplate */,
-				A4D4B31C152FBA7400B3A66E /* human.m.motemplate */,
-				A4D4B31D152FBA7400B3A66E /* machine.h.motemplate */,
-				A4D4B31E152FBA7400B3A66E /* machine.m.motemplate */,
+				A42D50DF218B809F00C49B02 /* human.h.motemplate */,
+				A42D50DE218B809F00C49B02 /* human.m.motemplate */,
+				A42D50E0218B809F00C49B02 /* human.swift.motemplate */,
+				A42D50DA218B809F00C49B02 /* machine.h.motemplate */,
+				A42D50DD218B809F00C49B02 /* machine.m.motemplate */,
+				A42D50DB218B809F00C49B02 /* machine.swift.motemplate */,
+				A42D50D9218B809F00C49B02 /* MyBaseClass.h */,
+				A42D50DC218B809F00C49B02 /* MyBaseClass.m */,
 			);
 			path = templates;
 			sourceTree = "<group>";

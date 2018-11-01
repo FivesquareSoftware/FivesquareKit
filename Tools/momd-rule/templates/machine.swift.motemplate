@@ -1,161 +1,178 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to <$managedObjectClassName$>.swift instead.
+// Make changes to <$sanitizedManagedObjectClassName$>.swift instead.
 
+import Foundation
 import CoreData
+<$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
+
+<$if hasAdditionalImports$>
+<$foreach Import additionalImports do$>
+import <$Import$>
+<$endforeach do$>
+<$endif$>
 
 <$if noninheritedAttributes.@count > 0$>
-enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
+public enum <$sanitizedManagedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
     case <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if noninheritedRelationships.@count > 0$>
-enum <$managedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
+public enum <$sanitizedManagedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
     case <$Relationship.name$> = "<$Relationship.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if noninheritedFetchedProperties.@count > 0$>
-enum <$managedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+public enum <$sanitizedManagedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
     case <$FetchedProperty.name$> = "<$FetchedProperty.name$>"<$endforeach do$>
 }
 <$endif$>
 
-<$if hasUserInfoKeys$>
-enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
+<$if hasUserInfoKeys && userInfoKeyValues.@count > 0$>
+public enum <$sanitizedManagedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
     case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
 }
 <$endif$>
 
-@objc
-class _<$managedObjectClassName$>: <$customSuperentity$> {
 
-    /// pragma mark - Class methods
-    
-    <$if hasCustomSuperentity$>override <$endif$>class func entityName () -> String {
+<$if hasCustomSuperentity $>
+open class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
+<$else$>
+open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
+<$endif$>
+    // MARK: - Class methods
+
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>open class func entityName () -> String {
         return "<$name$>"
     }
 
-    <$if hasCustomSuperentity$>override <$endif$>class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
-        return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>open class func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
+        return NSEntityDescription.entity(forEntityName: self.entityName(), in: managedObjectContext)
     }
 
-    /// pragma mark - Life cycle methods
-
-    init(entity: NSEntityDescription!, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    @nonobjc
+    open class func fetchRequest() -> NSFetchRequest<<$sanitizedManagedObjectClassName$>> {
+        return NSFetchRequest(entityName: self.entityName())
     }
 
-    convenience init(managedObjectContext: NSManagedObjectContext!) {
-        let entity = _<$managedObjectClassName$>.entity(managedObjectContext)
-        self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
+    // MARK: - Life cycle methods
+
+    public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
 
-    /// pragma mark - Properties
+    public convenience init?(managedObjectContext: NSManagedObjectContext) {
+        guard let entity = _<$sanitizedManagedObjectClassName$>.entity(managedObjectContext: managedObjectContext) else { return nil }
+        self.init(entity: entity, insertInto: managedObjectContext)
+    }
+
+    // MARK: - Properties
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-    @NSManaged
-    let <$Attribute.name$>: <$Attribute.scalarAttributeType$>
+    open var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$else$>!<$endif$><$endif$>
+    {
+        self.willAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
+        self.didAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        return <$Attribute.name$>
+    }
 <$else$>
-    @NSManaged
-    var <$Attribute.name$>: <$Attribute.scalarAttributeType$>
+    @NSManaged open
+    var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$else$>!<$endif$><$endif$>
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-    @NSManaged
-    let <$Attribute.name$>: <$Attribute.objectAttributeType$>
+    open var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$else$>!<$endif$>
+    {
+        self.willAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
+        self.didAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        return <$Attribute.name$>
+    }
 <$else$>
-    @NSManaged
-    var <$Attribute.name$>: <$Attribute.objectAttributeType$>
+    @NSManaged open
+    var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$else$>!<$endif$>
 <$endif$>
 <$endif$>
-    // func validate<$Attribute.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
 <$endif$>
 <$endforeach do$>
 
-    /// pragma mark - Relationships
+    // MARK: - Relationships
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-    @NSManaged
+    @NSManaged open
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
-    func <$Relationship.name$>Set() -> <$Relationship.mutableCollectionClassName$>! {
-        self.willAccessValueForKey("<$Relationship.name$>")
-<$if Relationship.jr_isOrdered$>
-        let result = self.mutableOrderedSetValueForKey("<$Relationship.name$>")
-<$else$>
-        let result = self.mutableSetValueForKey("<$Relationship.name$>")
-<$endif$>
-        self.didAccessValueForKey("<$Relationship.name$>")
-        return result
+    open func <$Relationship.name$>Set() -> <$Relationship.mutableCollectionClassName$> {
+        return self.<$Relationship.name$>.mutableCopy() as! <$Relationship.mutableCollectionClassName$>
     }
-<$else$>
-    @NSManaged
-    var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$>
 
-    // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
+<$else$>
+    @NSManaged open
+    var <$Relationship.name$>: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
 <$endif$>
 <$endforeach do$>
 
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> AnyObject? {
-        return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> Any? {
+        return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
     }
 
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject? {
-        let model = managedObjectContext.persistentStoreCoordinator().managedObjectModel()
-        let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
-            "<$Binding.name$>": <$Binding.name$>,
-<$endforeach do2$><$endif$>        ]
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> Any? {
+        guard let psc = managedObjectContext.persistentStoreCoordinator else { return nil }
+        let model = psc.managedObjectModel
+		let substitutionVariables : [String : Any] = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
+		            "<$Binding.name$>": <$Binding.name$>,
+		<$endforeach do2$><$else$>:<$endif$>]
 
-        let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables)
-        assert(fetchRequest != nil, "Can't find fetch request named \"<$FetchRequest.name$>\".")
+        guard let fetchRequest = model.fetchRequestFromTemplate(withName: "<$FetchRequest.name$>", substitutionVariables: substitutionVariables) else {
+          assert(false, "Can't find fetch request named \"<$FetchRequest.name$>\".")
+          return nil
+        }
 
-        var error: NSError? = nil
-        var result: AnyObject? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest, error: &error)
-
-        if error {
-            outError.memory = error
-        } else {
+        var result: Any? = nil
+        do {
+            let results = try managedObjectContext.fetch(fetchRequest)
             switch results.count {
             case 0:
                 // Nothing found matching the fetch request. That's cool, though: we'll just return nil.
                 break
             case 1:
-                result = results[0]
+                result = results.first
             default:
-                NSLog("WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (substitutionVariables:%@, results:%@)",
-                    results.count,
-                    substitutionVariables,
-                    results);
+                print("WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, \(results.count) found (substitutionVariables: \(substitutionVariables), results: \(results))")
             }
-        }
 
-        return result;
+        } catch {
+            print("Error executing fetch request: \(error)")
+        }
+        return result
     }
 <$else$>
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> AnyObject[] {
-        return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> [Any]? {
+        return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
     }
 
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject[] {
-        let model = managedObjectContext.persistentStoreCoordinator.managedObjectModel
-        let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> [Any]? {
+        guard let psc = managedObjectContext.persistentStoreCoordinator else { return nil }
+        let model = psc.managedObjectModel
+        let substitutionVariables : [String : Any] = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
             "<$Binding.name$>": <$Binding.name$>,
-<$endforeach do2$><$endif$>        ]
+<$endforeach do2$><$else$>:<$endif$>]
 
-        let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables)
-        assert(fetchRequest != nil, "Can't find fetch request named \"<$FetchRequest.name$>\".")
-
-        var error: NSError? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest, error: &error)
-
-        if error {
-            outError.memory = error
+        guard let fetchRequest = model.fetchRequestFromTemplate(withName: "<$FetchRequest.name$>", substitutionVariables: substitutionVariables) else {
+        	assert(false, "Can't find fetch request named \"<$FetchRequest.name$>\".")
+		return nil
+	}
+        var results = Array<Any>()
+        do {
+             results = try managedObjectContext.fetch(fetchRequest)
+        } catch {
+          print("Error executing fetch request: \(error)")
         }
 
         return results
@@ -164,28 +181,36 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$endforeach do$>
 
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
-    @NSManaged
-    let <$FetchedProperty.name$>: <$FetchedProperty.entity.managedObjectClassName$>[]
+    @NSManaged open
+    let <$FetchedProperty.name$>: [<$FetchedProperty.entity.sanitizedManagedObjectClassName$>]
 <$endforeach do$>
 }
 
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
-extension _<$managedObjectClassName$> {
+extension _<$sanitizedManagedObjectClassName$> {
 
-    func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
-        self.<$Relationship.name$>Set().union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
+    open func add<$Relationship.name.initialCapitalString$>(_ objects: <$Relationship.immutableCollectionClassName$>) {
+        let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        mutable.union(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
+        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
-    func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
-        self.<$Relationship.name$>Set().minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
+    open func remove<$Relationship.name.initialCapitalString$>(_ objects: <$Relationship.immutableCollectionClassName$>) {
+        let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        mutable.minus(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
+        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
-    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
-        self.<$Relationship.name$>Set().addObject(value)
+    open func add<$Relationship.name.initialCapitalString$>Object(_ value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
+        let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        mutable.add(value)
+        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
-    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
-        self.<$Relationship.name$>Set().removeObject(value)
+    open func remove<$Relationship.name.initialCapitalString$>Object(_ value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
+        let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        mutable.remove(value)
+        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
 }
