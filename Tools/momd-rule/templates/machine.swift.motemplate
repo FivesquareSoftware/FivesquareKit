@@ -110,6 +110,10 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
         return self.<$Relationship.name$>.mutableCopy() as! <$Relationship.mutableCollectionClassName$>
     }
 
+	open func cast<$Relationship.name.initialCapitalString$>() -> Set<<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>> {
+		return self.<$Relationship.name$> as! Set<<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>>
+	}
+
 <$else$>
     @NSManaged open
     var <$Relationship.name$>: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$><$if Relationship.isOptional$>?<$endif$>

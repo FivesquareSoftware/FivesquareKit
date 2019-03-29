@@ -49,7 +49,7 @@ class MomDRule
 		self.options.human_dir = File.join(self.options.output_dir,'Human')
 		self.options.machine_dir = File.join(self.options.output_dir,'Machine')
 		self.options.base_class = nil
-		self.options.base_class_import = ""
+		self.options.base_class_import = nil
 		self.options.use_arc = true
 		self.options.includeh = File.join(self.options.human_dir,"#{input_file_base}Model.h")
 		self.options.momc = "#{ENV['SYSTEM_DEVELOPER_BIN_DIR']}/momc"
@@ -112,12 +112,13 @@ class MomDRule
 		log self.options.inspect
 		log "Generating source files from model version: #{current_version_name}"
 		base_class_opt = self.options.base_class ? "--base-class #{self.options.base_class}" : ""
+		base_class_import_opt = self.options.base_class_import ? "--base-class-import \"#{self.options.base_class_import}\"" : ""
 		arc_template_opt = self.options.use_arc ? "--template-var arc=true" : ""
 		swift_template_opt = self.options.swift ? "--swift" : ""
 		template_vars_opts = self.options.template_vars.reduce("") { |str,h|
 			"--template-var #{h.to_a.join("=")} "
 		}
-		cmd = %Q{"#{self.options.mogenerator}" --model "#{current_model_path}" --template-path "#{self.options.template_path}" --machine-dir "#{self.options.machine_dir}" --human-dir "#{self.options.human_dir}" #{base_class_opt} --base-class-import "#{self.options.base_class_import}" #{arc_template_opt} #{swift_template_opt} #{template_vars_opts}}
+		cmd = %Q{"#{self.options.mogenerator}" --model "#{current_model_path}" --template-path "#{self.options.template_path}" --machine-dir "#{self.options.machine_dir}" --human-dir "#{self.options.human_dir}" #{base_class_opt} #{base_class_import_opt} #{arc_template_opt} #{swift_template_opt} #{template_vars_opts}}
 		log cmd
 		output = `#{cmd}`
 		error "Couldn't generate source files: #{output}" unless $? == 0
