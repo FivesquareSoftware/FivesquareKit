@@ -9,7 +9,7 @@
 #define FSQ_MAYBE_UNUSED __attribute__((unused))
 
 
-#define FSQWeakSelf(var) __weak __typeof__((__typeof__(self))self) var = self
+#define FSQWeakSelf(var) __weak __attribute__((unused)) __typeof__((__typeof__(self))self) var = self
 
 #define i18n(string,comment) NSLocalizedString(string,comment)
 

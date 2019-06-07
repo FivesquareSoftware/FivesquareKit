@@ -38,9 +38,9 @@ typedef NS_ENUM(NSUInteger, FSQProgressAlertStyle) {
 + (void) runWithStatus:(NSString *)status options:(FSQProgressAlertOptions)options;
 
  //< #indeterminate = YES, canCancel = NO
-+ (void) runWithStatus:(NSString *)status untilDone:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)())completionBlock;
-+ (void) runWithStatus:(NSString *)status whileProgressing:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)())completionBlock;
-+ (void) runWithStatus:(NSString *)status executingBlock:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)())completionBlock options:(FSQProgressAlertOptions)options;
++ (void) runWithStatus:(NSString *)status untilDone:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)(void))completionBlock;
++ (void) runWithStatus:(NSString *)status whileProgressing:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)(void))completionBlock;
++ (void) runWithStatus:(NSString *)status executingBlock:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)(void))completionBlock options:(FSQProgressAlertOptions)options;
 
 + (void) setProgress:(float)progress;
 + (void) tick;
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, FSQProgressAlertStyle) {
 
 
 // Instance methods
-- (void) runWithStatus:(NSString *)status executingBlock:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)())completionBlock options:(FSQProgressAlertOptions)options;
+- (void) runWithStatus:(NSString *)status executingBlock:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)(void))completionBlock options:(FSQProgressAlertOptions)options;
 - (void) tick;
 
 - (void) cancel;

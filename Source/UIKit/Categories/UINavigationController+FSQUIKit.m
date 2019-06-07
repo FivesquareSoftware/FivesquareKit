@@ -29,7 +29,7 @@
 	return [self.viewControllers firstObject];
 }
 
-- (UIViewController *) popViewControllerAnimated:(BOOL)animated completion:(void(^)())completion {
+- (UIViewController *) popViewControllerAnimated:(BOOL)animated completion:(void(^)(void))completion {
 	[CATransaction begin];
 	[CATransaction setCompletionBlock:completion];
 	id result =[self popViewControllerAnimated:animated];

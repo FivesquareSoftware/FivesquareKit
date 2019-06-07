@@ -21,15 +21,15 @@
 @implementation FSQAlertController
 
 
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message {
++ (instancetype) infoAlertWithTitle:(NSString *)title message:(NSString *)message {
 	return [self infoAlertWithTitle:title message:message userInfo:nil confirmationHandler:nil];
 }
 
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
++ (instancetype) infoAlertWithTitle:(NSString *)title message:(NSString *)message userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)(void))handler {
 	return [self infoAlertWithTitle:title message:message buttonTitle:NSLocalizedString(@"OK", @"OK Button Title") userInfo:userInfo confirmationHandler:handler];
 }
 
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
++ (instancetype) infoAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)(void))handler {
 	FSQAlertController *alertController = [FSQAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 	alertController.userInfo = userInfo;
 	[alertController addAction:[UIAlertAction actionWithTitle:buttonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -40,16 +40,16 @@
 	return alertController;
 }
 
-+ (FSQAlertController *) errorAlertWithError:(NSError *)error {
++ (instancetype) errorAlertWithError:(NSError *)error {
 	return [self errorAlertWithTitle:NSLocalizedString(@"Error", @"Error Alert Title") error:error userInfo:nil confirmationHandler:nil];
 }
 
-+ (FSQAlertController *) errorAlertWithTitle:(NSString *)title error:(NSError *)error {
++ (instancetype) errorAlertWithTitle:(NSString *)title error:(NSError *)error {
 	return [self errorAlertWithTitle:title error:error userInfo:nil confirmationHandler:nil];
 }
 
 /** Returns a simple alert view with an "OK" button with the title and message derived from the supplied error object. */
-+ (FSQAlertController *) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(NSDictionary *)aUserInfo confirmationHandler:(void (^)())handler  {
++ (instancetype) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(NSDictionary *)aUserInfo confirmationHandler:(void (^)(void))handler  {
 	NSError *underlyingError = [error userInfo][NSUnderlyingErrorKey];
 	NSString *message;
 	if (underlyingError) {
@@ -78,19 +78,19 @@
 	return alertController;
 }
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message confirmationHandler:(void (^)())handler {
++ (instancetype) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message confirmationHandler:(void (^)(void))handler {
 	return [self confirmationAlertWithTitle:title message:message destructive:NO userInfo:nil confirmationHandler:handler];
 }
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive confirmationHandler:(void (^)())handler {
++ (instancetype) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive confirmationHandler:(void (^)(void))handler {
 	return [self confirmationAlertWithTitle:title message:message destructive:destructive userInfo:nil confirmationHandler:handler];
 }
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
++ (instancetype) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)(void))handler {
 	return [self confirmationAlertWithTitle:title message:message button:NSLocalizedString(@"OK", @"OK Button Title") destructive:destructive userInfo:userInfo confirmationHandler:handler];
 }
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message button:(NSString *)buttonTitle destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler {
++ (instancetype) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message button:(NSString *)buttonTitle destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)(void))handler {
 	FSQAlertController *alertController = [FSQAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 	alertController.userInfo = userInfo;
 
