@@ -113,7 +113,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 	}
 }
 
-- (void) performBlock:(void (^)())block savingWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
+- (void) performBlock:(void (^)(void))block savingWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
 //	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		[self performBlockAndWait:block];
 //		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -122,7 +122,7 @@ static NSString *kNSManagedObjectContext_FSQErrorDomain = @"NSManagedObjectConte
 //	});
 }
 
-- (void) performBlock:(void (^)())block savingWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
+- (void) performBlock:(void (^)(void))block savingWithParentWithCompletionBlock:(void(^)(BOOL success, NSError *error))completionBlock {
 //	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		[self performBlockAndWait:block];
 //		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

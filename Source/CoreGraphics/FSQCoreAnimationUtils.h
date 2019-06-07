@@ -10,4 +10,4 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-NSTimeInterval CATransactionCurrentAnimationDuration();
+NSTimeInterval CATransactionCurrentAnimationDuration(void);

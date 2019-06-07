@@ -23,7 +23,7 @@
 @property (nonatomic, copy) void(^onEditingBegan)(NSString *text);
 @property (nonatomic, copy) BOOL(^shouldChangeCharactersInRange)(NSRange range, NSString *replacementString);
 @property (nonatomic, copy) void(^onChange)(NSString *text);
-@property (nonatomic, copy) BOOL(^onClear)();
+@property (nonatomic, copy) BOOL(^onClear)(void);
 @property (nonatomic, copy) void(^onReturn)(NSString *text);
 @property (nonatomic, copy) void(^onEditingEnded)(NSString *text);
 

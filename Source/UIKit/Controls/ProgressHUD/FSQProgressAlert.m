@@ -187,15 +187,15 @@ static FSQProgressAlert *__instance = nil;
 	[self runWithStatus:status executingBlock:nil completionBlock:nil options:options];
 }
 
-+ (void) runWithStatus:(NSString *)status untilDone:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)())completionBlock {
++ (void) runWithStatus:(NSString *)status untilDone:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)(void))completionBlock {
 	[self runWithStatus:status executingBlock:block completionBlock:completionBlock options:FSQProgressAlertOptionsIndeterminate];
 }
 
-+ (void) runWithStatus:(NSString *)status whileProgressing:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)())completionBlock {
++ (void) runWithStatus:(NSString *)status whileProgressing:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)(void))completionBlock {
 	[self runWithStatus:status executingBlock:block completionBlock:completionBlock options:kSPProgressAlertDefaultOptions];
 }
 
-+ (void) runWithStatus:(NSString *)status executingBlock:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)())completionBlock options:(FSQProgressAlertOptions)options {
++ (void) runWithStatus:(NSString *)status executingBlock:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)(void))completionBlock options:(FSQProgressAlertOptions)options {
 	FSQProgressAlert *instance = [FSQProgressAlert instance];
 	[instance runWithStatus:status executingBlock:block completionBlock:completionBlock options:options];
 }
@@ -233,7 +233,7 @@ static FSQProgressAlert *__instance = nil;
 
 #pragma mark - Instance Methods
 
-- (void) runWithStatus:(NSString *)status executingBlock:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)())completionBlock options:(FSQProgressAlertOptions)options {
+- (void) runWithStatus:(NSString *)status executingBlock:(void(^)(FSQProgressAlert *progressAlert))block completionBlock:(void(^)(void))completionBlock options:(FSQProgressAlertOptions)options {
 	self.options = options;
 	[self setMessage:status];
 	[self setProgress:0];

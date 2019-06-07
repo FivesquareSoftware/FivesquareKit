@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface FSQAlertController : UIAlertController {
 }
 
@@ -16,32 +18,34 @@
 
 
 
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message;
++ (instancetype) infoAlertWithTitle:(NSString *)title message:(NSString *)message;
 
 /** Returns a simple alert view with an "OK" button. */
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
++ (instancetype) infoAlertWithTitle:(NSString *)title message:(NSString *)message userInfo:(nullable NSDictionary *)userInfo confirmationHandler:(nullable void (^)(void))handler;
 
 /** Returns a simple alert view with custom button text. */
-+ (FSQAlertController *) infoAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
++ (instancetype) infoAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle userInfo:(nullable NSDictionary *)userInfo confirmationHandler:(nullable void (^)(void))handler;
 
-+ (FSQAlertController *) errorAlertWithError:(NSError *)error;
++ (instancetype) errorAlertWithError:(NSError *)error;
 
-+ (FSQAlertController *) errorAlertWithTitle:(NSString *)title error:(NSError *)error;
++ (instancetype) errorAlertWithTitle:(NSString *)title error:(NSError *)error;
 
 /** Returns a simple alert view with an "OK" button with the title and message derived from the supplied error object. */
-+ (FSQAlertController *) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
++ (instancetype) errorAlertWithTitle:(NSString *)title error:(NSError *)error userInfo:(nullable NSDictionary *)userInfo confirmationHandler:(nullable void (^)(void))handler;
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message confirmationHandler:(void (^)())handler;
++ (instancetype) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message confirmationHandler:(void (^)(void))handler;
 
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive confirmationHandler:(void (^)())handler;
++ (instancetype) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive confirmationHandler:(void (^)(void))handler;
 
 /** Returns an alert with a "OK" and "Cancel" buttons. */
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
++ (instancetype) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message destructive:(BOOL)destructive userInfo:(nullable NSDictionary *)userInfo confirmationHandler:(void (^)(void))handler;
 
 /** Returns an alert with a button derived from the supplied button string and a "Cancel" button. */
-+ (FSQAlertController *) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message button:(NSString *)buttonTitle destructive:(BOOL)destructive userInfo:(NSDictionary *)userInfo confirmationHandler:(void (^)())handler;
++ (instancetype) confirmationAlertWithTitle:(NSString *)title message:(NSString *)message button:(NSString *)buttonTitle destructive:(BOOL)destructive userInfo:(nullable NSDictionary *)userInfo confirmationHandler:(void (^)(void))handler;
 
 - (void) showFromRootController;
 - (void) showFromController:(UIViewController *)controller;
 
 @end
+
+NS_ASSUME_NONNULL_END
