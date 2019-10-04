@@ -11,8 +11,6 @@
 
 @interface NSObject (FSQUIKit)
 
-@property (nonatomic, readonly) id appDelegate;
-
 + (NSString *)nibName;
 
 + (id) withNibOwner:(id)owner;

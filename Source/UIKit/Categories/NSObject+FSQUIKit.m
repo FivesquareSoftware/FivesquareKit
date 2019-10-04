@@ -14,12 +14,6 @@
 
 @implementation NSObject (FSQUIKit)
 
-@dynamic appDelegate;
-
-- (id) appDelegate {
-    return (id)[[UIApplication sharedApplication] delegate];
-}
-
 + (NSString *)nibName {
 	return [self className];
 }
