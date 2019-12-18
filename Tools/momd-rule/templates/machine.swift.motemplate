@@ -110,11 +110,11 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
         return self.<$Relationship.name$>.mutableCopy() as! <$Relationship.mutableCollectionClassName$>
     }
 
-	open func cast<$Relationship.name.initialCapitalString$>() -> <$if Relationship.jr_isOrdered$>Array<$else$>Set<$endif$><<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>> {
-		return self.<$Relationship.name$> as! <$if Relationship.jr_isOrdered$>Array<$else$>Set<$endif$><<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>>
+	<$if Relationship.jr_isOrdered$>
+	open func cast<$Relationship.name.initialCapitalString$>() -> Array<<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>> {
+		return self.<$Relationship.name$>.array as! Array<<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>>
 	}
 
-	<$if Relationship.jr_isOrdered$>
 	open func cascadingSet(<$Relationship.name$>: Array<<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>>) {
         let orphans = self.<$Relationship.name$>.mutableCopy() as! NSMutableOrderedSet
 		orphans.removeObjects(in: <$Relationship.name$>)
@@ -124,6 +124,10 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
 		self.<$Relationship.name$> = NSOrderedSet(array: <$Relationship.name$>)
 	}
 	<$else$>
+	open func cast<$Relationship.name.initialCapitalString$>() -> Set<<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>> {
+		return self.<$Relationship.name$> as! Set<<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>>
+	}
+
 	open func cascadingSet(<$Relationship.name$>: Set<<$Relationship.destinationEntity.sanitizedManagedObjectClassName$>>) {
         let previous = self.cast<$Relationship.name.initialCapitalString$>()
 		let orphans = previous.subtracting(<$Relationship.name$>)
