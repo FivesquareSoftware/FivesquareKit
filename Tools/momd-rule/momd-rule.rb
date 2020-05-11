@@ -112,7 +112,7 @@ class MomDRule
 		log self.options.inspect
 		log "Generating source files from model version: #{current_version_name}"
 		base_class_opt = self.options.base_class ? "--base-class #{self.options.base_class}" : ""
-		base_class_import_opt = self.options.base_class_import ? "--base-class-import \"#{self.options.base_class_import}\"" : ""
+		base_class_import_opt = self.options.base_class_import ? "--base-class-import '#{self.options.base_class_import}'" : ""
 		arc_template_opt = self.options.use_arc ? "--template-var arc=true" : ""
 		swift_template_opt = self.options.swift ? "--swift" : ""
 		template_vars_opts = self.options.template_vars.reduce("") { |str,h|
