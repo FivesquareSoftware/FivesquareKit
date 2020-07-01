@@ -245,7 +245,9 @@
 		case NSFetchedResultsChangeInsert: {
 			CollectionLog(@"** QUEUE INSERT SECTION ** : %@",@(sectionIndex));
 			[_collectionUpdateOperation addExecutionBlock:^{
-				[self_.collectionView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self_.collectionView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
+				});
 			}];
 			break;
 		}
@@ -253,7 +255,9 @@
 		case NSFetchedResultsChangeDelete: {
 			CollectionLog(@"** QUEUE DELETE SECTION ** : %@",@(sectionIndex));
 			[_collectionUpdateOperation addExecutionBlock:^{
-				[self_.collectionView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self_.collectionView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
+				});
 			}];
 			break;
 		}
@@ -261,7 +265,9 @@
 		case NSFetchedResultsChangeUpdate: {
 			CollectionLog(@"** QUEUE UPDATE SECTION ** : %@",@(sectionIndex));
 			[_collectionUpdateOperation addExecutionBlock:^{
-				[self_.collectionView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self_.collectionView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
+				});
 			}];
 			break;
 		}
@@ -313,7 +319,9 @@
 				else {
 					CollectionLog(@"** QUEUE INSERT CELL ** : %@",newIndexPath);
 					[_collectionUpdateOperation addExecutionBlock:^{
-						[self_.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+						dispatch_async(dispatch_get_main_queue(), ^{
+							[self_.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+						});
 					}];
 				}
 			}
@@ -324,7 +332,9 @@
 #else
 			CollectionLog(@"** QUEUE INSERT CELL ** : %@",newIndexPath);
 			[_collectionUpdateOperation addExecutionBlock:^{
-				[self_.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self_.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+				});
 			}];
 #endif
 			break;
@@ -340,14 +350,18 @@
 			else {
 				CollectionLog(@"** QUEUE DELETE CELL ** : %@",indexPath);
 				[_collectionUpdateOperation addExecutionBlock:^{
-					[self_.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[self_.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+					});
 				}];
 
 			}
 #else
 			CollectionLog(@"** QUEUE DELETE CELL ** : %@",indexPath);
 			[_collectionUpdateOperation addExecutionBlock:^{
-				[self_.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self_.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+				});
 			}];
 #endif
 			break;
@@ -365,11 +379,11 @@
 				CollectionLog(@"** QUEUE UPDATE CELL ** : %@",indexPath);
 				if (_animatesItemReloads) {
 					[_collectionUpdateOperation addExecutionBlock:^{
-//						dispatch_async(dispatch_get_main_queue(), ^{
+						dispatch_async(dispatch_get_main_queue(), ^{
 //							[UIView setAnimationsEnabled:NO];
 							[self_.collectionView reloadItemsAtIndexPaths:@[indexPath]];
 //							[UIView setAnimationsEnabled:YES];
-//						});
+						});
 					}];
 				}
 			}
@@ -377,11 +391,11 @@
 			CollectionLog(@"** QUEUE UPDATE CELL ** : %@",indexPath);
 			if (_animatesItemReloads) {
 				[_collectionUpdateOperation addExecutionBlock:^{
-//					dispatch_async(dispatch_get_main_queue(), ^{
+					dispatch_async(dispatch_get_main_queue(), ^{
 //						[UIView setAnimationsEnabled:NO];
 						[self_.collectionView reloadItemsAtIndexPaths:@[indexPath]];
 //						[UIView setAnimationsEnabled:YES];
-//					});
+					});
 				}];
 			}
 #endif

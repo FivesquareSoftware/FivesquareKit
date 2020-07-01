@@ -35,6 +35,8 @@
 		else if (seconds > 0) {
 			durationDescription = [[NSMutableString alloc] initWithString:i18n(@"Now", @"Now Time String")];
 		}
+	} else {
+		[durationDescription appendFormat:@"%@ day%@",@(days),(days > 1 ? @"s" : @"")];
 	}
 	return durationDescription;
 }
