@@ -13,6 +13,7 @@
 #import "FSQAsserter.h"
 #import "FSQLogging.h"
 
+
 @implementation NSManagedObject (FSQCoreData)
 
 // ========================================================================== //
@@ -81,7 +82,7 @@
 		fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
 		
 		
-		[context performBlockAndWait:^{
+		[self dispatchToContext:context performBlockAndWait:^{
 			__autoreleasing NSError *localError = nil;
 			count = [context countForFetchRequest:fetchRequest error:&localError];
 			if (localError) {
@@ -137,7 +138,7 @@
 		fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:requestOptions inContext:context];
 		
 		
-		[context performBlockAndWait:^{
+		[self dispatchToContext:context performBlockAndWait:^{
 			__autoreleasing NSError *localError = nil;
 			results = [context executeFetchRequest:fetchRequest error:&localError];
 			if (localError) {
@@ -189,7 +190,7 @@
 	
 	@try {
 		fetchRequest = [self fetchRequestNamed:templateName substitutionVariables:variables options:nil inContext:context];
-		[context performBlockAndWait:^{
+		[self dispatchToContext:context performBlockAndWait:^{
 			__autoreleasing NSError *localError = nil;
 			results = [context executeFetchRequest:fetchRequest error:&localError];
 			if (localError) {
@@ -258,7 +259,7 @@
 		
 		fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
 		
-		[context performBlockAndWait:^{
+		[self dispatchToContext:context performBlockAndWait:^{
 			__autoreleasing NSError *localError = nil;
 			results = [context executeFetchRequest:fetchRequest error:&localError];
 			if (localError) {
@@ -338,7 +339,7 @@
 		fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
 		
 		
-		[context performBlockAndWait:^{
+		[self dispatchToContext:context performBlockAndWait:^{
 			__autoreleasing NSError *localError = nil;
 			results = [context executeFetchRequest:fetchRequest error:&localError];
 			if (localError) {
@@ -407,7 +408,7 @@
 					   inContext:(NSManagedObjectContext *)context {
 	__block id found = [self firstWithPredicate:predicate inContext:context];
 	if(found == nil) {
-		[context performBlockAndWait:^{
+		[self dispatchToContext:context performBlockAndWait:^{
 			found = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 		}];
 	}
@@ -443,7 +444,7 @@
 				  inContext:(NSManagedObjectContext *)context {
 	
 	__block id created;
-	[context performBlockAndWait:^{
+	[self dispatchToContext:context performBlockAndWait:^{
 		created = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 	}];
 
@@ -478,7 +479,7 @@
 		
 		fetchRequest = [self fetchRequestNamed:nil substitutionVariables:nil options:requestOptions inContext:context];
 		
-		[context performBlockAndWait:^{
+		[self dispatchToContext:context performBlockAndWait:^{
 			__autoreleasing NSError *localError = nil;
 			results = [context executeFetchRequest:fetchRequest error:&localError];
 			if (localError) {
@@ -496,7 +497,7 @@
 		return NO;
 	}
 	
-	[context performBlockAndWait:^{
+	[self dispatchToContext:context performBlockAndWait:^{
 		for (NSManagedObject *found in results) {
 			[context deleteObject:found];
 		}
@@ -644,8 +645,18 @@
 	return fetchRequest;
 }
 
+// ========================================================================== //
 
+#pragma mark - Fetch Dispatch
 
++ (void) dispatchToContext:(NSManagedObjectContext *)context performBlockAndWait:(void (^)(void))block {
+	// We get deadlocks if we call performBlockAndWait: on main thread a couple times in succession so we are using the main queue as the lock here, which really isn't all that great since we are not using the internal queue of the context, which we really should be. But, Core Data doesn't seem to be coordinating multiple requests properly and some internal frameworks (NSFRC for example) are dispatching work to the private queues on other threads, which would be find if performBlockAndWait: was coordinating them, but it isn't. At least I think that's what's happening.
+	if ([NSThread isMainThread]) {
+		block();
+		return;
+	}
+	[context performBlockAndWait:block];
+}
 
 
 @end
