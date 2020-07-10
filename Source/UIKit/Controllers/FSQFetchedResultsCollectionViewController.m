@@ -406,7 +406,9 @@
 		case NSFetchedResultsChangeMove:
 			CollectionLog(@"** QUEUE MOVE CELL ** : %@ -> %@",indexPath,newIndexPath);
 			[_collectionUpdateOperation addExecutionBlock:^{
-				[self_.collectionView moveItemAtIndexPath:indexPath toIndexPath:newIndexPath];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self_.collectionView moveItemAtIndexPath:indexPath toIndexPath:newIndexPath];
+				});
 			}];
 			break;
 	}
