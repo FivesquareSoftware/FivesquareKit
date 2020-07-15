@@ -67,6 +67,7 @@ extern NSTimeInterval kFSQLocationResolverInfiniteTimeInterval;
 @property (nonatomic) BOOL isAuthorizedAny;
 @property (nonatomic) BOOL isAuthorizedAlways;
 @property (nonatomic) BOOL isAuthorizedWhenInUse;
+@property (nonatomic) BOOL isAuthorizedAsk;
 
 
 #if TARGET_OS_IPHONE

@@ -140,6 +140,11 @@ NSTimeInterval kFSQLocationResolverInfiniteTimeInterval = -1;
 #endif
 }
 
+@dynamic isAuthorizedAsk;
+- (BOOL) isAuthorizedAsk {
+	return self.authorizationStatus == kCLAuthorizationStatusNotDetermined;
+}
+
 @dynamic locationManagerLocation;
 - (CLLocation *) locationManagerLocation {
 	return _locationManager.location;
